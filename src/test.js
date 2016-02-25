@@ -1,4 +1,5 @@
 import BaseChart from './BaseChart';
+import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { createSeriesAsLine } from './model/LineData';
@@ -28,6 +29,9 @@ const points = [
 ];
 const series = createSeriesAsLine('Test', testData, barriers, points);
 
+/********************
+ * Base Chart Start *
+ * ******************/
 const staticChartTitle = createTitle('Static base chart');
 const dynamicChartTitle = createTitle('Dynamic base chart');
 
@@ -35,16 +39,43 @@ ReactDOM.render(<BaseChart title={staticChartTitle} series={[series]} />, docume
 
 const chartUpdate = (d = testData) => window.setTimeout(() => {
     "use strict";
-    const updatedSeries = createSeriesAsLine('Test', d, barriers, points);
+    const lastData = d[d.length - 1];
+    let newData;
+    if (d.length > 20) {
+        newData = d.slice(1);
+        newData.push([lastData[0] + 2, randomNum()]);
+    } else {
+        newData = d.concat([[lastData[0] + 2, randomNum()]]);
+    }
+    const updatedSeries = createSeriesAsLine('Test', newData, barriers, points);
     ReactDOM.render(
         <BaseChart
             title={dynamicChartTitle}
             series={[updatedSeries]}
             dataZoom={[createSlideInside(), createZoomSlider()]}
         />, document.getElementById('dynamic-base-chart'));
-    const lastData = d[d.length - 1];
-    const newData = d.concat([[lastData[0] + 2, randomNum()]]);
     chartUpdate(newData);
-}, 1000);
+}, 1500);
 
 chartUpdate();
+
+/********************
+ * Base Chart End *
+ * ******************/
+
+
+/*************************
+ * Rise Fall Chart Start *
+ * ***********************/
+const riseFallTitle = 'Rise fall chart';
+const entry = [10, randomNum()];
+const exit = [20, randomNum()];
+
+ReactDOM.render(
+    <RiseFallChart title={riseFallTitle} data={testData} contractEntry={entry} contractExit={exit} />,
+    document.getElementById('rise-fall-chart')
+);
+
+/*************************
+ * Rise Fall Chart End *
+ * ***********************/

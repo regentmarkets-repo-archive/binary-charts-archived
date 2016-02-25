@@ -2,7 +2,7 @@ import Echarts from 'echarts';
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-import {optionsCombiner} from './utils/ChartsOptionsUtils';
+import {combineOptions} from './utils/ChartsOptionsUtils';
 import {createGrid} from './model/Grid';
 import {createXAxis, createYAxis} from './model/Axis';
 import {createDefaultDataZoom} from './model/DataZoom';
@@ -40,7 +40,7 @@ export default class BaseChart extends Component {
             }),
             axisTick: PropTypes.shape({
                 lineStyle: PropTypes.object,
-            }),
+            })
         }),
         yAxis: PropTypes.shape({
             name: PropTypes.string.isRequired,
@@ -68,9 +68,9 @@ export default class BaseChart extends Component {
         }),
         title: PropTypes.shape({
             text: PropTypes.string.isRequired,
-        })
+        }),
+        onZoom: PropTypes.func,
     };
-
 
     componentDidMount() {
         const node = ReactDOM.findDOMNode(this);
@@ -80,9 +80,8 @@ export default class BaseChart extends Component {
     }
 
     componentDidUpdate(nextProps) {
-        const seriesOnly = nextProps.series;
-        this.updateCharts({series: seriesOnly});
-        this.echart.resize();
+        const {series} = nextProps;
+        this.updateCharts({ series});
     }
 
     compilePropsToOption() {

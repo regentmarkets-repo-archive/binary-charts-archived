@@ -2,8 +2,8 @@ const createZoom = (type, orient, zoomLock = false) => ({
     type,
     orient,
     zoomLock,
-    start: 10,
-    end: 90,
+    start: 0,
+    end: 100,
     realtime: true,
 });
 

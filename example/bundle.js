@@ -50,6 +50,10 @@
 	
 	var _BaseChart2 = _interopRequireDefault(_BaseChart);
 	
+	var _RiseFallChart = __webpack_require__(507);
+	
+	var _RiseFallChart2 = _interopRequireDefault(_RiseFallChart);
+	
 	var _reactDom = __webpack_require__(499);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -58,11 +62,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LineData = __webpack_require__(504);
+	var _LineData = __webpack_require__(508);
 	
-	var _Title = __webpack_require__(507);
+	var _Title = __webpack_require__(506);
 	
-	var _DataZoom = __webpack_require__(505);
+	var _DataZoom = __webpack_require__(504);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -75,6 +79,9 @@
 	var points = [{ at: [10, randomNum()], name: 'halo', formatter: 'formatter' }];
 	var series = (0, _LineData.createSeriesAsLine)('Test', testData, barriers, points);
 	
+	/********************
+	 * Base Chart Start *
+	 * ******************/
 	var staticChartTitle = (0, _Title.createTitle)('Static base chart');
 	var dynamicChartTitle = (0, _Title.createTitle)('Dynamic base chart');
 	
@@ -85,19 +92,42 @@
 	    return window.setTimeout(function () {
 	        "use strict";
 	
-	        var updatedSeries = (0, _LineData.createSeriesAsLine)('Test', d, barriers, points);
+	        var lastData = d[d.length - 1];
+	        var newData = undefined;
+	        if (d.length > 20) {
+	            newData = d.slice(1);
+	            newData.push([lastData[0] + 2, randomNum()]);
+	        } else {
+	            newData = d.concat([[lastData[0] + 2, randomNum()]]);
+	        }
+	        var updatedSeries = (0, _LineData.createSeriesAsLine)('Test', newData, barriers, points);
 	        _reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, {
 	            title: dynamicChartTitle,
 	            series: [updatedSeries],
 	            dataZoom: [(0, _DataZoom.createSlideInside)(), (0, _DataZoom.createZoomSlider)()]
 	        }), document.getElementById('dynamic-base-chart'));
-	        var lastData = d[d.length - 1];
-	        var newData = d.concat([[lastData[0] + 2, randomNum()]]);
 	        chartUpdate(newData);
-	    }, 1000);
+	    }, 1500);
 	};
 	
 	chartUpdate();
+	
+	/********************
+	 * Base Chart End *
+	 * ******************/
+	
+	/*************************
+	 * Rise Fall Chart Start *
+	 * ***********************/
+	var riseFallTitle = 'Rise fall chart';
+	var entry = [10, randomNum()];
+	var exit = [20, randomNum()];
+	
+	_reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, { title: riseFallTitle, data: testData, contractEntry: entry, contractExit: exit }), document.getElementById('rise-fall-chart'));
+	
+	/*************************
+	 * Rise Fall Chart End *
+	 * ***********************/
 
 /***/ },
 /* 1 */
@@ -131,11 +161,11 @@
 	
 	var _Axis = __webpack_require__(503);
 	
-	var _DataZoom = __webpack_require__(505);
+	var _DataZoom = __webpack_require__(504);
 	
-	var _Tooltip = __webpack_require__(506);
+	var _Tooltip = __webpack_require__(505);
 	
-	var _Title = __webpack_require__(507);
+	var _Title = __webpack_require__(506);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -165,9 +195,9 @@
 	    }, {
 	        key: 'componentDidUpdate',
 	        value: function componentDidUpdate(nextProps) {
-	            var seriesOnly = nextProps.series;
-	            this.updateCharts({ series: seriesOnly });
-	            this.echart.resize();
+	            var series = nextProps.series;
+	
+	            this.updateCharts({ series: series });
 	        }
 	    }, {
 	        key: 'compilePropsToOption',
@@ -255,7 +285,8 @@
 	    }),
 	    title: _react.PropTypes.shape({
 	        text: _react.PropTypes.string.isRequired
-	    })
+	    }),
+	    onZoom: _react.PropTypes.func
 	};
 	exports.default = BaseChart;
 
@@ -72598,7 +72629,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.optionsCombiner = undefined;
+	exports.combineOptions = undefined;
 	
 	var _deepmerge = __webpack_require__(501);
 	
@@ -72606,7 +72637,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var optionsCombiner = exports.optionsCombiner = function optionsCombiner(opts) {
+	var combineOptions = exports.combineOptions = function combineOptions(opts) {
 	    "use strict";
 	
 	    return opts.reduce(function (a, b) {
@@ -72690,7 +72721,9 @@
 	        left: left,
 	        right: right,
 	        top: top,
-	        bottom: bottom
+	        bottom: bottom,
+	        show: true,
+	        containLabel: true
 	    };
 	};
 
@@ -72781,6 +72814,237 @@
 
 /***/ },
 /* 504 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createZoom = function createZoom(type, orient) {
+	    var zoomLock = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	    return {
+	        type: type,
+	        orient: orient,
+	        zoomLock: zoomLock,
+	        start: 0,
+	        end: 100,
+	        realtime: true
+	    };
+	};
+	
+	var createZoomInside = exports.createZoomInside = function createZoomInside() {
+	    return createZoom('inside', 'horizontal', false);
+	};
+	var createSlideInside = exports.createSlideInside = function createSlideInside() {
+	    return createZoom('inside', 'horizontal', true);
+	};
+	
+	var createZoomSlider = exports.createZoomSlider = function createZoomSlider() {
+	    return createZoom('slider', 'horizontal', false);
+	};
+	var createSlider = exports.createSlider = function createSlider() {
+	    return createZoom('slider', 'horizontal', true);
+	};
+	
+	var createDefaultDataZoom = exports.createDefaultDataZoom = function createDefaultDataZoom() {
+	    return [createZoomInside(), createZoomSlider()];
+	};
+
+/***/ },
+/* 505 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createTooltip = exports.createTooltip = function createTooltip(triggerOn, trigger, tooltipFormatter) {
+	    return {
+	        trigger: trigger,
+	        triggerOn: triggerOn,
+	        formatter: tooltipFormatter,
+	        axisPointer: {
+	            type: 'line',
+	            show: true,
+	            lineStyle: {
+	                type: 'dashed',
+	                width: 1
+	            }
+	        }
+	    };
+	};
+
+/***/ },
+/* 506 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createTitle = exports.createTitle = function createTitle(title, subtitle) {
+	    return {
+	        show: true,
+	        text: title,
+	        subtext: subtitle
+	    };
+	};
+
+/***/ },
+/* 507 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(343);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _LineData = __webpack_require__(508);
+	
+	var ld = _interopRequireWildcard(_LineData);
+	
+	var _Title = __webpack_require__(506);
+	
+	var _Axis = __webpack_require__(503);
+	
+	var _BaseChart = __webpack_require__(1);
+	
+	var _BaseChart2 = _interopRequireDefault(_BaseChart);
+	
+	var _DataUtils = __webpack_require__(509);
+	
+	var dataUtil = _interopRequireWildcard(_DataUtils);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var RiseFallChart = function (_Component) {
+	    _inherits(RiseFallChart, _Component);
+	
+	    function RiseFallChart() {
+	        _classCallCheck(this, RiseFallChart);
+	
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(RiseFallChart).apply(this, arguments));
+	    }
+	
+	    _createClass(RiseFallChart, [{
+	        key: 'updateXMinMax',
+	        value: function updateXMinMax(xMin, xMax) {
+	            this.seState({ xMin: xMin, xMax: xMax });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _props = this.props;
+	            var data = _props.data;
+	            var contractEntry = _props.contractEntry;
+	            var contractExit = _props.contractExit;
+	            var title = _props.title;
+	            var xOffsetPercentage = _props.xOffsetPercentage;
+	            var yOffsetPercentage = _props.yOffsetPercentage;
+	
+	
+	            if (!data) {
+	                return;
+	            }
+	
+	            var xOffset = dataUtil.getXBoundaryInValue(data, 0.1);
+	            var yOffset = dataUtil.getYBoundaryInValue(data, 0.1);
+	
+	            var entryTimeLine = contractEntry && {
+	                from: [contractEntry[0], yOffset[0]],
+	                to: [contractEntry[0], yOffset[1]],
+	                name: 'Entry Time',
+	                formatter: RiseFallChart.entryPointFormatter
+	            };
+	            var exitTimeLine = contractExit && {
+	                from: [contractExit[0], yOffset[0]],
+	                to: [contractExit[0], yOffset[1]],
+	                name: 'Exit Time',
+	                formatter: RiseFallChart.exitPointFormatter
+	            };
+	
+	            var entrySpotLine = contractEntry && {
+	                from: [xOffset[0], contractEntry[1]],
+	                to: [xOffset[1], contractEntry[1]],
+	                name: 'Entry price',
+	                formatter: RiseFallChart.entryPriceFormatter
+	            };
+	
+	            var series = data && contractEntry && ld.createSeriesAsLine('series name', data, [entrySpotLine, entryTimeLine, exitTimeLine]);
+	
+	            var tt = (0, _Title.createTitle)(title);
+	
+	            var xAxis = Object.assign({ min: xOffset[0], max: xOffset[1] }, (0, _Axis.createXAxis)('Time'));
+	            var yAxis = Object.assign({ min: yOffset[0], max: yOffset[1] }, (0, _Axis.createYAxis)('Spot'));
+	
+	            return series ? _react2.default.createElement(_BaseChart2.default, {
+	                title: tt,
+	                series: [series],
+	                xAxis: xAxis,
+	                yAxis: yAxis
+	            }) : _react2.default.createElement(_BaseChart2.default, {
+	                title: tt,
+	                xAxis: xAxis,
+	                yAxis: yAxis
+	            });
+	        }
+	    }]);
+	
+	    return RiseFallChart;
+	}(_react.Component);
+	
+	RiseFallChart.defaultProps = {
+	    title: 'Rise/Fall Chart'
+	};
+	RiseFallChart.propTypes = {
+	    title: _react.PropTypes.string.isRequired,
+	    data: _react.PropTypes.array,
+	    contractEntry: _react.PropTypes.array,
+	    contractExit: _react.PropTypes.array,
+	    xOffsetPercentage: _react.PropTypes.number,
+	    yOffsetPercentage: _react.PropTypes.number
+	};
+	
+	RiseFallChart.entryPointFormatter = function (params) {
+	    console.log('ent', params);
+	    var value = params.data[0].coord;
+	    return 'Enter Time: ' + value[0];
+	};
+	
+	RiseFallChart.exitPointFormatter = function (params) {
+	    console.log('exit', params);
+	    var idx = params.dataIndex;
+	    var value = params.data[0].coord;
+	    return 'Exit Time: ' + value[0];
+	};
+	
+	RiseFallChart.entryPriceFormatter = function (params) {
+	    var value = params.data[0].coord;
+	    return 'Enter Price: ' + value[1];
+	};
+	
+	exports.default = RiseFallChart;
+
+/***/ },
+/* 508 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -72892,11 +73156,7 @@
 	    var dataLine = createLineData(data);
 	    var type = 'line';
 	    var markLine = barriers && {
-	        label: {
-	            normal: {
-	                formatter: barriers[0].formatter
-	            }
-	        },
+	        symbol: 'none',
 	        data: barriers.map(function (b) {
 	            return createMarklineDataElement(b.from, b.to, b.name, b.formatter);
 	        })
@@ -72929,76 +73189,15 @@
 	        type: type,
 	        data: dataLine,
 	        markLine: markLine,
-	        markPoint: markPoint
+	        markPoint: markPoint,
+	        animation: true,
+	        animationDuration: 500,
+	        animationDurationUpdate: 10
 	    };
 	};
 
 /***/ },
-/* 505 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var createZoom = function createZoom(type, orient) {
-	    var zoomLock = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-	    return {
-	        type: type,
-	        orient: orient,
-	        zoomLock: zoomLock,
-	        start: 10,
-	        end: 90,
-	        realtime: true
-	    };
-	};
-	
-	var createZoomInside = exports.createZoomInside = function createZoomInside() {
-	    return createZoom('inside', 'horizontal', false);
-	};
-	var createSlideInside = exports.createSlideInside = function createSlideInside() {
-	    return createZoom('inside', 'horizontal', true);
-	};
-	
-	var createZoomSlider = exports.createZoomSlider = function createZoomSlider() {
-	    return createZoom('slider', 'horizontal', false);
-	};
-	var createSlider = exports.createSlider = function createSlider() {
-	    return createZoom('slider', 'horizontal', true);
-	};
-	
-	var createDefaultDataZoom = exports.createDefaultDataZoom = function createDefaultDataZoom() {
-	    return [createZoomInside(), createZoomSlider()];
-	};
-
-/***/ },
-/* 506 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var createTooltip = exports.createTooltip = function createTooltip(triggerOn, trigger, tooltipFormatter) {
-	    return {
-	        trigger: trigger,
-	        triggerOn: triggerOn,
-	        formatter: tooltipFormatter,
-	        axisPointer: {
-	            type: 'line',
-	            show: true,
-	            lineStyle: {
-	                type: 'dashed',
-	                width: 1
-	            }
-	        }
-	    };
-	};
-
-/***/ },
-/* 507 */
+/* 509 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -73006,12 +73205,49 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var createTitle = exports.createTitle = function createTitle(title, subtitle) {
-	    return {
-	        show: true,
-	        text: title,
-	        subtext: subtitle
-	    };
+	var findYMin = exports.findYMin = function findYMin(data) {
+	    return data.map(function (d) {
+	        return d[1];
+	    }).reduce(function (a, b) {
+	        return Math.min(a, b);
+	    });
+	};
+	var findYMax = exports.findYMax = function findYMax(data) {
+	    return data.map(function (d) {
+	        return d[1];
+	    }).reduce(function (a, b) {
+	        return Math.max(a, b);
+	    });
+	};
+	
+	var findXMin = exports.findXMin = function findXMin(data) {
+	    return data[0][0];
+	};
+	var findXMax = exports.findXMax = function findXMax(data) {
+	    return data[data.length - 1][0];
+	};
+	
+	var percentOf = function percentOf(min, max, percent) {
+	    var precision = arguments.length <= 3 || arguments[3] === undefined ? 2 : arguments[3];
+	    return +((max - min) * percent).toFixed(precision);
+	};
+	
+	var getXBoundaryInValue = exports.getXBoundaryInValue = function getXBoundaryInValue(data, percentage) {
+	    "use strict";
+	
+	    var min = findXMin(data);
+	    var max = findXMax(data);
+	    var offset = percentOf(min, max, percentage);
+	    return [min - offset, max + offset];
+	};
+	
+	var getYBoundaryInValue = exports.getYBoundaryInValue = function getYBoundaryInValue(data, percentage) {
+	    "use strict";
+	
+	    var min = findYMin(data);
+	    var max = findYMax(data);
+	    var offset = percentOf(min, max, percentage);
+	    return [min - offset, max + offset];
 	};
 
 /***/ }

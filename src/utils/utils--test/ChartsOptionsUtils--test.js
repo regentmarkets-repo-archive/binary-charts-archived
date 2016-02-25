@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { optionsCombiner } from '../ChartsOptionsUtils';
+import { combineOptions } from '../ChartsOptionsUtils';
 
 describe('optionsCombiner', () => {
     "use strict";
@@ -8,7 +8,7 @@ describe('optionsCombiner', () => {
         const opt2 = { e: 'a', f: 'f'};
         const opt3 = { b: { d: [4, 5, 6]}};
 
-        const result = optionsCombiner([opt1, opt2, opt3]);
+        const result = combineOptions([opt1, opt2, opt3]);
 
         expect(result).to.deep.equal({
             a: 'a',

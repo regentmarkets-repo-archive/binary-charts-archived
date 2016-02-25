@@ -2,5 +2,7 @@ export const createGrid = (left = 'auto', right = '10%', top = '60', bottom = '6
     left,
     right,
     top,
-    bottom
+    bottom,
+    show: true,
+    containLabel: true,
 });

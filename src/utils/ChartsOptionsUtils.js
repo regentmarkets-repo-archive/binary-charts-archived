@@ -1,6 +1,6 @@
 import deepMerge from 'deepmerge';
 
-export const optionsCombiner = (opts) => {
+export const combineOptions = (opts) => {
     "use strict";
     return opts.reduce((a, b) => deepMerge(a, b));
 };

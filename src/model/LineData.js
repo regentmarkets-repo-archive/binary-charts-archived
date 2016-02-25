@@ -97,11 +97,7 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(16
     const dataLine = createLineData(data);
     const type = 'line';
     const markLine = barriers && {
-        label: {
-            normal: {
-                formatter: barriers[0].formatter
-            }
-        },
+        symbol: 'none',
         data: barriers.map(b => createMarklineDataElement(b.from, b.to, b.name, b.formatter))
     };
     const markPoint = points && {
@@ -131,5 +127,8 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(16
         data: dataLine,
         markLine,
         markPoint,
+        animation: true,
+        animationDuration: 500,
+        animationDurationUpdate: 10
     };
 };

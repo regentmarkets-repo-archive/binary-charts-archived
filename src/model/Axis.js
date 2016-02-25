@@ -1,4 +1,4 @@
-import { optionsCombiner } from '../utils/ChartsOptionsUtils';
+import { combineOptions } from '../utils/ChartsOptionsUtils';
 
 const createAxisLine = (color = 'rgb(0, 121, 105)', width = '1', type = 'solid') => ({
     lineStyle: { color, width, type }
@@ -31,7 +31,7 @@ export const createXAxis = (
         scale: true,
         position,
         axisLine,
-        axisTick
+        axisTick,
     };
 
     return xAxis;
@@ -58,7 +58,7 @@ export const createYAxis = (
         scale: true,
         position,
         axisLine,
-        axisTick
+        axisTick,
     };
 
     return yAxis;
