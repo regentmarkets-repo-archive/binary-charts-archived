@@ -5,12 +5,22 @@ import ReactDOM from 'react-dom';
 import {optionsCombiner} from './utils/ChartsOptionsUtils';
 import {createGrid} from './model/Grid';
 import {createXAxis, createYAxis} from './model/Axis';
+import {createDefaultDataZoom} from './model/DataZoom';
+import {createTooltip} from './model/Tooltip';
+import {createTitle} from './model/Title';
 
 export default class BaseChart extends Component {
     static defaultProps = {
         grid: createGrid(),
         xAxis: createXAxis('X axis'),
-        yAxis: createYAxis('Y axis')
+        yAxis: createYAxis('Y axis'),
+        tooltip: createTooltip('mousemove', 'axis', (params) => {
+            const x = params[0].value[0];
+            const y = params[0].value[1];
+            return `${x}: ${y}`;
+        }),
+        dataZoom: createDefaultDataZoom(),
+        title: createTitle('BaseChart'),
     };
 
     static propTypes = {
@@ -48,31 +58,43 @@ export default class BaseChart extends Component {
             type: PropTypes.oneOf(['line', 'bar', 'candlestick']).isRequired,
             name: PropTypes.string,
             data: PropTypes.array.isRequired,
-        }))
+        })),
+        dataZoom: PropTypes.arrayOf(PropTypes.shape({
+            type: PropTypes.string.isRequired,
+        })),
+        tooltip: PropTypes.shape({
+            trigger: PropTypes.oneOf(['item', 'axis']),
+            triggerOn: PropTypes.oneOf(['mousemove', 'click']),
+        }),
+        title: PropTypes.shape({
+            text: PropTypes.string.isRequired,
+        })
     };
 
 
     componentDidMount() {
         const node = ReactDOM.findDOMNode(this);
         this.echart = Echarts.init(node);
-        this.updateCharts();
+        const opts = this.compilePropsToOption();
+        this.updateCharts(opts);
     }
 
-    componentDidUpdate() {
-        this.updateCharts();
+    componentDidUpdate(nextProps) {
+        const seriesOnly = nextProps.series;
+        this.updateCharts({series: seriesOnly});
+        this.echart.resize();
     }
 
     compilePropsToOption() {
-        const { grid, xAxis, yAxis, series } = this.props;
-        return {grid, xAxis, yAxis, series};
+        const { grid, xAxis, yAxis, series, dataZoom, tooltip, title } = this.props;
+        return {grid, xAxis, yAxis, series, dataZoom, tooltip, title};
     }
 
-    updateCharts() {
-        const newOpts = this.compilePropsToOption();
-        this.echart.setOption(newOpts);
+    updateCharts(opts) {
+        this.echart.setOption(opts);
     }
 
     render() {
-        return <div {...this.props} />;
+        return <div className="chart" {...this.props} />;
     }
 }

@@ -20,7 +20,7 @@ export const createLineData = (dataArr) => {
         label: lastDataLabel
     };
 
-    const newDataArr = dataArr;
+    const newDataArr = dataArr.slice(0);
     newDataArr[dataArr.length - 1] = lastData;
 
     return newDataArr;
@@ -121,6 +121,12 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(16
                 width
             }
         },
+        areaStyle: {
+            normal: {
+                color: 'rgb(153, 255, 153)'
+            }
+        },
+        clipOverflow: false,
         type,
         data: dataLine,
         markLine,

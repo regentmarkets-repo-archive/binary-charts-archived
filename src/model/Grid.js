@@ -1,4 +1,4 @@
-export const createGrid = (left = '10%', right = '10%', top = '10%', bottom = '10%') => ({
+export const createGrid = (left = 'auto', right = '10%', top = '60', bottom = '60') => ({
     left,
     right,
     top,

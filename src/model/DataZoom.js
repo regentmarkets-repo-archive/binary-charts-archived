@@ -1,18 +1,17 @@
-const createZoom = (type, orient, zoomLock, x, y) => ({
+const createZoom = (type, orient, zoomLock = false) => ({
     type,
     orient,
     zoomLock,
-    start: 50,
-    end: 100,
-    xAxisIndex: x,
-    yAxisIndex: y,
+    start: 10,
+    end: 90,
+    realtime: true,
 });
 
-export const createZoomInside = () => createZoom('inside', 'horizontal', false, 0, null);
-export const createSlideInside = () => createZoom('inside', 'horizontal', true, 0, null);
+export const createZoomInside = () => createZoom('inside', 'horizontal', false);
+export const createSlideInside = () => createZoom('inside', 'horizontal', true);
 
-export const createZoomSlider = () => createZoom('slider', 'horizontal', false, 0, null);
-export const createSlider = () => createZoom('slider', 'horizontal', true, 0, null);
+export const createZoomSlider = () => createZoom('slider', 'horizontal', false);
+export const createSlider = () => createZoom('slider', 'horizontal', true);
 
 export const createDefaultDataZoom = () => [
     createZoomInside(),

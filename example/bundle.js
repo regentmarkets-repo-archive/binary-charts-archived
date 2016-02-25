@@ -60,18 +60,44 @@
 	
 	var _LineData = __webpack_require__(504);
 	
+	var _Title = __webpack_require__(507);
+	
+	var _DataZoom = __webpack_require__(505);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var randomNum = function randomNum() {
-	    return Math.random() * (20 - 10) + 10;
+	    return Math.floor(Math.random() * (20 - 10) + 10);
 	};
 	var testData = [[2, randomNum()], [4, randomNum()], [6, randomNum()], [8, randomNum()], [9, randomNum()], [10, randomNum()], [11, randomNum()], [15, randomNum()], [19, randomNum()], [20, randomNum()], [26, randomNum()]];
 	
-	var barriers = [{ from: randomNum(), to: randomNum(), name: 'halo', formatter: 'formatter' }];
-	var points = [{ at: randomNum(), name: 'halo', formatter: 'formatter' }];
+	var barriers = [{ from: [3, randomNum()], to: [18, randomNum()], name: 'halo', formatter: 'formatter' }];
+	var points = [{ at: [10, randomNum()], name: 'halo', formatter: 'formatter' }];
 	var series = (0, _LineData.createSeriesAsLine)('Test', testData, barriers, points);
 	
-	_reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, { series: [series] }), document.getElementById('example'));
+	var staticChartTitle = (0, _Title.createTitle)('Static base chart');
+	var dynamicChartTitle = (0, _Title.createTitle)('Dynamic base chart');
+	
+	_reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, { title: staticChartTitle, series: [series] }), document.getElementById('base-chart'));
+	
+	var chartUpdate = function chartUpdate() {
+	    var d = arguments.length <= 0 || arguments[0] === undefined ? testData : arguments[0];
+	    return window.setTimeout(function () {
+	        "use strict";
+	
+	        var updatedSeries = (0, _LineData.createSeriesAsLine)('Test', d, barriers, points);
+	        _reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, {
+	            title: dynamicChartTitle,
+	            series: [updatedSeries],
+	            dataZoom: [(0, _DataZoom.createSlideInside)(), (0, _DataZoom.createZoomSlider)()]
+	        }), document.getElementById('dynamic-base-chart'));
+	        var lastData = d[d.length - 1];
+	        var newData = d.concat([[lastData[0] + 2, randomNum()]]);
+	        chartUpdate(newData);
+	    }, 1000);
+	};
+	
+	chartUpdate();
 
 /***/ },
 /* 1 */
@@ -82,6 +108,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -102,6 +130,12 @@
 	var _Grid = __webpack_require__(502);
 	
 	var _Axis = __webpack_require__(503);
+	
+	var _DataZoom = __webpack_require__(505);
+	
+	var _Tooltip = __webpack_require__(506);
+	
+	var _Title = __webpack_require__(507);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -125,12 +159,15 @@
 	        value: function componentDidMount() {
 	            var node = _reactDom2.default.findDOMNode(this);
 	            this.echart = _echarts2.default.init(node);
-	            this.updateCharts();
+	            var opts = this.compilePropsToOption();
+	            this.updateCharts(opts);
 	        }
 	    }, {
 	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate() {
-	            this.updateCharts();
+	        value: function componentDidUpdate(nextProps) {
+	            var seriesOnly = nextProps.series;
+	            this.updateCharts({ series: seriesOnly });
+	            this.echart.resize();
 	        }
 	    }, {
 	        key: 'compilePropsToOption',
@@ -140,19 +177,21 @@
 	            var xAxis = _props.xAxis;
 	            var yAxis = _props.yAxis;
 	            var series = _props.series;
+	            var dataZoom = _props.dataZoom;
+	            var tooltip = _props.tooltip;
+	            var title = _props.title;
 	
-	            return { grid: grid, xAxis: xAxis, yAxis: yAxis, series: series };
+	            return { grid: grid, xAxis: xAxis, yAxis: yAxis, series: series, dataZoom: dataZoom, tooltip: tooltip, title: title };
 	        }
 	    }, {
 	        key: 'updateCharts',
-	        value: function updateCharts() {
-	            var newOpts = this.compilePropsToOption();
-	            this.echart.setOption(newOpts);
+	        value: function updateCharts(opts) {
+	            this.echart.setOption(opts);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('div', this.props);
+	            return _react2.default.createElement('div', _extends({ className: 'chart' }, this.props));
 	        }
 	    }]);
 	
@@ -162,7 +201,14 @@
 	BaseChart.defaultProps = {
 	    grid: (0, _Grid.createGrid)(),
 	    xAxis: (0, _Axis.createXAxis)('X axis'),
-	    yAxis: (0, _Axis.createYAxis)('Y axis')
+	    yAxis: (0, _Axis.createYAxis)('Y axis'),
+	    tooltip: (0, _Tooltip.createTooltip)('mousemove', 'axis', function (params) {
+	        var x = params[0].value[0];
+	        var y = params[0].value[1];
+	        return x + ': ' + y;
+	    }),
+	    dataZoom: (0, _DataZoom.createDefaultDataZoom)(),
+	    title: (0, _Title.createTitle)('BaseChart')
 	};
 	BaseChart.propTypes = {
 	    grid: _react.PropTypes.shape({
@@ -199,7 +245,17 @@
 	        type: _react.PropTypes.oneOf(['line', 'bar', 'candlestick']).isRequired,
 	        name: _react.PropTypes.string,
 	        data: _react.PropTypes.array.isRequired
-	    }))
+	    })),
+	    dataZoom: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+	        type: _react.PropTypes.string.isRequired
+	    })),
+	    tooltip: _react.PropTypes.shape({
+	        trigger: _react.PropTypes.oneOf(['item', 'axis']),
+	        triggerOn: _react.PropTypes.oneOf(['mousemove', 'click'])
+	    }),
+	    title: _react.PropTypes.shape({
+	        text: _react.PropTypes.string.isRequired
+	    })
 	};
 	exports.default = BaseChart;
 
@@ -72626,10 +72682,10 @@
 	    value: true
 	});
 	var createGrid = exports.createGrid = function createGrid() {
-	    var left = arguments.length <= 0 || arguments[0] === undefined ? '10%' : arguments[0];
+	    var left = arguments.length <= 0 || arguments[0] === undefined ? 'auto' : arguments[0];
 	    var right = arguments.length <= 1 || arguments[1] === undefined ? '10%' : arguments[1];
-	    var top = arguments.length <= 2 || arguments[2] === undefined ? '10%' : arguments[2];
-	    var bottom = arguments.length <= 3 || arguments[3] === undefined ? '10%' : arguments[3];
+	    var top = arguments.length <= 2 || arguments[2] === undefined ? '60' : arguments[2];
+	    var bottom = arguments.length <= 3 || arguments[3] === undefined ? '60' : arguments[3];
 	    return {
 	        left: left,
 	        right: right,
@@ -72760,7 +72816,7 @@
 	        label: lastDataLabel
 	    };
 	
-	    var newDataArr = dataArr;
+	    var newDataArr = dataArr.slice(0);
 	    newDataArr[dataArr.length - 1] = lastData;
 	
 	    return newDataArr;
@@ -72864,10 +72920,97 @@
 	                width: width
 	            }
 	        },
+	        areaStyle: {
+	            normal: {
+	                color: 'rgb(153, 255, 153)'
+	            }
+	        },
+	        clipOverflow: false,
 	        type: type,
 	        data: dataLine,
 	        markLine: markLine,
 	        markPoint: markPoint
+	    };
+	};
+
+/***/ },
+/* 505 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createZoom = function createZoom(type, orient) {
+	    var zoomLock = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	    return {
+	        type: type,
+	        orient: orient,
+	        zoomLock: zoomLock,
+	        start: 10,
+	        end: 90,
+	        realtime: true
+	    };
+	};
+	
+	var createZoomInside = exports.createZoomInside = function createZoomInside() {
+	    return createZoom('inside', 'horizontal', false);
+	};
+	var createSlideInside = exports.createSlideInside = function createSlideInside() {
+	    return createZoom('inside', 'horizontal', true);
+	};
+	
+	var createZoomSlider = exports.createZoomSlider = function createZoomSlider() {
+	    return createZoom('slider', 'horizontal', false);
+	};
+	var createSlider = exports.createSlider = function createSlider() {
+	    return createZoom('slider', 'horizontal', true);
+	};
+	
+	var createDefaultDataZoom = exports.createDefaultDataZoom = function createDefaultDataZoom() {
+	    return [createZoomInside(), createZoomSlider()];
+	};
+
+/***/ },
+/* 506 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createTooltip = exports.createTooltip = function createTooltip(triggerOn, trigger, tooltipFormatter) {
+	    return {
+	        trigger: trigger,
+	        triggerOn: triggerOn,
+	        formatter: tooltipFormatter,
+	        axisPointer: {
+	            type: 'line',
+	            show: true,
+	            lineStyle: {
+	                type: 'dashed',
+	                width: 1
+	            }
+	        }
+	    };
+	};
+
+/***/ },
+/* 507 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createTitle = exports.createTitle = function createTitle(title, subtitle) {
+	    return {
+	        show: true,
+	        text: title,
+	        subtext: subtitle
 	    };
 	};
 
