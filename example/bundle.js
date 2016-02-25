@@ -58,9 +58,20 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _LineData = __webpack_require__(504);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, null), document.getElementById('example'));
+	var randomNum = function randomNum() {
+	    return Math.random() * (20 - 10) + 10;
+	};
+	var testData = [[2, randomNum()], [4, randomNum()], [6, randomNum()], [8, randomNum()], [9, randomNum()], [10, randomNum()], [11, randomNum()], [15, randomNum()], [19, randomNum()], [20, randomNum()], [26, randomNum()]];
+	
+	var barriers = [{ from: randomNum(), to: randomNum(), name: 'halo', formatter: 'formatter' }];
+	var points = [{ at: randomNum(), name: 'halo', formatter: 'formatter' }];
+	var series = (0, _LineData.createSeriesAsLine)('Test', testData, barriers, points);
+	
+	_reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, { series: [series] }), document.getElementById('example'));
 
 /***/ },
 /* 1 */
@@ -86,6 +97,12 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _ChartsOptionsUtils = __webpack_require__(500);
+	
+	var _Grid = __webpack_require__(502);
+	
+	var _Axis = __webpack_require__(503);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -108,14 +125,29 @@
 	        value: function componentDidMount() {
 	            var node = _reactDom2.default.findDOMNode(this);
 	            this.echart = _echarts2.default.init(node);
-	            var options = this.props.options;
-	
-	            this.echart.setOption(options);
+	            this.updateCharts();
 	        }
 	    }, {
 	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate(nextProps) {
-	            this.echart.setOption(nextProps.options);
+	        value: function componentDidUpdate() {
+	            this.updateCharts();
+	        }
+	    }, {
+	        key: 'compilePropsToOption',
+	        value: function compilePropsToOption() {
+	            var _props = this.props;
+	            var grid = _props.grid;
+	            var xAxis = _props.xAxis;
+	            var yAxis = _props.yAxis;
+	            var series = _props.series;
+	
+	            return { grid: grid, xAxis: xAxis, yAxis: yAxis, series: series };
+	        }
+	    }, {
+	        key: 'updateCharts',
+	        value: function updateCharts() {
+	            var newOpts = this.compilePropsToOption();
+	            this.echart.setOption(newOpts);
 	        }
 	    }, {
 	        key: 'render',
@@ -126,7 +158,49 @@
 	
 	    return BaseChart;
 	}(_react.Component);
-
+	
+	BaseChart.defaultProps = {
+	    grid: (0, _Grid.createGrid)(),
+	    xAxis: (0, _Axis.createXAxis)('X axis'),
+	    yAxis: (0, _Axis.createYAxis)('Y axis')
+	};
+	BaseChart.propTypes = {
+	    grid: _react.PropTypes.shape({
+	        left: _react.PropTypes.string,
+	        right: _react.PropTypes.string,
+	        top: _react.PropTypes.string,
+	        bottom: _react.PropTypes.string
+	    }),
+	    xAxis: _react.PropTypes.shape({
+	        name: _react.PropTypes.string.isRequired,
+	        data: _react.PropTypes.array,
+	        type: _react.PropTypes.oneOf(['category', 'value']),
+	        position: _react.PropTypes.oneOf(['top', 'bottom']),
+	        axisLine: _react.PropTypes.shape({
+	            lineStyle: _react.PropTypes.object
+	        }),
+	        axisTick: _react.PropTypes.shape({
+	            lineStyle: _react.PropTypes.object
+	        })
+	    }),
+	    yAxis: _react.PropTypes.shape({
+	        name: _react.PropTypes.string.isRequired,
+	        data: _react.PropTypes.array,
+	        type: _react.PropTypes.oneOf(['category', 'value']),
+	        position: _react.PropTypes.oneOf(['left', 'right']),
+	        axisLine: _react.PropTypes.shape({
+	            lineStyle: _react.PropTypes.object
+	        }),
+	        axisTick: _react.PropTypes.shape({
+	            lineStyle: _react.PropTypes.object
+	        })
+	    }),
+	    series: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+	        type: _react.PropTypes.oneOf(['line', 'bar', 'candlestick']).isRequired,
+	        name: _react.PropTypes.string,
+	        data: _react.PropTypes.array.isRequired
+	    }))
+	};
 	exports.default = BaseChart;
 
 /***/ },
@@ -72458,6 +72532,344 @@
 	
 	module.exports = __webpack_require__(345);
 
+
+/***/ },
+/* 500 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.optionsCombiner = undefined;
+	
+	var _deepmerge = __webpack_require__(501);
+	
+	var _deepmerge2 = _interopRequireDefault(_deepmerge);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var optionsCombiner = exports.optionsCombiner = function optionsCombiner(opts) {
+	    "use strict";
+	
+	    return opts.reduce(function (a, b) {
+	        return (0, _deepmerge2.default)(a, b);
+	    });
+	};
+
+/***/ },
+/* 501 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory();
+	    } else {
+	        root.deepmerge = factory();
+	    }
+	}(this, function () {
+	
+	return function deepmerge(target, src) {
+	    var array = Array.isArray(src);
+	    var dst = array && [] || {};
+	
+	    if (array) {
+	        target = target || [];
+	        dst = dst.concat(target);
+	        src.forEach(function(e, i) {
+	            if (typeof dst[i] === 'undefined') {
+	                dst[i] = e;
+	            } else if (typeof e === 'object') {
+	                dst[i] = deepmerge(target[i], e);
+	            } else {
+	                if (target.indexOf(e) === -1) {
+	                    dst.push(e);
+	                }
+	            }
+	        });
+	    } else {
+	        if (target && typeof target === 'object') {
+	            Object.keys(target).forEach(function (key) {
+	                dst[key] = target[key];
+	            })
+	        }
+	        Object.keys(src).forEach(function (key) {
+	            if (typeof src[key] !== 'object' || !src[key]) {
+	                dst[key] = src[key];
+	            }
+	            else {
+	                if (!target[key]) {
+	                    dst[key] = src[key];
+	                } else {
+	                    dst[key] = deepmerge(target[key], src[key]);
+	                }
+	            }
+	        });
+	    }
+	
+	    return dst;
+	}
+	
+	}));
+
+
+/***/ },
+/* 502 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createGrid = exports.createGrid = function createGrid() {
+	    var left = arguments.length <= 0 || arguments[0] === undefined ? '10%' : arguments[0];
+	    var right = arguments.length <= 1 || arguments[1] === undefined ? '10%' : arguments[1];
+	    var top = arguments.length <= 2 || arguments[2] === undefined ? '10%' : arguments[2];
+	    var bottom = arguments.length <= 3 || arguments[3] === undefined ? '10%' : arguments[3];
+	    return {
+	        left: left,
+	        right: right,
+	        top: top,
+	        bottom: bottom
+	    };
+	};
+
+/***/ },
+/* 503 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.createYAxis = exports.createXAxis = undefined;
+	
+	var _ChartsOptionsUtils = __webpack_require__(500);
+	
+	var createAxisLine = function createAxisLine() {
+	    var color = arguments.length <= 0 || arguments[0] === undefined ? 'rgb(0, 121, 105)' : arguments[0];
+	    var width = arguments.length <= 1 || arguments[1] === undefined ? '1' : arguments[1];
+	    var type = arguments.length <= 2 || arguments[2] === undefined ? 'solid' : arguments[2];
+	    return {
+	        lineStyle: { color: color, width: width, type: type }
+	    };
+	};
+	
+	var createAxisTick = function createAxisTick() {
+	    var show = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+	    var interval = arguments.length <= 1 || arguments[1] === undefined ? 'auto' : arguments[1];
+	    var color = arguments.length <= 2 || arguments[2] === undefined ? '#333' : arguments[2];
+	    return {
+	        show: show,
+	        interval: interval,
+	        lineStyle: { color: color }
+	    };
+	};
+	
+	var createXAxis = exports.createXAxis = function createXAxis(name) {
+	    "use strict";
+	
+	    var data = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+	    var type = arguments.length <= 2 || arguments[2] === undefined ? 'value' : arguments[2];
+	    var position = arguments.length <= 3 || arguments[3] === undefined ? 'bottom' : arguments[3];
+	    var axisLine = arguments.length <= 4 || arguments[4] === undefined ? createAxisLine() : arguments[4];
+	    var axisTick = arguments.length <= 5 || arguments[5] === undefined ? createAxisTick() : arguments[5];
+	    if (!type || type === 'category') {
+	        if (!data) {
+	            throw new Error('There should be data for category axis');
+	        }
+	    }
+	    var xAxis = {
+	        name: name,
+	        data: data,
+	        type: type,
+	        scale: true,
+	        position: position,
+	        axisLine: axisLine,
+	        axisTick: axisTick
+	    };
+	
+	    return xAxis;
+	};
+	
+	var createYAxis = exports.createYAxis = function createYAxis(name) {
+	    "use strict";
+	
+	    var data = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+	    var type = arguments.length <= 2 || arguments[2] === undefined ? 'value' : arguments[2];
+	    var position = arguments.length <= 3 || arguments[3] === undefined ? 'right' : arguments[3];
+	    var axisLine = arguments.length <= 4 || arguments[4] === undefined ? createAxisLine() : arguments[4];
+	    var axisTick = arguments.length <= 5 || arguments[5] === undefined ? createAxisTick() : arguments[5];
+	    if (!type || type === 'category') {
+	        if (!data) {
+	            throw new Error('There should be data for category axis');
+	        }
+	    }
+	    var yAxis = {
+	        name: name,
+	        data: data,
+	        type: type,
+	        scale: true,
+	        position: position,
+	        axisLine: axisLine,
+	        axisTick: axisTick
+	    };
+	
+	    return yAxis;
+	};
+
+/***/ },
+/* 504 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var createDataLabel = exports.createDataLabel = function createDataLabel() {
+	    var color = arguments.length <= 0 || arguments[0] === undefined ? 'rgb(102, 0, 204)' : arguments[0];
+	    var position = arguments.length <= 1 || arguments[1] === undefined ? 'top' : arguments[1];
+	    var size = arguments.length <= 2 || arguments[2] === undefined ? '15' : arguments[2];
+	    return {
+	        normal: {
+	            show: true,
+	            position: position,
+	            textStyle: {
+	                color: color,
+	                fontSize: size
+	            }
+	        }
+	    };
+	};
+	
+	/**
+	 * @param dataArr - 2D array !!
+	 */
+	var createLineData = exports.createLineData = function createLineData(dataArr) {
+	    "use strict";
+	
+	    var lastDataLabel = createDataLabel();
+	    var lastData = {
+	        value: dataArr[dataArr.length - 1],
+	        label: lastDataLabel
+	    };
+	
+	    var newDataArr = dataArr;
+	    newDataArr[dataArr.length - 1] = lastData;
+	
+	    return newDataArr;
+	};
+	
+	// not associate with keys as this is part of an array
+	// check http://echarts.baidu.com/option.html#series-line.markLine.data
+	var createMarklineDataElement = exports.createMarklineDataElement = function createMarklineDataElement(from, to, name) {
+	    var labelFormatter = arguments.length <= 3 || arguments[3] === undefined ? '{b}: {c}' : arguments[3];
+	    var color = arguments.length <= 4 || arguments[4] === undefined ? 'rgb(0, 128, 255)' : arguments[4];
+	    var width = arguments.length <= 5 || arguments[5] === undefined ? '1' : arguments[5];
+	    var type = arguments.length <= 6 || arguments[6] === undefined ? 'dotted' : arguments[6];
+	    return [{
+	        name: name,
+	        coord: from,
+	        lineStyle: {
+	            normal: {
+	                color: color,
+	                width: width,
+	                type: type
+	            }
+	        },
+	        label: {
+	            normal: {
+	                formatter: labelFormatter
+	            }
+	        }
+	    }, {
+	        coord: to
+	    }];
+	};
+	
+	// not associate with keys as this is part of an array
+	// check http://echarts.baidu.com/option.html#series-line.markPoint.data
+	var createMarkPointDataElement = exports.createMarkPointDataElement = function createMarkPointDataElement(at, name) {
+	    var symbol = arguments.length <= 2 || arguments[2] === undefined ? 'arrow' : arguments[2];
+	    var color = arguments.length <= 3 || arguments[3] === undefined ? 'rgb(0, 255, 0)' : arguments[3];
+	    var fontSize = arguments.length <= 4 || arguments[4] === undefined ? '12' : arguments[4];
+	    return {
+	
+	        name: name,
+	        coord: at,
+	        symbol: symbol,
+	        itemStyle: {
+	            normal: {
+	                color: color
+	            }
+	        },
+	        label: {
+	            normal: {
+	                textStyle: {
+	                    fontSize: fontSize
+	                }
+	            }
+	        }
+	    };
+	};
+	
+	/**
+	 * Create a line on chart with optional markline(s) and optional markpoint(s)
+	 * @param name      - name of series, eg 'R100'
+	 * @param color     - color of main line
+	 * @param width     - width of main line
+	 * @param data
+	 * @param barriers  - [{from, to, name, formatter}, ...]
+	 * @param points    - [{at, name, formatter}, ...]
+	 */
+	var createSeriesAsLine = exports.createSeriesAsLine = function createSeriesAsLine(name, data, barriers, points) {
+	    "use strict";
+	
+	    var color = arguments.length <= 4 || arguments[4] === undefined ? 'rgb(160, 160, 160)' : arguments[4];
+	    var width = arguments.length <= 5 || arguments[5] === undefined ? '2' : arguments[5];
+	    var dataLine = createLineData(data);
+	    var type = 'line';
+	    var markLine = barriers && {
+	        label: {
+	            normal: {
+	                formatter: barriers[0].formatter
+	            }
+	        },
+	        data: barriers.map(function (b) {
+	            return createMarklineDataElement(b.from, b.to, b.name, b.formatter);
+	        })
+	    };
+	    var markPoint = points && {
+	        label: {
+	            normal: {
+	                formatter: points[0].formatter
+	            }
+	        },
+	        data: points.map(function (p) {
+	            return createMarkPointDataElement(p.at, p.name);
+	        })
+	    };
+	
+	    return {
+	        name: name,
+	        lineStyle: {
+	            normal: {
+	                color: color,
+	                width: width
+	            }
+	        },
+	        type: type,
+	        data: dataLine,
+	        markLine: markLine,
+	        markPoint: markPoint
+	    };
+	};
 
 /***/ }
 /******/ ]);
