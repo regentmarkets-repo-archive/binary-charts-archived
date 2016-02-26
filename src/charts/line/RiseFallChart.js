@@ -83,7 +83,7 @@ export default class RiseFallChart extends Component {
         const labeledEntryTimeSeries = rfDecorators.decorateVerticalLineSeries(entryTimeSeries);
         const labeledExitTimeSeries = rfDecorators.decorateVerticalLineSeries(exitTimeSeries);
         const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
-        const labeledCurrentSpotSeries = rfDecorators.decorateHorizontalLineSeries(currentSpotSeries);
+        const labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
 
         const series = [];
         if (dataSeries) series.push(dataSeriesWithAreaStyle);

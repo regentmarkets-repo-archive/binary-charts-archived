@@ -45,7 +45,7 @@ const horizontalLastData = () => ({
         },
         emphasis: {
             show: true,
-            position: 'inside',
+            position: [7, 0],
             textStyle: {
                 color: 'red',
                 fontSize: 12
@@ -62,11 +62,43 @@ const horizontalLastData = () => ({
     }
 });
 
+const currentSpotLData = () => ({
+    symbol: 'rect',
+    symbolSize: [30, 15],
+    symbolOffset: [20, 0],
+    label: {
+        normal: {
+            show: true,
+            position: 'inside',
+            textStyle: {
+                color: 'white',
+                fontSize: 12
+            }
+        },
+        emphasis: {
+            show: true,
+            position: [7, 0],
+            textStyle: {
+                color: 'green',
+                fontSize: 12
+            }
+        }
+    },
+    itemStyle: {
+        normal: {
+            color: 'green',
+        },
+        emphasis: {
+            color: 'white',
+        }
+    }
+});
+
 const verticalLineFormatter = params => `${params.seriesName} \n${params.value[0]}`;
 
 const horizontalLineFormatters = [
     params => `${params.value[1]}`,
-    params => `${params.seriesName}\n${params.value[1]}`
+    params => `${params.seriesName}: ${params.value[1]}`
 ];
 
 const verticalLineLabel = {
@@ -125,7 +157,7 @@ export const decorateHorizontalLineSeries = series => {
 // this is special as it should have high priority why overlapping
 export const decorateCurrentSpotLine = series => {
     const lastData = series.data[1];                // straight line has only 2 data
-    const styleLastData = Object.assign(horizontalLastData(), lastData);
+    const styleLastData = Object.assign(currentSpotLData(), lastData);
     series.data[1] = styleLastData;
 
     const seriesWithFormatter = Object.assign({

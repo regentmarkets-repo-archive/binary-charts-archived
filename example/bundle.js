@@ -73047,7 +73047,7 @@
 	            var labeledEntryTimeSeries = rfDecorators.decorateVerticalLineSeries(entryTimeSeries);
 	            var labeledExitTimeSeries = rfDecorators.decorateVerticalLineSeries(exitTimeSeries);
 	            var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
-	            var labeledCurrentSpotSeries = rfDecorators.decorateHorizontalLineSeries(currentSpotSeries);
+	            var labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
 	
 	            var series = [];
 	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
@@ -73371,7 +73371,7 @@
 	            },
 	            emphasis: {
 	                show: true,
-	                position: 'inside',
+	                position: [7, 0],
 	                textStyle: {
 	                    color: 'red',
 	                    fontSize: 12
@@ -73389,6 +73389,40 @@
 	    };
 	};
 	
+	var currentSpotLData = function currentSpotLData() {
+	    return {
+	        symbol: 'rect',
+	        symbolSize: [30, 15],
+	        symbolOffset: [20, 0],
+	        label: {
+	            normal: {
+	                show: true,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'white',
+	                    fontSize: 12
+	                }
+	            },
+	            emphasis: {
+	                show: true,
+	                position: [7, 0],
+	                textStyle: {
+	                    color: 'green',
+	                    fontSize: 12
+	                }
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                color: 'green'
+	            },
+	            emphasis: {
+	                color: 'white'
+	            }
+	        }
+	    };
+	};
+	
 	var verticalLineFormatter = function verticalLineFormatter(params) {
 	    return params.seriesName + ' \n' + params.value[0];
 	};
@@ -73396,7 +73430,7 @@
 	var horizontalLineFormatters = [function (params) {
 	    return '' + params.value[1];
 	}, function (params) {
-	    return params.seriesName + '\n' + params.value[1];
+	    return params.seriesName + ': ' + params.value[1];
 	}];
 	
 	var verticalLineLabel = {
@@ -73459,7 +73493,7 @@
 	// this is special as it should have high priority why overlapping
 	var decorateCurrentSpotLine = exports.decorateCurrentSpotLine = function decorateCurrentSpotLine(series) {
 	    var lastData = series.data[1]; // straight line has only 2 data
-	    var styleLastData = Object.assign(horizontalLastData(), lastData);
+	    var styleLastData = Object.assign(currentSpotLData(), lastData);
 	    series.data[1] = styleLastData;
 	
 	    var seriesWithFormatter = Object.assign({

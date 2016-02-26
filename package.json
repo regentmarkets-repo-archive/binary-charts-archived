@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./src/**/**--test/*.js",
-    "compile": "webpack --progress --colors --watch",
+    "compile": "babel --optional runtime -d lib/ src/",
+    "prepublish": "npm run compile",
     "ci": "webpack --progress --colors --watch"
   },
   "keywords": [
