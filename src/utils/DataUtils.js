@@ -8,7 +8,7 @@ export const findYMax = (data) => data
 export const findXMin = (data) => data[0][0];
 export const findXMax = (data) => data[data.length - 1][0];
 
-const percentOf = (min, max, percent, precision = 2) => +((max - min) * percent).toFixed(precision);
+const percentOf = (min, max, percent, precision = 0) => +((max - min) * percent).toFixed(precision);
 
 export const getXBoundaryInValue = (data, percentage) => {
     "use strict";

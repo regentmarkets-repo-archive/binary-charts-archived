@@ -37,7 +37,7 @@ const dynamicChartTitle = createTitle('Dynamic base chart');
 
 ReactDOM.render(<BaseChart title={staticChartTitle} series={[series]} />, document.getElementById('base-chart'));
 
-const chartUpdate = (d = testData) => window.setTimeout(() => {
+const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
     "use strict";
     const lastData = d[d.length - 1];
     let newData;
@@ -52,12 +52,11 @@ const chartUpdate = (d = testData) => window.setTimeout(() => {
         <BaseChart
             title={dynamicChartTitle}
             series={[updatedSeries]}
-            dataZoom={[createSlideInside(), createZoomSlider()]}
         />, document.getElementById('dynamic-base-chart'));
-    chartUpdate(newData);
+    dynamicBaseChart(newData);
 }, 1500);
 
-chartUpdate();
+dynamicBaseChart();
 
 /********************
  * Base Chart End *
@@ -72,9 +71,43 @@ const entry = [10, randomNum()];
 const exit = [20, randomNum()];
 
 ReactDOM.render(
-    <RiseFallChart title={riseFallTitle} data={testData} contractEntry={entry} contractExit={exit} />,
+    <RiseFallChart
+        title={riseFallTitle}
+        data={testData}
+        contractEntry={entry}
+        contractExit={exit}
+        symbol="Random 100"
+        xOffsetPercentage={0.1}
+        yOffsetPercentage={0.1}
+    />,
     document.getElementById('rise-fall-chart')
 );
+
+const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
+    const lastData = d[d.length - 1];
+    let newData;
+    if (d.length > 20) {
+        newData = d.slice(1);
+        newData.push([lastData[0] + 2, randomNum()]);
+    } else {
+        newData = d.concat([[lastData[0] + 2, randomNum()]]);
+    }
+    ReactDOM.render(
+        <RiseFallChart
+            title="Dynamic Rise Fall"
+            data={newData}
+            contractEntry={entry}
+            contractExit={exit}
+            symbol="Random 100"
+            xOffsetPercentage={0.1}
+            yOffsetPercentage={0.3}
+        />,
+        document.getElementById('dynamic-rise-fall-chart')
+    );
+    dynamicRiseFallChart(newData);
+}, 1500);
+
+dynamicRiseFallChart();
 
 /*************************
  * Rise Fall Chart End *

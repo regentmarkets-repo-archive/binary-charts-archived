@@ -4,7 +4,7 @@ const createZoom = (type, orient, zoomLock = false) => ({
     zoomLock,
     start: 0,
     end: 100,
-    realtime: true,
+    realtime: false,
 });
 
 export const createZoomInside = () => createZoom('inside', 'horizontal', false);

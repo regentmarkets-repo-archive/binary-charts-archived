@@ -80,8 +80,13 @@ export default class BaseChart extends Component {
     }
 
     componentDidUpdate(nextProps) {
-        const {series} = nextProps;
-        this.updateCharts({ series});
+        const {series, xAxis, yAxis} = nextProps;
+        const opts = {};
+        if (series) opts.series = series;
+        if (xAxis) opts.xAxis = xAxis;
+        if (yAxis) opts.yAxis = yAxis;
+
+        this.updateCharts(opts);
     }
 
     compilePropsToOption() {

@@ -15,15 +15,9 @@ export const createDataLabel = (color = 'rgb(102, 0, 204)', position = 'top', si
 export const createLineData = (dataArr) => {
     "use strict";
     const lastDataLabel = createDataLabel();
-    const lastData = {
-        value: dataArr[dataArr.length - 1],
-        label: lastDataLabel
-    };
+    const namedData = dataArr.map(v => ({name: v[0], value: v}));
 
-    const newDataArr = dataArr.slice(0);
-    newDataArr[dataArr.length - 1] = lastData;
-
-    return newDataArr;
+    return namedData;
 };
 
 // not associate with keys as this is part of an array
@@ -92,7 +86,7 @@ export const createMarkPointDataElement = (
  * @param barriers  - [{from, to, name, formatter}, ...]
  * @param points    - [{at, name, formatter}, ...]
  */
-export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(160, 160, 160)', width = '2') => {
+export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(0, 153, 0)', width = '2') => {
     "use strict";
     const dataLine = createLineData(data);
     const type = 'line';
@@ -117,18 +111,13 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(16
                 width
             }
         },
-        areaStyle: {
-            normal: {
-                color: 'rgb(153, 255, 153)'
-            }
-        },
         clipOverflow: false,
         type,
         data: dataLine,
         markLine,
         markPoint,
-        animation: true,
-        animationDuration: 500,
-        animationDurationUpdate: 10
     };
 };
+
+export const decorateSeriesWithAreaStyle = (series, areaStyle = {normal: {color: 'rgb(204, 255, 204)'}}) =>
+    Object.assign(series, {areaStyle});

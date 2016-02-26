@@ -1,9 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import * as ld from '../../model/LineData';
+import * as lineData from '../../model/LineData';
 import {createTitle} from '../../model/Title';
 import {createXAxis, createYAxis} from '../../model/Axis';
+import {createTooltip} from '../../model/Tooltip';
 import BaseChart from '../../BaseChart';
 import * as dataUtil from '../../utils/DataUtils';
+import * as rfDecorators from './RiseFallChartDecorators';
+
+const riseFallToolTip = createTooltip('mousemove', 'axis', (params) => {
+    "use strict";
+    const param0 = params[0];
+    const seriesName = param0.seriesName;
+    const value = param0.value;
+    return `${seriesName}<br />Time: ${value[0]}<br />Spot:${value[1]}`;
+});
 
 export default class RiseFallChart extends Component {
     static defaultProps = {
@@ -13,6 +23,7 @@ export default class RiseFallChart extends Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         data: PropTypes.array,
+        symbol: PropTypes.string,
         contractEntry: PropTypes.array,
         contractExit: PropTypes.array,
         xOffsetPercentage: PropTypes.number,
@@ -40,39 +51,47 @@ export default class RiseFallChart extends Component {
     }
 
     render() {
-        const {data, contractEntry, contractExit, title, xOffsetPercentage, yOffsetPercentage} = this.props;
+        const {data, contractEntry, contractExit, title, symbol, xOffsetPercentage, yOffsetPercentage} = this.props;
 
         if (!data) {
             return;
         }
 
-        const xOffset = dataUtil.getXBoundaryInValue(data, 0.1);
-        const yOffset = dataUtil.getYBoundaryInValue(data, 0.1);
+        const xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);
+        const yOffset = dataUtil.getYBoundaryInValue(data, yOffsetPercentage);
 
-        const entryTimeLine = contractEntry &&
-            {
-                from: [contractEntry[0], yOffset[0]],
-                to: [contractEntry[0], yOffset[1]],
-                name: 'Entry Time',
-                formatter: RiseFallChart.entryPointFormatter
-            };
-        const exitTimeLine = contractExit &&
-            {
-                from: [contractExit[0], yOffset[0]],
-                to: [contractExit[0], yOffset[1]],
-                name: 'Exit Time',
-                formatter: RiseFallChart.exitPointFormatter
-            };
+        const xMin = xOffset[0];
+        const xMax = xOffset[1];
+        const yMin = yOffset[0];
+        const yMax = yOffset[1];
 
-        const entrySpotLine = contractEntry && {
-            from: [xOffset[0], contractEntry[1]],
-            to: [xOffset[1], contractEntry[1]],
-            name: 'Entry price',
-            formatter: RiseFallChart.entryPriceFormatter
-        };
+        const entryTimeData = contractEntry && [[contractEntry[0], yMin], [contractEntry[0], yMax]];
+        const exitTimeData = contractExit &&  [[contractExit[0], yMin], [contractExit[0], yMax]];
 
-        const series = (data && contractEntry) &&
-            ld.createSeriesAsLine('series name', data, [entrySpotLine, entryTimeLine, exitTimeLine]);
+        const entrySpotData = contractEntry && [[xMin, contractEntry[1]], [xMax, contractEntry[1]]];
+
+        const currentSpot = data[data.length - 1];
+        const currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
+
+        const dataSeries = data && lineData.createSeriesAsLine(symbol, data);
+        const entryTimeSeries = entryTimeData && lineData.createSeriesAsLine('Entry Time', entryTimeData);
+        const exitTimeSeries = exitTimeData && lineData.createSeriesAsLine('Exit Time', exitTimeData);
+        const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine('Entry Spot', entrySpotData);
+        const currentSpotSeries = lineData.createSeriesAsLine('Current Spot', currentSpotData);
+
+        const dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
+        const labeledEntryTimeSeries = rfDecorators.decorateVerticalLineSeries(entryTimeSeries);
+        const labeledExitTimeSeries = rfDecorators.decorateVerticalLineSeries(exitTimeSeries);
+        const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
+        const labeledCurrentSpotSeries = rfDecorators.decorateHorizontalLineSeries(currentSpotSeries);
+
+        const series = [];
+        if (dataSeries) series.push(dataSeriesWithAreaStyle);
+        if (entryTimeSeries) series.push(labeledEntryTimeSeries);
+        if (exitTimeSeries) series.push(labeledExitTimeSeries);
+        if (entrySpotSeries) series.push(labeledEntrySpotSeries);
+
+        series.push(labeledCurrentSpotSeries);
 
         const tt = createTitle(title);
 
@@ -80,18 +99,13 @@ export default class RiseFallChart extends Component {
         const yAxis = Object.assign({ min: yOffset[0], max: yOffset[1]}, createYAxis('Spot'));
 
         return (
-            series ?
-                <BaseChart
-                    title={tt}
-                    series={[series]}
-                    xAxis={xAxis}
-                    yAxis={yAxis}
-                /> :
-                <BaseChart
-                    title={tt}
-                    xAxis={xAxis}
-                    yAxis={yAxis}
-                />
+            <BaseChart
+                title={tt}
+                series={series}
+                xAxis={xAxis}
+                yAxis={yAxis}
+                tooltip={riseFallToolTip}
+            />
         );
     }
 }

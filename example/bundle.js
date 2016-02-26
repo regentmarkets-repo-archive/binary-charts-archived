@@ -87,7 +87,7 @@
 	
 	_reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, { title: staticChartTitle, series: [series] }), document.getElementById('base-chart'));
 	
-	var chartUpdate = function chartUpdate() {
+	var dynamicBaseChart = function dynamicBaseChart() {
 	    var d = arguments.length <= 0 || arguments[0] === undefined ? testData : arguments[0];
 	    return window.setTimeout(function () {
 	        "use strict";
@@ -103,14 +103,13 @@
 	        var updatedSeries = (0, _LineData.createSeriesAsLine)('Test', newData, barriers, points);
 	        _reactDom2.default.render(_react2.default.createElement(_BaseChart2.default, {
 	            title: dynamicChartTitle,
-	            series: [updatedSeries],
-	            dataZoom: [(0, _DataZoom.createSlideInside)(), (0, _DataZoom.createZoomSlider)()]
+	            series: [updatedSeries]
 	        }), document.getElementById('dynamic-base-chart'));
-	        chartUpdate(newData);
+	        dynamicBaseChart(newData);
 	    }, 1500);
 	};
 	
-	chartUpdate();
+	dynamicBaseChart();
 	
 	/********************
 	 * Base Chart End *
@@ -123,7 +122,41 @@
 	var entry = [10, randomNum()];
 	var exit = [20, randomNum()];
 	
-	_reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, { title: riseFallTitle, data: testData, contractEntry: entry, contractExit: exit }), document.getElementById('rise-fall-chart'));
+	_reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, {
+	    title: riseFallTitle,
+	    data: testData,
+	    contractEntry: entry,
+	    contractExit: exit,
+	    symbol: 'Random 100',
+	    xOffsetPercentage: 0.1,
+	    yOffsetPercentage: 0.1
+	}), document.getElementById('rise-fall-chart'));
+	
+	var dynamicRiseFallChart = function dynamicRiseFallChart() {
+	    var d = arguments.length <= 0 || arguments[0] === undefined ? testData : arguments[0];
+	    return window.setTimeout(function () {
+	        var lastData = d[d.length - 1];
+	        var newData = undefined;
+	        if (d.length > 20) {
+	            newData = d.slice(1);
+	            newData.push([lastData[0] + 2, randomNum()]);
+	        } else {
+	            newData = d.concat([[lastData[0] + 2, randomNum()]]);
+	        }
+	        _reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, {
+	            title: 'Dynamic Rise Fall',
+	            data: newData,
+	            contractEntry: entry,
+	            contractExit: exit,
+	            symbol: 'Random 100',
+	            xOffsetPercentage: 0.1,
+	            yOffsetPercentage: 0.3
+	        }), document.getElementById('dynamic-rise-fall-chart'));
+	        dynamicRiseFallChart(newData);
+	    }, 1500);
+	};
+	
+	dynamicRiseFallChart();
 	
 	/*************************
 	 * Rise Fall Chart End *
@@ -196,8 +229,15 @@
 	        key: 'componentDidUpdate',
 	        value: function componentDidUpdate(nextProps) {
 	            var series = nextProps.series;
+	            var xAxis = nextProps.xAxis;
+	            var yAxis = nextProps.yAxis;
 	
-	            this.updateCharts({ series: series });
+	            var opts = {};
+	            if (series) opts.series = series;
+	            if (xAxis) opts.xAxis = xAxis;
+	            if (yAxis) opts.yAxis = yAxis;
+	
+	            this.updateCharts(opts);
 	        }
 	    }, {
 	        key: 'compilePropsToOption',
@@ -72829,7 +72869,7 @@
 	        zoomLock: zoomLock,
 	        start: 0,
 	        end: 100,
-	        realtime: true
+	        realtime: false
 	    };
 	};
 	
@@ -72911,11 +72951,13 @@
 	
 	var _LineData = __webpack_require__(508);
 	
-	var ld = _interopRequireWildcard(_LineData);
+	var lineData = _interopRequireWildcard(_LineData);
 	
 	var _Title = __webpack_require__(506);
 	
 	var _Axis = __webpack_require__(503);
+	
+	var _Tooltip = __webpack_require__(505);
 	
 	var _BaseChart = __webpack_require__(1);
 	
@@ -72924,6 +72966,10 @@
 	var _DataUtils = __webpack_require__(509);
 	
 	var dataUtil = _interopRequireWildcard(_DataUtils);
+	
+	var _RiseFallChartDecorators = __webpack_require__(510);
+	
+	var rfDecorators = _interopRequireWildcard(_RiseFallChartDecorators);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -72934,6 +72980,15 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var riseFallToolTip = (0, _Tooltip.createTooltip)('mousemove', 'axis', function (params) {
+	    "use strict";
+	
+	    var param0 = params[0];
+	    var seriesName = param0.seriesName;
+	    var value = param0.value;
+	    return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
+	});
 	
 	var RiseFallChart = function (_Component) {
 	    _inherits(RiseFallChart, _Component);
@@ -72957,6 +73012,7 @@
 	            var contractEntry = _props.contractEntry;
 	            var contractExit = _props.contractExit;
 	            var title = _props.title;
+	            var symbol = _props.symbol;
 	            var xOffsetPercentage = _props.xOffsetPercentage;
 	            var yOffsetPercentage = _props.yOffsetPercentage;
 	
@@ -72965,45 +73021,53 @@
 	                return;
 	            }
 	
-	            var xOffset = dataUtil.getXBoundaryInValue(data, 0.1);
-	            var yOffset = dataUtil.getYBoundaryInValue(data, 0.1);
+	            var xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);
+	            var yOffset = dataUtil.getYBoundaryInValue(data, yOffsetPercentage);
 	
-	            var entryTimeLine = contractEntry && {
-	                from: [contractEntry[0], yOffset[0]],
-	                to: [contractEntry[0], yOffset[1]],
-	                name: 'Entry Time',
-	                formatter: RiseFallChart.entryPointFormatter
-	            };
-	            var exitTimeLine = contractExit && {
-	                from: [contractExit[0], yOffset[0]],
-	                to: [contractExit[0], yOffset[1]],
-	                name: 'Exit Time',
-	                formatter: RiseFallChart.exitPointFormatter
-	            };
+	            var xMin = xOffset[0];
+	            var xMax = xOffset[1];
+	            var yMin = yOffset[0];
+	            var yMax = yOffset[1];
 	
-	            var entrySpotLine = contractEntry && {
-	                from: [xOffset[0], contractEntry[1]],
-	                to: [xOffset[1], contractEntry[1]],
-	                name: 'Entry price',
-	                formatter: RiseFallChart.entryPriceFormatter
-	            };
+	            var entryTimeData = contractEntry && [[contractEntry[0], yMin], [contractEntry[0], yMax]];
+	            var exitTimeData = contractExit && [[contractExit[0], yMin], [contractExit[0], yMax]];
 	
-	            var series = data && contractEntry && ld.createSeriesAsLine('series name', data, [entrySpotLine, entryTimeLine, exitTimeLine]);
+	            var entrySpotData = contractEntry && [[xMin, contractEntry[1]], [xMax, contractEntry[1]]];
+	
+	            var currentSpot = data[data.length - 1];
+	            var currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
+	
+	            var dataSeries = data && lineData.createSeriesAsLine(symbol, data);
+	            var entryTimeSeries = entryTimeData && lineData.createSeriesAsLine('Entry Time', entryTimeData);
+	            var exitTimeSeries = exitTimeData && lineData.createSeriesAsLine('Exit Time', exitTimeData);
+	            var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine('Entry Spot', entrySpotData);
+	            var currentSpotSeries = lineData.createSeriesAsLine('Current Spot', currentSpotData);
+	
+	            var dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
+	            var labeledEntryTimeSeries = rfDecorators.decorateVerticalLineSeries(entryTimeSeries);
+	            var labeledExitTimeSeries = rfDecorators.decorateVerticalLineSeries(exitTimeSeries);
+	            var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
+	            var labeledCurrentSpotSeries = rfDecorators.decorateHorizontalLineSeries(currentSpotSeries);
+	
+	            var series = [];
+	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
+	            if (entryTimeSeries) series.push(labeledEntryTimeSeries);
+	            if (exitTimeSeries) series.push(labeledExitTimeSeries);
+	            if (entrySpotSeries) series.push(labeledEntrySpotSeries);
+	
+	            series.push(labeledCurrentSpotSeries);
 	
 	            var tt = (0, _Title.createTitle)(title);
 	
 	            var xAxis = Object.assign({ min: xOffset[0], max: xOffset[1] }, (0, _Axis.createXAxis)('Time'));
 	            var yAxis = Object.assign({ min: yOffset[0], max: yOffset[1] }, (0, _Axis.createYAxis)('Spot'));
 	
-	            return series ? _react2.default.createElement(_BaseChart2.default, {
+	            return _react2.default.createElement(_BaseChart2.default, {
 	                title: tt,
-	                series: [series],
+	                series: series,
 	                xAxis: xAxis,
-	                yAxis: yAxis
-	            }) : _react2.default.createElement(_BaseChart2.default, {
-	                title: tt,
-	                xAxis: xAxis,
-	                yAxis: yAxis
+	                yAxis: yAxis,
+	                tooltip: riseFallToolTip
 	            });
 	        }
 	    }]);
@@ -73017,6 +73081,7 @@
 	RiseFallChart.propTypes = {
 	    title: _react.PropTypes.string.isRequired,
 	    data: _react.PropTypes.array,
+	    symbol: _react.PropTypes.string,
 	    contractEntry: _react.PropTypes.array,
 	    contractExit: _react.PropTypes.array,
 	    xOffsetPercentage: _react.PropTypes.number,
@@ -73075,15 +73140,11 @@
 	    "use strict";
 	
 	    var lastDataLabel = createDataLabel();
-	    var lastData = {
-	        value: dataArr[dataArr.length - 1],
-	        label: lastDataLabel
-	    };
+	    var namedData = dataArr.map(function (v) {
+	        return { name: v[0], value: v };
+	    });
 	
-	    var newDataArr = dataArr.slice(0);
-	    newDataArr[dataArr.length - 1] = lastData;
-	
-	    return newDataArr;
+	    return namedData;
 	};
 	
 	// not associate with keys as this is part of an array
@@ -73151,7 +73212,7 @@
 	var createSeriesAsLine = exports.createSeriesAsLine = function createSeriesAsLine(name, data, barriers, points) {
 	    "use strict";
 	
-	    var color = arguments.length <= 4 || arguments[4] === undefined ? 'rgb(160, 160, 160)' : arguments[4];
+	    var color = arguments.length <= 4 || arguments[4] === undefined ? 'rgb(0, 153, 0)' : arguments[4];
 	    var width = arguments.length <= 5 || arguments[5] === undefined ? '2' : arguments[5];
 	    var dataLine = createLineData(data);
 	    var type = 'line';
@@ -73180,20 +73241,17 @@
 	                width: width
 	            }
 	        },
-	        areaStyle: {
-	            normal: {
-	                color: 'rgb(153, 255, 153)'
-	            }
-	        },
 	        clipOverflow: false,
 	        type: type,
 	        data: dataLine,
 	        markLine: markLine,
-	        markPoint: markPoint,
-	        animation: true,
-	        animationDuration: 500,
-	        animationDurationUpdate: 10
+	        markPoint: markPoint
 	    };
+	};
+	
+	var decorateSeriesWithAreaStyle = exports.decorateSeriesWithAreaStyle = function decorateSeriesWithAreaStyle(series) {
+	    var areaStyle = arguments.length <= 1 || arguments[1] === undefined ? { normal: { color: 'rgb(204, 255, 204)' } } : arguments[1];
+	    return Object.assign(series, { areaStyle: areaStyle });
 	};
 
 /***/ },
@@ -73228,7 +73286,7 @@
 	};
 	
 	var percentOf = function percentOf(min, max, percent) {
-	    var precision = arguments.length <= 3 || arguments[3] === undefined ? 2 : arguments[3];
+	    var precision = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
 	    return +((max - min) * percent).toFixed(precision);
 	};
 	
@@ -73248,6 +73306,169 @@
 	    var max = findYMax(data);
 	    var offset = percentOf(min, max, percentage);
 	    return [min - offset, max + offset];
+	};
+
+/***/ },
+/* 510 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var verticalLastData = function verticalLastData() {
+	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    var _ref$size = _ref.size;
+	    var size = _ref$size === undefined ? [60, 40] : _ref$size;
+	    return {
+	        symbol: 'rect',
+	        symbolSize: size,
+	        symbolOffset: [0, 50],
+	        label: {
+	            normal: {
+	                show: true,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'blue',
+	                    fontSize: 12
+	                }
+	            },
+	            emphasis: {
+	                show: true,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'white',
+	                    fontSize: 12
+	                }
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                color: 'rgba(255, 255, 255, 0.2)'
+	            },
+	            emphasis: {
+	                color: 'rgb(236, 79, 147)'
+	            }
+	        }
+	    };
+	};
+	
+	var horizontalLastData = function horizontalLastData() {
+	    return {
+	        symbol: 'rect',
+	        symbolSize: [30, 15],
+	        symbolOffset: [20, 0],
+	        label: {
+	            normal: {
+	                show: true,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'white',
+	                    fontSize: 12
+	                }
+	            },
+	            emphasis: {
+	                show: true,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'red',
+	                    fontSize: 12
+	                }
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                color: 'red'
+	            },
+	            emphasis: {
+	                color: 'white'
+	            }
+	        }
+	    };
+	};
+	
+	var verticalLineFormatter = function verticalLineFormatter(params) {
+	    return params.seriesName + ' \n' + params.value[0];
+	};
+	
+	var horizontalLineFormatters = [function (params) {
+	    return '' + params.value[1];
+	}, function (params) {
+	    return params.seriesName + '\n' + params.value[1];
+	}];
+	
+	var verticalLineLabel = {
+	    normal: {
+	        formatter: verticalLineFormatter
+	    },
+	    emphasis: {
+	        formatter: verticalLineFormatter
+	    }
+	};
+	var horizontalLineLabel = {
+	    normal: {
+	        formatter: horizontalLineFormatters[0]
+	    },
+	    emphasis: {
+	        formatter: horizontalLineFormatters[1]
+	    }
+	};
+	
+	var dottedLineStyle = function dottedLineStyle() {
+	    var color1 = arguments.length <= 0 || arguments[0] === undefined ? 'rgb(242, 150, 89)' : arguments[0];
+	    var color2 = arguments.length <= 1 || arguments[1] === undefined ? 'rgb(250, 104, 7)' : arguments[1];
+	    return {
+	        normal: {
+	            color: color1,
+	            type: 'dashed',
+	            width: 1
+	        },
+	        emphasis: {
+	            color: color2,
+	            type: 'solid',
+	            width: 2
+	        }
+	    };
+	};
+	
+	var decorateVerticalLineSeries = exports.decorateVerticalLineSeries = function decorateVerticalLineSeries(series) {
+	    var lastData = series.data[1]; // straight line has only 2 data
+	    var styleLastData = Object.assign(verticalLastData({ test: 'watever' }), lastData);
+	    series.data[1] = styleLastData;
+	
+	    var seriesWithFormatter = Object.assign({ label: verticalLineLabel }, series);
+	
+	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
+	};
+	
+	var decorateHorizontalLineSeries = exports.decorateHorizontalLineSeries = function decorateHorizontalLineSeries(series) {
+	    var lastData = series.data[1]; // straight line has only 2 data
+	    var styleLastData = Object.assign(horizontalLastData(), lastData);
+	    series.data[1] = styleLastData;
+	
+	    var seriesWithFormatter = Object.assign({
+	        label: horizontalLineLabel,
+	        animation: false
+	    }, series);
+	
+	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
+	};
+	
+	// this is special as it should have high priority why overlapping
+	var decorateCurrentSpotLine = exports.decorateCurrentSpotLine = function decorateCurrentSpotLine(series) {
+	    var lastData = series.data[1]; // straight line has only 2 data
+	    var styleLastData = Object.assign(horizontalLastData(), lastData);
+	    series.data[1] = styleLastData;
+	
+	    var seriesWithFormatter = Object.assign({
+	        label: horizontalLineLabel,
+	        animation: false,
+	        zlevel: 2
+	    }, series);
+	
+	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
 	};
 
 /***/ }
