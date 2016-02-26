@@ -78,7 +78,7 @@ ReactDOM.render(
         contractExit={exit}
         symbol="Random 100"
         xOffsetPercentage={0.1}
-        yOffsetPercentage={0.1}
+        yOffsetPercentage={2}
     />,
     document.getElementById('rise-fall-chart')
 );
@@ -86,7 +86,7 @@ ReactDOM.render(
 const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
     const lastData = d[d.length - 1];
     let newData;
-    if (d.length > 20) {
+    if (d.length > 60) {
         newData = d.slice(1);
         newData.push([lastData[0] + 2, randomNum()]);
     } else {
@@ -99,8 +99,8 @@ const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
             contractEntry={entry}
             contractExit={exit}
             symbol="Random 100"
-            xOffsetPercentage={0.1}
-            yOffsetPercentage={0.3}
+            xOffsetPercentage={0.2}
+            yOffsetPercentage={2}
         />,
         document.getElementById('dynamic-rise-fall-chart')
     );

@@ -104,6 +104,7 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(0,
     };
 
     return {
+        symbol:'none',
         name,
         lineStyle: {
             normal: {

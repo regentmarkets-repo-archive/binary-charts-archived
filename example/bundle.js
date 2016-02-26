@@ -129,7 +129,7 @@
 	    contractExit: exit,
 	    symbol: 'Random 100',
 	    xOffsetPercentage: 0.1,
-	    yOffsetPercentage: 0.1
+	    yOffsetPercentage: 2
 	}), document.getElementById('rise-fall-chart'));
 	
 	var dynamicRiseFallChart = function dynamicRiseFallChart() {
@@ -137,7 +137,7 @@
 	    return window.setTimeout(function () {
 	        var lastData = d[d.length - 1];
 	        var newData = undefined;
-	        if (d.length > 20) {
+	        if (d.length > 60) {
 	            newData = d.slice(1);
 	            newData.push([lastData[0] + 2, randomNum()]);
 	        } else {
@@ -149,8 +149,8 @@
 	            contractEntry: entry,
 	            contractExit: exit,
 	            symbol: 'Random 100',
-	            xOffsetPercentage: 0.1,
-	            yOffsetPercentage: 0.3
+	            xOffsetPercentage: 0.2,
+	            yOffsetPercentage: 2
 	        }), document.getElementById('dynamic-rise-fall-chart'));
 	        dynamicRiseFallChart(newData);
 	    }, 1500);
@@ -237,7 +237,7 @@
 	            if (xAxis) opts.xAxis = xAxis;
 	            if (yAxis) opts.yAxis = yAxis;
 	
-	            this.updateCharts(opts);
+	            this.updateCharts(opts, false, true);
 	        }
 	    }, {
 	        key: 'compilePropsToOption',
@@ -72905,6 +72905,9 @@
 	        trigger: trigger,
 	        triggerOn: triggerOn,
 	        formatter: tooltipFormatter,
+	        position: [10, 40],
+	        alwaysShowContent: true,
+	        transitionDuration: 0,
 	        axisPointer: {
 	            type: 'line',
 	            show: true,
@@ -73234,6 +73237,7 @@
 	    };
 	
 	    return {
+	        symbol: 'none',
 	        name: name,
 	        lineStyle: {
 	            normal: {
@@ -73484,7 +73488,8 @@
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
-	        animation: false
+	        animation: true,
+	        animationDuration: 10
 	    }, series);
 	
 	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
@@ -73498,7 +73503,8 @@
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
-	        animation: false,
+	        animation: true,
+	        animationDuration: 10,
 	        zlevel: 2
 	    }, series);
 	

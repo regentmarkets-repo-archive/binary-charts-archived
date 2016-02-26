@@ -148,7 +148,8 @@ export const decorateHorizontalLineSeries = series => {
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
-        animation: false,
+        animation: true,
+        animationDuration: 10,
     }, series)
 
     return Object.assign(seriesWithFormatter, {lineStyle: dottedLineStyle()});
@@ -162,7 +163,8 @@ export const decorateCurrentSpotLine = series => {
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
-        animation: false,
+        animation: true,
+        animationDuration: 10,
         zlevel: 2,
     }, series)
 

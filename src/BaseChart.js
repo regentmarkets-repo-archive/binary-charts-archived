@@ -86,7 +86,7 @@ export default class BaseChart extends Component {
         if (xAxis) opts.xAxis = xAxis;
         if (yAxis) opts.yAxis = yAxis;
 
-        this.updateCharts(opts);
+        this.updateCharts(opts, false, true);
     }
 
     compilePropsToOption() {
