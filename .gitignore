@@ -9,4 +9,5 @@ gen
 node_modules/
 dist/
 lib/
+example/
 # Created by .ignore support plugin (hsz.mobi)
