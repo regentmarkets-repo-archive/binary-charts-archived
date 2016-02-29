@@ -11,3 +11,5 @@ dist/
 lib/
 example/
 # Created by .ignore support plugin (hsz.mobi)
+
+npm-debug.log
