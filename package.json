@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "0.0.2",
+  "version": "0.0.2-patch",
   "description": "High-level React chart component that hopefully could be use for binary.com",
   "main": "index.js",
   "scripts": {
@@ -16,9 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "deepmerge": "^0.2.10",
-    "echarts": "^3.1.1",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "echarts": "^3.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",
@@ -29,5 +27,9 @@
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
     "webpack": "^1.12.14"
+  },
+  "peerDependencies": {
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   }
 }
