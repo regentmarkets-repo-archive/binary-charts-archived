@@ -104,6 +104,6 @@ export default class BaseChart extends Component {
     }
 
     render() {
-        return <div className="chart" {...this.props} />;
+        return <div {...this.props} />;
     }
 }

@@ -72,7 +72,7 @@ export default class RiseFallChart extends Component {
     }
 
     render() {
-        const {data, contracts, title, symbol, xOffsetPercentage, yOffsetPercentage} = this.props;
+        const {data, contracts, title, symbol, xOffsetPercentage, yOffsetPercentage, ...other} = this.props;
 
         if (!data) {
             return <div/>;
@@ -131,6 +131,7 @@ export default class RiseFallChart extends Component {
 
         return (
             <BaseChart
+                {...other}
                 title={tt}
                 series={series}
                 xAxis={xAxis}
