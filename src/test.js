@@ -1,4 +1,4 @@
-import BaseChart from './BaseChart';
+import BaseChart from './charts/BaseChart';
 import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
 import React from 'react';

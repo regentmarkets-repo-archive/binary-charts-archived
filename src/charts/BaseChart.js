@@ -2,12 +2,12 @@ import Echarts from 'echarts';
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-import {combineOptions} from './utils/ChartsOptionsUtils';
-import {createGrid} from './model/Grid';
-import {createXAxis, createYAxis} from './model/Axis';
-import {createDefaultDataZoom} from './model/DataZoom';
-import {createTooltip} from './model/Tooltip';
-import {createTitle} from './model/Title';
+import {combineOptions} from './../utils/ChartsOptionsUtils';
+import {createGrid} from './../model/Grid';
+import {createXAxis, createYAxis} from './../model/Axis';
+import {createDefaultDataZoom} from './../model/DataZoom';
+import {createTooltip} from './../model/Tooltip';
+import {createTitle} from './../model/Title';
 
 export default class BaseChart extends Component {
     static defaultProps = {

@@ -3,7 +3,7 @@ import * as lineData from '../../model/LineData';
 import {createTitle} from '../../model/Title';
 import {createXAxis, createYAxis} from '../../model/Axis';
 import {createTooltip} from '../../model/Tooltip';
-import BaseChart from '../../BaseChart';
+import BaseChart from '../BaseChart';
 import * as dataUtil from '../../utils/DataUtils';
 import * as rfDecorators from './RiseFallChartDecorators';
 
@@ -36,6 +36,8 @@ const createLegendForContracts = (contracts) => {
 export default class RiseFallChart extends Component {
     static defaultProps = {
         title: 'Rise/Fall Chart',
+        xOffsetPercentage: 0.1,
+        yOffsetPercentage: 0.7,
     };
 
     static propTypes = {
@@ -47,8 +49,8 @@ export default class RiseFallChart extends Component {
             entry: PropTypes.array.isRequired,
             exit: PropTypes.array,
         })),
-        xOffsetPercentage: PropTypes.number,
-        yOffsetPercentage: PropTypes.number,
+        xOffsetPercentage: PropTypes.number.isRequired,
+        yOffsetPercentage: PropTypes.number.isRequired,
     };
 
     static entryPointFormatter = (params) => {
@@ -73,7 +75,7 @@ export default class RiseFallChart extends Component {
         const {data, contracts, title, symbol, xOffsetPercentage, yOffsetPercentage} = this.props;
 
         if (!data) {
-            return;
+            return <div/>;
         }
 
         const xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);
@@ -87,7 +89,7 @@ export default class RiseFallChart extends Component {
         const currentSpot = data[data.length - 1];
         const currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
 
-        const allContractsLegend = createLegendForContracts(contracts);
+        const allContractsLegend = contracts && createLegendForContracts(contracts);
 
         const allContractsSeries = contracts && contracts.map(c => {
             const entry = c.entry;

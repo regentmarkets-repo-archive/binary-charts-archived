@@ -1,11 +1,12 @@
 {
   "name": "binary-charts",
-  "version": "0.0.2-patch2",
+  "version": "0.0.2-patch8",
   "description": "High-level React chart component that hopefully could be use for binary.com",
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./src/**/**--test/*.js",
-    "compile": "babel --optional runtime -d lib/ src/",
+    "clean": "rm -rf lib",
+    "compile": "npm run clean && webpack --config webpack.config.publish.js",
     "prepublish": "npm run compile",
     "ci": "webpack --progress --colors --watch"
   },
