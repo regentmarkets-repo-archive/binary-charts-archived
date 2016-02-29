@@ -70,12 +70,17 @@ const riseFallTitle = 'Rise fall chart';
 const entry = [10, randomNum()];
 const exit = [20, randomNum()];
 
+const contracts = [{
+    id: 'C1',
+    entry,
+    exit
+}];
+
 ReactDOM.render(
     <RiseFallChart
         title={riseFallTitle}
         data={testData}
-        contractEntry={entry}
-        contractExit={exit}
+        contracts={contracts}
         symbol="Random 100"
         xOffsetPercentage={0.1}
         yOffsetPercentage={2}
@@ -96,8 +101,7 @@ const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
         <RiseFallChart
             title="Dynamic Rise Fall"
             data={newData}
-            contractEntry={entry}
-            contractExit={exit}
+            contracts={contracts}
             symbol="Random 100"
             xOffsetPercentage={0.2}
             yOffsetPercentage={2}

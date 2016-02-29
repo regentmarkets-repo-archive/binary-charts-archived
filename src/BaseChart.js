@@ -25,6 +25,9 @@ export default class BaseChart extends Component {
     };
 
     static propTypes = {
+        legend: PropTypes.shape({
+            data: PropTypes.array,
+        }),
         grid: PropTypes.shape({
             left: PropTypes.string,
             right: PropTypes.string,
@@ -92,8 +95,8 @@ export default class BaseChart extends Component {
     }
 
     compilePropsToOption() {
-        const { grid, xAxis, yAxis, series, dataZoom, tooltip, title } = this.props;
-        return {grid, xAxis, yAxis, series, dataZoom, tooltip, title};
+        const { grid, xAxis, yAxis, series, dataZoom, tooltip, title, legend, color } = this.props;
+        return {grid, xAxis, yAxis, series, dataZoom, tooltip, title, legend, color};
     }
 
     updateCharts(opts) {
