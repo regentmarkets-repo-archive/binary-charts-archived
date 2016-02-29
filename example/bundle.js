@@ -122,11 +122,16 @@
 	var entry = [10, randomNum()];
 	var exit = [20, randomNum()];
 	
+	var contracts = [{
+	    id: 'C1',
+	    entry: entry,
+	    exit: exit
+	}];
+	
 	_reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, {
 	    title: riseFallTitle,
 	    data: testData,
-	    contractEntry: entry,
-	    contractExit: exit,
+	    contracts: contracts,
 	    symbol: 'Random 100',
 	    xOffsetPercentage: 0.1,
 	    yOffsetPercentage: 2
@@ -146,8 +151,7 @@
 	        _reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, {
 	            title: 'Dynamic Rise Fall',
 	            data: newData,
-	            contractEntry: entry,
-	            contractExit: exit,
+	            contracts: contracts,
 	            symbol: 'Random 100',
 	            xOffsetPercentage: 0.2,
 	            yOffsetPercentage: 2
@@ -250,8 +254,10 @@
 	            var dataZoom = _props.dataZoom;
 	            var tooltip = _props.tooltip;
 	            var title = _props.title;
+	            var legend = _props.legend;
+	            var color = _props.color;
 	
-	            return { grid: grid, xAxis: xAxis, yAxis: yAxis, series: series, dataZoom: dataZoom, tooltip: tooltip, title: title };
+	            return { grid: grid, xAxis: xAxis, yAxis: yAxis, series: series, dataZoom: dataZoom, tooltip: tooltip, title: title, legend: legend, color: color };
 	        }
 	    }, {
 	        key: 'updateCharts',
@@ -282,6 +288,9 @@
 	    title: (0, _Title.createTitle)('BaseChart')
 	};
 	BaseChart.propTypes = {
+	    legend: _react.PropTypes.shape({
+	        data: _react.PropTypes.array
+	    }),
 	    grid: _react.PropTypes.shape({
 	        left: _react.PropTypes.string,
 	        right: _react.PropTypes.string,
@@ -73003,6 +73012,18 @@
 	    return frameStartData.concat(frameEndData.concat([frameStartData[0]]));
 	};
 	
+	var createLegendForContracts = function createLegendForContracts(contracts) {
+	    var legendData = contracts.map(function (c) {
+	        return {
+	            name: c.id
+	        };
+	    });
+	
+	    return {
+	        data: legendData
+	    };
+	};
+	
 	var RiseFallChart = function (_Component) {
 	    _inherits(RiseFallChart, _Component);
 	
@@ -73022,8 +73043,7 @@
 	        value: function render() {
 	            var _props = this.props;
 	            var data = _props.data;
-	            var contractEntry = _props.contractEntry;
-	            var contractExit = _props.contractExit;
+	            var contracts = _props.contracts;
 	            var title = _props.title;
 	            var symbol = _props.symbol;
 	            var xOffsetPercentage = _props.xOffsetPercentage;
@@ -73042,27 +73062,40 @@
 	            var yMin = yOffset[0];
 	            var yMax = yOffset[1];
 	
-	            var entrySpotData = contractEntry && [[xMin, contractEntry[1]], [xMax, contractEntry[1]]];
-	
 	            var currentSpot = data[data.length - 1];
 	            var currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
 	
-	            var contractFrameData = createContractFrame(currentSpot, contractEntry, contractExit, xMin, xMax, yMin, yMax);
+	            var allContractsLegend = createLegendForContracts(contracts);
 	
+	            var allContractsSeries = contracts.map(function (c) {
+	                var entry = c.entry;
+	                var exit = c.exit;
+	                var entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
+	                var contractFrameData = createContractFrame(currentSpot, entry, exit, xMin, xMax, yMin, yMax);
+	
+	                var contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
+	                var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(c.id, entrySpotData);
+	
+	                var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
+	                var styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
+	                return [labeledEntrySpotSeries, styledContractFrame];
+	            });
+	
+	            // convert to series
 	            var dataSeries = data && lineData.createSeriesAsLine(symbol, data);
-	            var contractFrameSeries = contractFrameData && lineData.createSeriesAsLine('Contract', contractFrameData);
-	            var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine('Entry Spot', entrySpotData);
 	            var currentSpotSeries = lineData.createSeriesAsLine('Current Spot', currentSpotData);
 	
+	            // decorate with style
 	            var dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
-	            var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
 	            var labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
-	            var styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
 	
 	            var series = [];
 	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
-	            if (contractFrameSeries) series.push(styledContractFrame);
-	            if (entrySpotSeries) series.push(labeledEntrySpotSeries);
+	            if (allContractsSeries.length > 0) {
+	                allContractsSeries.forEach(function (sr) {
+	                    series = series.concat(sr);
+	                });
+	            }
 	
 	            series.push(labeledCurrentSpotSeries);
 	
@@ -73076,7 +73109,8 @@
 	                series: series,
 	                xAxis: xAxis,
 	                yAxis: yAxis,
-	                tooltip: riseFallToolTip
+	                tooltip: riseFallToolTip,
+	                legend: allContractsLegend
 	            });
 	        }
 	    }]);
@@ -73091,20 +73125,21 @@
 	    title: _react.PropTypes.string.isRequired,
 	    data: _react.PropTypes.array,
 	    symbol: _react.PropTypes.string,
-	    contractEntry: _react.PropTypes.array,
-	    contractExit: _react.PropTypes.array,
+	    contracts: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+	        id: _react.PropTypes.string.isRequired,
+	        entry: _react.PropTypes.array.isRequired,
+	        exit: _react.PropTypes.array
+	    })),
 	    xOffsetPercentage: _react.PropTypes.number,
 	    yOffsetPercentage: _react.PropTypes.number
 	};
 	
 	RiseFallChart.entryPointFormatter = function (params) {
-	    console.log('ent', params);
 	    var value = params.data[0].coord;
 	    return 'Enter Time: ' + value[0];
 	};
 	
 	RiseFallChart.exitPointFormatter = function (params) {
-	    console.log('exit', params);
 	    var idx = params.dataIndex;
 	    var value = params.data[0].coord;
 	    return 'Exit Time: ' + value[0];

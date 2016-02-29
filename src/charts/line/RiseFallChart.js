@@ -23,6 +23,16 @@ const createContractFrame = (current, entry, exit, xMin, xMax, yMin, yMax) => {
     return frameStartData.concat(frameEndData.concat([frameStartData[0]]));
 };
 
+const createLegendForContracts = (contracts) => {
+    const legendData = contracts.map(c => ({
+        name: c.id,
+    }));
+
+    return {
+        data: legendData
+    };
+};
+
 export default class RiseFallChart extends Component {
     static defaultProps = {
         title: 'Rise/Fall Chart',
@@ -32,19 +42,20 @@ export default class RiseFallChart extends Component {
         title: PropTypes.string.isRequired,
         data: PropTypes.array,
         symbol: PropTypes.string,
-        contractEntry: PropTypes.array,
-        contractExit: PropTypes.array,
+        contracts: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            entry: PropTypes.array.isRequired,
+            exit: PropTypes.array,
+        })),
         xOffsetPercentage: PropTypes.number,
         yOffsetPercentage: PropTypes.number,
     };
 
     static entryPointFormatter = (params) => {
-        console.log('ent', params);
         const value = params.data[0].coord;
         return `Enter Time: ${value[0]}`;
     };
     static exitPointFormatter = (params) => {
-        console.log('exit', params);
         const idx = params.dataIndex;
         const value = params.data[0].coord;
         return `Exit Time: ${value[0]}`;
@@ -59,7 +70,7 @@ export default class RiseFallChart extends Component {
     }
 
     render() {
-        const {data, contractEntry, contractExit, title, symbol, xOffsetPercentage, yOffsetPercentage} = this.props;
+        const {data, contracts, title, symbol, xOffsetPercentage, yOffsetPercentage} = this.props;
 
         if (!data) {
             return;
@@ -73,27 +84,41 @@ export default class RiseFallChart extends Component {
         const yMin = yOffset[0];
         const yMax = yOffset[1];
 
-        const entrySpotData = contractEntry && [[xMin, contractEntry[1]], [xMax, contractEntry[1]]];
-
         const currentSpot = data[data.length - 1];
         const currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
 
-        const contractFrameData = createContractFrame(currentSpot, contractEntry, contractExit, xMin, xMax, yMin, yMax);
+        const allContractsLegend = createLegendForContracts(contracts);
 
+        const allContractsSeries = contracts.map(c => {
+            const entry = c.entry;
+            const exit = c.exit;
+            const entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
+            const contractFrameData = createContractFrame(currentSpot, entry, exit, xMin, xMax, yMin, yMax);
+
+            const contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
+            const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(c.id, entrySpotData);
+
+            const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
+            const styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
+            return [labeledEntrySpotSeries, styledContractFrame];
+        });
+
+        // convert to series
         const dataSeries = data && lineData.createSeriesAsLine(symbol, data);
-        const contractFrameSeries = contractFrameData && lineData.createSeriesAsLine('Contract', contractFrameData);
-        const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine('Entry Spot', entrySpotData);
         const currentSpotSeries = lineData.createSeriesAsLine('Current Spot', currentSpotData);
 
+        // decorate with style
         const dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
-        const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
         const labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
-        const styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
 
-        const series = [];
+
+        let series = [];
         if (dataSeries) series.push(dataSeriesWithAreaStyle);
-        if (contractFrameSeries) series.push(styledContractFrame);
-        if (entrySpotSeries) series.push(labeledEntrySpotSeries);
+        if (allContractsSeries.length > 0) {
+            allContractsSeries.forEach(sr => {
+                series = series.concat(sr);
+            });
+        }
 
         series.push(labeledCurrentSpotSeries);
 
@@ -109,6 +134,7 @@ export default class RiseFallChart extends Component {
                 xAxis={xAxis}
                 yAxis={yAxis}
                 tooltip={riseFallToolTip}
+                legend={allContractsLegend}
             />
         );
     }
