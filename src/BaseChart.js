@@ -12,6 +12,7 @@ import {createTitle} from './model/Title';
 export default class BaseChart extends Component {
     static defaultProps = {
         grid: createGrid(),
+        color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
         xAxis: createXAxis('X axis'),
         yAxis: createYAxis('Y axis'),
         tooltip: createTooltip('mousemove', 'axis', (params) => {
@@ -69,6 +70,7 @@ export default class BaseChart extends Component {
         title: PropTypes.shape({
             text: PropTypes.string.isRequired,
         }),
+        color: PropTypes.array,
         onZoom: PropTypes.func,
     };
 

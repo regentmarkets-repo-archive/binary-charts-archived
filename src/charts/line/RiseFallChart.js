@@ -15,6 +15,14 @@ const riseFallToolTip = createTooltip('mousemove', 'axis', (params) => {
     return `${seriesName}<br />Time: ${value[0]}<br />Spot:${value[1]}`;
 });
 
+const createContractFrame = (current, entry, exit, xMin, xMax, yMin, yMax) => {
+    if (!entry) return undefined;
+    const frameStartData = [[entry[0], yMin], [entry[0], yMax]];
+    const frameEndData = exit ? [[exit[0], yMax], [exit[0], yMin]] : [[current[0], yMax], [current[0], yMin]];
+
+    return frameStartData.concat(frameEndData.concat([frameStartData[0]]));
+};
+
 export default class RiseFallChart extends Component {
     static defaultProps = {
         title: 'Rise/Fall Chart',
@@ -65,30 +73,26 @@ export default class RiseFallChart extends Component {
         const yMin = yOffset[0];
         const yMax = yOffset[1];
 
-        const entryTimeData = contractEntry && [[contractEntry[0], yMin], [contractEntry[0], yMax]];
-        const exitTimeData = contractExit &&  [[contractExit[0], yMin], [contractExit[0], yMax]];
-
         const entrySpotData = contractEntry && [[xMin, contractEntry[1]], [xMax, contractEntry[1]]];
 
         const currentSpot = data[data.length - 1];
         const currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
 
+        const contractFrameData = createContractFrame(currentSpot, contractEntry, contractExit, xMin, xMax, yMin, yMax);
+
         const dataSeries = data && lineData.createSeriesAsLine(symbol, data);
-        const entryTimeSeries = entryTimeData && lineData.createSeriesAsLine('Entry Time', entryTimeData);
-        const exitTimeSeries = exitTimeData && lineData.createSeriesAsLine('Exit Time', exitTimeData);
+        const contractFrameSeries = contractFrameData && lineData.createSeriesAsLine('Contract', contractFrameData);
         const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine('Entry Spot', entrySpotData);
         const currentSpotSeries = lineData.createSeriesAsLine('Current Spot', currentSpotData);
 
         const dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
-        const labeledEntryTimeSeries = rfDecorators.decorateVerticalLineSeries(entryTimeSeries);
-        const labeledExitTimeSeries = rfDecorators.decorateVerticalLineSeries(exitTimeSeries);
         const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
         const labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
+        const styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
 
         const series = [];
         if (dataSeries) series.push(dataSeriesWithAreaStyle);
-        if (entryTimeSeries) series.push(labeledEntryTimeSeries);
-        if (exitTimeSeries) series.push(labeledExitTimeSeries);
+        if (contractFrameSeries) series.push(styledContractFrame);
         if (entrySpotSeries) series.push(labeledEntrySpotSeries);
 
         series.push(labeledCurrentSpotSeries);
