@@ -73067,7 +73067,7 @@
 	
 	            var allContractsLegend = createLegendForContracts(contracts);
 	
-	            var allContractsSeries = contracts.map(function (c) {
+	            var allContractsSeries = contracts && contracts.map(function (c) {
 	                var entry = c.entry;
 	                var exit = c.exit;
 	                var entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
@@ -73091,7 +73091,7 @@
 	
 	            var series = [];
 	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
-	            if (allContractsSeries.length > 0) {
+	            if (allContractsSeries && allContractsSeries.length > 0) {
 	                allContractsSeries.forEach(function (sr) {
 	                    series = series.concat(sr);
 	                });

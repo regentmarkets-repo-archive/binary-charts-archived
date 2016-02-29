@@ -89,7 +89,7 @@ export default class RiseFallChart extends Component {
 
         const allContractsLegend = createLegendForContracts(contracts);
 
-        const allContractsSeries = contracts.map(c => {
+        const allContractsSeries = contracts && contracts.map(c => {
             const entry = c.entry;
             const exit = c.exit;
             const entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
@@ -114,7 +114,7 @@ export default class RiseFallChart extends Component {
 
         let series = [];
         if (dataSeries) series.push(dataSeriesWithAreaStyle);
-        if (allContractsSeries.length > 0) {
+        if (allContractsSeries && allContractsSeries.length > 0) {
             allContractsSeries.forEach(sr => {
                 series = series.concat(sr);
             });
