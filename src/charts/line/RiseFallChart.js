@@ -33,11 +33,28 @@ const createLegendForContracts = (contracts) => {
     };
 };
 
+const epochFormatter = (precision = 's') => {
+    switch (precision) {
+        case 's': return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 18);
+            break;
+        case 'd': return epoch => (new Date(epoch * 1000)).toISOString().slice(0, 10);
+            break;
+        default: {
+            console.warn('Unexpected precision, fallback to seconds');
+            return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 18);
+        }
+    }
+};
+
+const spotFormatter = (precision = 2) => spot => spot.toFixed(precision);
+
 export default class RiseFallChart extends Component {
     static defaultProps = {
         title: 'Rise/Fall Chart',
         xOffsetPercentage: 0.1,
         yOffsetPercentage: 0.7,
+        xFormatter: epochFormatter(),
+        yFormatter: spotFormatter(),
     };
 
     static propTypes = {
@@ -51,6 +68,8 @@ export default class RiseFallChart extends Component {
         })),
         xOffsetPercentage: PropTypes.number.isRequired,
         yOffsetPercentage: PropTypes.number.isRequired,
+        xFormatter: PropTypes.func.isRequired,
+        yFormatter: PropTypes.func.isRequired,
     };
 
     static entryPointFormatter = (params) => {
@@ -72,7 +91,16 @@ export default class RiseFallChart extends Component {
     }
 
     render() {
-        const {data, contracts, title, symbol, xOffsetPercentage, yOffsetPercentage, ...other} = this.props;
+        const {
+            data,
+            contracts,
+            title,
+            symbol,
+            xOffsetPercentage,
+            yOffsetPercentage,
+            xFormatter,
+            yFormatter,
+            ...other} = this.props;
 
         if (!data) {
             return <div/>;
@@ -126,8 +154,21 @@ export default class RiseFallChart extends Component {
 
         const tt = createTitle(title);
 
-        const xAxis = Object.assign({ min: xOffset[0], max: xOffset[1]}, createXAxis('Time'));
-        const yAxis = Object.assign({ min: yOffset[0], max: yOffset[1]}, createYAxis('Spot'));
+        const xAxis = Object.assign({
+            min: xOffset[0],
+            max: xOffset[1],
+            axisLabel: {
+                formatter: xFormatter
+            }
+        }, createXAxis('Time'));
+
+        const yAxis = Object.assign({
+            min: yOffset[0],
+            max: yOffset[1],
+            axisLabel: {
+                formatter: yFormatter
+            }
+        }, createYAxis('Spot'));
 
         return (
             <BaseChart

@@ -72854,6 +72854,37 @@
 	    };
 	};
 	
+	var epochFormatter = function epochFormatter() {
+	    var precision = arguments.length <= 0 || arguments[0] === undefined ? 's' : arguments[0];
+	
+	    switch (precision) {
+	        case 's':
+	            return function (epoch) {
+	                return new Date(epoch * 1000).toISOString().slice(11, 18);
+	            };
+	            break;
+	        case 'd':
+	            return function (epoch) {
+	                return new Date(epoch * 1000).toISOString().slice(0, 10);
+	            };
+	            break;
+	        default:
+	            {
+	                console.warn('Unexpected precision, fallback to seconds');
+	                return function (epoch) {
+	                    return new Date(epoch * 1000).toISOString().slice(11, 18);
+	                };
+	            }
+	    }
+	};
+	
+	var spotFormatter = function spotFormatter() {
+	    var precision = arguments.length <= 0 || arguments[0] === undefined ? 2 : arguments[0];
+	    return function (spot) {
+	        return spot.toFixed(precision);
+	    };
+	};
+	
 	var RiseFallChart = function (_Component) {
 	    _inherits(RiseFallChart, _Component);
 	
@@ -72878,8 +72909,10 @@
 	            var symbol = _props.symbol;
 	            var xOffsetPercentage = _props.xOffsetPercentage;
 	            var yOffsetPercentage = _props.yOffsetPercentage;
+	            var xFormatter = _props.xFormatter;
+	            var yFormatter = _props.yFormatter;
 	
-	            var other = _objectWithoutProperties(_props, ['data', 'contracts', 'title', 'symbol', 'xOffsetPercentage', 'yOffsetPercentage']);
+	            var other = _objectWithoutProperties(_props, ['data', 'contracts', 'title', 'symbol', 'xOffsetPercentage', 'yOffsetPercentage', 'xFormatter', 'yFormatter']);
 	
 	            if (!data) {
 	                return _react2.default.createElement('div', null);
@@ -72932,8 +72965,21 @@
 	
 	            var tt = (0, _Title.createTitle)(title);
 	
-	            var xAxis = Object.assign({ min: xOffset[0], max: xOffset[1] }, (0, _Axis.createXAxis)('Time'));
-	            var yAxis = Object.assign({ min: yOffset[0], max: yOffset[1] }, (0, _Axis.createYAxis)('Spot'));
+	            var xAxis = Object.assign({
+	                min: xOffset[0],
+	                max: xOffset[1],
+	                axisLabel: {
+	                    formatter: xFormatter
+	                }
+	            }, (0, _Axis.createXAxis)('Time'));
+	
+	            var yAxis = Object.assign({
+	                min: yOffset[0],
+	                max: yOffset[1],
+	                axisLabel: {
+	                    formatter: yFormatter
+	                }
+	            }, (0, _Axis.createYAxis)('Spot'));
 	
 	            return _react2.default.createElement(_BaseChart2.default, _extends({}, other, {
 	                title: tt,
@@ -72952,7 +72998,9 @@
 	RiseFallChart.defaultProps = {
 	    title: 'Rise/Fall Chart',
 	    xOffsetPercentage: 0.1,
-	    yOffsetPercentage: 0.7
+	    yOffsetPercentage: 0.7,
+	    xFormatter: epochFormatter(),
+	    yFormatter: spotFormatter()
 	};
 	RiseFallChart.propTypes = {
 	    title: _react.PropTypes.string.isRequired,
@@ -72964,7 +73012,9 @@
 	        exit: _react.PropTypes.array
 	    })),
 	    xOffsetPercentage: _react.PropTypes.number.isRequired,
-	    yOffsetPercentage: _react.PropTypes.number.isRequired
+	    yOffsetPercentage: _react.PropTypes.number.isRequired,
+	    xFormatter: _react.PropTypes.func.isRequired,
+	    yFormatter: _react.PropTypes.func.isRequired
 	};
 	
 	RiseFallChart.entryPointFormatter = function (params) {
