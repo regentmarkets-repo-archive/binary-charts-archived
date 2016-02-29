@@ -13,10 +13,7 @@ export const createDataLabel = (color = 'rgb(102, 0, 204)', position = 'top', si
  * @param dataArr - 2D array !!
  */
 export const createLineData = (dataArr) => {
-    "use strict";
-    const lastDataLabel = createDataLabel();
-    const namedData = dataArr.map(v => ({name: v[0], value: v}));
-
+    const namedData = dataArr.map(v => ({name: v[0].toString() + v[1].toString(), value: v}));
     return namedData;
 };
 

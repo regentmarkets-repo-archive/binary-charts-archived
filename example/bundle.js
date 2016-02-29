@@ -270,6 +270,7 @@
 	
 	BaseChart.defaultProps = {
 	    grid: (0, _Grid.createGrid)(),
+	    color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
 	    xAxis: (0, _Axis.createXAxis)('X axis'),
 	    yAxis: (0, _Axis.createYAxis)('Y axis'),
 	    tooltip: (0, _Tooltip.createTooltip)('mousemove', 'axis', function (params) {
@@ -326,6 +327,7 @@
 	    title: _react.PropTypes.shape({
 	        text: _react.PropTypes.string.isRequired
 	    }),
+	    color: _react.PropTypes.array,
 	    onZoom: _react.PropTypes.func
 	};
 	exports.default = BaseChart;
@@ -72993,6 +72995,14 @@
 	    return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
 	});
 	
+	var createContractFrame = function createContractFrame(current, entry, exit, xMin, xMax, yMin, yMax) {
+	    if (!entry) return undefined;
+	    var frameStartData = [[entry[0], yMin], [entry[0], yMax]];
+	    var frameEndData = exit ? [[exit[0], yMax], [exit[0], yMin]] : [[current[0], yMax], [current[0], yMin]];
+	
+	    return frameStartData.concat(frameEndData.concat([frameStartData[0]]));
+	};
+	
 	var RiseFallChart = function (_Component) {
 	    _inherits(RiseFallChart, _Component);
 	
@@ -73032,30 +73042,26 @@
 	            var yMin = yOffset[0];
 	            var yMax = yOffset[1];
 	
-	            var entryTimeData = contractEntry && [[contractEntry[0], yMin], [contractEntry[0], yMax]];
-	            var exitTimeData = contractExit && [[contractExit[0], yMin], [contractExit[0], yMax]];
-	
 	            var entrySpotData = contractEntry && [[xMin, contractEntry[1]], [xMax, contractEntry[1]]];
 	
 	            var currentSpot = data[data.length - 1];
 	            var currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
 	
+	            var contractFrameData = createContractFrame(currentSpot, contractEntry, contractExit, xMin, xMax, yMin, yMax);
+	
 	            var dataSeries = data && lineData.createSeriesAsLine(symbol, data);
-	            var entryTimeSeries = entryTimeData && lineData.createSeriesAsLine('Entry Time', entryTimeData);
-	            var exitTimeSeries = exitTimeData && lineData.createSeriesAsLine('Exit Time', exitTimeData);
+	            var contractFrameSeries = contractFrameData && lineData.createSeriesAsLine('Contract', contractFrameData);
 	            var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine('Entry Spot', entrySpotData);
 	            var currentSpotSeries = lineData.createSeriesAsLine('Current Spot', currentSpotData);
 	
 	            var dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
-	            var labeledEntryTimeSeries = rfDecorators.decorateVerticalLineSeries(entryTimeSeries);
-	            var labeledExitTimeSeries = rfDecorators.decorateVerticalLineSeries(exitTimeSeries);
 	            var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
 	            var labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
+	            var styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
 	
 	            var series = [];
 	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
-	            if (entryTimeSeries) series.push(labeledEntryTimeSeries);
-	            if (exitTimeSeries) series.push(labeledExitTimeSeries);
+	            if (contractFrameSeries) series.push(styledContractFrame);
 	            if (entrySpotSeries) series.push(labeledEntrySpotSeries);
 	
 	            series.push(labeledCurrentSpotSeries);
@@ -73140,13 +73146,9 @@
 	 * @param dataArr - 2D array !!
 	 */
 	var createLineData = exports.createLineData = function createLineData(dataArr) {
-	    "use strict";
-	
-	    var lastDataLabel = createDataLabel();
 	    var namedData = dataArr.map(function (v) {
-	        return { name: v[0], value: v };
+	        return { name: v[0].toString() + v[1].toString(), value: v };
 	    });
-	
 	    return namedData;
 	};
 	
@@ -73359,6 +73361,44 @@
 	    };
 	};
 	
+	var contractLabelData = function contractLabelData() {
+	    var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    var _ref2$size = _ref2.size;
+	    var size = _ref2$size === undefined ? [60, 40] : _ref2$size;
+	    return {
+	        symbol: 'rect',
+	        symbolSize: size,
+	        symbolOffset: [0, 50],
+	        label: {
+	            normal: {
+	                show: false,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'blue',
+	                    fontSize: 12
+	                }
+	            },
+	            emphasis: {
+	                show: true,
+	                position: 'inside',
+	                textStyle: {
+	                    color: 'white',
+	                    fontSize: 12
+	                }
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                color: 'rgba(255, 255, 255, 0)'
+	            },
+	            emphasis: {
+	                color: 'rgb(236, 79, 147)'
+	            }
+	        }
+	    };
+	};
+	
 	var horizontalLastData = function horizontalLastData() {
 	    return {
 	        symbol: 'rect',
@@ -73437,6 +73477,24 @@
 	    return params.seriesName + ': ' + params.value[1];
 	}];
 	
+	var contractFrameFormatter = function contractFrameFormatter(ended) {
+	    if (ended) {
+	        return function (params) {
+	            if (params.dataIndex === 1) {
+	                return 'Entry time\n' + params.value[0];
+	            } else if (params.dataIndex === 2) {
+	                return 'Exit time\n' + params.value[0];
+	            }
+	        };
+	    } else {
+	        return function (params) {
+	            if (params.dataIndex === 1) {
+	                return 'Entry time\n' + params.value[0];
+	            }
+	        };
+	    }
+	};
+	
 	var verticalLineLabel = {
 	    normal: {
 	        formatter: verticalLineFormatter
@@ -73453,32 +73511,35 @@
 	        formatter: horizontalLineFormatters[1]
 	    }
 	};
-	
-	var dottedLineStyle = function dottedLineStyle() {
-	    var color1 = arguments.length <= 0 || arguments[0] === undefined ? 'rgb(242, 150, 89)' : arguments[0];
-	    var color2 = arguments.length <= 1 || arguments[1] === undefined ? 'rgb(250, 104, 7)' : arguments[1];
+	var contractFrameLabel = function contractFrameLabel(ended) {
 	    return {
 	        normal: {
-	            color: color1,
-	            type: 'dashed',
-	            width: 1
+	            formatter: contractFrameFormatter(ended)
 	        },
 	        emphasis: {
-	            color: color2,
-	            type: 'solid',
-	            width: 2
+	            formatter: contractFrameFormatter(ended)
+	        }
+	    };
+	};
+	
+	var dashedLineStyle = function dashedLineStyle(color) {
+	    return {
+	        normal: {
+	            color: color,
+	            type: 'dashed',
+	            width: 1
 	        }
 	    };
 	};
 	
 	var decorateVerticalLineSeries = exports.decorateVerticalLineSeries = function decorateVerticalLineSeries(series) {
 	    var lastData = series.data[1]; // straight line has only 2 data
-	    var styleLastData = Object.assign(verticalLastData({ test: 'watever' }), lastData);
+	    var styleLastData = Object.assign(verticalLastData(), lastData);
 	    series.data[1] = styleLastData;
 	
 	    var seriesWithFormatter = Object.assign({ label: verticalLineLabel }, series);
 	
-	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
+	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
 	};
 	
 	var decorateHorizontalLineSeries = exports.decorateHorizontalLineSeries = function decorateHorizontalLineSeries(series) {
@@ -73492,7 +73553,7 @@
 	        animationDuration: 10
 	    }, series);
 	
-	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
+	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
 	};
 	
 	// this is special as it should have high priority why overlapping
@@ -73508,7 +73569,36 @@
 	        zlevel: 2
 	    }, series);
 	
-	    return Object.assign(seriesWithFormatter, { lineStyle: dottedLineStyle() });
+	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
+	};
+	
+	var decorateContractFrame = exports.decorateContractFrame = function decorateContractFrame(series) {
+	    var ended = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+	
+	    /**
+	     * convert 2nd data to show label
+	     * label should in the middle
+	     * line is dashed line, color use default
+	     */
+	    var entryData = series.data[1]; // use 2nd data as it's the left top data point
+	    var exitData = ended && series.data[2];
+	
+	    var styleLastData = Object.assign(contractLabelData(), entryData);
+	    series.data[1] = styleLastData;
+	
+	    if (ended) {
+	        series.data[2] = Object.assign(contractLabelData(), exitData);
+	    }
+	
+	    var seriesWithFormatter = Object.assign({
+	        label: contractFrameLabel(ended),
+	        areaStyle: {
+	            normal: {
+	                opacity: 0.2
+	            }
+	        }
+	    }, series);
+	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle() });
 	};
 
 /***/ }
