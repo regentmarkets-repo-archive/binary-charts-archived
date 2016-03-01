@@ -35,7 +35,7 @@ const series = createSeriesAsLine('Test', testData, barriers, points);
 const staticChartTitle = createTitle('Static base chart');
 const dynamicChartTitle = createTitle('Dynamic base chart');
 
-ReactDOM.render(<BaseChart title={staticChartTitle} series={[series]} />, document.getElementById('base-chart'));
+ReactDOM.render(<BaseChart className="chart" title={staticChartTitle} series={[series]} />, document.getElementById('base-chart'));
 
 const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
     "use strict";
@@ -50,6 +50,7 @@ const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
     const updatedSeries = createSeriesAsLine('Test', newData, barriers, points);
     ReactDOM.render(
         <BaseChart
+            className="chart"
             title={dynamicChartTitle}
             series={[updatedSeries]}
         />, document.getElementById('dynamic-base-chart'));
@@ -78,6 +79,7 @@ const contracts = [{
 
 ReactDOM.render(
     <RiseFallChart
+        className="chart"
         title={riseFallTitle}
         data={testData}
         contracts={contracts}
@@ -99,6 +101,7 @@ const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
     }
     ReactDOM.render(
         <RiseFallChart
+            className="chart"
             title="Dynamic Rise Fall"
             data={newData}
             contracts={contracts}

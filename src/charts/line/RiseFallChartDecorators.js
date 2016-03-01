@@ -218,7 +218,7 @@ export const decorateCurrentSpotLine = series => {
         label: horizontalLineLabel,
         animation: true,
         animationDuration: 10,
-        zlevel: 2,
+        z: 3,
     }, series)
 
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
