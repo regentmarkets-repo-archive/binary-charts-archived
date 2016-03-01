@@ -101,7 +101,7 @@ const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
     }
     ReactDOM.render(
         <RiseFallChart
-            className="chart"
+            className="resizable-chart"
             title="Dynamic Rise Fall"
             data={newData}
             contracts={contracts}

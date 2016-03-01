@@ -2,3 +2,17 @@
     height: 400px;
     width: 700px;
 }
+
+.resizable {
+    resize: both;
+    overflow: auto;
+    height: 500px;
+    width: 800px;
+    border: 2px solid;
+    margin-bottom: 20px;
+}
+
+.resizable-chart {
+    height: 90%;
+    width: 90%;
+}

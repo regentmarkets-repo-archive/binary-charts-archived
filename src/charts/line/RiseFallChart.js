@@ -7,16 +7,17 @@ import BaseChart from '../BaseChart';
 import * as dataUtil from '../../utils/DataUtils';
 import * as rfDecorators from './RiseFallChartDecorators';
 
-const riseFallToolTip = createTooltip({
+const riseFallToolTip = (width, height) => createTooltip({
     triggerOn: 'mousemove',
     trigger: 'axis',
     tooltipFormatter: (params) => {
-    "use strict";
-    const param0 = params[0];
-    const seriesName = param0.seriesName;
-    const value = param0.value;
-    return `${seriesName}<br />Time: ${value[0]}<br />Spot:${value[1]}`;
-    }
+        const param0 = params[0];
+        const seriesName = param0.seriesName;
+        const value = param0.value;
+        return `${seriesName}<br />Time: ${value[0]}<br />Spot:${value[1]}`;
+    },
+    width,
+    height,
 });
 
 const createContractFrame = (current, entry, exit, yMin, yMax) => {
@@ -63,7 +64,7 @@ export default class RiseFallChart extends Component {
     };
 
     static propTypes = {
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
         data: PropTypes.array,
         symbol: PropTypes.string,
         contracts: PropTypes.arrayOf(PropTypes.shape({
@@ -77,22 +78,10 @@ export default class RiseFallChart extends Component {
         yFormatter: PropTypes.func.isRequired,
     };
 
-    static entryPointFormatter = (params) => {
-        const value = params.data[0].coord;
-        return `Enter Time: ${value[0]}`;
-    };
-    static exitPointFormatter = (params) => {
-        const idx = params.dataIndex;
-        const value = params.data[0].coord;
-        return `Exit Time: ${value[0]}`;
-    };
-    static entryPriceFormatter = (params) => {
-        const value = params.data[0].coord;
-        return `Enter Price: ${value[1]}`;
-    };
-
-    updateXMinMax(xMin, xMax) {
-        this.seState({xMin, xMax});
+    getEchartInstance(baseChart) {
+        if (baseChart) {
+            this.echart = baseChart.echart;
+        }
     }
 
     render() {
@@ -124,6 +113,9 @@ export default class RiseFallChart extends Component {
 
         const allContractsLegend = contracts && createLegendForContracts(contracts);
 
+        const width = this.echart && this.echart.getWidth();
+        const height = this.echart && this.echart.getHeight();
+
         const allContractsSeries = contracts && contracts.map(c => {
             const entry = c.entry;
             const exit = c.exit;
@@ -133,8 +125,28 @@ export default class RiseFallChart extends Component {
             const contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
             const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(`${c.id}'s entry spot`, entrySpotData);
 
-            const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
-            const styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
+            const labeledEntrySpotSeries =
+                this.echart ?
+                rfDecorators.decorateHorizontalLineSeries({
+                    series: entrySpotSeries,
+                    width: width,
+                    height: height,
+                }) :
+                rfDecorators.decorateHorizontalLineSeries({series: entrySpotSeries});
+
+            const styledContractFrame =
+                this.echart ?
+                    rfDecorators.decorateContractFrame({
+                        series: contractFrameSeries,
+                        height: width,
+                        width: height,
+                        ended: !!exit
+                    }) :
+                    rfDecorators.decorateContractFrame({
+                        series: contractFrameSeries,
+                        ended: !!exit
+                    });
+
             return [labeledEntrySpotSeries, styledContractFrame];
         });
 
@@ -144,8 +156,14 @@ export default class RiseFallChart extends Component {
 
         // decorate with style
         const dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
-        const labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
-
+        const labeledCurrentSpotSeries =
+            this.echart ?
+                rfDecorators.decorateCurrentSpotLine({
+                    series: currentSpotSeries,
+                    height: height,
+                    width: width,
+                }) :
+                rfDecorators.decorateCurrentSpotLine({series: currentSpotSeries});
 
         let series = [];
         if (dataSeries) series.push(dataSeriesWithAreaStyle);
@@ -157,7 +175,11 @@ export default class RiseFallChart extends Component {
 
         series.push(labeledCurrentSpotSeries);
 
-        const tt = createTitle(title);
+        const tt = title && createTitle(title);
+
+        const tooltip = this.echart ?
+            riseFallToolTip(width, height) :
+            riseFallToolTip();
 
         const xAxis = Object.assign({
             min: xMin,
@@ -182,8 +204,9 @@ export default class RiseFallChart extends Component {
                 series={series}
                 xAxis={xAxis}
                 yAxis={yAxis}
-                tooltip={riseFallToolTip}
+                tooltip={tooltip}
                 legend={allContractsLegend}
+                ref={this.getEchartInstance.bind(this)}
             />
         );
     }

@@ -15,15 +15,6 @@ export default class BaseChart extends Component {
         color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
         xAxis: createXAxis('X axis'),
         yAxis: createYAxis('Y axis'),
-        tooltip: createTooltip({
-            triggerOn: 'mousemove',
-            trigger: 'axis',
-            tooltipFormatter: (params) => {
-                const x = params[0].value[0];
-                const y = params[0].value[1];
-                return `${x}: ${y}`;
-            }
-        }),
         dataZoom: createDefaultDataZoom(),
         title: createTitle('BaseChart'),
     };
@@ -89,13 +80,15 @@ export default class BaseChart extends Component {
     }
 
     componentDidUpdate(nextProps) {
-        const {series, xAxis, yAxis} = nextProps;
+        const {series, xAxis, yAxis, legend, tooltip} = nextProps;
         const opts = {};
         if (series) opts.series = series;
         if (xAxis) opts.xAxis = xAxis;
         if (yAxis) opts.yAxis = yAxis;
+        if (legend) opts.legend = legend;
+        if (tooltip) opts.tooltip = tooltip;
 
-        this.updateCharts(opts, false, true);
+        this.updateCharts(opts);
         this.echart.resize();
     }
 

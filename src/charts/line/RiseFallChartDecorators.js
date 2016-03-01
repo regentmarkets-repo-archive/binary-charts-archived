@@ -191,10 +191,9 @@ export const decorateVerticalLineSeries = (series) => {
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
 };
 
-export const decorateHorizontalLineSeries = series => {
+export const decorateHorizontalLineSeries = ({series, height: height = 400, width: width = 700}) => {
     const lastData = series.data[1];                // straight line has only 2 data
-    const styleLastData = Object.assign(horizontalLastData(), lastData);
-    series.data[1] = styleLastData;
+    series.data[1] = Object.assign(horizontalLastData({height, width}), lastData);
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
@@ -205,9 +204,9 @@ export const decorateHorizontalLineSeries = series => {
 };
 
 // this is special as it should have high priority why overlapping
-export const decorateCurrentSpotLine = series => {
+export const decorateCurrentSpotLine = ({series, width: width = 700, height: height = 400}) => {
     const lastData = series.data[1];                // straight line has only 2 data
-    const styleLastData = Object.assign(currentSpotLData(), lastData);
+    const styleLastData = Object.assign(currentSpotLData({width, height}), lastData);
     series.data[1] = styleLastData;
 
     const seriesWithFormatter = Object.assign({
@@ -219,7 +218,7 @@ export const decorateCurrentSpotLine = series => {
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
 };
 
-export const decorateContractFrame = (series, ended = true) => {
+export const decorateContractFrame = ({series, ended: ended = true, height: height = 400, width: width = 700}) => {
     /**
      * convert 2nd data to show label
      * label should in the middle
@@ -228,10 +227,10 @@ export const decorateContractFrame = (series, ended = true) => {
     const entryData = series.data[1];                // use 2nd data as it's the left top data point
     const exitData = ended && series.data[2];
 
-    series.data[1] = Object.assign(contractLabelData(), entryData);
+    series.data[1] = Object.assign(contractLabelData({height, width}), entryData);
 
     if (ended) {
-        series.data[2] = Object.assign(contractLabelData(), exitData);
+        series.data[2] = Object.assign(contractLabelData({height, width}), exitData);
     }
 
     const seriesWithFormatter = Object.assign({

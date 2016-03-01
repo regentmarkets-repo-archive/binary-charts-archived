@@ -151,7 +151,7 @@
 	            newData = d.concat([[lastData[0] + 2, randomNum()]]);
 	        }
 	        _reactDom2.default.render(_react2.default.createElement(_RiseFallChart2.default, {
-	            className: 'chart',
+	            className: 'resizable-chart',
 	            title: 'Dynamic Rise Fall',
 	            data: newData,
 	            contracts: contracts,
@@ -236,13 +236,17 @@
 	            var series = nextProps.series;
 	            var xAxis = nextProps.xAxis;
 	            var yAxis = nextProps.yAxis;
+	            var legend = nextProps.legend;
+	            var tooltip = nextProps.tooltip;
 	
 	            var opts = {};
 	            if (series) opts.series = series;
 	            if (xAxis) opts.xAxis = xAxis;
 	            if (yAxis) opts.yAxis = yAxis;
+	            if (legend) opts.legend = legend;
+	            if (tooltip) opts.tooltip = tooltip;
 	
-	            this.updateCharts(opts, false, true);
+	            this.updateCharts(opts);
 	            this.echart.resize();
 	        }
 	    }, {
@@ -281,15 +285,6 @@
 	    color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
 	    xAxis: (0, _Axis.createXAxis)('X axis'),
 	    yAxis: (0, _Axis.createYAxis)('Y axis'),
-	    tooltip: (0, _Tooltip.createTooltip)({
-	        triggerOn: 'mousemove',
-	        trigger: 'axis',
-	        tooltipFormatter: function tooltipFormatter(params) {
-	            var x = params[0].value[0];
-	            var y = params[0].value[1];
-	            return x + ': ' + y;
-	        }
-	    }),
 	    dataZoom: (0, _DataZoom.createDefaultDataZoom)(),
 	    title: (0, _Title.createTitle)('BaseChart')
 	};
@@ -72781,8 +72776,8 @@
 	        right: "10%",
 	        top: "10%",
 	        bottom: 60,
-	        width: width * 0.9,
-	        height: height * 0.9 - 60,
+	        width: 'auto',
+	        height: 'auto',
 	        show: true,
 	        containLabel: true
 	    };
@@ -73014,18 +73009,20 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var riseFallToolTip = (0, _Tooltip.createTooltip)({
-	    triggerOn: 'mousemove',
-	    trigger: 'axis',
-	    tooltipFormatter: function tooltipFormatter(params) {
-	        "use strict";
-	
-	        var param0 = params[0];
-	        var seriesName = param0.seriesName;
-	        var value = param0.value;
-	        return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
-	    }
-	});
+	var riseFallToolTip = function riseFallToolTip(width, height) {
+	    return (0, _Tooltip.createTooltip)({
+	        triggerOn: 'mousemove',
+	        trigger: 'axis',
+	        tooltipFormatter: function tooltipFormatter(params) {
+	            var param0 = params[0];
+	            var seriesName = param0.seriesName;
+	            var value = param0.value;
+	            return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
+	        },
+	        width: width,
+	        height: height
+	    });
+	};
 	
 	var createContractFrame = function createContractFrame(current, entry, exit, yMin, yMax) {
 	    if (!entry) return undefined;
@@ -73088,13 +73085,17 @@
 	    }
 	
 	    _createClass(RiseFallChart, [{
-	        key: 'updateXMinMax',
-	        value: function updateXMinMax(xMin, xMax) {
-	            this.seState({ xMin: xMin, xMax: xMax });
+	        key: 'getEchartInstance',
+	        value: function getEchartInstance(baseChart) {
+	            if (baseChart) {
+	                this.echart = baseChart.echart;
+	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+	
 	            var _props = this.props;
 	            var data = _props.data;
 	            var contracts = _props.contracts;
@@ -73124,6 +73125,9 @@
 	
 	            var allContractsLegend = contracts && createLegendForContracts(contracts);
 	
+	            var width = this.echart && this.echart.getWidth();
+	            var height = this.echart && this.echart.getHeight();
+	
 	            var allContractsSeries = contracts && contracts.map(function (c) {
 	                var entry = c.entry;
 	                var exit = c.exit;
@@ -73133,8 +73137,22 @@
 	                var contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
 	                var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(c.id + '\'s entry spot', entrySpotData);
 	
-	                var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
-	                var styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
+	                var labeledEntrySpotSeries = _this2.echart ? rfDecorators.decorateHorizontalLineSeries({
+	                    series: entrySpotSeries,
+	                    width: width,
+	                    height: height
+	                }) : rfDecorators.decorateHorizontalLineSeries({ series: entrySpotSeries });
+	
+	                var styledContractFrame = _this2.echart ? rfDecorators.decorateContractFrame({
+	                    series: contractFrameSeries,
+	                    height: width,
+	                    width: height,
+	                    ended: !!exit
+	                }) : rfDecorators.decorateContractFrame({
+	                    series: contractFrameSeries,
+	                    ended: !!exit
+	                });
+	
 	                return [labeledEntrySpotSeries, styledContractFrame];
 	            });
 	
@@ -73144,7 +73162,11 @@
 	
 	            // decorate with style
 	            var dataSeriesWithAreaStyle = lineData.decorateSeriesWithAreaStyle(dataSeries);
-	            var labeledCurrentSpotSeries = rfDecorators.decorateCurrentSpotLine(currentSpotSeries);
+	            var labeledCurrentSpotSeries = this.echart ? rfDecorators.decorateCurrentSpotLine({
+	                series: currentSpotSeries,
+	                height: height,
+	                width: width
+	            }) : rfDecorators.decorateCurrentSpotLine({ series: currentSpotSeries });
 	
 	            var series = [];
 	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
@@ -73156,7 +73178,9 @@
 	
 	            series.push(labeledCurrentSpotSeries);
 	
-	            var tt = (0, _Title.createTitle)(title);
+	            var tt = title && (0, _Title.createTitle)(title);
+	
+	            var tooltip = this.echart ? riseFallToolTip(width, height) : riseFallToolTip();
 	
 	            var xAxis = Object.assign({
 	                min: xMin,
@@ -73179,8 +73203,9 @@
 	                series: series,
 	                xAxis: xAxis,
 	                yAxis: yAxis,
-	                tooltip: riseFallToolTip,
-	                legend: allContractsLegend
+	                tooltip: tooltip,
+	                legend: allContractsLegend,
+	                ref: this.getEchartInstance.bind(this)
 	            }));
 	        }
 	    }]);
@@ -73196,7 +73221,7 @@
 	    yFormatter: spotFormatter(0)
 	};
 	RiseFallChart.propTypes = {
-	    title: _react.PropTypes.string.isRequired,
+	    title: _react.PropTypes.string,
 	    data: _react.PropTypes.array,
 	    symbol: _react.PropTypes.string,
 	    contracts: _react.PropTypes.arrayOf(_react.PropTypes.shape({
@@ -73209,23 +73234,6 @@
 	    xFormatter: _react.PropTypes.func.isRequired,
 	    yFormatter: _react.PropTypes.func.isRequired
 	};
-	
-	RiseFallChart.entryPointFormatter = function (params) {
-	    var value = params.data[0].coord;
-	    return 'Enter Time: ' + value[0];
-	};
-	
-	RiseFallChart.exitPointFormatter = function (params) {
-	    var idx = params.dataIndex;
-	    var value = params.data[0].coord;
-	    return 'Exit Time: ' + value[0];
-	};
-	
-	RiseFallChart.entryPriceFormatter = function (params) {
-	    var value = params.data[0].coord;
-	    return 'Enter Price: ' + value[1];
-	};
-	
 	exports.default = RiseFallChart;
 
 /***/ },
@@ -73671,10 +73679,15 @@
 	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
 	};
 	
-	var decorateHorizontalLineSeries = exports.decorateHorizontalLineSeries = function decorateHorizontalLineSeries(series) {
+	var decorateHorizontalLineSeries = exports.decorateHorizontalLineSeries = function decorateHorizontalLineSeries(_ref5) {
+	    var series = _ref5.series;
+	    var _ref5$height = _ref5.height;
+	    var height = _ref5$height === undefined ? 400 : _ref5$height;
+	    var _ref5$width = _ref5.width;
+	    var width = _ref5$width === undefined ? 700 : _ref5$width;
+	
 	    var lastData = series.data[1]; // straight line has only 2 data
-	    var styleLastData = Object.assign(horizontalLastData(), lastData);
-	    series.data[1] = styleLastData;
+	    series.data[1] = Object.assign(horizontalLastData({ height: height, width: width }), lastData);
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
@@ -73685,9 +73698,15 @@
 	};
 	
 	// this is special as it should have high priority why overlapping
-	var decorateCurrentSpotLine = exports.decorateCurrentSpotLine = function decorateCurrentSpotLine(series) {
+	var decorateCurrentSpotLine = exports.decorateCurrentSpotLine = function decorateCurrentSpotLine(_ref6) {
+	    var series = _ref6.series;
+	    var _ref6$width = _ref6.width;
+	    var width = _ref6$width === undefined ? 700 : _ref6$width;
+	    var _ref6$height = _ref6.height;
+	    var height = _ref6$height === undefined ? 400 : _ref6$height;
+	
 	    var lastData = series.data[1]; // straight line has only 2 data
-	    var styleLastData = Object.assign(currentSpotLData(), lastData);
+	    var styleLastData = Object.assign(currentSpotLData({ width: width, height: height }), lastData);
 	    series.data[1] = styleLastData;
 	
 	    var seriesWithFormatter = Object.assign({
@@ -73699,8 +73718,14 @@
 	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
 	};
 	
-	var decorateContractFrame = exports.decorateContractFrame = function decorateContractFrame(series) {
-	    var ended = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+	var decorateContractFrame = exports.decorateContractFrame = function decorateContractFrame(_ref7) {
+	    var series = _ref7.series;
+	    var _ref7$ended = _ref7.ended;
+	    var ended = _ref7$ended === undefined ? true : _ref7$ended;
+	    var _ref7$height = _ref7.height;
+	    var height = _ref7$height === undefined ? 400 : _ref7$height;
+	    var _ref7$width = _ref7.width;
+	    var width = _ref7$width === undefined ? 700 : _ref7$width;
 	
 	    /**
 	     * convert 2nd data to show label
@@ -73710,10 +73735,10 @@
 	    var entryData = series.data[1]; // use 2nd data as it's the left top data point
 	    var exitData = ended && series.data[2];
 	
-	    series.data[1] = Object.assign(contractLabelData(), entryData);
+	    series.data[1] = Object.assign(contractLabelData({ height: height, width: width }), entryData);
 	
 	    if (ended) {
-	        series.data[2] = Object.assign(contractLabelData(), exitData);
+	        series.data[2] = Object.assign(contractLabelData({ height: height, width: width }), exitData);
 	    }
 	
 	    var seriesWithFormatter = Object.assign({
