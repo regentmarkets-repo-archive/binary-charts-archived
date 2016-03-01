@@ -106,7 +106,7 @@ const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
             data={newData}
             contracts={contracts}
             symbol="Random 100"
-            xOffsetPercentage={0.2}
+            xOffsetPercentage={0.05}
             yOffsetPercentage={2}
         />,
         document.getElementById('dynamic-rise-fall-chart')

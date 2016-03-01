@@ -156,7 +156,7 @@
 	            data: newData,
 	            contracts: contracts,
 	            symbol: 'Random 100',
-	            xOffsetPercentage: 0.2,
+	            xOffsetPercentage: 0.05,
 	            yOffsetPercentage: 2
 	        }), document.getElementById('dynamic-rise-fall-chart'));
 	        dynamicRiseFallChart(newData);
@@ -243,6 +243,7 @@
 	            if (yAxis) opts.yAxis = yAxis;
 	
 	            this.updateCharts(opts, false, true);
+	            this.echart.resize();
 	        }
 	    }, {
 	        key: 'compilePropsToOption',
@@ -280,10 +281,14 @@
 	    color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
 	    xAxis: (0, _Axis.createXAxis)('X axis'),
 	    yAxis: (0, _Axis.createYAxis)('Y axis'),
-	    tooltip: (0, _Tooltip.createTooltip)('mousemove', 'axis', function (params) {
-	        var x = params[0].value[0];
-	        var y = params[0].value[1];
-	        return x + ': ' + y;
+	    tooltip: (0, _Tooltip.createTooltip)({
+	        triggerOn: 'mousemove',
+	        trigger: 'axis',
+	        tooltipFormatter: function tooltipFormatter(params) {
+	            var x = params[0].value[0];
+	            var y = params[0].value[1];
+	            return x + ': ' + y;
+	        }
 	    }),
 	    dataZoom: (0, _DataZoom.createDefaultDataZoom)(),
 	    title: (0, _Title.createTitle)('BaseChart')
@@ -293,10 +298,10 @@
 	        data: _react.PropTypes.array
 	    }),
 	    grid: _react.PropTypes.shape({
-	        left: _react.PropTypes.string,
-	        right: _react.PropTypes.string,
-	        top: _react.PropTypes.string,
-	        bottom: _react.PropTypes.string
+	        left: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number]),
+	        right: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number]),
+	        top: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number]),
+	        bottom: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number])
 	    }),
 	    xAxis: _react.PropTypes.shape({
 	        name: _react.PropTypes.string.isRequired,
@@ -72759,21 +72764,25 @@
 /* 502 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	var createGrid = exports.createGrid = function createGrid() {
-	    var left = arguments.length <= 0 || arguments[0] === undefined ? 'auto' : arguments[0];
-	    var right = arguments.length <= 1 || arguments[1] === undefined ? '10%' : arguments[1];
-	    var top = arguments.length <= 2 || arguments[2] === undefined ? '60' : arguments[2];
-	    var bottom = arguments.length <= 3 || arguments[3] === undefined ? '60' : arguments[3];
+	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    var _ref$width = _ref.width;
+	    var width = _ref$width === undefined ? 700 : _ref$width;
+	    var _ref$height = _ref.height;
+	    var height = _ref$height === undefined ? 400 : _ref$height;
 	    return {
-	        left: left,
-	        right: right,
-	        top: top,
-	        bottom: bottom,
+	        left: "5%",
+	        right: "10%",
+	        top: "10%",
+	        bottom: 60,
+	        width: width * 0.9,
+	        height: height * 0.9 - 60,
 	        show: true,
 	        containLabel: true
 	    };
@@ -72845,7 +72854,6 @@
 	    var type = arguments.length <= 2 || arguments[2] === undefined ? 'value' : arguments[2];
 	    var position = arguments.length <= 3 || arguments[3] === undefined ? 'right' : arguments[3];
 	    var axisLine = arguments.length <= 4 || arguments[4] === undefined ? createAxisLine() : arguments[4];
-	    var axisTick = arguments.length <= 5 || arguments[5] === undefined ? createAxisTick() : arguments[5];
 	    if (!type || type === 'category') {
 	        if (!data) {
 	            throw new Error('There should be data for category axis');
@@ -72857,8 +72865,7 @@
 	        type: type,
 	        scale: true,
 	        position: position,
-	        axisLine: axisLine,
-	        axisTick: axisTick
+	        axisLine: axisLine
 	    };
 	
 	    return yAxis;
@@ -72912,12 +72919,19 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var createTooltip = exports.createTooltip = function createTooltip(triggerOn, trigger, tooltipFormatter) {
+	var createTooltip = exports.createTooltip = function createTooltip(_ref) {
+	    var triggerOn = _ref.triggerOn;
+	    var trigger = _ref.trigger;
+	    var tooltipFormatter = _ref.tooltipFormatter;
+	    var _ref$width = _ref.width;
+	    var width = _ref$width === undefined ? 700 : _ref$width;
+	    var _ref$height = _ref.height;
+	    var height = _ref$height === undefined ? 400 : _ref$height;
 	    return {
 	        trigger: trigger,
 	        triggerOn: triggerOn,
 	        formatter: tooltipFormatter,
-	        position: [10, 40],
+	        position: [width * 0.07, "12%"],
 	        alwaysShowContent: true,
 	        transitionDuration: 0,
 	        axisPointer: {
@@ -73000,16 +73014,20 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var riseFallToolTip = (0, _Tooltip.createTooltip)('mousemove', 'axis', function (params) {
-	    "use strict";
+	var riseFallToolTip = (0, _Tooltip.createTooltip)({
+	    triggerOn: 'mousemove',
+	    trigger: 'axis',
+	    tooltipFormatter: function tooltipFormatter(params) {
+	        "use strict";
 	
-	    var param0 = params[0];
-	    var seriesName = param0.seriesName;
-	    var value = param0.value;
-	    return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
+	        var param0 = params[0];
+	        var seriesName = param0.seriesName;
+	        var value = param0.value;
+	        return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
+	    }
 	});
 	
-	var createContractFrame = function createContractFrame(current, entry, exit, xMin, xMax, yMin, yMax) {
+	var createContractFrame = function createContractFrame(current, entry, exit, yMin, yMax) {
 	    if (!entry) return undefined;
 	    var frameStartData = [[entry[0], yMin], [entry[0], yMax]];
 	    var frameEndData = exit ? [[exit[0], yMax], [exit[0], yMin]] : [[current[0], yMax], [current[0], yMin]];
@@ -73019,13 +73037,13 @@
 	
 	var createLegendForContracts = function createLegendForContracts(contracts) {
 	    var legendData = contracts.map(function (c) {
-	        return {
-	            name: c.id
-	        };
+	        return [{ name: c.id }, { name: c.id + '\'s entry spot' }];
 	    });
 	
 	    return {
-	        data: legendData
+	        data: legendData.reduce(function (a, b) {
+	            return a.concat(b);
+	        })
 	    };
 	};
 	
@@ -73096,7 +73114,7 @@
 	            var xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);
 	            var yOffset = dataUtil.getYBoundaryInValue(data, yOffsetPercentage);
 	
-	            var xMin = xOffset[0];
+	            var xMin = data[0][0];
 	            var xMax = xOffset[1];
 	            var yMin = yOffset[0];
 	            var yMax = yOffset[1];
@@ -73110,10 +73128,10 @@
 	                var entry = c.entry;
 	                var exit = c.exit;
 	                var entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
-	                var contractFrameData = createContractFrame(currentSpot, entry, exit, xMin, xMax, yMin, yMax);
+	                var contractFrameData = createContractFrame(currentSpot, entry, exit, yMin, yMax);
 	
 	                var contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
-	                var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(c.id, entrySpotData);
+	                var entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(c.id + '\'s entry spot', entrySpotData);
 	
 	                var labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
 	                var styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
@@ -73141,16 +73159,16 @@
 	            var tt = (0, _Title.createTitle)(title);
 	
 	            var xAxis = Object.assign({
-	                min: xOffset[0],
-	                max: xOffset[1],
+	                min: xMin,
+	                max: xMax,
 	                axisLabel: {
 	                    formatter: xFormatter
 	                }
 	            }, (0, _Axis.createXAxis)('Time'));
 	
 	            var yAxis = Object.assign({
-	                min: yOffset[0],
-	                max: yOffset[1],
+	                min: yMin,
+	                max: yMax,
 	                axisLabel: {
 	                    formatter: yFormatter
 	                }
@@ -73175,7 +73193,7 @@
 	    xOffsetPercentage: 0.1,
 	    yOffsetPercentage: 0.7,
 	    xFormatter: epochFormatter(),
-	    yFormatter: spotFormatter()
+	    yFormatter: spotFormatter(0)
 	};
 	RiseFallChart.propTypes = {
 	    title: _react.PropTypes.string.isRequired,
@@ -73420,11 +73438,15 @@
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
 	    var _ref$size = _ref.size;
-	    var size = _ref$size === undefined ? [60, 40] : _ref$size;
+	    var size = _ref$size === undefined ? [60, 30] : _ref$size;
+	    var _ref$width = _ref.width;
+	    var width = _ref$width === undefined ? 700 : _ref$width;
+	    var _ref$height = _ref.height;
+	    var height = _ref$height === undefined ? 400 : _ref$height;
 	    return {
 	        symbol: 'rect',
 	        symbolSize: size,
-	        symbolOffset: [0, 50],
+	        symbolOffset: [0, height * 0.1],
 	        label: {
 	            normal: {
 	                show: true,
@@ -73459,10 +73481,14 @@
 	
 	    var _ref2$size = _ref2.size;
 	    var size = _ref2$size === undefined ? [60, 40] : _ref2$size;
+	    var _ref2$width = _ref2.width;
+	    var width = _ref2$width === undefined ? 700 : _ref2$width;
+	    var _ref2$height = _ref2.height;
+	    var height = _ref2$height === undefined ? 400 : _ref2$height;
 	    return {
 	        symbol: 'rect',
 	        symbolSize: size,
-	        symbolOffset: [0, 50],
+	        symbolOffset: [0, height * 0.1],
 	        label: {
 	            normal: {
 	                show: false,
@@ -73493,14 +73519,20 @@
 	};
 	
 	var horizontalLastData = function horizontalLastData() {
+	    var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    var _ref3$width = _ref3.width;
+	    var width = _ref3$width === undefined ? 700 : _ref3$width;
+	    var _ref3$height = _ref3.height;
+	    var height = _ref3$height === undefined ? 400 : _ref3$height;
 	    return {
 	        symbol: 'rect',
-	        symbolSize: [30, 15],
-	        symbolOffset: [20, 0],
+	        symbolSize: [width * 0.1, 15],
+	        symbolOffset: [width * 0.05, 0],
 	        label: {
 	            normal: {
 	                show: true,
-	                position: 'inside',
+	                position: [8, 0], // 8 is the default margin of label to axis line
 	                textStyle: {
 	                    color: 'white',
 	                    fontSize: 12
@@ -73508,7 +73540,7 @@
 	            },
 	            emphasis: {
 	                show: true,
-	                position: [7, 0],
+	                position: [8, 0],
 	                textStyle: {
 	                    color: 'red',
 	                    fontSize: 12
@@ -73527,14 +73559,20 @@
 	};
 	
 	var currentSpotLData = function currentSpotLData() {
+	    var _ref4 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	    var _ref4$width = _ref4.width;
+	    var width = _ref4$width === undefined ? 700 : _ref4$width;
+	    var _ref4$height = _ref4.height;
+	    var height = _ref4$height === undefined ? 400 : _ref4$height;
 	    return {
 	        symbol: 'rect',
-	        symbolSize: [30, 15],
-	        symbolOffset: [20, 0],
+	        symbolSize: [width * 0.1, 15],
+	        symbolOffset: [width * 0.05, 0],
 	        label: {
 	            normal: {
 	                show: true,
-	                position: 'inside',
+	                position: [8, 0],
 	                textStyle: {
 	                    color: 'white',
 	                    fontSize: 12
@@ -73542,7 +73580,7 @@
 	            },
 	            emphasis: {
 	                show: true,
-	                position: [7, 0],
+	                position: [8, 0],
 	                textStyle: {
 	                    color: 'green',
 	                    fontSize: 12
@@ -73564,11 +73602,9 @@
 	    return params.seriesName + ' \n' + params.value[0];
 	};
 	
-	var horizontalLineFormatters = [function (params) {
+	var horizontalLineFormatter = function horizontalLineFormatter(params) {
 	    return '' + params.value[1];
-	}, function (params) {
-	    return params.seriesName + ': ' + params.value[1];
-	}];
+	};
 	
 	var contractFrameFormatter = function contractFrameFormatter(ended) {
 	    if (ended) {
@@ -73598,10 +73634,10 @@
 	};
 	var horizontalLineLabel = {
 	    normal: {
-	        formatter: horizontalLineFormatters[0]
+	        formatter: horizontalLineFormatter
 	    },
 	    emphasis: {
-	        formatter: horizontalLineFormatters[1]
+	        formatter: horizontalLineFormatter
 	    }
 	};
 	var contractFrameLabel = function contractFrameLabel(ended) {
@@ -73642,8 +73678,7 @@
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
-	        animation: true,
-	        animationDuration: 10
+	        animation: false
 	    }, series);
 	
 	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
@@ -73657,8 +73692,7 @@
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
-	        animation: true,
-	        animationDuration: 10,
+	        animation: false,
 	        z: 3
 	    }, series);
 	
@@ -73676,8 +73710,7 @@
 	    var entryData = series.data[1]; // use 2nd data as it's the left top data point
 	    var exitData = ended && series.data[2];
 	
-	    var styleLastData = Object.assign(contractLabelData(), entryData);
-	    series.data[1] = styleLastData;
+	    series.data[1] = Object.assign(contractLabelData(), entryData);
 	
 	    if (ended) {
 	        series.data[2] = Object.assign(contractLabelData(), exitData);

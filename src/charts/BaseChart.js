@@ -15,10 +15,14 @@ export default class BaseChart extends Component {
         color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
         xAxis: createXAxis('X axis'),
         yAxis: createYAxis('Y axis'),
-        tooltip: createTooltip('mousemove', 'axis', (params) => {
-            const x = params[0].value[0];
-            const y = params[0].value[1];
-            return `${x}: ${y}`;
+        tooltip: createTooltip({
+            triggerOn: 'mousemove',
+            trigger: 'axis',
+            tooltipFormatter: (params) => {
+                const x = params[0].value[0];
+                const y = params[0].value[1];
+                return `${x}: ${y}`;
+            }
         }),
         dataZoom: createDefaultDataZoom(),
         title: createTitle('BaseChart'),
@@ -29,10 +33,10 @@ export default class BaseChart extends Component {
             data: PropTypes.array,
         }),
         grid: PropTypes.shape({
-            left: PropTypes.string,
-            right: PropTypes.string,
-            top: PropTypes.string,
-            bottom: PropTypes.string,
+            left: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            right: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            top: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         }),
         xAxis: PropTypes.shape({
             name: PropTypes.string.isRequired,
@@ -92,6 +96,7 @@ export default class BaseChart extends Component {
         if (yAxis) opts.yAxis = yAxis;
 
         this.updateCharts(opts, false, true);
+        this.echart.resize();
     }
 
     compilePropsToOption() {

@@ -42,8 +42,7 @@ export const createYAxis = (
     data = [],
     type = 'value',
     position = 'right',
-    axisLine = createAxisLine(),
-    axisTick = createAxisTick()
+    axisLine = createAxisLine()
 ) => {
     "use strict";
     if (!type || type === 'category') {
@@ -58,7 +57,6 @@ export const createYAxis = (
         scale: true,
         position,
         axisLine,
-        axisTick,
     };
 
     return yAxis;

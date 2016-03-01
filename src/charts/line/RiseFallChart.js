@@ -7,15 +7,19 @@ import BaseChart from '../BaseChart';
 import * as dataUtil from '../../utils/DataUtils';
 import * as rfDecorators from './RiseFallChartDecorators';
 
-const riseFallToolTip = createTooltip('mousemove', 'axis', (params) => {
+const riseFallToolTip = createTooltip({
+    triggerOn: 'mousemove',
+    trigger: 'axis',
+    tooltipFormatter: (params) => {
     "use strict";
     const param0 = params[0];
     const seriesName = param0.seriesName;
     const value = param0.value;
     return `${seriesName}<br />Time: ${value[0]}<br />Spot:${value[1]}`;
+    }
 });
 
-const createContractFrame = (current, entry, exit, xMin, xMax, yMin, yMax) => {
+const createContractFrame = (current, entry, exit, yMin, yMax) => {
     if (!entry) return undefined;
     const frameStartData = [[entry[0], yMin], [entry[0], yMax]];
     const frameEndData = exit ? [[exit[0], yMax], [exit[0], yMin]] : [[current[0], yMax], [current[0], yMin]];
@@ -24,12 +28,13 @@ const createContractFrame = (current, entry, exit, xMin, xMax, yMin, yMax) => {
 };
 
 const createLegendForContracts = (contracts) => {
-    const legendData = contracts.map(c => ({
-        name: c.id,
-    }));
+    const legendData = contracts.map(c => ([
+        {name: c.id,},
+        {name: `${c.id}'s entry spot`}
+    ]));
 
     return {
-        data: legendData
+        data: legendData.reduce((a, b) => a.concat(b))
     };
 };
 
@@ -54,7 +59,7 @@ export default class RiseFallChart extends Component {
         xOffsetPercentage: 0.1,
         yOffsetPercentage: 0.7,
         xFormatter: epochFormatter(),
-        yFormatter: spotFormatter(),
+        yFormatter: spotFormatter(0),
     };
 
     static propTypes = {
@@ -109,7 +114,7 @@ export default class RiseFallChart extends Component {
         const xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);
         const yOffset = dataUtil.getYBoundaryInValue(data, yOffsetPercentage);
 
-        const xMin = xOffset[0];
+        const xMin = data[0][0];
         const xMax = xOffset[1];
         const yMin = yOffset[0];
         const yMax = yOffset[1];
@@ -123,10 +128,10 @@ export default class RiseFallChart extends Component {
             const entry = c.entry;
             const exit = c.exit;
             const entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
-            const contractFrameData = createContractFrame(currentSpot, entry, exit, xMin, xMax, yMin, yMax);
+            const contractFrameData = createContractFrame(currentSpot, entry, exit, yMin, yMax);
 
             const contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
-            const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(c.id, entrySpotData);
+            const entrySpotSeries = entrySpotData && lineData.createSeriesAsLine(`${c.id}'s entry spot`, entrySpotData);
 
             const labeledEntrySpotSeries = rfDecorators.decorateHorizontalLineSeries(entrySpotSeries);
             const styledContractFrame = rfDecorators.decorateContractFrame(contractFrameSeries);
@@ -155,16 +160,16 @@ export default class RiseFallChart extends Component {
         const tt = createTitle(title);
 
         const xAxis = Object.assign({
-            min: xOffset[0],
-            max: xOffset[1],
+            min: xMin,
+            max: xMax,
             axisLabel: {
                 formatter: xFormatter
             }
         }, createXAxis('Time'));
 
         const yAxis = Object.assign({
-            min: yOffset[0],
-            max: yOffset[1],
+            min: yMin,
+            max: yMax,
             axisLabel: {
                 formatter: yFormatter
             }

@@ -1,7 +1,7 @@
-const verticalLastData = ({size: size = [60, 40]} = {}) => ({
+const verticalLastData = ({size: size = [60, 30], width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
     symbolSize: size,
-    symbolOffset: [0, 50],
+    symbolOffset: [0, height * 0.1],
     label: {
         normal: {
             show: true,
@@ -30,10 +30,10 @@ const verticalLastData = ({size: size = [60, 40]} = {}) => ({
     }
 });
 
-const contractLabelData = ({size: size = [60, 40]} = {}) => ({
+const contractLabelData = ({size: size = [60, 40], width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
     symbolSize: size,
-    symbolOffset: [0, 50],
+    symbolOffset: [0, height * 0.1],
     label: {
         normal: {
             show: false,
@@ -62,14 +62,14 @@ const contractLabelData = ({size: size = [60, 40]} = {}) => ({
     }
 });
 
-const horizontalLastData = () => ({
+const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
-    symbolSize: [30, 15],
-    symbolOffset: [20, 0],
+    symbolSize: [width * 0.1, 15],
+    symbolOffset: [width * 0.05, 0],
     label: {
         normal: {
             show: true,
-            position: 'inside',
+            position: [8, 0],           // 8 is the default margin of label to axis line
             textStyle: {
                 color: 'white',
                 fontSize: 12
@@ -77,7 +77,7 @@ const horizontalLastData = () => ({
         },
         emphasis: {
             show: true,
-            position: [7, 0],
+            position: [8, 0],
             textStyle: {
                 color: 'red',
                 fontSize: 12
@@ -94,14 +94,14 @@ const horizontalLastData = () => ({
     }
 });
 
-const currentSpotLData = () => ({
+const currentSpotLData = ({width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
-    symbolSize: [30, 15],
-    symbolOffset: [20, 0],
+    symbolSize: [width * 0.1, 15],
+    symbolOffset: [width * 0.05, 0],
     label: {
         normal: {
             show: true,
-            position: 'inside',
+            position: [8, 0],
             textStyle: {
                 color: 'white',
                 fontSize: 12
@@ -109,7 +109,7 @@ const currentSpotLData = () => ({
         },
         emphasis: {
             show: true,
-            position: [7, 0],
+            position: [8, 0],
             textStyle: {
                 color: 'green',
                 fontSize: 12
@@ -128,10 +128,7 @@ const currentSpotLData = () => ({
 
 const verticalLineFormatter = params => `${params.seriesName} \n${params.value[0]}`;
 
-const horizontalLineFormatters = [
-    params => `${params.value[1]}`,
-    params => `${params.seriesName}: ${params.value[1]}`
-];
+const horizontalLineFormatter = params => `${params.value[1]}`;
 
 const contractFrameFormatter = ended => {
     if (ended) {
@@ -161,10 +158,10 @@ const verticalLineLabel = {
 };
 const horizontalLineLabel = {
     normal: {
-        formatter: horizontalLineFormatters[0],
+        formatter: horizontalLineFormatter,
     },
     emphasis: {
-        formatter: horizontalLineFormatters[1],
+        formatter: horizontalLineFormatter,
     }
 };
 const contractFrameLabel = ended => ({
@@ -201,8 +198,7 @@ export const decorateHorizontalLineSeries = series => {
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
-        animation: true,
-        animationDuration: 10,
+        animation: false,
     }, series)
 
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
@@ -216,8 +212,7 @@ export const decorateCurrentSpotLine = series => {
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
-        animation: true,
-        animationDuration: 10,
+        animation: false,
         z: 3,
     }, series)
 
@@ -233,8 +228,7 @@ export const decorateContractFrame = (series, ended = true) => {
     const entryData = series.data[1];                // use 2nd data as it's the left top data point
     const exitData = ended && series.data[2];
 
-    const styleLastData = Object.assign(contractLabelData(), entryData);
-    series.data[1] = styleLastData;
+    series.data[1] = Object.assign(contractLabelData(), entryData);
 
     if (ended) {
         series.data[2] = Object.assign(contractLabelData(), exitData);
