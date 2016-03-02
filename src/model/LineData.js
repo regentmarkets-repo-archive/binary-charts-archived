@@ -118,4 +118,7 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(0,
 };
 
 export const decorateSeriesWithAreaStyle = (series, areaStyle = {normal: {color: 'rgb(204, 255, 204)'}}) =>
-    Object.assign(series, {areaStyle});
+    Object.assign(series, {
+        areaStyle,
+        animationDuration: 10,
+    });

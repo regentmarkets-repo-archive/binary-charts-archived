@@ -1,3 +1,5 @@
+import * as ld from '../../model/LineData';
+
 const verticalLastData = ({size: size = [60, 30], width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
     symbolSize: size,
@@ -233,13 +235,14 @@ export const decorateContractFrame = ({series, ended: ended = true, height: heig
         series.data[2] = Object.assign(contractLabelData({height, width}), exitData);
     }
 
-    const seriesWithFormatter = Object.assign({
-        label: contractFrameLabel(ended),
-        areaStyle: {
-            normal: {
-                opacity: 0.2
-            }
+    const seriesWithFormatter = ld.decorateSeriesWithAreaStyle(series, {
+        normal: {
+            opacity: 0.2
         }
-    }, series);
-    return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle()});
+    });
+    
+    return Object.assign(seriesWithFormatter, {
+        label: contractFrameLabel(ended),
+        lineStyle: dashedLineStyle()
+    });
 };

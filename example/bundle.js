@@ -73375,7 +73375,10 @@
 	
 	var decorateSeriesWithAreaStyle = exports.decorateSeriesWithAreaStyle = function decorateSeriesWithAreaStyle(series) {
 	    var areaStyle = arguments.length <= 1 || arguments[1] === undefined ? { normal: { color: 'rgb(204, 255, 204)' } } : arguments[1];
-	    return Object.assign(series, { areaStyle: areaStyle });
+	    return Object.assign(series, {
+	        areaStyle: areaStyle,
+	        animationDuration: 10
+	    });
 	};
 
 /***/ },
@@ -73434,13 +73437,21 @@
 
 /***/ },
 /* 510 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.decorateContractFrame = exports.decorateCurrentSpotLine = exports.decorateHorizontalLineSeries = exports.decorateVerticalLineSeries = undefined;
+	
+	var _LineData = __webpack_require__(508);
+	
+	var ld = _interopRequireWildcard(_LineData);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
 	var verticalLastData = function verticalLastData() {
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73740,15 +73751,16 @@
 	        series.data[2] = Object.assign(contractLabelData({ height: height, width: width }), exitData);
 	    }
 	
-	    var seriesWithFormatter = Object.assign({
-	        label: contractFrameLabel(ended),
-	        areaStyle: {
-	            normal: {
-	                opacity: 0.2
-	            }
+	    var seriesWithFormatter = ld.decorateSeriesWithAreaStyle(series, {
+	        normal: {
+	            opacity: 0.2
 	        }
-	    }, series);
-	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle() });
+	    });
+	
+	    return Object.assign(seriesWithFormatter, {
+	        label: contractFrameLabel(ended),
+	        lineStyle: dashedLineStyle()
+	    });
 	};
 
 /***/ }
