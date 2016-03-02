@@ -7,18 +7,20 @@ import BaseChart from '../BaseChart';
 import * as dataUtil from '../../utils/DataUtils';
 import * as rfDecorators from './RiseFallChartDecorators';
 
-const riseFallToolTip = (width, height) => createTooltip({
-    triggerOn: 'mousemove',
-    trigger: 'axis',
-    tooltipFormatter: (params) => {
-        const param0 = params[0];
-        const seriesName = param0.seriesName;
-        const value = param0.value;
-        return `${seriesName}<br />Time: ${value[0]}<br />Spot:${value[1]}`;
-    },
-    width,
-    height,
-});
+const epochFormatter = (precision = 's') => {
+    switch (precision) {
+        case 's': return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 19);
+            break;
+        case 'd': return epoch => (new Date(epoch * 1000)).toISOString().slice(0, 10);
+            break;
+        default: {
+            console.warn('Unexpected precision, fallback to seconds');
+            return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 18);
+        }
+    }
+};
+
+const spotFormatter = (precision = 2) => spot => spot.toFixed(precision);
 
 const createContractFrame = (current, entry, exit, yMin, yMax) => {
     if (!entry) return undefined;
@@ -39,24 +41,22 @@ const createLegendForContracts = (contracts) => {
     };
 };
 
-const epochFormatter = (precision = 's') => {
-    switch (precision) {
-        case 's': return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 18);
-            break;
-        case 'd': return epoch => (new Date(epoch * 1000)).toISOString().slice(0, 10);
-            break;
-        default: {
-            console.warn('Unexpected precision, fallback to seconds');
-            return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 18);
-        }
-    }
-};
-
-const spotFormatter = (precision = 2) => spot => spot.toFixed(precision);
+const riseFallToolTip = (width, height) => createTooltip({
+    triggerOn: 'mousemove',
+    trigger: 'axis',
+    tooltipFormatter: (params) => {
+        const param0 = params[0];
+        const seriesName = param0.seriesName;
+        const value = param0.value;
+        const formattedEpoch = epochFormatter()(value[0]);
+        return `${seriesName}<br />Time: ${formattedEpoch}<br />Spot:${value[1]}`;
+    },
+    width,
+    height,
+});
 
 export default class RiseFallChart extends Component {
     static defaultProps = {
-        title: 'Rise/Fall Chart',
         xOffsetPercentage: 0.1,
         yOffsetPercentage: 0.7,
         xFormatter: epochFormatter(),
@@ -187,7 +187,7 @@ export default class RiseFallChart extends Component {
             axisLabel: {
                 formatter: xFormatter
             }
-        }, createXAxis('Time'));
+        }, createXAxis());
 
         const yAxis = Object.assign({
             min: yMin,
@@ -195,7 +195,7 @@ export default class RiseFallChart extends Component {
             axisLabel: {
                 formatter: yFormatter
             }
-        }, createYAxis('Spot'));
+        }, createYAxis());
 
         return (
             <BaseChart

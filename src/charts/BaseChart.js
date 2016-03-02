@@ -16,7 +16,6 @@ export default class BaseChart extends Component {
         xAxis: createXAxis('X axis'),
         yAxis: createYAxis('Y axis'),
         dataZoom: createDefaultDataZoom(),
-        title: createTitle('BaseChart'),
     };
 
     static propTypes = {
@@ -30,7 +29,7 @@ export default class BaseChart extends Component {
             bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         }),
         xAxis: PropTypes.shape({
-            name: PropTypes.string.isRequired,
+            name: PropTypes.string,
             data: PropTypes.array,
             type: PropTypes.oneOf(['category', 'value']),
             position: PropTypes.oneOf(['top', 'bottom']),
@@ -42,7 +41,7 @@ export default class BaseChart extends Component {
             })
         }),
         yAxis: PropTypes.shape({
-            name: PropTypes.string.isRequired,
+            name: PropTypes.string,
             data: PropTypes.array,
             type: PropTypes.oneOf(['category', 'value']),
             position: PropTypes.oneOf(['left', 'right']),

@@ -285,8 +285,7 @@
 	    color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
 	    xAxis: (0, _Axis.createXAxis)('X axis'),
 	    yAxis: (0, _Axis.createYAxis)('Y axis'),
-	    dataZoom: (0, _DataZoom.createDefaultDataZoom)(),
-	    title: (0, _Title.createTitle)('BaseChart')
+	    dataZoom: (0, _DataZoom.createDefaultDataZoom)()
 	};
 	BaseChart.propTypes = {
 	    legend: _react.PropTypes.shape({
@@ -299,7 +298,7 @@
 	        bottom: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number])
 	    }),
 	    xAxis: _react.PropTypes.shape({
-	        name: _react.PropTypes.string.isRequired,
+	        name: _react.PropTypes.string,
 	        data: _react.PropTypes.array,
 	        type: _react.PropTypes.oneOf(['category', 'value']),
 	        position: _react.PropTypes.oneOf(['top', 'bottom']),
@@ -311,7 +310,7 @@
 	        })
 	    }),
 	    yAxis: _react.PropTypes.shape({
-	        name: _react.PropTypes.string.isRequired,
+	        name: _react.PropTypes.string,
 	        data: _react.PropTypes.array,
 	        type: _react.PropTypes.oneOf(['category', 'value']),
 	        position: _react.PropTypes.oneOf(['left', 'right']),
@@ -72772,8 +72771,8 @@
 	    var _ref$height = _ref.height;
 	    var height = _ref$height === undefined ? 400 : _ref$height;
 	    return {
-	        left: "5%",
-	        right: "10%",
+	        left: "2%",
+	        right: "8%",
 	        top: "10%",
 	        bottom: 60,
 	        width: 'auto',
@@ -73009,48 +73008,13 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var riseFallToolTip = function riseFallToolTip(width, height) {
-	    return (0, _Tooltip.createTooltip)({
-	        triggerOn: 'mousemove',
-	        trigger: 'axis',
-	        tooltipFormatter: function tooltipFormatter(params) {
-	            var param0 = params[0];
-	            var seriesName = param0.seriesName;
-	            var value = param0.value;
-	            return seriesName + '<br />Time: ' + value[0] + '<br />Spot:' + value[1];
-	        },
-	        width: width,
-	        height: height
-	    });
-	};
-	
-	var createContractFrame = function createContractFrame(current, entry, exit, yMin, yMax) {
-	    if (!entry) return undefined;
-	    var frameStartData = [[entry[0], yMin], [entry[0], yMax]];
-	    var frameEndData = exit ? [[exit[0], yMax], [exit[0], yMin]] : [[current[0], yMax], [current[0], yMin]];
-	
-	    return frameStartData.concat(frameEndData.concat([frameStartData[0]]));
-	};
-	
-	var createLegendForContracts = function createLegendForContracts(contracts) {
-	    var legendData = contracts.map(function (c) {
-	        return [{ name: c.id }, { name: c.id + '\'s entry spot' }];
-	    });
-	
-	    return {
-	        data: legendData.reduce(function (a, b) {
-	            return a.concat(b);
-	        })
-	    };
-	};
-	
 	var epochFormatter = function epochFormatter() {
 	    var precision = arguments.length <= 0 || arguments[0] === undefined ? 's' : arguments[0];
 	
 	    switch (precision) {
 	        case 's':
 	            return function (epoch) {
-	                return new Date(epoch * 1000).toISOString().slice(11, 18);
+	                return new Date(epoch * 1000).toISOString().slice(11, 19);
 	            };
 	            break;
 	        case 'd':
@@ -73073,6 +73037,42 @@
 	    return function (spot) {
 	        return spot.toFixed(precision);
 	    };
+	};
+	
+	var createContractFrame = function createContractFrame(current, entry, exit, yMin, yMax) {
+	    if (!entry) return undefined;
+	    var frameStartData = [[entry[0], yMin], [entry[0], yMax]];
+	    var frameEndData = exit ? [[exit[0], yMax], [exit[0], yMin]] : [[current[0], yMax], [current[0], yMin]];
+	
+	    return frameStartData.concat(frameEndData.concat([frameStartData[0]]));
+	};
+	
+	var createLegendForContracts = function createLegendForContracts(contracts) {
+	    var legendData = contracts.map(function (c) {
+	        return [{ name: c.id }, { name: c.id + '\'s entry spot' }];
+	    });
+	
+	    return {
+	        data: legendData.reduce(function (a, b) {
+	            return a.concat(b);
+	        })
+	    };
+	};
+	
+	var riseFallToolTip = function riseFallToolTip(width, height) {
+	    return (0, _Tooltip.createTooltip)({
+	        triggerOn: 'mousemove',
+	        trigger: 'axis',
+	        tooltipFormatter: function tooltipFormatter(params) {
+	            var param0 = params[0];
+	            var seriesName = param0.seriesName;
+	            var value = param0.value;
+	            var formattedEpoch = epochFormatter()(value[0]);
+	            return seriesName + '<br />Time: ' + formattedEpoch + '<br />Spot:' + value[1];
+	        },
+	        width: width,
+	        height: height
+	    });
 	};
 	
 	var RiseFallChart = function (_Component) {
@@ -73188,7 +73188,7 @@
 	                axisLabel: {
 	                    formatter: xFormatter
 	                }
-	            }, (0, _Axis.createXAxis)('Time'));
+	            }, (0, _Axis.createXAxis)());
 	
 	            var yAxis = Object.assign({
 	                min: yMin,
@@ -73196,7 +73196,7 @@
 	                axisLabel: {
 	                    formatter: yFormatter
 	                }
-	            }, (0, _Axis.createYAxis)('Spot'));
+	            }, (0, _Axis.createYAxis)());
 	
 	            return _react2.default.createElement(_BaseChart2.default, _extends({}, other, {
 	                title: tt,
@@ -73214,7 +73214,6 @@
 	}(_react.Component);
 	
 	RiseFallChart.defaultProps = {
-	    title: 'Rise/Fall Chart',
 	    xOffsetPercentage: 0.1,
 	    yOffsetPercentage: 0.7,
 	    xFormatter: epochFormatter(),
