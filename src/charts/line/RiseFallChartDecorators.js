@@ -79,9 +79,9 @@ const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => 
         },
         emphasis: {
             show: true,
-            position: [8, 0],           // 8 is the default margin of label to axis line
+            position: [8, 0],
             textStyle: {
-                color: 'white',
+                color: 'red',
                 fontSize: 12
             }
         }
@@ -91,7 +91,7 @@ const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => 
             color: 'red',
         },
         emphasis: {
-            color: 'red',
+            color: 'white',
         }
     }
 });
@@ -113,7 +113,7 @@ const currentSpotLData = ({width: width = 700, height: height = 400} = {}) => ({
             show: true,
             position: [8, 0],
             textStyle: {
-                color: 'white',
+                color: 'green',
                 fontSize: 12
             }
         }
@@ -123,7 +123,7 @@ const currentSpotLData = ({width: width = 700, height: height = 400} = {}) => ({
             color: 'green',
         },
         emphasis: {
-            color: 'green',
+            color: 'white',
         }
     }
 });
@@ -240,7 +240,7 @@ export const decorateContractFrame = ({series, ended: ended = true, height: heig
             opacity: 0.2
         }
     });
-
+    
     return Object.assign(seriesWithFormatter, {
         label: contractFrameLabel(ended),
         lineStyle: dashedLineStyle()

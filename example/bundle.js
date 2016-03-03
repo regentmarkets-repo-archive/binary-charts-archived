@@ -73558,9 +73558,9 @@
 	            },
 	            emphasis: {
 	                show: true,
-	                position: [8, 0], // 8 is the default margin of label to axis line
+	                position: [8, 0],
 	                textStyle: {
-	                    color: 'white',
+	                    color: 'red',
 	                    fontSize: 12
 	                }
 	            }
@@ -73570,7 +73570,7 @@
 	                color: 'red'
 	            },
 	            emphasis: {
-	                color: 'red'
+	                color: 'white'
 	            }
 	        }
 	    };
@@ -73600,7 +73600,7 @@
 	                show: true,
 	                position: [8, 0],
 	                textStyle: {
-	                    color: 'white',
+	                    color: 'green',
 	                    fontSize: 12
 	                }
 	            }
@@ -73610,7 +73610,7 @@
 	                color: 'green'
 	            },
 	            emphasis: {
-	                color: 'green'
+	                color: 'white'
 	            }
 	        }
 	    };
