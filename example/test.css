@@ -7,12 +7,12 @@
     resize: both;
     overflow: auto;
     height: 500px;
-    width: 400px;
+    width: 800px;
     border: 2px solid;
     margin-bottom: 20px;
 }
 
 .resizable-chart {
-    height: 90%;
-    width: 90%;
+    height: 100%;
+    width: 100%;
 }

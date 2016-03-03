@@ -2,7 +2,7 @@ export const createTooltip = ({triggerOn, trigger, tooltipFormatter, width: widt
     trigger,
     triggerOn,
     formatter: tooltipFormatter,
-    position: [width * 0.04, "12%"],
+    position: [width * 0.07, "12%"],
     alwaysShowContent: true,
     transitionDuration: 0,
     axisPointer: {
