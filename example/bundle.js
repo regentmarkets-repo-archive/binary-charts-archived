@@ -72925,7 +72925,7 @@
 	        trigger: trigger,
 	        triggerOn: triggerOn,
 	        formatter: tooltipFormatter,
-	        position: [width * 0.07, "12%"],
+	        position: [width * 0.04, "12%"],
 	        alwaysShowContent: true,
 	        transitionDuration: 0,
 	        axisPointer: {
@@ -73545,7 +73545,7 @@
 	    var height = _ref3$height === undefined ? 400 : _ref3$height;
 	    return {
 	        symbol: 'rect',
-	        symbolSize: [width * 0.1, 15],
+	        symbolSize: [width < 500 ? 50 : width * 0.1, 15],
 	        symbolOffset: [width * 0.05, 0],
 	        label: {
 	            normal: {
@@ -73585,7 +73585,7 @@
 	    var height = _ref4$height === undefined ? 400 : _ref4$height;
 	    return {
 	        symbol: 'rect',
-	        symbolSize: [width * 0.1, 15],
+	        symbolSize: [width < 500 ? 50 : width * 0.1, 15],
 	        symbolOffset: [width * 0.05, 0],
 	        label: {
 	            normal: {

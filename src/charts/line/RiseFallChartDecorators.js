@@ -66,7 +66,7 @@ const contractLabelData = ({size: size = [60, 40], width: width = 700, height: h
 
 const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
-    symbolSize: [width * 0.1, 15],
+    symbolSize: [width < 500 ? 50: width * 0.1, 15],
     symbolOffset: [width * 0.05, 0],
     label: {
         normal: {
@@ -98,7 +98,7 @@ const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => 
 
 const currentSpotLData = ({width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
-    symbolSize: [width * 0.1, 15],
+    symbolSize: [width < 500 ? 50: width * 0.1, 15],
     symbolOffset: [width * 0.05, 0],
     label: {
         normal: {
