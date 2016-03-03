@@ -9,7 +9,7 @@ gen
 node_modules/
 dist/
 lib/
-example/
+example/bundle*
 # Created by .ignore support plugin (hsz.mobi)
 
 npm-debug.log
