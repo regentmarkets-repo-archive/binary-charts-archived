@@ -64,7 +64,7 @@ const contractLabelData = ({size: size = [60, 40], width: width = 700, height: h
     }
 });
 
-const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => ({
+const horizontalLastData = ({width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
     symbolSize: [width * 0.1, 15],
     symbolOffset: [width * 0.05, 0],
@@ -73,30 +73,30 @@ const horizontalLastData = ({width: width = 700, height: height = 400} = {}) => 
             show: true,
             position: [8, 0],           // 8 is the default margin of label to axis line
             textStyle: {
-                color: 'white',
-                fontSize: 12
+                color: config.labelTextColor,
+                fontSize: config.labelFontSize
             }
         },
         emphasis: {
             show: true,
             position: [8, 0],           // 8 is the default margin of label to axis line
             textStyle: {
-                color: 'white',
-                fontSize: 12
+                color: config.labelTextColor,
+                fontSize: config.labelFontSize
             }
         }
     },
     itemStyle: {
         normal: {
-            color: 'red',
+            color: config.labelColor,
         },
         emphasis: {
-            color: 'red',
+            color: config.labelColor,
         }
     }
 });
 
-const currentSpotLData = ({width: width = 700, height: height = 400} = {}) => ({
+const currentSpotData = ({width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
     symbolSize: [width * 0.1, 15],
     symbolOffset: [width * 0.05, 0],
@@ -105,25 +105,25 @@ const currentSpotLData = ({width: width = 700, height: height = 400} = {}) => ({
             show: true,
             position: [8, 0],
             textStyle: {
-                color: 'white',
-                fontSize: 12
+                color: config.labelTextColor,
+                fontSize: config.labelFontSize
             }
         },
         emphasis: {
             show: true,
             position: [8, 0],
             textStyle: {
-                color: 'white',
-                fontSize: 12
+                color: config.labelTextColor,
+                fontSize: config.labelFontSize
             }
         }
     },
     itemStyle: {
         normal: {
-            color: 'green',
+            color: config.labelColor,
         },
         emphasis: {
-            color: 'green',
+            color: config.labelColor,
         }
     }
 });
@@ -175,11 +175,11 @@ const contractFrameLabel = ended => ({
     }
 });
 
-const dashedLineStyle = (color) => ({
+const dashedLineStyle = (config) => ({
     normal: {
-        color,
+        color: config.color,
         type: 'dashed',
-        width: 1,
+        width: config.width,
     }
 });
 
@@ -193,22 +193,22 @@ export const decorateVerticalLineSeries = (series) => {
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
 };
 
-export const decorateHorizontalLineSeries = ({series, height: height = 400, width: width = 700}) => {
+export const decorateHorizontalLineSeries = ({series, height: height = 400, width: width = 700, config}) => {
     const lastData = series.data[1];                // straight line has only 2 data
-    series.data[1] = Object.assign(horizontalLastData({height, width}), lastData);
+    series.data[1] = Object.assign(horizontalLastData({height, width, config}), lastData);
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
         animation: false,
     }, series)
 
-    return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
+    return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle(config)});
 };
 
 // this is special as it should have high priority why overlapping
-export const decorateCurrentSpotLine = ({series, width: width = 700, height: height = 400}) => {
+export const decorateCurrentSpotLine = ({series, width: width = 700, height: height = 400, config}) => {
     const lastData = series.data[1];                // straight line has only 2 data
-    const styleLastData = Object.assign(currentSpotLData({width, height}), lastData);
+    const styleLastData = Object.assign(currentSpotData({width, height, config}), lastData);
     series.data[1] = styleLastData;
 
     const seriesWithFormatter = Object.assign({
@@ -217,10 +217,15 @@ export const decorateCurrentSpotLine = ({series, width: width = 700, height: hei
         z: 3,
     }, series)
 
-    return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle('rgb(242, 150, 89)')});
+    return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle(config)});
 };
 
-export const decorateContractFrame = ({series, ended: ended = true, height: height = 400, width: width = 700}) => {
+export const decorateContractFrame = ({
+    series,
+    ended: ended = true,
+    height: height = 400,
+    width: width = 700,
+    config}) => {
     /**
      * convert 2nd data to show label
      * label should in the middle
@@ -243,6 +248,6 @@ export const decorateContractFrame = ({series, ended: ended = true, height: heig
 
     return Object.assign(seriesWithFormatter, {
         label: contractFrameLabel(ended),
-        lineStyle: dashedLineStyle()
+        lineStyle: dashedLineStyle(config)
     });
 };
