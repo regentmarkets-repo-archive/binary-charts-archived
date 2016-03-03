@@ -4,6 +4,7 @@ import {createTitle} from '../../model/Title';
 import {createXAxis, createYAxis} from '../../model/Axis';
 import {createTooltip} from '../../model/Tooltip';
 import BaseChart from '../BaseChart';
+import {RiseFallConfig} from '../../model/Config';
 import * as dataUtil from '../../utils/DataUtils';
 import * as rfDecorators from './RiseFallChartDecorators';
 
@@ -57,6 +58,7 @@ const riseFallToolTip = (width, height) => createTooltip({
 
 export default class RiseFallChart extends Component {
     static defaultProps = {
+        config: RiseFallConfig,
         xOffsetPercentage: 0.1,
         yOffsetPercentage: 0.7,
         xFormatter: epochFormatter(),
@@ -76,6 +78,7 @@ export default class RiseFallChart extends Component {
         yOffsetPercentage: PropTypes.number.isRequired,
         xFormatter: PropTypes.func.isRequired,
         yFormatter: PropTypes.func.isRequired,
+        config: PropTypes.object,
     };
 
     getEchartInstance(baseChart) {
@@ -94,6 +97,7 @@ export default class RiseFallChart extends Component {
             yOffsetPercentage,
             xFormatter,
             yFormatter,
+            config,
             ...other} = this.props;
 
         if (!data || data.length < 1) {
@@ -129,22 +133,25 @@ export default class RiseFallChart extends Component {
                 this.echart ?
                 rfDecorators.decorateHorizontalLineSeries({
                     series: entrySpotSeries,
-                    width: width,
-                    height: height,
+                    width,
+                    height,
+                    config: config.barrier,
                 }) :
-                rfDecorators.decorateHorizontalLineSeries({series: entrySpotSeries});
+                rfDecorators.decorateHorizontalLineSeries({series: entrySpotSeries, config: config.barrier});
 
             const styledContractFrame =
                 this.echart ?
                     rfDecorators.decorateContractFrame({
                         series: contractFrameSeries,
-                        height: width,
-                        width: height,
-                        ended: !!exit
+                        height,
+                        width,
+                        ended: !!exit,
+                        config: config.contract,
                     }) :
                     rfDecorators.decorateContractFrame({
                         series: contractFrameSeries,
-                        ended: !!exit
+                        ended: !!exit,
+                        config: config.contract,
                     });
 
             return [labeledEntrySpotSeries, styledContractFrame];
@@ -160,10 +167,11 @@ export default class RiseFallChart extends Component {
             this.echart ?
                 rfDecorators.decorateCurrentSpotLine({
                     series: currentSpotSeries,
-                    height: height,
-                    width: width,
+                    height,
+                    width,
+                    config: config.currentSpot,
                 }) :
-                rfDecorators.decorateCurrentSpotLine({series: currentSpotSeries});
+                rfDecorators.decorateCurrentSpotLine({series: currentSpotSeries, config: config.currentSpot});
 
         let series = [];
         if (dataSeries) series.push(dataSeriesWithAreaStyle);

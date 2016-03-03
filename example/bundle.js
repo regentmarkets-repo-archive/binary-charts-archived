@@ -72988,6 +72988,8 @@
 	
 	var _BaseChart2 = _interopRequireDefault(_BaseChart);
 	
+	var _Config = __webpack_require__(511);
+	
 	var _DataUtils = __webpack_require__(509);
 	
 	var dataUtil = _interopRequireWildcard(_DataUtils);
@@ -73105,8 +73107,9 @@
 	            var yOffsetPercentage = _props.yOffsetPercentage;
 	            var xFormatter = _props.xFormatter;
 	            var yFormatter = _props.yFormatter;
+	            var config = _props.config;
 	
-	            var other = _objectWithoutProperties(_props, ['data', 'contracts', 'title', 'symbol', 'xOffsetPercentage', 'yOffsetPercentage', 'xFormatter', 'yFormatter']);
+	            var other = _objectWithoutProperties(_props, ['data', 'contracts', 'title', 'symbol', 'xOffsetPercentage', 'yOffsetPercentage', 'xFormatter', 'yFormatter', 'config']);
 	
 	            if (!data || data.length < 1) {
 	                return _react2.default.createElement(_BaseChart2.default, other);
@@ -73140,17 +73143,20 @@
 	                var labeledEntrySpotSeries = _this2.echart ? rfDecorators.decorateHorizontalLineSeries({
 	                    series: entrySpotSeries,
 	                    width: width,
-	                    height: height
-	                }) : rfDecorators.decorateHorizontalLineSeries({ series: entrySpotSeries });
+	                    height: height,
+	                    config: config.barrier
+	                }) : rfDecorators.decorateHorizontalLineSeries({ series: entrySpotSeries, config: config.barrier });
 	
 	                var styledContractFrame = _this2.echart ? rfDecorators.decorateContractFrame({
 	                    series: contractFrameSeries,
-	                    height: width,
-	                    width: height,
-	                    ended: !!exit
+	                    height: height,
+	                    width: width,
+	                    ended: !!exit,
+	                    config: config.contract
 	                }) : rfDecorators.decorateContractFrame({
 	                    series: contractFrameSeries,
-	                    ended: !!exit
+	                    ended: !!exit,
+	                    config: config.contract
 	                });
 	
 	                return [labeledEntrySpotSeries, styledContractFrame];
@@ -73165,8 +73171,9 @@
 	            var labeledCurrentSpotSeries = this.echart ? rfDecorators.decorateCurrentSpotLine({
 	                series: currentSpotSeries,
 	                height: height,
-	                width: width
-	            }) : rfDecorators.decorateCurrentSpotLine({ series: currentSpotSeries });
+	                width: width,
+	                config: config.currentSpot
+	            }) : rfDecorators.decorateCurrentSpotLine({ series: currentSpotSeries, config: config.currentSpot });
 	
 	            var series = [];
 	            if (dataSeries) series.push(dataSeriesWithAreaStyle);
@@ -73214,6 +73221,7 @@
 	}(_react.Component);
 	
 	RiseFallChart.defaultProps = {
+	    config: _Config.RiseFallConfig,
 	    xOffsetPercentage: 0.1,
 	    yOffsetPercentage: 0.7,
 	    xFormatter: epochFormatter(),
@@ -73231,7 +73239,8 @@
 	    xOffsetPercentage: _react.PropTypes.number.isRequired,
 	    yOffsetPercentage: _react.PropTypes.number.isRequired,
 	    xFormatter: _react.PropTypes.func.isRequired,
-	    yFormatter: _react.PropTypes.func.isRequired
+	    yFormatter: _react.PropTypes.func.isRequired,
+	    config: _react.PropTypes.object
 	};
 	exports.default = RiseFallChart;
 
@@ -73452,6 +73461,7 @@
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
+	// Specs to configure label on series
 	var verticalLastData = function verticalLastData() {
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73493,7 +73503,6 @@
 	        }
 	    };
 	};
-	
 	var contractLabelData = function contractLabelData() {
 	    var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73503,6 +73512,7 @@
 	    var width = _ref2$width === undefined ? 700 : _ref2$width;
 	    var _ref2$height = _ref2.height;
 	    var height = _ref2$height === undefined ? 400 : _ref2$height;
+	    var config = _ref2.config;
 	    return {
 	        symbol: 'rect',
 	        symbolSize: size,
@@ -73512,30 +73522,31 @@
 	                show: false,
 	                position: 'inside',
 	                textStyle: {
-	                    color: 'blue',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            },
 	            emphasis: {
 	                show: true,
 	                position: 'inside',
 	                textStyle: {
-	                    color: 'white',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            }
 	        },
 	        itemStyle: {
 	            normal: {
-	                color: 'rgba(255, 255, 255, 0)'
+	                color: config.labelColor,
+	                opacity: 0.3
 	            },
 	            emphasis: {
-	                color: 'rgb(236, 79, 147)'
+	                color: config.labelColor,
+	                opacity: 1
 	            }
 	        }
 	    };
 	};
-	
 	var horizontalLastData = function horizontalLastData() {
 	    var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73543,6 +73554,7 @@
 	    var width = _ref3$width === undefined ? 700 : _ref3$width;
 	    var _ref3$height = _ref3.height;
 	    var height = _ref3$height === undefined ? 400 : _ref3$height;
+	    var config = _ref3.config;
 	    return {
 	        symbol: 'rect',
 	        symbolSize: [width * 0.1, 15],
@@ -73552,37 +73564,37 @@
 	                show: true,
 	                position: [8, 0], // 8 is the default margin of label to axis line
 	                textStyle: {
-	                    color: 'white',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            },
 	            emphasis: {
 	                show: true,
 	                position: [8, 0], // 8 is the default margin of label to axis line
 	                textStyle: {
-	                    color: 'white',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            }
 	        },
 	        itemStyle: {
 	            normal: {
-	                color: 'red'
+	                color: config.labelColor
 	            },
 	            emphasis: {
-	                color: 'red'
+	                color: config.labelColor
 	            }
 	        }
 	    };
 	};
-	
-	var currentSpotLData = function currentSpotLData() {
+	var currentSpotData = function currentSpotData() {
 	    var _ref4 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
 	    var _ref4$width = _ref4.width;
 	    var width = _ref4$width === undefined ? 700 : _ref4$width;
 	    var _ref4$height = _ref4.height;
 	    var height = _ref4$height === undefined ? 400 : _ref4$height;
+	    var config = _ref4.config;
 	    return {
 	        symbol: 'rect',
 	        symbolSize: [width * 0.1, 15],
@@ -73592,38 +73604,37 @@
 	                show: true,
 	                position: [8, 0],
 	                textStyle: {
-	                    color: 'white',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            },
 	            emphasis: {
 	                show: true,
 	                position: [8, 0],
 	                textStyle: {
-	                    color: 'white',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            }
 	        },
 	        itemStyle: {
 	            normal: {
-	                color: 'green'
+	                color: config.labelColor
 	            },
 	            emphasis: {
-	                color: 'green'
+	                color: config.labelColor
 	            }
 	        }
 	    };
 	};
 	
+	// Formatters
 	var verticalLineFormatter = function verticalLineFormatter(params) {
 	    return params.seriesName + ' \n' + params.value[0];
 	};
-	
 	var horizontalLineFormatter = function horizontalLineFormatter(params) {
 	    return '' + params.value[1];
 	};
-	
 	var contractFrameFormatter = function contractFrameFormatter(ended) {
 	    if (ended) {
 	        return function (params) {
@@ -73642,6 +73653,7 @@
 	    }
 	};
 	
+	// Label objects to reduce boilerplate
 	var verticalLineLabel = {
 	    normal: {
 	        formatter: verticalLineFormatter
@@ -73669,12 +73681,12 @@
 	    };
 	};
 	
-	var dashedLineStyle = function dashedLineStyle(color) {
+	var dashedLineStyle = function dashedLineStyle(config) {
 	    return {
 	        normal: {
-	            color: color,
+	            color: config.color,
 	            type: 'dashed',
-	            width: 1
+	            width: config.width
 	        }
 	    };
 	};
@@ -73695,16 +73707,17 @@
 	    var height = _ref5$height === undefined ? 400 : _ref5$height;
 	    var _ref5$width = _ref5.width;
 	    var width = _ref5$width === undefined ? 700 : _ref5$width;
+	    var config = _ref5.config;
 	
 	    var lastData = series.data[1]; // straight line has only 2 data
-	    series.data[1] = Object.assign(horizontalLastData({ height: height, width: width }), lastData);
+	    series.data[1] = Object.assign(horizontalLastData({ height: height, width: width, config: config }), lastData);
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
 	        animation: false
 	    }, series);
 	
-	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
+	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle(config) });
 	};
 	
 	// this is special as it should have high priority why overlapping
@@ -73714,9 +73727,10 @@
 	    var width = _ref6$width === undefined ? 700 : _ref6$width;
 	    var _ref6$height = _ref6.height;
 	    var height = _ref6$height === undefined ? 400 : _ref6$height;
+	    var config = _ref6.config;
 	
 	    var lastData = series.data[1]; // straight line has only 2 data
-	    var styleLastData = Object.assign(currentSpotLData({ width: width, height: height }), lastData);
+	    var styleLastData = Object.assign(currentSpotData({ width: width, height: height, config: config }), lastData);
 	    series.data[1] = styleLastData;
 	
 	    var seriesWithFormatter = Object.assign({
@@ -73725,7 +73739,7 @@
 	        z: 3
 	    }, series);
 	
-	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle('rgb(242, 150, 89)') });
+	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle(config) });
 	};
 	
 	var decorateContractFrame = exports.decorateContractFrame = function decorateContractFrame(_ref7) {
@@ -73736,6 +73750,7 @@
 	    var height = _ref7$height === undefined ? 400 : _ref7$height;
 	    var _ref7$width = _ref7.width;
 	    var width = _ref7$width === undefined ? 700 : _ref7$width;
+	    var config = _ref7.config;
 	
 	    /**
 	     * convert 2nd data to show label
@@ -73745,10 +73760,10 @@
 	    var entryData = series.data[1]; // use 2nd data as it's the left top data point
 	    var exitData = ended && series.data[2];
 	
-	    series.data[1] = Object.assign(contractLabelData({ height: height, width: width }), entryData);
+	    series.data[1] = Object.assign(contractLabelData({ height: height, width: width, config: config }), entryData);
 	
 	    if (ended) {
-	        series.data[2] = Object.assign(contractLabelData({ height: height, width: width }), exitData);
+	        series.data[2] = Object.assign(contractLabelData({ height: height, width: width, config: config }), exitData);
 	    }
 	
 	    var seriesWithFormatter = ld.decorateSeriesWithAreaStyle(series, {
@@ -73759,8 +73774,99 @@
 	
 	    return Object.assign(seriesWithFormatter, {
 	        label: contractFrameLabel(ended),
-	        lineStyle: dashedLineStyle()
+	        lineStyle: dashedLineStyle(config)
 	    });
+	};
+
+/***/ },
+/* 511 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// Config should only deal with size and color!!
+	
+	/**
+	 * Full Schema for series config
+	 *  - width
+	 *  - color
+	 *  - areaColor
+	 *  - labelColor
+	 *  - labelTextColor
+	 *  - areaOpacity
+	 *  - labelFontSize
+	 */
+	
+	var seriesConfig = function seriesConfig(a) {
+	    var defaults = {
+	        width: 2,
+	        color: 'green',
+	        labelFontSize: 12,
+	        labelColor: 'green',
+	        labelTextColor: 'white'
+	    };
+	    return Object.assign(defaults, a);
+	};
+	
+	var parseSeriesConfig = exports.parseSeriesConfig = function parseSeriesConfig(config) {
+	    return {
+	        lineStyle: {
+	            normal: {
+	                color: config.color
+	            }
+	        },
+	        areaStyle: {
+	            normal: {
+	                color: config.areaColor,
+	                opacity: config.areaOpacity
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                color: config.labelColor
+	            },
+	            emphasis: {
+	                color: config.labelColor
+	            }
+	        },
+	        label: {
+	            normal: {
+	                textStyle: {
+	                    fontSize: config.labelFontSize,
+	                    color: config.labelTextColor
+	                }
+	            },
+	            emphasis: {
+	                textStyle: {
+	                    fontSize: config.labelFontSize,
+	                    color: config.labelTextColor
+	                }
+	            }
+	        }
+	    };
+	};
+	
+	var RiseFallConfig = exports.RiseFallConfig = {
+	    main: seriesConfig({
+	        color: 'green',
+	        areaColor: 'blue'
+	    }),
+	    barrier: seriesConfig({
+	        color: 'orange',
+	        labelColor: 'red'
+	    }),
+	    contract: seriesConfig({
+	        color: 'purple',
+	        areaColor: 'orange',
+	        areaOpacity: 0.2,
+	        labelColor: 'purple'
+	    }),
+	    currentSpot: seriesConfig({
+	        color: 'orange'
+	    })
 	};
 
 /***/ }

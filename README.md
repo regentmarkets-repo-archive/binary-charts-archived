@@ -1,8 +1,5 @@
-***Binary charts***
+#Binary charts
 
-Public Api
-* `<BaseChart grid, xAxis, yAxis />`
+##Public Api
+[RiseFallChart](src/charts/line/RiseFallChart.js)
 
-
-Note: all default options are created without the corresponding keys associated
-React component also expect props without keys associated.
