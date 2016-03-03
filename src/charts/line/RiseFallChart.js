@@ -96,8 +96,8 @@ export default class RiseFallChart extends Component {
             yFormatter,
             ...other} = this.props;
 
-        if (!data) {
-            return <div/>;
+        if (!data || data.length < 1) {
+            return <BaseChart {...other} />;
         }
 
         const xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);

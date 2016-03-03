@@ -73108,8 +73108,8 @@
 	
 	            var other = _objectWithoutProperties(_props, ['data', 'contracts', 'title', 'symbol', 'xOffsetPercentage', 'yOffsetPercentage', 'xFormatter', 'yFormatter']);
 	
-	            if (!data) {
-	                return _react2.default.createElement('div', null);
+	            if (!data || data.length < 1) {
+	                return _react2.default.createElement(_BaseChart2.default, other);
 	            }
 	
 	            var xOffset = dataUtil.getXBoundaryInValue(data, xOffsetPercentage);
