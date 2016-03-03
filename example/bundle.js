@@ -73461,6 +73461,7 @@
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
+	// Specs to configure label on series
 	var verticalLastData = function verticalLastData() {
 	    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73502,7 +73503,6 @@
 	        }
 	    };
 	};
-	
 	var contractLabelData = function contractLabelData() {
 	    var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73512,6 +73512,7 @@
 	    var width = _ref2$width === undefined ? 700 : _ref2$width;
 	    var _ref2$height = _ref2.height;
 	    var height = _ref2$height === undefined ? 400 : _ref2$height;
+	    var config = _ref2.config;
 	    return {
 	        symbol: 'rect',
 	        symbolSize: size,
@@ -73521,30 +73522,31 @@
 	                show: false,
 	                position: 'inside',
 	                textStyle: {
-	                    color: 'blue',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            },
 	            emphasis: {
 	                show: true,
 	                position: 'inside',
 	                textStyle: {
-	                    color: 'white',
-	                    fontSize: 12
+	                    color: config.labelTextColor,
+	                    fontSize: config.labelFontSize
 	                }
 	            }
 	        },
 	        itemStyle: {
 	            normal: {
-	                color: 'rgba(255, 255, 255, 0)'
+	                color: config.labelColor,
+	                opacity: 0.3
 	            },
 	            emphasis: {
-	                color: 'rgb(236, 79, 147)'
+	                color: config.labelColor,
+	                opacity: 1
 	            }
 	        }
 	    };
 	};
-	
 	var horizontalLastData = function horizontalLastData() {
 	    var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73585,7 +73587,6 @@
 	        }
 	    };
 	};
-	
 	var currentSpotData = function currentSpotData() {
 	    var _ref4 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
@@ -73627,14 +73628,13 @@
 	    };
 	};
 	
+	// Formatters
 	var verticalLineFormatter = function verticalLineFormatter(params) {
 	    return params.seriesName + ' \n' + params.value[0];
 	};
-	
 	var horizontalLineFormatter = function horizontalLineFormatter(params) {
 	    return '' + params.value[1];
 	};
-	
 	var contractFrameFormatter = function contractFrameFormatter(ended) {
 	    if (ended) {
 	        return function (params) {
@@ -73653,6 +73653,7 @@
 	    }
 	};
 	
+	// Label objects to reduce boilerplate
 	var verticalLineLabel = {
 	    normal: {
 	        formatter: verticalLineFormatter
@@ -73759,10 +73760,10 @@
 	    var entryData = series.data[1]; // use 2nd data as it's the left top data point
 	    var exitData = ended && series.data[2];
 	
-	    series.data[1] = Object.assign(contractLabelData({ height: height, width: width }), entryData);
+	    series.data[1] = Object.assign(contractLabelData({ height: height, width: width, config: config }), entryData);
 	
 	    if (ended) {
-	        series.data[2] = Object.assign(contractLabelData({ height: height, width: width }), exitData);
+	        series.data[2] = Object.assign(contractLabelData({ height: height, width: width, config: config }), exitData);
 	    }
 	
 	    var seriesWithFormatter = ld.decorateSeriesWithAreaStyle(series, {

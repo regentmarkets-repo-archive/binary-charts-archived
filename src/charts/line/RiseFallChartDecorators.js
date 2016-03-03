@@ -1,5 +1,6 @@
 import * as ld from '../../model/LineData';
 
+// Specs to configure label on series
 const verticalLastData = ({size: size = [60, 30], width: width = 700, height: height = 400} = {}) => ({
     symbol: 'rect',
     symbolSize: size,
@@ -31,8 +32,7 @@ const verticalLastData = ({size: size = [60, 30], width: width = 700, height: he
         }
     }
 });
-
-const contractLabelData = ({size: size = [60, 40], width: width = 700, height: height = 400} = {}) => ({
+const contractLabelData = ({size: size = [60, 40], width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
     symbolSize: size,
     symbolOffset: [0, height * 0.1],
@@ -41,29 +41,30 @@ const contractLabelData = ({size: size = [60, 40], width: width = 700, height: h
             show: false,
             position: 'inside',
             textStyle: {
-                color: 'blue',
-                fontSize: 12
+                color: config.labelTextColor,
+                fontSize: config.labelFontSize
             }
         },
         emphasis: {
             show: true,
             position: 'inside',
             textStyle: {
-                color: 'white',
-                fontSize: 12
+                color: config.labelTextColor,
+                fontSize: config.labelFontSize
             }
         }
     },
     itemStyle: {
         normal: {
-            color: 'rgba(255, 255, 255, 0)'
+            color: config.labelColor,
+            opacity: 0.3,
         },
         emphasis: {
-            color: 'rgb(236, 79, 147)',
+            color: config.labelColor,
+            opacity: 1,
         }
     }
 });
-
 const horizontalLastData = ({width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
     symbolSize: [width * 0.1, 15],
@@ -95,7 +96,6 @@ const horizontalLastData = ({width: width = 700, height: height = 400, config} =
         }
     }
 });
-
 const currentSpotData = ({width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
     symbolSize: [width * 0.1, 15],
@@ -128,10 +128,9 @@ const currentSpotData = ({width: width = 700, height: height = 400, config} = {}
     }
 });
 
+// Formatters
 const verticalLineFormatter = params => `${params.seriesName} \n${params.value[0]}`;
-
 const horizontalLineFormatter = params => `${params.value[1]}`;
-
 const contractFrameFormatter = ended => {
     if (ended) {
         return params => {
@@ -150,6 +149,7 @@ const contractFrameFormatter = ended => {
     }
 };
 
+// Label objects to reduce boilerplate
 const verticalLineLabel = {
     normal: {
         formatter: verticalLineFormatter,
@@ -234,10 +234,10 @@ export const decorateContractFrame = ({
     const entryData = series.data[1];                // use 2nd data as it's the left top data point
     const exitData = ended && series.data[2];
 
-    series.data[1] = Object.assign(contractLabelData({height, width}), entryData);
+    series.data[1] = Object.assign(contractLabelData({height, width, config}), entryData);
 
     if (ended) {
-        series.data[2] = Object.assign(contractLabelData({height, width}), exitData);
+        series.data[2] = Object.assign(contractLabelData({height, width, config}), exitData);
     }
 
     const seriesWithFormatter = ld.decorateSeriesWithAreaStyle(series, {
