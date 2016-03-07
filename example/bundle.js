@@ -72988,13 +72988,13 @@
 	
 	var _BaseChart2 = _interopRequireDefault(_BaseChart);
 	
-	var _Config = __webpack_require__(511);
+	var _Config = __webpack_require__(509);
 	
-	var _DataUtils = __webpack_require__(509);
+	var _DataUtils = __webpack_require__(510);
 	
 	var dataUtil = _interopRequireWildcard(_DataUtils);
 	
-	var _RiseFallChartDecorators = __webpack_require__(510);
+	var _RiseFallChartDecorators = __webpack_require__(511);
 	
 	var rfDecorators = _interopRequireWildcard(_RiseFallChartDecorators);
 	
@@ -73394,6 +73394,97 @@
 /* 509 */
 /***/ function(module, exports) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// Config should only deal with size and color!!
+	
+	/**
+	 * Full Schema for series config
+	 *  - width
+	 *  - color
+	 *  - areaColor
+	 *  - labelColor
+	 *  - labelTextColor
+	 *  - areaOpacity
+	 *  - labelFontSize
+	 */
+	
+	var seriesConfig = function seriesConfig(a) {
+	    var defaults = {
+	        width: 2,
+	        color: 'green',
+	        labelFontSize: 12,
+	        labelColor: 'green',
+	        labelTextColor: 'white'
+	    };
+	    return Object.assign(defaults, a);
+	};
+	
+	var parseSeriesConfig = exports.parseSeriesConfig = function parseSeriesConfig(config) {
+	    return {
+	        lineStyle: {
+	            normal: {
+	                color: config.color
+	            }
+	        },
+	        areaStyle: {
+	            normal: {
+	                color: config.areaColor,
+	                opacity: config.areaOpacity
+	            }
+	        },
+	        itemStyle: {
+	            normal: {
+	                color: config.labelColor
+	            },
+	            emphasis: {
+	                color: config.labelColor
+	            }
+	        },
+	        label: {
+	            normal: {
+	                textStyle: {
+	                    fontSize: config.labelFontSize,
+	                    color: config.labelTextColor
+	                }
+	            },
+	            emphasis: {
+	                textStyle: {
+	                    fontSize: config.labelFontSize,
+	                    color: config.labelTextColor
+	                }
+	            }
+	        }
+	    };
+	};
+	
+	var RiseFallConfig = exports.RiseFallConfig = {
+	    main: seriesConfig({
+	        color: 'green',
+	        areaColor: 'blue'
+	    }),
+	    barrier: seriesConfig({
+	        color: 'orange',
+	        labelColor: 'red'
+	    }),
+	    contract: seriesConfig({
+	        color: 'purple',
+	        areaColor: 'orange',
+	        areaOpacity: 0.2,
+	        labelColor: 'purple'
+	    }),
+	    currentSpot: seriesConfig({
+	        color: 'orange'
+	    })
+	};
+
+/***/ },
+/* 510 */
+/***/ function(module, exports) {
+
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -73445,7 +73536,7 @@
 	};
 
 /***/ },
-/* 510 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -73557,8 +73648,8 @@
 	    var config = _ref3.config;
 	    return {
 	        symbol: 'rect',
-	        symbolSize: [width * 0.1, 15],
-	        symbolOffset: [width * 0.05, 0],
+	        symbolSize: [70, 15],
+	        symbolOffset: [35, 0],
 	        label: {
 	            normal: {
 	                show: true,
@@ -73597,8 +73688,8 @@
 	    var config = _ref4.config;
 	    return {
 	        symbol: 'rect',
-	        symbolSize: [width * 0.1, 15],
-	        symbolOffset: [width * 0.05, 0],
+	        symbolSize: [70, 15],
+	        symbolOffset: [35, 0],
 	        label: {
 	            normal: {
 	                show: true,
@@ -73776,97 +73867,6 @@
 	        label: contractFrameLabel(ended),
 	        lineStyle: dashedLineStyle(config)
 	    });
-	};
-
-/***/ },
-/* 511 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	// Config should only deal with size and color!!
-	
-	/**
-	 * Full Schema for series config
-	 *  - width
-	 *  - color
-	 *  - areaColor
-	 *  - labelColor
-	 *  - labelTextColor
-	 *  - areaOpacity
-	 *  - labelFontSize
-	 */
-	
-	var seriesConfig = function seriesConfig(a) {
-	    var defaults = {
-	        width: 2,
-	        color: 'green',
-	        labelFontSize: 12,
-	        labelColor: 'green',
-	        labelTextColor: 'white'
-	    };
-	    return Object.assign(defaults, a);
-	};
-	
-	var parseSeriesConfig = exports.parseSeriesConfig = function parseSeriesConfig(config) {
-	    return {
-	        lineStyle: {
-	            normal: {
-	                color: config.color
-	            }
-	        },
-	        areaStyle: {
-	            normal: {
-	                color: config.areaColor,
-	                opacity: config.areaOpacity
-	            }
-	        },
-	        itemStyle: {
-	            normal: {
-	                color: config.labelColor
-	            },
-	            emphasis: {
-	                color: config.labelColor
-	            }
-	        },
-	        label: {
-	            normal: {
-	                textStyle: {
-	                    fontSize: config.labelFontSize,
-	                    color: config.labelTextColor
-	                }
-	            },
-	            emphasis: {
-	                textStyle: {
-	                    fontSize: config.labelFontSize,
-	                    color: config.labelTextColor
-	                }
-	            }
-	        }
-	    };
-	};
-	
-	var RiseFallConfig = exports.RiseFallConfig = {
-	    main: seriesConfig({
-	        color: 'green',
-	        areaColor: 'blue'
-	    }),
-	    barrier: seriesConfig({
-	        color: 'orange',
-	        labelColor: 'red'
-	    }),
-	    contract: seriesConfig({
-	        color: 'purple',
-	        areaColor: 'orange',
-	        areaOpacity: 0.2,
-	        labelColor: 'purple'
-	    }),
-	    currentSpot: seriesConfig({
-	        color: 'orange'
-	    })
 	};
 
 /***/ }
