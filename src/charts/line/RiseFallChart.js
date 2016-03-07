@@ -56,6 +56,27 @@ const riseFallToolTip = (width, height) => createTooltip({
     height,
 });
 
+/**
+ *
+ * @param data2Pt = array with 2 element, each element is an array with 2 element
+ * @param interval = how many discrete point to form in the middle of 2 data point
+ * @param dimension = which dimension of data to be continuous
+ */
+const make2PtLineContinuous = (data2Pt, interval = 10000, dimension = 0) => {
+    const d1 = data2Pt[0];
+    const d2 = data2Pt[1];
+    const chunkSize = (d2[dimension] - d1[dimension]) / interval;
+
+    const result = [];
+    for (let i = 0 ; i < interval ; i ++) {
+        const newData = [];
+        newData[dimension] = d1[dimension] + (i * chunkSize);
+        newData[dimension < 1 ? 1 : 0] = d1[dimension < 1 ? 1 : 0];
+        result.push(newData);
+    }
+    return result;
+};
+
 export default class RiseFallChart extends Component {
     static defaultProps = {
         config: RiseFallConfig,
@@ -113,7 +134,7 @@ export default class RiseFallChart extends Component {
         const yMax = yOffset[1];
 
         const currentSpot = data[data.length - 1];
-        const currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
+        const currentSpotData = make2PtLineContinuous([[xMin, currentSpot[1]], [xMax, currentSpot[1]]]);
 
         const allContractsLegend = contracts && createLegendForContracts(contracts);
 
@@ -123,7 +144,7 @@ export default class RiseFallChart extends Component {
         const allContractsSeries = contracts && contracts.map(c => {
             const entry = c.entry;
             const exit = c.exit;
-            const entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
+            const entrySpotData = entry && make2PtLineContinuous([[xMin, entry[1]], [xMax, entry[1]]]);
             const contractFrameData = createContractFrame(currentSpot, entry, exit, yMin, yMax);
 
             const contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);

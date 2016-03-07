@@ -73077,6 +73077,30 @@
 	    });
 	};
 	
+	/**
+	 *
+	 * @param data2Pt = array with 2 element, each element is an array with 2 element
+	 * @param interval = how many discrete point to form in the middle of 2 data point
+	 * @param dimension = which dimension of data to be continuous
+	 */
+	var make2PtLineContinuous = function make2PtLineContinuous(data2Pt) {
+	    var interval = arguments.length <= 1 || arguments[1] === undefined ? 10000 : arguments[1];
+	    var dimension = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+	
+	    var d1 = data2Pt[0];
+	    var d2 = data2Pt[1];
+	    var chunkSize = (d2[dimension] - d1[dimension]) / interval;
+	
+	    var result = [];
+	    for (var i = 0; i < interval; i++) {
+	        var newData = [];
+	        newData[dimension] = d1[dimension] + i * chunkSize;
+	        newData[dimension < 1 ? 1 : 0] = d1[dimension < 1 ? 1 : 0];
+	        result.push(newData);
+	    }
+	    return result;
+	};
+	
 	var RiseFallChart = function (_Component) {
 	    _inherits(RiseFallChart, _Component);
 	
@@ -73124,7 +73148,7 @@
 	            var yMax = yOffset[1];
 	
 	            var currentSpot = data[data.length - 1];
-	            var currentSpotData = [[xMin, currentSpot[1]], [xMax, currentSpot[1]]];
+	            var currentSpotData = make2PtLineContinuous([[xMin, currentSpot[1]], [xMax, currentSpot[1]]]);
 	
 	            var allContractsLegend = contracts && createLegendForContracts(contracts);
 	
@@ -73134,7 +73158,7 @@
 	            var allContractsSeries = contracts && contracts.map(function (c) {
 	                var entry = c.entry;
 	                var exit = c.exit;
-	                var entrySpotData = entry && [[xMin, entry[1]], [xMax, entry[1]]];
+	                var entrySpotData = entry && make2PtLineContinuous([[xMin, entry[1]], [xMax, entry[1]]]);
 	                var contractFrameData = createContractFrame(currentSpot, entry, exit, yMin, yMax);
 	
 	                var contractFrameSeries = contractFrameData && lineData.createSeriesAsLine(c.id, contractFrameData);
@@ -73376,9 +73400,7 @@
 	        },
 	        clipOverflow: false,
 	        type: type,
-	        data: dataLine,
-	        markLine: markLine,
-	        markPoint: markPoint
+	        data: dataLine
 	    };
 	};
 	
@@ -73638,7 +73660,7 @@
 	        }
 	    };
 	};
-	var horizontalLastData = function horizontalLastData() {
+	var horizontalMarkPoint = function horizontalMarkPoint() {
 	    var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
 	    var _ref3$width = _ref3.width;
@@ -73650,6 +73672,7 @@
 	        symbol: 'rect',
 	        symbolSize: [70, 15],
 	        symbolOffset: [35, 0],
+	        data: [{ type: 'average', name: '' }],
 	        label: {
 	            normal: {
 	                show: true,
@@ -73678,7 +73701,7 @@
 	        }
 	    };
 	};
-	var currentSpotData = function currentSpotData() {
+	var currentSpotMarkPoint = function currentSpotMarkPoint() {
 	    var _ref4 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
 	    var _ref4$width = _ref4.width;
@@ -73690,6 +73713,7 @@
 	        symbol: 'rect',
 	        symbolSize: [70, 15],
 	        symbolOffset: [35, 0],
+	        data: [{ name: 'Current Spot', type: 'average' }],
 	        label: {
 	            normal: {
 	                show: true,
@@ -73800,12 +73824,12 @@
 	    var width = _ref5$width === undefined ? 700 : _ref5$width;
 	    var config = _ref5.config;
 	
-	    var lastData = series.data[1]; // straight line has only 2 data
-	    series.data[1] = Object.assign(horizontalLastData({ height: height, width: width, config: config }), lastData);
+	    var markPoint = horizontalMarkPoint({ width: width, height: height, config: config });
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
-	        animation: false
+	        animation: false,
+	        markPoint: markPoint
 	    }, series);
 	
 	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle(config) });
@@ -73820,14 +73844,13 @@
 	    var height = _ref6$height === undefined ? 400 : _ref6$height;
 	    var config = _ref6.config;
 	
-	    var lastData = series.data[1]; // straight line has only 2 data
-	    var styleLastData = Object.assign(currentSpotData({ width: width, height: height, config: config }), lastData);
-	    series.data[1] = styleLastData;
+	    var markPoint = currentSpotMarkPoint({ width: width, height: height, config: config });
 	
 	    var seriesWithFormatter = Object.assign({
 	        label: horizontalLineLabel,
 	        animation: false,
-	        z: 3
+	        z: 3,
+	        markPoint: markPoint
 	    }, series);
 	
 	    return Object.assign(seriesWithFormatter, { lineStyle: dashedLineStyle(config) });
