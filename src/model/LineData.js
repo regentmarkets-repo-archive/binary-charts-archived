@@ -112,8 +112,6 @@ export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(0,
         clipOverflow: false,
         type,
         data: dataLine,
-        markLine,
-        markPoint,
     };
 };
 

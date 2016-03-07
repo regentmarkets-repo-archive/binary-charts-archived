@@ -65,10 +65,11 @@ const contractLabelData = ({size: size = [60, 40], width: width = 700, height: h
         }
     }
 });
-const horizontalLastData = ({width: width = 700, height: height = 400, config} = {}) => ({
+const horizontalMarkPoint = ({width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
-    symbolSize: [width * 0.1, 15],
-    symbolOffset: [width * 0.05, 0],
+    symbolSize: [70, 15],
+    symbolOffset: [35, 0],
+    data: [{type: 'average', name: ''}],
     label: {
         normal: {
             show: true,
@@ -96,10 +97,11 @@ const horizontalLastData = ({width: width = 700, height: height = 400, config} =
         }
     }
 });
-const currentSpotData = ({width: width = 700, height: height = 400, config} = {}) => ({
+const currentSpotMarkPoint = ({width: width = 700, height: height = 400, config} = {}) => ({
     symbol: 'rect',
-    symbolSize: [width * 0.1, 15],
-    symbolOffset: [width * 0.05, 0],
+    symbolSize: [70, 15],
+    symbolOffset: [35, 0],
+    data: [{ name: 'Current Spot', type: 'average' }],
     label: {
         normal: {
             show: true,
@@ -194,12 +196,12 @@ export const decorateVerticalLineSeries = (series) => {
 };
 
 export const decorateHorizontalLineSeries = ({series, height: height = 400, width: width = 700, config}) => {
-    const lastData = series.data[1];                // straight line has only 2 data
-    series.data[1] = Object.assign(horizontalLastData({height, width, config}), lastData);
+    const markPoint = horizontalMarkPoint({width, height, config});
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
         animation: false,
+        markPoint,
     }, series)
 
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle(config)});
@@ -207,15 +209,14 @@ export const decorateHorizontalLineSeries = ({series, height: height = 400, widt
 
 // this is special as it should have high priority why overlapping
 export const decorateCurrentSpotLine = ({series, width: width = 700, height: height = 400, config}) => {
-    const lastData = series.data[1];                // straight line has only 2 data
-    const styleLastData = Object.assign(currentSpotData({width, height, config}), lastData);
-    series.data[1] = styleLastData;
+    const markPoint = currentSpotMarkPoint({width, height, config});
 
     const seriesWithFormatter = Object.assign({
         label: horizontalLineLabel,
         animation: false,
         z: 3,
-    }, series)
+        markPoint,
+    }, series);
 
     return Object.assign(seriesWithFormatter, {lineStyle: dashedLineStyle(config)});
 };
