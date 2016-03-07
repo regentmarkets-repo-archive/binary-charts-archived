@@ -15,8 +15,7 @@ const epochFormatter = (precision = 's') => {
         case 'd': return epoch => (new Date(epoch * 1000)).toISOString().slice(0, 10);
             break;
         default: {
-            console.warn('Unexpected precision, fallback to seconds');
-            return epoch => (new Date(epoch * 1000)).toISOString().slice(11, 18);
+            throw new Error('Unexpected precision');
         }
     }
 };

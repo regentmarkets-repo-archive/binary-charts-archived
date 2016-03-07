@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { createXAxis, createYAxis } from '../Axis';
 
 describe('Axis model', () => {
-    "use strict";
     it('should create default working xAxis', () => {
         const defaultX = createXAxis('Test');
 

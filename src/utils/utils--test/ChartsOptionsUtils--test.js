@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { combineOptions } from '../ChartsOptionsUtils';
 
 describe('optionsCombiner', () => {
-    "use strict";
     it('should combine more than 2 options object', () => {
         const opt1 = { a: 'a', b: { c: 'c', d: [1, 2, 3]}};
         const opt2 = { e: 'a', f: 'f'};

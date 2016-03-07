@@ -38,7 +38,6 @@ const dynamicChartTitle = createTitle('Dynamic base chart');
 ReactDOM.render(<BaseChart className="chart" title={staticChartTitle} series={[series]} />, document.getElementById('base-chart'));
 
 const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
-    "use strict";
     const lastData = d[d.length - 1];
     let newData;
     if (d.length > 20) {

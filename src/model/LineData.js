@@ -56,23 +56,22 @@ export const createMarkPointDataElement = (
     symbol = 'arrow',
     color = 'rgb(0, 255, 0)',
     fontSize = '12') => ({
-
-    name,
-    coord: at,
-    symbol,
-    itemStyle: {
-        normal: {
-            color,
-        }
-    },
-    label: {
-        normal: {
-            textStyle: {
-                fontSize
+        name,
+        coord: at,
+        symbol,
+        itemStyle: {
+            normal: {
+                color,
+            }
+        },
+        label: {
+            normal: {
+                textStyle: {
+                    fontSize
+                }
             }
         }
-    }
-});
+    });
 
 /**
  * Create a line on chart with optional markline(s) and optional markpoint(s)
@@ -84,7 +83,6 @@ export const createMarkPointDataElement = (
  * @param points    - [{at, name, formatter}, ...]
  */
 export const createSeriesAsLine = (name, data, barriers, points, color = 'rgb(0, 153, 0)', width = '2') => {
-    "use strict";
     const dataLine = createLineData(data);
     const type = 'line';
     const markLine = barriers && {

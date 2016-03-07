@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import * as l from '../LineData';
 
 describe('LineData', () => {
-    "use strict";
 
     const randomNum = () => Math.random() * (20 - 10) + 10;
     const testData = [

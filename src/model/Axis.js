@@ -18,7 +18,6 @@ export const createXAxis = (
     axisLine = createAxisLine(),
     axisTick = createAxisTick()
 ) => {
-    "use strict";
     if (!type || type === 'category') {
         if (!data) {
             throw new Error('There should be data for category axis');
@@ -44,7 +43,6 @@ export const createYAxis = (
     position = 'right',
     axisLine = createAxisLine()
 ) => {
-    "use strict";
     if (!type || type === 'category') {
         if (!data) {
             throw new Error('There should be data for category axis');

@@ -11,7 +11,6 @@ export const findXMax = (data) => data[data.length - 1][0];
 const percentOf = (min, max, percent, precision = 0) => +((max - min) * percent).toFixed(precision);
 
 export const getXBoundaryInValue = (data, percentage) => {
-    "use strict";
     const min = findXMin(data);
     const max = findXMax(data);
     const offset = percentOf(min, max, percentage);
@@ -19,7 +18,6 @@ export const getXBoundaryInValue = (data, percentage) => {
 };
 
 export const getYBoundaryInValue = (data, percentage) => {
-    "use strict";
     const min = findYMin(data);
     const max = findYMax(data);
     const offset = percentOf(min, max, percentage);

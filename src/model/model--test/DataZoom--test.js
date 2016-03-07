@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import * as dz from '../DataZoom';
 
 describe('DataZoom', () => {
-    "use strict";
     it('should create working dataZoom by default', () => {
         const defaultDZ = dz.createDefaultDataZoom();
         expect(defaultDZ).to.have.length(2);
