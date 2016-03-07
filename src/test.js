@@ -3,7 +3,6 @@ import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { createSeriesAsLine } from './model/LineData';
-import {createTitle} from './model/Title';
 import { createZoomSlider, createSlideInside } from './model/DataZoom';
 
 const randomNum = () => Math.floor(Math.random() * (20 - 10) + 10);
@@ -32,10 +31,8 @@ const series = createSeriesAsLine('Test', testData, barriers, points);
 /********************
  * Base Chart Start *
  * ******************/
-const staticChartTitle = createTitle('Static base chart');
-const dynamicChartTitle = createTitle('Dynamic base chart');
 
-ReactDOM.render(<BaseChart className="chart" title={staticChartTitle} series={[series]} />, document.getElementById('base-chart'));
+ReactDOM.render(<BaseChart className="chart" series={[series]} />, document.getElementById('base-chart'));
 
 const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
     const lastData = d[d.length - 1];
@@ -50,7 +47,6 @@ const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
     ReactDOM.render(
         <BaseChart
             className="chart"
-            title={dynamicChartTitle}
             series={[updatedSeries]}
         />, document.getElementById('dynamic-base-chart'));
     dynamicBaseChart(newData);
@@ -66,7 +62,6 @@ dynamicBaseChart();
 /*************************
  * Rise Fall Chart Start *
  * ***********************/
-const riseFallTitle = 'Rise fall chart';
 const entry = [10, randomNum()];
 const exit = [20, randomNum()];
 
@@ -79,7 +74,6 @@ const contracts = [{
 ReactDOM.render(
     <RiseFallChart
         className="chart"
-        title={riseFallTitle}
         data={testData}
         contracts={contracts}
         symbol="Random 100"
@@ -101,7 +95,6 @@ const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
     ReactDOM.render(
         <RiseFallChart
             className="resizable-chart"
-            title="Dynamic Rise Fall"
             data={newData}
             contracts={contracts}
             symbol="Random 100"

@@ -7,7 +7,6 @@ import {createGrid} from './../model/Grid';
 import {createXAxis, createYAxis} from './../model/Axis';
 import {createDefaultDataZoom} from './../model/DataZoom';
 import {createTooltip} from './../model/Tooltip';
-import {createTitle} from './../model/Title';
 
 export default class BaseChart extends Component {
     static defaultProps = {
@@ -64,9 +63,6 @@ export default class BaseChart extends Component {
             trigger: PropTypes.oneOf(['item', 'axis']),
             triggerOn: PropTypes.oneOf(['mousemove', 'click']),
         }),
-        title: PropTypes.shape({
-            text: PropTypes.string.isRequired,
-        }),
         color: PropTypes.array,
         onZoom: PropTypes.func,
     };
@@ -92,8 +88,8 @@ export default class BaseChart extends Component {
     }
 
     compilePropsToOption() {
-        const { grid, xAxis, yAxis, series, dataZoom, tooltip, title, legend, color } = this.props;
-        return {grid, xAxis, yAxis, series, dataZoom, tooltip, title, legend, color};
+        const { grid, xAxis, yAxis, series, dataZoom, tooltip, legend, color } = this.props;
+        return {grid, xAxis, yAxis, series, dataZoom, tooltip, legend, color};
     }
 
     updateCharts(opts) {

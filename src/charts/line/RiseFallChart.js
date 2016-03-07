@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import * as lineData from '../../model/LineData';
-import {createTitle} from '../../model/Title';
 import {createXAxis, createYAxis} from '../../model/Axis';
 import {createTooltip} from '../../model/Tooltip';
 import BaseChart from '../BaseChart';
@@ -86,7 +85,6 @@ export default class RiseFallChart extends Component {
     };
 
     static propTypes = {
-        title: PropTypes.string,
         data: PropTypes.array,
         symbol: PropTypes.string,
         contracts: PropTypes.arrayOf(PropTypes.shape({
@@ -111,7 +109,6 @@ export default class RiseFallChart extends Component {
         const {
             data,
             contracts,
-            title,
             symbol,
             xOffsetPercentage,
             yOffsetPercentage,
@@ -203,8 +200,6 @@ export default class RiseFallChart extends Component {
 
         series.push(labeledCurrentSpotSeries);
 
-        const tt = title && createTitle(title);
-
         const tooltip = this.echart ?
             riseFallToolTip(width, height) :
             riseFallToolTip();
@@ -228,7 +223,6 @@ export default class RiseFallChart extends Component {
         return (
             <BaseChart
                 {...other}
-                title={tt}
                 series={series}
                 xAxis={xAxis}
                 yAxis={yAxis}
