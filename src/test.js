@@ -2,7 +2,7 @@ import TradeChart from './charts/TradeChart';
 import BaseChart from './charts/BaseChart';
 import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
-import React from 'react';
+import React, { Component } from 'react';
 import { createSeriesAsLine } from './model/LineData';
 import { createZoomSlider, createSlideInside } from './model/DataZoom';
 
@@ -28,17 +28,6 @@ const points = [
     { at: [10, randomNum()], name: 'halo', formatter: 'formatter'}
 ];
 const series = createSeriesAsLine('Test', testData, barriers, points);
-
-
-/********************
- * Base Chart Start *
- * ******************/
-
-ReactDOM.render(
-    <TradeChart
-        className="chart"
-        ticks={testData}
-    />, document.getElementById('trade-chart'));
 
 
 /********************
@@ -124,3 +113,43 @@ dynamicRiseFallChart();
 /*************************
  * Rise Fall Chart End *
  * ***********************/
+
+
+
+
+ class TestContainer extends Component {
+
+     constructor(props) {
+         super(props);
+         this.state = {
+             ticks: testData
+         }
+     }
+
+     componentDidMount() {
+         const { ticks } = this.state;
+         setInterval(() =>
+             this.setState({
+                 ticks: ticks.concat([ticks.length * 3, randomNum()])
+             })
+         , 1000);
+     }
+
+     render() {
+         const { ticks } = this.state;
+
+         return <TradeChart ticks={ticks}/>;
+     }
+ }
+
+
+
+ /**************
+  * TradeChart *
+  **************/
+
+ ReactDOM.render(
+     <TestContainer
+         className="chart"
+         ticks={testData}
+     />, document.getElementById('trade-chart'));

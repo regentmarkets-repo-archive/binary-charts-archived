@@ -81,7 +81,11 @@ export default class TradeChart extends Component {
 
     render() {
         const { ticks } = this.props;
-        console.log(ticks);
-        return <ReactHighstock config={config(ticks)} {...this.props} />;
+
+        return <ReactHighstock
+            isPureConfig
+            config={config(ticks)}
+            {...this.props}
+        />;
     }
 }
