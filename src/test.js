@@ -1,3 +1,4 @@
+import TradeChart from './charts/TradeChart';
 import BaseChart from './charts/BaseChart';
 import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
@@ -27,6 +28,18 @@ const points = [
     { at: [10, randomNum()], name: 'halo', formatter: 'formatter'}
 ];
 const series = createSeriesAsLine('Test', testData, barriers, points);
+
+
+/********************
+ * Base Chart Start *
+ * ******************/
+
+ReactDOM.render(
+    <TradeChart
+        className="chart"
+        ticks={testData}
+    />, document.getElementById('trade-chart'));
+
 
 /********************
  * Base Chart Start *
