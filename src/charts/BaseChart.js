@@ -10,6 +10,10 @@ import {createTooltip} from './../model/Tooltip';
 import {createTitle} from './../model/Title';
 
 export default class BaseChart extends Component {
+    shouldComponentUpdate() {
+        return false;
+    }
+
     static defaultProps = {
         grid: createGrid(),
         color: ['#dd77dd', '#660066', '#ccccff', '#3366ff', '#f4cad3', '#922307', '#fcd04a'],
@@ -78,7 +82,7 @@ export default class BaseChart extends Component {
         this.updateCharts(opts);
     }
 
-    componentDidUpdate(nextProps) {
+    componentWillReceiveProps(nextProps) {
         const {series, xAxis, yAxis, legend, tooltip} = nextProps;
         const opts = {};
         if (series) opts.series = series;

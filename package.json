@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "High-level React chart component that hopefully could be use for binary.com",
   "main": "index.js",
   "scripts": {

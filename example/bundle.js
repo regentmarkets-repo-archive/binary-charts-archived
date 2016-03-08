@@ -223,6 +223,11 @@
 	    }
 	
 	    _createClass(BaseChart, [{
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate() {
+	            return false;
+	        }
+	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var node = _reactDom2.default.findDOMNode(this);
@@ -231,8 +236,8 @@
 	            this.updateCharts(opts);
 	        }
 	    }, {
-	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate(nextProps) {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
 	            var series = nextProps.series;
 	            var xAxis = nextProps.xAxis;
 	            var yAxis = nextProps.yAxis;
