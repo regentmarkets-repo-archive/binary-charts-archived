@@ -1,4 +1,4 @@
-import TradeChart from './charts/TradeChart';
+import TradeChart from './TradeChart';
 import BaseChart from './charts/BaseChart';
 import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
@@ -122,17 +122,18 @@ dynamicRiseFallChart();
      constructor(props) {
          super(props);
          this.state = {
-             ticks: testData
+             ticks: testData.map(x => ({ epoch: x[0], quote: x[1] }))
          }
      }
 
      componentDidMount() {
-         const { ticks } = this.state;
-         setInterval(() =>
+         setInterval(() => {
+             const { ticks } = this.state;
+             const newTick = { epoch: ticks.length * 3, quote: randomNum() };
              this.setState({
-                 ticks: ticks.concat([ticks.length * 3, randomNum()])
+                 ticks: ticks.concat([newTick])
              })
-         , 1000);
+         }, 1000);
      }
 
      render() {
@@ -148,8 +149,4 @@ dynamicRiseFallChart();
   * TradeChart *
   **************/
 
- ReactDOM.render(
-     <TestContainer
-         className="chart"
-         ticks={testData}
-     />, document.getElementById('trade-chart'));
+ ReactDOM.render(<TestContainer />, document.getElementById('trade-chart'));

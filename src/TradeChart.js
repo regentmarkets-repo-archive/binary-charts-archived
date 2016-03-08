@@ -1,23 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
-import reset from './reset';
-import yAxis from './yAxis';
-import yAxisPlotLines from './yAxisPlotLines';
-import yAxisPlotBand from './yAxisPlotBand';
-import series from './series';
-
-
-const config = data => series(yAxisPlotBand(yAxisPlotLines(yAxis(reset()))), data);
+import ChartConfig from './ChartConfig';
 
 export default class TradeChart extends Component {
+
+    static propTypes = {
+        ticks: PropTypes.arrayOf(PropTypes.shape({
+            epoch: PropTypes.number.isRequired,
+            quote: PropTypes.number.isRequired,
+        })).isRequired,
+    };
 
     render() {
         const { ticks } = this.props;
 
-        return <ReactHighstock
-            isPureConfig
-            config={config(ticks)}
-            {...this.props}
-        />;
+        const config =
+            new ChartConfig()
+                .yAxis()
+                .yAxisPlotLines()
+                .yAxisPlotBand()
+                .xAxis()
+                .series(ticks);
+
+        return (
+            <ReactHighstock
+                isPureConfig
+                config={config}
+                {...this.props}
+            />
+        );
     }
 }

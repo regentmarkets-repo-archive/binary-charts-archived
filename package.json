@@ -1,8 +1,9 @@
 {
   "name": "binary-charts",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "Binary trade and contract visualisation library, written in React",
   "main": "index.js",
+  "main": "lib/binary-charts.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./src/**/**--test/*.js",
     "clean": "rm -rf lib",
