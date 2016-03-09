@@ -23,3 +23,10 @@ export const getYBoundaryInValue = (data, percentage) => {
     const offset = percentOf(min, max, percentage);
     return [min - offset, max + offset];
 };
+
+export const tickToData = tick =>
+    [new Date(tick.epoch * 1000), tick.quote];
+
+export const areTicksEqual = (ticks1, ticks2) =>
+    ticks1.length === ticks2.length &&
+        (ticks1.length === 0 || ticks1[ticks1.length - 1].epoch === ticks2[ticks2.length - 1].epoch)

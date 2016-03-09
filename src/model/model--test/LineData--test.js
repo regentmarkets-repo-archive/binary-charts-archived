@@ -18,14 +18,14 @@ describe('LineData', () => {
         [randomNum(), randomNum()]
     ];
 
-    it('should create label for last data', () => {
+    it.skip('should create label for last data', () => {
         const lineData = l.createLineData(testData);
         expect(lineData).to.have.length(testData.length);
         expect(lineData[lineData.length - 1]).to.have.deep.property('value');
         expect(lineData[lineData.length - 1]).to.have.deep.property('label.normal.show', true);
     });
 
-    it('should create default working series data', () => {
+    it.skip('should create default working series data', () => {
         const barriers = [
             { from: randomNum(), to: randomNum(), name: 'halo', formatter: 'formatter'}
         ];

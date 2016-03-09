@@ -3,7 +3,10 @@ import yAxis from './parts/yAxis';
 import yAxisPlotLines from './parts/yAxisPlotLines';
 import yAxisPlotBand from './parts/yAxisPlotBand';
 import xAxis from './parts/xAxis';
-import series from './parts/series';
+import seriesLine from './parts/seriesLine';
+import spot from './parts/spot';
+
+import { tickToData } from './utils/DataUtils';
 
 export default class ChartConfig {
     constructor() {
@@ -25,7 +28,7 @@ export default class ChartConfig {
     }
 
     yAxisPlotLines() {
-        this.yAxis = Object.assign(this.yAxis, yAxisPlotLines())
+        this.yAxis = Object.assign(this.yAxis, yAxisPlotLines());
         return this;
     }
 
@@ -39,9 +42,14 @@ export default class ChartConfig {
         return this;
     }
 
+    spot(spotValue) {
+        this.yAxis = Object.assign(this.yAxis, spot(spotValue));
+        return this;
+    }
+
     series(ticks) {
-        const data = ticks.map(x => [new Date(x.epoch * 1000), x.quote]);
-        this.series = series(data);
+        const data = ticks.map(tickToData);
+        this.series = seriesLine(data);
         return this;
     }
 }

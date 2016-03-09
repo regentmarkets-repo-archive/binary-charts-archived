@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "0.2.3",
+  "version": "0.5.0",
   "description": "Binary trade and contract visualisation library, written in React",
   "main": "index.js",
   "main": "lib/binary-charts.js",
@@ -17,8 +17,6 @@
   "author": "qingwei@binary.com",
   "license": "MIT",
   "dependencies": {
-    "deepmerge": "^0.2.10",
-    "echarts": "^3.1.1",
     "react-highcharts": "^8.0.2"
   },
   "devDependencies": {
