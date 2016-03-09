@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
-//import currentPriceIndicator from './current-price-indicator';
 import ChartConfig from './ChartConfig';
+//import currentPriceIndicator from './current-price-indicator';
 // console.log(currentPriceIndicator);
 // currentPriceIndicator(ReactHighstock.Highcharts);
 import { areTicksEqual, tickToData } from './utils/DataUtils';
+
+import theme from './theme';
+ReactHighstock.Highcharts.setOptions(theme);
 
 export default class TradeChart extends Component {
 
