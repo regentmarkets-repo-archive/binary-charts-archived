@@ -1,3 +1,5 @@
+const brand = percentage => `rgba(42, 48, 82, ${percentage})`;
+
 export default ({
     colors: ["#2a3052", "red", "green", "blue", "yellow"],
     chart: {
@@ -8,9 +10,9 @@ export default ({
 	},
     xAxis: {
 		gridLineColor: 'rgba(42, 48, 82, .2)',
-		labels: {
+        labels: {
 			style: {
-				color: '#2a3052'
+				color: brand(.75)
 			}
 		},
 		lineColor: '#707073',
@@ -23,10 +25,10 @@ export default ({
 		}
 	},
 	yAxis: {
-        gridLineColor: 'rgba(42, 48, 82, .2)',
+        gridLineColor: brand(.2),
 		labels: {
 			style: {
-				color: '#2a3052'
+				color: brand(.75)
 			}
 		},
 		lineColor: '#707073',
@@ -44,6 +46,26 @@ export default ({
             color: 'red'
         }
     },
+    navigator: {
+		handles: {
+			backgroundColor: brand(.25),
+			borderColor: brand(.5),
+		},
+		outlineColor: 'none',
+		maskFill: brand(.1),
+		series: {
+			color: brand(.25),
+			lineColor: brand(.25)
+		},
+		xAxis: {
+			gridLineColor: brand(.1),
+            labels: {
+                style: {
+                    color: brand(.75)
+                }
+            }
+		}
+	},
 });
 
 // #2a3052
@@ -91,14 +113,14 @@ const dark = {
 		}
 	},
 
-	navigation: {
-		buttonOptions: {
-			symbolStroke: '#DDDDDD',
-			theme: {
-				fill: '#505053'
-			}
-		}
-	},
+    navigation: {
+        buttonOptions: {
+            symbolStroke: '#DDDDDD',
+            theme: {
+                fill: '#505053'
+            }
+        }
+    },
 
 	// scroll charts
 	rangeSelector: {
@@ -132,22 +154,6 @@ const dark = {
 		},
 		labelStyle: {
 			color: 'silver'
-		}
-	},
-
-	navigator: {
-		handles: {
-			backgroundColor: '#666',
-			borderColor: '#AAA'
-		},
-		outlineColor: '#CCC',
-		maskFill: 'rgba(255,255,255,0.1)',
-		series: {
-			color: '#7798BF',
-			lineColor: '#A6C7ED'
-		},
-		xAxis: {
-			gridLineColor: '#505053'
 		}
 	},
 

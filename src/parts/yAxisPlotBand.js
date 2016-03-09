@@ -1,10 +1,10 @@
-export default config => ({
+export default (from, to, name) => ({
     plotBands: [{
-        from: 15,
-        to: 20,
+        from,
+        to,
         color: 'rgba(68, 170, 213, 0.2)',
         label: {
-            text: 'Last quarter year\'s value range'
+            text: name
         }
     }]
 });

@@ -5,7 +5,7 @@ export default () => ({
         dashStyle: 'shortdash',
         width: 2,
         label: {
-            text: 'Last quarter minimum'
+            text: 'start time'
         }
     }, {
         value: 20,
@@ -13,7 +13,7 @@ export default () => ({
         dashStyle: 'shortdash',
         width: 2,
         label: {
-            text: 'Last quarter maximum'
+            text: 'Expiration time'
         }
     }]
 });

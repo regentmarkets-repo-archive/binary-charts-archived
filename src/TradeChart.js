@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
 import ChartConfig from './ChartConfig';
-//import currentPriceIndicator from './current-price-indicator';
+
+// import currentPriceIndicator from './plugins/current-price-indicator';
 // console.log(currentPriceIndicator);
 // currentPriceIndicator(ReactHighstock.Highcharts);
+
 import { areTicksEqual, tickToData } from './utils/DataUtils';
 
 import theme from './theme';
@@ -33,12 +35,14 @@ export default class TradeChart extends Component {
 
         const config =
             new ChartConfig()
+                .navigator()
                 .yAxis()
                 .yAxisPlotLines()
                 .yAxisPlotBand()
                 .xAxis()
                 .spot(10)
-                .series(ticks);
+                .series(ticks);;
+                // .markerLastSpot();
 
         return (
             <ReactHighstock

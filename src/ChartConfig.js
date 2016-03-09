@@ -1,10 +1,11 @@
-import reset from './parts/reset';
+import navigator from './parts/navigator';
 import yAxis from './parts/yAxis';
 import yAxisPlotLines from './parts/yAxisPlotLines';
 import yAxisPlotBand from './parts/yAxisPlotBand';
 import xAxis from './parts/xAxis';
 import seriesLine from './parts/seriesLine';
 import spot from './parts/spot';
+import markerLastTick from './parts/markerLastTick';
 
 import { tickToData } from './utils/DataUtils';
 
@@ -18,8 +19,13 @@ export default class ChartConfig {
             spacingBottom: 0,
             spacingTop: 0,
             spacingLeft: 0,
-            spacingRight: 150,
+            spacingRight: 0,
         };
+    }
+
+    navigator() {
+        this.navigator = navigator();
+        return this;
     }
 
     yAxis() {
@@ -50,6 +56,11 @@ export default class ChartConfig {
     series(ticks) {
         const data = ticks.map(tickToData);
         this.series = seriesLine(data);
+        return this;
+    }
+
+    markerLastSpot() {
+        markerLastTick(this.series[0]);
         return this;
     }
 }

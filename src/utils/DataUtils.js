@@ -24,8 +24,11 @@ export const getYBoundaryInValue = (data, percentage) => {
     return [min - offset, max + offset];
 };
 
-export const tickToData = tick =>
-    [new Date(tick.epoch * 1000), tick.quote];
+export const tickToData = tick => ({
+    x: tick.epoch * 1000,
+    y: tick.quote,
+// marker: { enabled: true, radius: 5 }
+});
 
 export const areTicksEqual = (ticks1, ticks2) =>
     ticks1.length === ticks2.length &&
