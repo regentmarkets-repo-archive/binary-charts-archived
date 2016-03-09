@@ -66,6 +66,29 @@ export default ({
             }
 		}
 	},
+    rangeSelector: {
+		buttonTheme: {
+			fill: 'none',
+			stroke: 'none',
+			style: {
+				color: brand(1)
+			},
+			states: {
+				hover: {
+					fill: 'red',
+					stroke: 'green',
+					style: {
+                        borderBottom: '1px solid red',
+					}
+				},
+				select: {
+					style: {
+						borderBottom: '1px solid red',
+					}
+				}
+			}
+		}
+	},
 });
 
 // #2a3052
@@ -122,40 +145,6 @@ const dark = {
         }
     },
 
-	// scroll charts
-	rangeSelector: {
-		buttonTheme: {
-			fill: '#505053',
-			stroke: '#000000',
-			style: {
-				color: '#CCC'
-			},
-			states: {
-				hover: {
-					fill: '#707073',
-					stroke: '#000000',
-					style: {
-						color: 'white'
-					}
-				},
-				select: {
-					fill: '#000003',
-					stroke: '#000000',
-					style: {
-						color: 'white'
-					}
-				}
-			}
-		},
-		inputBoxBorderColor: '#505053',
-		inputStyle: {
-			backgroundColor: '#333',
-			color: 'silver'
-		},
-		labelStyle: {
-			color: 'silver'
-		}
-	},
 
 	// special colors for some of the
 	background2: '#505053',

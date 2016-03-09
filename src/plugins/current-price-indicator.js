@@ -9,7 +9,7 @@
 // JSLint options:
 /*global Highcharts, document */
 
-(function(H) {
+export default function(H) {
     'use strict';
     var merge = H.merge;
 
@@ -34,7 +34,7 @@
         var priceYAxis = chart.yAxis[0],
             priceSeries = chart.series[0],
             priceData = priceSeries.yData,
-            currentPrice = priceData[priceData.length - 1][3],
+            currentPrice = priceData.length && priceData[priceData.length - 1],
 
             extremes = priceYAxis.getExtremes(),
             min = extremes.min,
@@ -214,4 +214,4 @@
 
         return value;
     };
-});
+}

@@ -1,4 +1,5 @@
 import navigator from './parts/navigator';
+import rangeSelector from './parts/rangeSelector';
 import yAxis from './parts/yAxis';
 import yAxisPlotLines from './parts/yAxisPlotLines';
 import yAxisPlotBand from './parts/yAxisPlotBand';
@@ -13,8 +14,8 @@ export default class ChartConfig {
     constructor() {
         this.exporting = { enabled: false };
         this.scrollbar = { enabled: false };
-        this.rangeSelector = { enabled: false };
         this.credits = { enabled: false };
+        // this.rangeSelector = { enabled: false };
         this.chart = {
             spacingBottom: 0,
             spacingTop: 0,
@@ -25,6 +26,11 @@ export default class ChartConfig {
 
     navigator() {
         this.navigator = navigator();
+        return this;
+    }
+
+    rangeSelector() {
+        this.rangeSelector = rangeSelector();
         return this;
     }
 
@@ -49,7 +55,8 @@ export default class ChartConfig {
     }
 
     spot(spotValue) {
-        this.yAxis = Object.assign(this.yAxis, spot(spotValue));
+        this.yAxis[0] = Object.assign(this.yAxis[0], spot(spotValue));
+        console.log(this);
         return this;
     }
 

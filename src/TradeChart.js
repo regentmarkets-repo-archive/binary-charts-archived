@@ -1,15 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
 import ChartConfig from './ChartConfig';
-
-// import currentPriceIndicator from './plugins/current-price-indicator';
-// console.log(currentPriceIndicator);
-// currentPriceIndicator(ReactHighstock.Highcharts);
-
 import { areTicksEqual, tickToData } from './utils/DataUtils';
+
+import currentPriceIndicator from './plugins/current-price-indicator';
+currentPriceIndicator(ReactHighstock.Highcharts);
 
 import theme from './theme';
 ReactHighstock.Highcharts.setOptions(theme);
+
 
 export default class TradeChart extends Component {
 
@@ -36,14 +35,14 @@ export default class TradeChart extends Component {
         const config =
             new ChartConfig()
                 .navigator()
+                .rangeSelector()
                 .yAxis()
+                .spot()
                 .yAxisPlotLines()
                 .yAxisPlotBand()
                 .xAxis()
-                .spot(10)
-                .series(ticks);;
+                .series(ticks);
                 // .markerLastSpot();
-
         return (
             <ReactHighstock
                 isPureConfig

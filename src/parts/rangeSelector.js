@@ -1,5 +1,9 @@
 export default () => ({
     buttons: [{
+        type: 'second',
+        count: 1,
+        text: '1sec'
+    }, {
         type: 'hour',
         count: 1,
         text: '1h'
@@ -12,6 +16,8 @@ export default () => ({
         count: 1,
         text: 'All'
     }],
+    allButtonsEnabled: true,
     selected: 1,
-    inputEnabled: false
+    inputEnabled: false,
+    labelStyle: { display: 'none' }
 });
