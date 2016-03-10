@@ -1,7 +1,8 @@
-const brand = percentage => `rgba(42, 48, 82, ${percentage})`;
+export const brand = percentage =>
+    `rgba(42, 48, 82, ${percentage})`;
 
 export default ({
-    colors: ["#2a3052", "red", "green", "blue", "yellow"],
+    colors: [brand(1)],
     series: [{
         lineWidth: 1
     }],

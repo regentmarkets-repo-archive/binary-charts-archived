@@ -1,5 +1,5 @@
 export default () => ({
-    currentPriceIndicator: {
+    spotIndicator: {
         backgroundColor: 'red',
         borderColor: 'red',
         enabled: true,

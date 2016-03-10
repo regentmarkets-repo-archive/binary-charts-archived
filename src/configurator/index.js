@@ -11,9 +11,10 @@ const baseConiguration = () =>
         .xAxis();
 
 export default ({ ticks, contract, trade }) => {
+    const lastTick = ticks.length && ticks[ticks.length - 1].quote;
     const baseConfig = baseConiguration();
     const ticksConfig = baseConfig.series(ticks).end();
     const config2 = contractConfig(ticksConfig, contract);
-    const config3 = tradeConfig(config2, trade);
+    const config3 = tradeConfig({ config: config2, trade, lastTick });
     return config3;
 }

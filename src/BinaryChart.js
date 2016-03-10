@@ -3,8 +3,8 @@ import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
 import { areTicksEqual, tickToData } from './utils/DataUtils';
 import configurator from './configurator';
 
-import currentPriceIndicator from './plugins/current-price-indicator';
-currentPriceIndicator(ReactHighstock.Highcharts);
+import spotIndicator from './plugins/spot-indicator';
+spotIndicator(ReactHighstock.Highcharts);
 
 import theme from './theme/';
 ReactHighstock.Highcharts.setOptions(theme);

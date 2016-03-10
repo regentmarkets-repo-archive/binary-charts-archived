@@ -18,7 +18,7 @@ export default function(H) {
         // Run the original proceed method
         proceed.apply(this, Array.prototype.slice.call(arguments, 1));
 
-        renderCurrentPriceIndicator(this);
+        renderspotIndicator(this);
     });
 
     H.wrap(H.Chart.prototype, 'redraw', function(proceed) {
@@ -26,10 +26,10 @@ export default function(H) {
         // Run the original proceed method
         proceed.apply(this, Array.prototype.slice.call(arguments, 1));
 
-        renderCurrentPriceIndicator(this);
+        renderspotIndicator(this);
     });
 
-    function renderCurrentPriceIndicator(chart) {
+    function renderspotIndicator(chart) {
 
         var priceYAxis = chart.yAxis[0],
             priceSeries = chart.series[0],
@@ -40,7 +40,7 @@ export default function(H) {
             min = extremes.min,
             max = extremes.max,
 
-            options = chart.options.yAxis[0].currentPriceIndicator,
+            options = chart.options.yAxis[0].spotIndicator,
             defaultOptions = {
                 backgroundColor: '#000000',
                 borderColor: '#000000',
@@ -64,13 +64,13 @@ export default function(H) {
 
             renderer = chart.renderer,
 
-            currentPriceIndicator = priceYAxis.currentPriceIndicator || {},
-            isRendered = Object.keys(currentPriceIndicator).length,
+            spotIndicator = priceYAxis.spotIndicator || {},
+            isRendered = Object.keys(spotIndicator).length,
 
-            group = currentPriceIndicator.group,
-            label = currentPriceIndicator.label,
-            box = currentPriceIndicator.box,
-            line = currentPriceIndicator.line,
+            group = spotIndicator.group,
+            label = spotIndicator.label,
+            box = spotIndicator.box,
+            line = spotIndicator.line,
 
             width,
             height,
@@ -141,23 +141,23 @@ export default function(H) {
                     y: y + (height / 4)
                 }, 0);
             } else {
-                currentPriceIndicator.label.animate({
+                spotIndicator.label.animate({
                     text: currentPrice,
                     y: y
                 }, 0);
 
-                height = currentPriceIndicator.label.getBBox().height;
+                height = spotIndicator.label.getBBox().height;
 
-                currentPriceIndicator.box.animate({
+                spotIndicator.box.animate({
                     y: y - (height / 2)
                 }, 0);
 
-                currentPriceIndicator.line.animate({
+                spotIndicator.line.animate({
                     d: ['M', lineFrom, y, 'L', x, y]
                 }, 0);
 
                 // adjust
-                currentPriceIndicator.label.animate({
+                spotIndicator.label.animate({
                     y: y + (height / 4)
                 }, 0);
             }
@@ -169,7 +169,7 @@ export default function(H) {
             }
 
             // register to price y-axis object
-            priceYAxis.currentPriceIndicator = {
+            priceYAxis.spotIndicator = {
                 group: group,
                 label: label,
                 box: box,
