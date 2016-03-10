@@ -6,7 +6,6 @@ export default data => [{
         valueDecimals: 2
     },
     lineWidth: 1,
-    // fillColor: 'red'
-    fillOpacity: .25,
+    fillOpacity: .1,
     threshold: null,
 }];

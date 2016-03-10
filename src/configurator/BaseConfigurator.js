@@ -47,7 +47,7 @@ export default class BaseConfigurator {
     }
 
     spot(spotValue) {
-        this.config.yAxis[0] = Object.assign(this.config.yAxis[0], spot(spotValue));
+        this.config.yAxis = Object.assign(this.config.yAxis, spot(spotValue));
         return this;
     }
 

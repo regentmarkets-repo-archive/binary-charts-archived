@@ -1,49 +1,19 @@
 import BaseConfigurator from './BaseConfigurator';
-import TradeConfigurator from './TradeConfigurator';
-import ContractConfigurator from './ContractConfigurator';
+import tradeConfig from './TradeConfigurator';
+import contractConfig from './ContractConfigurator';
 
-export default (ticks, contract, trade) => {
-    
-    let configurator =
-        new BaseConfigurator()
-            .navigator()
-            .rangeSelector()
-            .yAxis()
-            .spot()
-            // .yAxisPlotLines()
-            // .yAxisPlotBand()
-            .xAxis()
-            .series(ticks);
+const baseConiguration = () =>
+    new BaseConfigurator()
+        .navigator()
+        .rangeSelector()
+        .yAxis()
+        .spot()
+        .xAxis();
 
-    if (contract) {
-        switch (contract.contract_type) {
-            case 'CALL': {
-                configurator = configurator
-                    .yAxisPlotBand(contract.barrier, Number.MAX_VALUE, 'Winning');
-            }
-            case 'PUT': {
-                configurator = configurator
-                    .yAxisPlotBand(0, contract.barrier, 'Winning');
-            }
-            case 'PUT': {
-                configurator = configurator
-                    .yAxisPlotBand(0, contract.barrier, 'Winning');
-            }
-            case 'RANGE': {
-                configurator = configurator
-                    .yAxisPlotBand(contract.barrier, contract.barrier2, 'Winning');
-            }
-            case 'UPORDOWN': {
-                configurator = configurator
-                    .yAxisPlotBand(0, contract.barrier, 'Winning')
-                    .yAxisPlotBand(contract.barrier2, Number.MAX_VALUE, 'Winning');
-            }
-        }
-    }
-
-    if (trade) {
-        //
-    }
-
-    return configurator.end();
+export default ({ ticks, contract, trade }) => {
+    const baseConfig = baseConiguration();
+    const ticksConfig = baseConfig.series(ticks).end();
+    const config2 = contractConfig(ticksConfig, contract);
+    const config3 = tradeConfig(config2, trade);
+    return config3;
 }

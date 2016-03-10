@@ -72,21 +72,17 @@ export default ({
     rangeSelector: {
 		buttonTheme: {
 			fill: 'none',
-			stroke: 'none',
+            width: null,
+            padding: 5,
+            r: 2,
+            borderRadius: 5,
 			style: {
-				color: brand(1)
+				color: brand(.75)
 			},
 			states: {
-				hover: {
-					fill: 'red',
-					stroke: 'green',
-					style: {
-                        borderBottom: '1px solid red',
-					}
-				},
 				select: {
 					style: {
-						borderBottom: '1px solid red',
+                        color: brand(.75)
 					}
 				}
 			}

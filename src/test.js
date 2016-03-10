@@ -29,8 +29,9 @@ class TestContainer extends Component {
      render() {
          const { ticks } = this.state;
          const contract = {
-             contract_type: 'PUT',
+             contract_type: 'UPORDOWN',
              barrier: 15,
+             barrier2: 17,
          };
 
          return <BinaryChart ticks={ticks} contract={contract} />;

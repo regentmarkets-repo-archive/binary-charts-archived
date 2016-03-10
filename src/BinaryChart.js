@@ -36,9 +36,7 @@ export default class BinaryChart extends Component {
     render() {
         const { contract, ticks, trade } = this.props;
 
-        const config = configurator(ticks, contract, trade);
-
-        console.log(config);
+        const config = configurator({ ticks, contract, trade });
 
         return (
             <ReactHighstock

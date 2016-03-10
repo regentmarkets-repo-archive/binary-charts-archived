@@ -1,6 +1,3 @@
-
-export default class TradeConfigurator {
-    constructor(config) {
-        this.config = config;
-    }
+export default (config, trade) => {
+    return config;
 }
