@@ -1,5 +1,5 @@
 export default data => [{
-    name: 'Symbol here',
+    name: 'Spot',
     type: 'area',
     data,
     tooltip: {

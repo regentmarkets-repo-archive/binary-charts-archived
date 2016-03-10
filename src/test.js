@@ -34,7 +34,12 @@ class TestContainer extends Component {
              barrier2: 17,
          };
 
-         return <BinaryChart ticks={ticks} contract={contract} />;
+         const trade = {
+             type: 'CALL',
+             barrier: 15,
+         }
+
+         return <BinaryChart ticks={ticks} trade={trade} />;
      }
  }
 

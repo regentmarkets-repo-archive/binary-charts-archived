@@ -3,7 +3,6 @@ import navigator from '../parts/navigator';
 import rangeSelector from '../parts/rangeSelector';
 import yAxis from '../parts/yAxis';
 import yAxisPlotLines from '../parts/yAxisPlotLines';
-import yAxisPlotBand from '../parts/yAxisPlotBand';
 import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 import spot from '../parts/spot';
@@ -33,11 +32,6 @@ export default class BaseConfigurator {
 
     yAxisPlotLines() {
         this.config.yAxis = Object.assign(this.yAxis, yAxisPlotLines());
-        return this;
-    }
-
-    yAxisPlotBand(from, to, name) {
-        this.config.yAxis.plotBands = yAxisPlotBand(from, to, name);
         return this;
     }
 

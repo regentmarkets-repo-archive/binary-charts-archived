@@ -1,4 +1,4 @@
-import { winPlotBand, lossPlotBand } from './bands';
+import { winPlotBand, lossPlotBand } from './commonPlotBands';
 
 export default contract => [
     winPlotBand(0, contract.barrier),
