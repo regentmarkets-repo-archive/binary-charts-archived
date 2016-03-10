@@ -1,22 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
-import ChartConfig from './ChartConfig';
 import { areTicksEqual, tickToData } from './utils/DataUtils';
+import configurator from './configurator';
 
 import currentPriceIndicator from './plugins/current-price-indicator';
 currentPriceIndicator(ReactHighstock.Highcharts);
 
-import theme from './theme';
+import theme from './theme/';
 ReactHighstock.Highcharts.setOptions(theme);
 
 
-export default class TradeChart extends Component {
+export default class BinaryChart extends Component {
 
     static propTypes = {
         ticks: PropTypes.arrayOf(PropTypes.shape({
             epoch: PropTypes.number.isRequired,
             quote: PropTypes.number.isRequired,
         })).isRequired,
+        contract: PropTypes.shape({
+            barrier: PropTypes.number,
+        }),
+        trade: PropTypes.object,
     };
 
     shouldComponentUpdate(nextProps) {
@@ -30,19 +34,12 @@ export default class TradeChart extends Component {
     }
 
     render() {
-        const { ticks } = this.props;
+        const { contract, ticks, trade } = this.props;
 
-        const config =
-            new ChartConfig()
-                .navigator()
-                .rangeSelector()
-                .yAxis()
-                .spot()
-                .yAxisPlotLines()
-                .yAxisPlotBand()
-                .xAxis()
-                .series(ticks);
-                // .markerLastSpot();
+        const config = configurator(ticks, contract, trade);
+
+        console.log(config);
+
         return (
             <ReactHighstock
                 isPureConfig

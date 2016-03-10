@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import TradeChart from './TradeChart';
+import BinaryChart from './BinaryChart';
 
 const randomNum = () => Math.floor(Math.random() * (20 - 10) + 10);
 const seqDate = () => new Date().getTime() / 1000;
@@ -28,8 +28,12 @@ class TestContainer extends Component {
 
      render() {
          const { ticks } = this.state;
+         const contract = {
+             contract_type: 'PUT',
+             barrier: 15,
+         };
 
-         return <TradeChart ticks={ticks}/>;
+         return <BinaryChart ticks={ticks} contract={contract} />;
      }
  }
 

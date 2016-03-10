@@ -5,7 +5,10 @@ export default () => ({
         dashStyle: 'shortdash',
         width: 2,
         label: {
-            text: 'start time'
+            text: 'start time',
+            style: {
+                color: 'green'
+            }
         }
     }, {
         value: 20,
@@ -13,7 +16,10 @@ export default () => ({
         dashStyle: 'shortdash',
         width: 2,
         label: {
-            text: 'Expiration time'
+            text: 'Expiration time',
+            style: {
+                color: 'red'
+            }
         }
     }]
 });

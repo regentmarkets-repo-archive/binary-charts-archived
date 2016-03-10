@@ -2,6 +2,9 @@ const brand = percentage => `rgba(42, 48, 82, ${percentage})`;
 
 export default ({
     colors: ["#2a3052", "red", "green", "blue", "yellow"],
+    series: [{
+        lineWidth: 1
+    }],
     chart: {
 		style: {
 			fontFamily: "'Roboto', sans-serif"

@@ -1,1 +1,1 @@
-export TradeChart from './TradeChart';
+export BinaryChart from './BinaryChart';

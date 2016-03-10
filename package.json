@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Binary trade and contract visualisation library, written in React",
   "main": "index.js",
   "main": "lib/binary-charts.js",
@@ -27,7 +27,7 @@
     "babel-preset-stage-1": "^6.5.0",
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
-    "webpack": "^1.12.14"
+    "webpack": "^2.1.0-beta.4"
   },
   "peerDependencies": {
     "react": "^0.14.7",
