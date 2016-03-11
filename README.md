@@ -1,5 +1,5 @@
-#Binary charts
+# Binary charts
 
-##Public Api
-[RiseFallChart](src/charts/line/RiseFallChart.js)
-
+```
+npm install binary-charts --save
+```
