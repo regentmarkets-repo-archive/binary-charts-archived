@@ -41,6 +41,8 @@ class TestContainer extends Component {
 
          return (
              <div>
+                 <h1>Empty</h1>
+                 <BinaryChart />
                  <h1>Ticks</h1>
                  <BinaryChart ticks={ticks} />
                  <h1>Trade</h1>

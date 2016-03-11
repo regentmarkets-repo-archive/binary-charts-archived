@@ -23,6 +23,10 @@ export default class BinaryChart extends Component {
         trade: PropTypes.object,
     };
 
+    static defaultProps = {
+        ticks: [],
+    };
+
     shouldComponentUpdate(nextProps) {
         const dataIsSame = areTickArraysEqual(this.props.ticks, nextProps.ticks);
         if (!dataIsSame) {
@@ -32,7 +36,7 @@ export default class BinaryChart extends Component {
                 const lastTick = nextProps.ticks[nextProps.ticks.length - 1];
                 series.addPoint(tickToData(lastTick));
             } else {
-                setData(nextProps.ticks.map(tickToData));
+                series.setData(nextProps.ticks.map(tickToData));
             }
         }
 
