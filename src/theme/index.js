@@ -81,7 +81,11 @@ export default ({
 				color: brand(.75)
 			},
 			states: {
+                hover: {
+                    fill: 'none',
+                },
 				select: {
+                    fill: brand(.1),
 					style: {
                         color: brand(.75)
 					}
