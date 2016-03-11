@@ -8,7 +8,8 @@ const baseConiguration = () =>
         .rangeSelector()
         .yAxis()
         .spot()
-        .xAxis();
+        .xAxis()
+        .events();
 
 export default ({ ticks, contract, trade }) => {
     const lastTick = ticks.length && ticks[ticks.length - 1].quote;

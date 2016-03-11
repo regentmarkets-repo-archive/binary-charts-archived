@@ -7,6 +7,7 @@ import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 import spot from '../parts/spot';
 import markerLastTick from '../parts/markerLastTick';
+import events from '../parts/events';
 
 import { tickToData } from '../utils/DataUtils';
 
@@ -53,6 +54,11 @@ export default class BaseConfigurator {
 
     markerLastSpot() {
         markerLastTick(this.config.series[0]);
+        return this;
+    }
+
+    events() {
+        this.config.chart.events = events();
         return this;
     }
 
