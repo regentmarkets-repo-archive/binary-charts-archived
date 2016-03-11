@@ -32,6 +32,11 @@ class TestContainer extends Component {
              contract_type: 'UPORDOWN',
              barrier: 15,
              barrier2: 17,
+             date_expiry: 3,
+             date_settlement: new Date().getTime() / 1000 + 5000,
+             date_start: new Date().getTime() / 1000,
+             entry_tick_time: new Date().getTime() / 1000 + 5,
+             expiry_time: new Date().getTime() / 1000 + 1,
          };
 
          const trade = {
@@ -41,14 +46,14 @@ class TestContainer extends Component {
 
          return (
              <div>
-                 <h1>Empty</h1>
-                 <BinaryChart />
                  <h1>Ticks</h1>
                  <BinaryChart ticks={ticks} />
                  <h1>Trade</h1>
                  <BinaryChart ticks={ticks} trade={trade} />
                  <h1>Contract</h1>
                  <BinaryChart ticks={ticks} contract={contract} />
+                 <h1>Empty</h1>
+                 <BinaryChart />
              </div>
          );
      }

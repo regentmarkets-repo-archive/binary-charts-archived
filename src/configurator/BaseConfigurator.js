@@ -2,7 +2,6 @@ import reset from '../parts/reset';
 import navigator from '../parts/navigator';
 import rangeSelector from '../parts/rangeSelector';
 import yAxis from '../parts/yAxis';
-import yAxisPlotLines from '../parts/yAxisPlotLines';
 import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 import spot from '../parts/spot';
@@ -28,11 +27,6 @@ export default class BaseConfigurator {
 
     yAxis() {
         this.config.yAxis = yAxis();
-        return this;
-    }
-
-    yAxisPlotLines() {
-        this.config.yAxis = Object.assign(this.yAxis, yAxisPlotLines());
         return this;
     }
 
