@@ -89,19 +89,16 @@ export default ({
 			}
 		}
 	},
+    tooltip: {
+        borderColor: brand(.25),
+        shadow: false,
+        style: {
+            color: brand(1)
+        }
+    },
 });
 
-// #2a3052
-// rgba(42, 48, 82, 1)
-
 const dark = {
-
-	tooltip: {
-		backgroundColor: 'rgba(0, 0, 0, 0.85)',
-		style: {
-			color: '#F0F0F0'
-		}
-	},
 	plotOptions: {
 		series: {
 			dataLabels: {
