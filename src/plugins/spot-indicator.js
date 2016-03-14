@@ -2,7 +2,7 @@ const defaultOptions = {
     color: 'red',
     enabled: true,
     style: {
-        color: '#ffffff',
+        color: 'white',
         fontSize: '11px',
     },
     x: 0,
@@ -25,21 +25,11 @@ const polyPath = (x, y, height) => [
     0, y + .5,
 ];
 
-const render = ({ renderer, options, currentPrice, x, y, spotIndicator }) => {
+const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator }) => {
 
     spotIndicator.group = renderer.g('spot')
         .attr({ zIndex: options.zIndex })
         .add();
-
-    spotIndicator.label = renderer.text(currentPrice, x + 35, y)
-        .attr({ zIndex: 2, dy: 3 })
-        .css({
-            cursor: 'default',
-            textAnchor: 'end',
-            color: options.style.color,
-            fontSize: options.style.fontSize,
-        })
-        .add(spotIndicator.group);
 
     spotIndicator.poly = renderer
         .path(polyPath(x, y, 15))
@@ -47,18 +37,42 @@ const render = ({ renderer, options, currentPrice, x, y, spotIndicator }) => {
             fill: options.color,
         })
         .add(spotIndicator.group);
+
+    spotIndicator.label = renderer
+        .text(currentPrice, x + 40, y)
+        .attr({
+            zIndex: 2,
+            width: 40,
+            dy: 3
+        })
+        .css({
+            cursor: 'default',
+            textAnchor: 'end',
+            color: options.style.color,
+            fontSize: options.style.fontSize,
+        })
+        .add(spotIndicator.group);
 }
 
-const animate = ({ currentPrice, x, y, spotIndicator }) => {
+const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
 
-    spotIndicator.label.animate({
+    spotIndicator.label.attr({
         text: currentPrice,
-        y: y
-    }, 0);
+        x: x + 40,
+        y
+    });
 
-    spotIndicator.poly.animate({
+    spotIndicator.poly.attr({
         d: polyPath(x, y, 15)
-    }, 0);
+    });
+
+    const extremes = priceYAxis.getExtremes();
+
+    if (currentPrice > extremes.min && currentPrice < extremes.max) {
+        priceYAxis.spotIndicator.group.show();
+    } else {
+        priceYAxis.spotIndicator.group.hide();
+    }
 }
 
 export default H => {
@@ -76,45 +90,32 @@ export default H => {
 
     function renderSpotIndicator(chart) {
 
-        var priceYAxis = chart.yAxis[0],
-            priceSeries = chart.series[0],
-
-            extremes = priceYAxis.getExtremes(),
-            min = extremes.min,
-            max = extremes.max,
-
-            options = chart.options.yAxis[0].spotIndicator,
-
-            chartWidth = chart.chartWidth,
-            chartHeight = chart.chartHeight,
-            marginRight = chart.optionsMarginRight || 0,
-            marginLeft = chart.optionsMarginLeft || 0;
-
+        let options = chart.options.yAxis[0].spotIndicator;
+        if (!options.enabled) return;
         options = merge(true, defaultOptions, options);
 
+        const priceYAxis = chart.yAxis[0];
+        const priceSeries = chart.series[0];
         const currentPrice = lastPriceFromSeries(chart.series[0]);
+
+        const marginRight = chart.optionsMarginRight || 0;
+        const marginLeft = chart.optionsMarginLeft || 0;
+
+
         const width = marginRight ? marginRight : 40;
 
-        let x = priceYAxis.opposite ? chartWidth - width : marginLeft;
+        let x = priceYAxis.opposite ? chart.chartWidth - width : marginLeft;
         let y = priceYAxis.toPixels(currentPrice);
 
         // offset
         x += options.x;
         y += options.y;
 
-        if (!options.enabled) return;
-
         if (priceYAxis.spotIndicator) {
-            animate({ renderer: chart.renderer, options, currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator });
+            update({ currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator, priceYAxis });
         } else {
             priceYAxis.spotIndicator = {};
-            render({ renderer: chart.renderer, options, currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator });
-        }
-
-        if (currentPrice > min && currentPrice < max) {
-            priceYAxis.spotIndicator.group.show();
-        } else {
-            priceYAxis.spotIndicator.group.hide();
+            initialize({ renderer: chart.renderer, options, currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator });
         }
     };
 }

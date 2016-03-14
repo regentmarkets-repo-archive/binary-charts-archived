@@ -2,6 +2,13 @@
   "name": "binary-charts",
   "version": "2.0.0",
   "description": "Binary trade and contract visualisation library, written in React",
+  "contributors": [{
+    "name": "Boris Yankov",
+    "email": "boris@binary.com"
+  }, {
+    "name": "Lim Qing Wei",
+    "email": "qingwei@binary.com"
+  }],
   "main": "index.js",
   "main": "lib/binary-charts.js",
   "scripts": {
@@ -14,7 +21,6 @@
   "keywords": [
     "binary.com"
   ],
-  "author": "qingwei@binary.com",
   "license": "MIT",
   "dependencies": {
     "react-highcharts": "^8.0.2"

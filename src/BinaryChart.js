@@ -40,6 +40,7 @@ export default class BinaryChart extends Component {
             }
         }
 
+        // console.log(nextProps.trade != this.props.trade, nextProps.trade, this.props.trade);
         // if (nextProps.contract != this.props.contract || nextProps.trade != this.props.trade)
 
         return false;
