@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import BinaryChart from './BinaryChart';
 
-const randomNum = () => Math.floor(Math.random() * (20 - 10) + 10);
+const randomNum = () => Math.random() * (200 - 100) + 100;
 const seqDate = () => new Date().getTime() / 1000;
 const testData = [];
 
@@ -17,13 +17,14 @@ class TestContainer extends Component {
      }
 
      componentDidMount() {
-         setInterval(() => {
+         const chartInterval = setInterval(() => {
              const { ticks } = this.state;
              const newTick = { epoch: new Date().getTime() / 1000, quote: randomNum() };
              this.setState({
                  ticks: ticks.concat([newTick])
              })
          }, 1000);
+         window.stopUpdates = () => clearInterval(chartInterval);
      }
 
      render() {
