@@ -1,5 +1,5 @@
 const vertPlotLine = (epoch, color, text) => ({
-    value: epoch,
+    value: epoch * 1000,
     color,
     width: 2,
     label: {

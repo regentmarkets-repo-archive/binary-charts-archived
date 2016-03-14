@@ -1,4 +1,4 @@
-export default () => [{
+export default () => ({
     type: 'datetime',
     dateTimeLabelFormats: {
         second: '%Y-%m-%d<br/>%H:%M:%S',
@@ -10,4 +10,4 @@ export default () => [{
         year: '%Y'
     },
     tickWidth: 0,
-}];
+});

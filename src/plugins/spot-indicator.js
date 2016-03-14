@@ -13,35 +13,33 @@ const defaultOptions = {
 const lastPriceFromSeries = series =>
     series.yData.length && series.yData[series.yData.length - 1];
 
-const polyPath = (x, y, height) => [
+const polyPath = (x, y, width, height) => [
     'M', 0, y - .5,
     'L',
-    x - 5, y,
+    x - 8, y,
     x, y - (height / 2),
-    x + 40, y - (height / 2),
-    x + 40, y + (height / 2),
+    x + width, y - (height / 2),
+    x + width, y + (height / 2),
     x, y + (height / 2),
-    x - 5, y + .5,
+    x - 8, y + .5,
     0, y + .5,
 ];
 
 const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
-
-    console.log(x, y, priceYAxis);
 
     spotIndicator.group = renderer.g('spot')
         .attr({ zIndex: options.zIndex })
         .add();
 
     spotIndicator.poly = renderer
-        .path(polyPath(priceYAxis.width, y, 15))
+        .path(polyPath(priceYAxis.width, y, 60, 15))
         .attr({
             fill: options.color,
         })
         .add(spotIndicator.group);
 
     spotIndicator.label = renderer
-        .label(currentPrice.toFixed(2), priceYAxis.width + 40, y - 8)
+        .label(currentPrice.toFixed(2), priceYAxis.width + 45, y - 8)
         .attr({
             padding: 1,
         })
@@ -58,12 +56,12 @@ const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
 
     spotIndicator.label.attr({
         text: currentPrice.toFixed(2),
-        x: priceYAxis.width + 40,
+        x: priceYAxis.width + 45,
         y: y - 8
     });
 
     spotIndicator.poly.attr({
-        d: polyPath(priceYAxis.width, y, 15)
+        d: polyPath(priceYAxis.width, y, 60, 15)
     });
 
     const extremes = priceYAxis.getExtremes();
@@ -98,11 +96,7 @@ export default H => {
         const priceSeries = chart.series[0];
         const currentPrice = lastPriceFromSeries(chart.series[0]);
 
-        const marginRight = chart.optionsMarginRight || 0;
-        const marginLeft = chart.optionsMarginLeft || 0;
-
-
-        const width = marginRight ? marginRight : 40;
+        const width = 40;
 
         let x = priceYAxis.opposite ? chart.chartWidth - width : marginLeft;
         let y = priceYAxis.toPixels(currentPrice);

@@ -29,21 +29,22 @@ class TestContainer extends Component {
 
      render() {
          const { ticks } = this.state;
+
          const contract = {
              contract_type: 'UPORDOWN',
-             barrier: 15,
-             barrier2: 17,
-             date_expiry: 3,
-             date_settlement: new Date().getTime() / 1000 + 5000,
-             date_start: new Date().getTime() / 1000,
-             entry_tick_time: new Date().getTime() / 1000 + 5,
+             barrier: 150,
+             barrier2: 180,
+             date_expiry: new Date().getTime() / 1000 + 10,
+             date_settlement: new Date().getTime() / 1000 + 11,
+             date_start: new Date().getTime() / 1000 - 3,
+             entry_tick_time: new Date().getTime() / 1000 + 2,
              expiry_time: new Date().getTime() / 1000 + 1,
          };
 
          const trade = {
              type: 'CALL',
-             barrier: 15,
-         }
+             barrier: 150,
+         };
 
          return (
              <div>
