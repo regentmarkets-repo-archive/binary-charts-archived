@@ -42,7 +42,7 @@ class TestContainer extends Component {
          };
 
          const trade = {
-             type: 'CALL',
+             type: 'ASIANU',
              barrier: 150,
          };
 
