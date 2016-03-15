@@ -1,4 +1,5 @@
 const vertPlotLine = (epoch, color, text) => ({
+    id: text,
     value: epoch * 1000,
     color,
     width: 2,

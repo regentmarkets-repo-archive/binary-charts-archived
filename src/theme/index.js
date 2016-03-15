@@ -100,6 +100,11 @@ export default ({
             color: brand(1)
         }
     },
+    resetZoomButton: {
+        theme: {
+            display: 'none'
+        }
+    }
 });
 
 const dark = {

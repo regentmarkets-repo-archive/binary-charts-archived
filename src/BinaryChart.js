@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
 import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './utils/DataUtils';
-import configurator from './configurator';
+import { fullConfig, updateChart } from './configurator';
 
 import spotIndicator from './plugins/spot-indicator';
 spotIndicator(ReactHighstock.Highcharts);
@@ -28,20 +29,26 @@ export default class BinaryChart extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        const dataIsSame = areTickArraysEqual(this.props.ticks, nextProps.ticks);
-        if (!dataIsSame) {
+        const tickDataIsSame = areTickArraysEqual(this.props.ticks, nextProps.ticks);
+        if (!tickDataIsSame) {
             const series = this.refs.chart.getChart().series[0];
             const oneTickDiff = doTicksDifferJustOneEntry(this.props.ticks, nextProps.ticks);
+            const { ticks } = nextProps;
+
             if (oneTickDiff) {
-                const lastTick = nextProps.ticks[nextProps.ticks.length - 1];
+                const lastTick = ticks[ticks.length - 1];
                 series.addPoint(tickToData(lastTick));
             } else {
-                series.setData(nextProps.ticks.map(tickToData));
+                series.setData(ticks.map(tickToData));
             }
         }
 
-        // console.log(nextProps.trade != this.props.trade, nextProps.trade, this.props.trade);
-        // if (nextProps.contract != this.props.contract || nextProps.trade != this.props.trade)
+        if (!shallowEqual(nextProps.contract, this.props.contract) ||
+            !shallowEqual(nextProps.trade, this.props.trade)) {
+            const { contract, trade } = nextProps;
+            const chart = this.refs.chart.getChart();
+            updateChart({ chart, contract, trade });
+        }
 
         return false;
     }
@@ -49,7 +56,7 @@ export default class BinaryChart extends Component {
     render() {
         const { contract, ticks, trade } = this.props;
 
-        const config = configurator({ ticks, contract, trade });
+        const config = fullConfig({ ticks, contract, trade });
 
         return (
             <ReactHighstock

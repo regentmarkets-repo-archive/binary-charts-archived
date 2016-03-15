@@ -1,15 +1,17 @@
 {
   "name": "binary-charts",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "description": "Binary trade and contract visualisation library, written in React",
-  "contributors": [{
-    "name": "Boris Yankov",
-    "email": "boris@binary.com"
-  }, {
-    "name": "Lim Qing Wei",
-    "email": "qingwei@binary.com"
-  }],
-  "main": "index.js",
+  "contributors": [
+    {
+      "name": "Boris Yankov",
+      "email": "boris@binary.com"
+    },
+    {
+      "name": "Lim Qing Wei",
+      "email": "qingwei@binary.com"
+    }
+  ],
   "main": "lib/binary-charts.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./src/**/__tests__/*.js",

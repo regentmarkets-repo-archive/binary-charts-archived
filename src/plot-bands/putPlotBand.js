@@ -1,6 +1,6 @@
 import { winPlotBand, lossPlotBand } from './commonPlotBands';
 
 export default contract => [
-    winPlotBand(0, contract.barrier),
-    lossPlotBand(contract.barrier, Number.MAX_VALUE),
+    winPlotBand('win', 0, contract.barrier),
+    lossPlotBand('loss', contract.barrier, Number.MAX_VALUE),
 ];

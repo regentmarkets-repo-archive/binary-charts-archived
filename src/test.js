@@ -48,14 +48,14 @@ class TestContainer extends Component {
 
          return (
              <div>
-                 <h1>Ticks</h1>
-                 <BinaryChart ticks={ticks} />
+                 {/*<h1>Ticks</h1>
+                 <BinaryChart ticks={ticks} />*/}
                  <h1>Trade</h1>
                  <BinaryChart ticks={ticks} trade={trade} />
-                 <h1>Contract</h1>
+                 {/*<h1>Contract</h1>
                  <BinaryChart ticks={ticks} contract={contract} />
                  <h1>Empty</h1>
-                 <BinaryChart />
+                 <BinaryChart />*/}
              </div>
          );
      }
