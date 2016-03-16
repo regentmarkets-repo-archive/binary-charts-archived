@@ -7,6 +7,9 @@ import { fullConfig, updateChart } from './configurator';
 import spotIndicator from './plugins/spot-indicator';
 spotIndicator(ReactHighstock.Highcharts);
 
+import tradeMarker from "./plugins/tradeMarker";
+tradeMarker(ReactHighstock.Highcharts);
+
 import theme from './theme/';
 ReactHighstock.Highcharts.setOptions(theme);
 
