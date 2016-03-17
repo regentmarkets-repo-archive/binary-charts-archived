@@ -1,22 +1,27 @@
 var path = require('path');
 
 module.exports = {
-  entry: path.join(__dirname, 'src/test.js'),
+    devtool: 'source-map',
 
-  output: {
-    path: path.join(__dirname, 'example/'),
-    filename: 'bundle.js',
-  },
+    entry: path.join(__dirname, 'src/test.js'),
 
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      },
-    ],
-  },
+    module: {
+        loaders: [{
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+        }, ],
+    },
 
-  devtool: 'source-map'
+    output: {
+        library: 'binary-live-api',
+        libraryTarget: 'umd',
+        path: 'lib',
+        filename: 'binary-live-api.js',
+    },
+
+    output: {
+        path: path.join(__dirname, 'example/'),
+        filename: 'bundle.js',
+    },
 };

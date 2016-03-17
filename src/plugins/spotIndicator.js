@@ -1,3 +1,6 @@
+import { Highcharts } from 'react-highcharts/bundle/ReactHighstock.src';
+const { merge, wrap, Chart } = Highcharts;
+
 const defaultOptions = {
     color: 'red',
     enabled: true,
@@ -73,9 +76,7 @@ const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
     }
 }
 
-export default H => {
-    const { merge, wrap, Chart } = H;
-
+export default () => {
     wrap(Chart.prototype, 'init', function(proceed) {
         proceed.apply(this, Array.prototype.slice.call(arguments, 1));
         renderSpotIndicator(this);
@@ -101,7 +102,6 @@ export default H => {
         let x = priceYAxis.opposite ? chart.chartWidth - width : marginLeft;
         let y = priceYAxis.toPixels(currentPrice);
 
-        // offset
         x += options.x;
         y += options.y;
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import BinaryChart from './BinaryChart';
 
 const randomNum = () => Math.random() * (200 - 100) + 100;
-const seqDate = () => new Date().getTime() / 1000;
+const seqDate = () => new Date().getTime() / 100;
 const testData = [];
 
 

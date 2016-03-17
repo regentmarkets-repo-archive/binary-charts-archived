@@ -4,11 +4,11 @@ import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
 import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './utils/DataUtils';
 import { fullConfig, updateChart } from './configurator';
 
-import spotIndicator from './plugins/spot-indicator';
-spotIndicator(ReactHighstock.Highcharts);
+import spotIndicator from './plugins/spotIndicator';
+spotIndicator();
 
-import tradeMarker from "./plugins/tradeMarker";
-tradeMarker(ReactHighstock.Highcharts);
+// import tradeMarker from './plugins/tradeMarker';
+// tradeMarker();
 
 import theme from './theme/';
 ReactHighstock.Highcharts.setOptions(theme);
@@ -41,8 +41,10 @@ export default class BinaryChart extends Component {
             if (oneTickDiff) {
                 const lastTick = ticks[ticks.length - 1];
                 series.addPoint(tickToData(lastTick));
+                console.log('adding new', lastTick);
             } else {
                 series.setData(ticks.map(tickToData));
+                console.log('replacing', ticks);
             }
         }
 

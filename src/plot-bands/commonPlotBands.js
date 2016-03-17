@@ -6,7 +6,9 @@ export const winPlotBand = (id, from, to) => ({
     label: {
         text: 'Win',
         style: {
-            color: 'rgba(0, 255, 0, 1)'
+            fontSize: '25px',
+            fontWeight: 'bold',
+            color: 'rgba(0, 255, 0, .5)'
         }
     }
 });
@@ -18,7 +20,9 @@ export const lossPlotBand = (id, from, to) => ({
     label: {
         text: 'Loss',
         style: {
-            color: 'rgba(255, 0, 0, 1)'
+            fontSize: '25px',
+            fontWeight: 'bold',
+            color: 'rgba(255, 0, 0, .5)'
         }
     }
 });
