@@ -1,4 +1,4 @@
-import { winPlotBand, lossPlotBand } from './commonPlotBands';
+import { winPlotBand, lossPlotBand } from './_commonPlotBands';
 
 // TODO: calculate average of N ticks
 export default (contract) => [

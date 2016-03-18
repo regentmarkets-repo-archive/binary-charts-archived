@@ -3,6 +3,7 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
 import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './utils/DataUtils';
 import { fullConfig, updateChart } from './configurator';
+import { getLastTick } from './_utils';
 
 import spotIndicator from './plugins/spotIndicator';
 spotIndicator();
@@ -35,14 +36,14 @@ export default class BinaryChart extends Component {
     shouldComponentUpdate(nextProps) {
         const tickDataIsSame = this.props.symbol === nextProps.symbol &&
             areTickArraysEqual(this.props.ticks, nextProps.ticks);
+        const { ticks } = nextProps;
+        const lastTick = getLastTick(ticks);
 
         if (!tickDataIsSame) {
             const series = this.refs.chart.getChart().series[0];
             const oneTickDiff = doTicksDifferJustOneEntry(this.props.ticks, nextProps.ticks);
-            const { ticks } = nextProps;
 
             if (oneTickDiff) {
-                const lastTick = ticks[ticks.length - 1];
                 series.addPoint(tickToData(lastTick));
             } else {
                 series.setData(ticks.map(tickToData));
@@ -50,10 +51,11 @@ export default class BinaryChart extends Component {
         }
 
         if (!shallowEqual(nextProps.contract, this.props.contract) ||
-            !shallowEqual(nextProps.trade, this.props.trade)) {
+            !shallowEqual(nextProps.trade, this.props.trade) ||
+            !tickDataIsSame) {
             const { contract, trade } = nextProps;
             const chart = this.refs.chart.getChart();
-            updateChart({ chart, contract, trade });
+            updateChart({ chart, contract, trade, ticks });
         }
 
         return false;

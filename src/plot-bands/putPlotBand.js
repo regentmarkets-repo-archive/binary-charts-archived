@@ -1,6 +1,7 @@
-import { winPlotBand, lossPlotBand } from './commonPlotBands';
+import { winPlotBand, lossPlotBand } from './_commonPlotBands';
+import { callPutBarrier } from '../_utils';
 
-export default contract => [
-    winPlotBand('win', 0, contract.barrier),
-    lossPlotBand('loss', contract.barrier, Number.MAX_VALUE),
+export default (contract, lastSpot) => [
+    winPlotBand('win', 0, callPutBarrier(contract, lastSpot)),
+    lossPlotBand('loss', callPutBarrier(contract, lastSpot), Number.MAX_VALUE),
 ];

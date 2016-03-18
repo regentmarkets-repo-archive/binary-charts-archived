@@ -42,8 +42,9 @@ class TestContainer extends Component {
          };
 
          const trade = {
-             type: 'ASIANU',
-             barrier: 150,
+             type: 'PUT',
+            //  type: 'ASIANU',
+            //  barrier: 150,
          };
 
          return (
