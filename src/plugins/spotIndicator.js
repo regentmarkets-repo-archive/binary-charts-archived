@@ -8,8 +8,6 @@ const defaultOptions = {
         color: 'white',
         fontSize: '11px',
     },
-    x: 0,
-    y: 0,
     zIndex: 100
 };
 
@@ -21,8 +19,8 @@ const polyPath = (x, y, width, height) => [
     'L',
     x - 8, y,
     x, y - (height / 2),
-    x + width, y - (height / 2),
-    x + width, y + (height / 2),
+    x + width + 5, y - (height / 2),
+    x + width + 5, y + (height / 2),
     x, y + (height / 2),
     x - 8, y + .5,
     0, y + .5,
@@ -35,14 +33,14 @@ const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, pric
         .add();
 
     spotIndicator.poly = renderer
-        .path(polyPath(priceYAxis.width, y, 60, 15))
+        .path(polyPath(priceYAxis.width + x - 5, y, x, 15))
         .attr({
             fill: options.color,
         })
         .add(spotIndicator.group);
 
     spotIndicator.label = renderer
-        .label(currentPrice.toFixed(2), priceYAxis.width + 45, y - 8)
+        .label(currentPrice.toFixed(2), priceYAxis.width + x, y - 8)
         .attr({
             padding: 1,
         })
@@ -59,7 +57,7 @@ const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
 
     spotIndicator.label.attr({
         text: currentPrice.toFixed(2),
-        x: priceYAxis.width + 45,
+        x: priceYAxis.width + x - 5,
         y: y - 8
     });
 
@@ -99,11 +97,8 @@ export default () => {
 
         const width = 40;
 
-        let x = priceYAxis.opposite ? chart.chartWidth - width : marginLeft;
+        let x = chart.marginRight;
         let y = priceYAxis.toPixels(currentPrice);
-
-        x += options.x;
-        y += options.y;
 
         if (priceYAxis.spotIndicator) {
             update({ currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator, priceYAxis });

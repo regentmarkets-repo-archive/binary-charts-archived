@@ -31,11 +31,7 @@ export const fullConfig = ({ ticks, contract, trade }) => {
 
 const replacePlotBands = (axis, newPlotBands) => {
     axis.removePlotBand('barrier-band');
-
-    newPlotBands.forEach(band => {
-        // axis.removePlotBand(band.id);
-        axis.addPlotBand(band);
-    });
+    newPlotBands.forEach(band => axis.addPlotBand(band));
 }
 
 const replacePlotLines = (axis, newPlotLines) => {

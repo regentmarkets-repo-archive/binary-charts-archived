@@ -2,8 +2,8 @@ import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import BinaryChart from './BinaryChart';
 
-const randomNum = () => Math.random() * (200 - 100) + 100;
-const seqDate = () => new Date().getTime() / 100;
+const randomNum = () => Math.random() * (20 - 10) + 10;
+const seqDate = () => new Date().getTime() / 10;
 const testData = [];
 
 
@@ -52,9 +52,9 @@ class TestContainer extends Component {
                  <h1>Ticks</h1>
                  <BinaryChart ticks={ticks} />
                  <h1>Trade</h1>
-                 <BinaryChart ticks={ticks} trade={trade} />
+                 {/*<BinaryChart ticks={ticks} trade={trade} />*/}
                  <h1>Contract</h1>
-                 <BinaryChart ticks={ticks} contract={contract} />
+                 {/*<BinaryChart ticks={ticks} contract={contract} />*/}
                  <h1>Empty</h1>
                  <BinaryChart />
              </div>
