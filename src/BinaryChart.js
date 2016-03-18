@@ -34,6 +34,7 @@ export default class BinaryChart extends Component {
     shouldComponentUpdate(nextProps) {
         const tickDataIsSame = this.props.symbol === nextProps.symbol &&
             areTickArraysEqual(this.props.ticks, nextProps.ticks);
+            
         if (!tickDataIsSame) {
             const series = this.refs.chart.getChart().series[0];
             const oneTickDiff = doTicksDifferJustOneEntry(this.props.ticks, nextProps.ticks);
@@ -42,10 +43,8 @@ export default class BinaryChart extends Component {
             if (oneTickDiff) {
                 const lastTick = ticks[ticks.length - 1];
                 series.addPoint(tickToData(lastTick));
-                // console.log('adding new', lastTick);
             } else {
                 series.setData(ticks.map(tickToData));
-                // console.log('replacing', ticks);
             }
         }
 

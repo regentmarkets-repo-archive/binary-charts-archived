@@ -24,14 +24,10 @@ export const getYBoundaryInValue = (data, percentage) => {
     return [min - offset, max + offset];
 };
 
-
-
-
 export const tickToData = tick => [
     tick.epoch * 1000,
     tick.quote,
 ];
-
 
 export const areArraysEqual = (arr1, arr2) =>
     arr1.length === arr2.length &&
