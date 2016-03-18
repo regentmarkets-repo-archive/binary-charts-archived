@@ -12,9 +12,9 @@ const vertPlotLine = (epoch, color, text) => ({
 });
 
 export default (contract) => [
-    vertPlotLine(contract.date_expiry, 'blue', 'Time of Expiry'),
-    vertPlotLine(contract.date_settlement, 'blue', 'Settlement Time'),
-    vertPlotLine(contract.date_start, 'blue', 'Start Time'),
-    vertPlotLine(contract.entry_tick_time, 'blue', 'Entry Spot'),
-    vertPlotLine(contract.expiry_time, 'blue', 'Expiry Time'),
+    vertPlotLine(contract.date_expiry, 'navy', 'Time of Expiry'),
+    vertPlotLine(contract.date_settlement, 'navy', 'Settlement Time'),
+    vertPlotLine(contract.date_start, 'navy', 'Start Time'),
+    vertPlotLine(contract.entry_tick_time, 'navy', 'Entry Spot'),
+    vertPlotLine(contract.expiry_time, 'navy', 'Expiry Time'),
 ];

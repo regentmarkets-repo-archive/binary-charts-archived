@@ -23,6 +23,7 @@ export default class BinaryChart extends Component {
         })).isRequired,
         contract: PropTypes.shape({
             barrier: PropTypes.number,
+            entry_spot: PropTypes.string,
         }),
         trade: PropTypes.object,
     };
@@ -34,7 +35,7 @@ export default class BinaryChart extends Component {
     shouldComponentUpdate(nextProps) {
         const tickDataIsSame = this.props.symbol === nextProps.symbol &&
             areTickArraysEqual(this.props.ticks, nextProps.ticks);
-            
+
         if (!tickDataIsSame) {
             const series = this.refs.chart.getChart().series[0];
             const oneTickDiff = doTicksDifferJustOneEntry(this.props.ticks, nextProps.ticks);
