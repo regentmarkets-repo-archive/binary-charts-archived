@@ -1,7 +1,8 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
+import { relativeBarrier, relativeBarrier2 } from '../_utils';
 
-export default contract =>  [
-    lossPlotBand(0, contract.barrier),
-    winPlotBand(contract.barrier, contract.barrier2),
-    lossPlotBand(contract.barrier2, Number.MAX_VALUE),
+export default (contract, lastSpot) => [
+    lossPlotBand(0, relativeBarrier2(contract, lastSpot)),
+    winPlotBand(relativeBarrier(contract, lastSpot), relativeBarrier2(contract, lastSpot)),
+    lossPlotBand(relativeBarrier(contract, lastSpot), Number.MAX_VALUE),
 ];

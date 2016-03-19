@@ -41,18 +41,18 @@ class TestContainer extends Component {
              expiry_time: new Date().getTime() / 1000 + 1,
          };
 
-         const trade = {
-             type: 'PUT',
-            //  type: 'ASIANU',
-            //  barrier: 150,
+         const staysInTrade = {
+             type: 'RANGE',
+             barrier: 2,
+             barrier2: -1.5
          };
 
          return (
              <div>
                  <h1>Ticks</h1>
-                 <BinaryChart ticks={ticks} />
+                 {/*<BinaryChart ticks={ticks} />*/}
                  <h1>Trade</h1>
-                 {/*<BinaryChart ticks={ticks} trade={trade} />*/}
+                 <BinaryChart ticks={ticks} trade={staysInTrade} />
                  <h1>Contract</h1>
                  {/*<BinaryChart ticks={ticks} contract={contract} />*/}
                  <h1>Empty</h1>
