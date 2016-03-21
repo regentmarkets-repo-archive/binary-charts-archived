@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "3.11.4",
+  "version": "3.11.5",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -15,8 +15,7 @@
   "main": "lib/binary-charts.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./src/**/__tests__/*.js",
-    "clean": "rm -rf lib",
-    "compile": "npm run clean && webpack --config webpack.config.publish.js",
+    "compile": "webpack --config webpack.config.publish.js",
     "prepublish": "npm run compile",
     "ci": "webpack --config webpack.config.js --progress --colors --watch"
   },
