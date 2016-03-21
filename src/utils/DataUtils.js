@@ -46,7 +46,7 @@ export const doTicksDifferJustOneEntry = (ticks1, ticks2) => {
         default:
             return false;
     }
-}
+};
 
 export const areTickArraysEqual = (ticks1, ticks2) =>
     ticks1.length === ticks2.length &&
