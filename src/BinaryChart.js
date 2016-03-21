@@ -34,6 +34,10 @@ export default class BinaryChart extends Component {
     };
 
     shouldComponentUpdate(nextProps) {
+        if (nextProps.ticks.length === 0) {
+            return true;
+        }
+
         const tickDataIsSame = this.props.symbol === nextProps.symbol &&
             areTickArraysEqual(this.props.ticks, nextProps.ticks);
         const { ticks } = nextProps;

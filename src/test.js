@@ -62,4 +62,4 @@ class TestContainer extends Component {
      }
  }
 
- ReactDOM.render(<TestContainer />, document.getElementById('trade-chart'));
+ReactDOM.render(<TestContainer />, document.getElementById('trade-chart'));

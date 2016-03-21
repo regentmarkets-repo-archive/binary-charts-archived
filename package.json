@@ -18,7 +18,7 @@
     "clean": "rm -rf lib",
     "compile": "npm run clean && webpack --config webpack.config.publish.js",
     "prepublish": "npm run compile",
-    "ci": "webpack --progress --colors --watch"
+    "ci": "webpack --config webpack.config.js --progress --colors --watch"
   },
   "keywords": [
     "binary.com"
