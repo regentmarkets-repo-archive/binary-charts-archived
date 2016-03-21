@@ -34,7 +34,7 @@ export const areArraysEqual = (arr1, arr2) =>
         arr1.every((x, idx) => x === arr2[idx]);
 
 export const doTicksEqual = (tick1, tick2) =>
-    tick1 === tick2 ||
+    !tick1 && tick1 === tick2 ||                    // undefined tick should not be treated as equal in our context
     !!tick1 && !!tick2 && tick1.epoch === tick2.epoch && tick1.quote === tick2.quote;
 
 export const doTicksDifferJustOneEntry = (ticks1, ticks2) => {
@@ -46,7 +46,7 @@ export const doTicksDifferJustOneEntry = (ticks1, ticks2) => {
         default:
             return false;
     }
-}
+};
 
 export const areTickArraysEqual = (ticks1, ticks2) =>
     ticks1.length === ticks2.length &&
