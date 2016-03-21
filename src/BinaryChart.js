@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
-import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './utils/DataUtils';
+import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './_utils';
 import { fullConfig, updateChart } from './configurator';
 import { getLastTick } from './_utils';
 

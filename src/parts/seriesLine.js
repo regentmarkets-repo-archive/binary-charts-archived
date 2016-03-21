@@ -5,13 +5,14 @@ export default data => [{
     type: 'area',
     data,
     tooltip: {
-        valueDecimals: 2
+        valueDecimals: 2,
+        zIndex: 120,
     },
     fillColor: {
         linearGradient: [0, 0, 0, 300],
         stops: [
             [0, brand(.25)],
-            [1, brand(.1)]
+            [1, brand(.1)],
         ]
     },
     lineWidth: 1,

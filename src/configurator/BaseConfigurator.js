@@ -8,7 +8,7 @@ import spot from '../parts/spot';
 import markerLastTick from '../parts/markerLastTick';
 import events from '../parts/events';
 
-import { tickToData } from '../utils/DataUtils';
+import { tickToData } from '../_utils';
 
 export default class BaseConfigurator {
     constructor() {
