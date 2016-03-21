@@ -1,2 +1,1 @@
-export RiseFallChart from './charts/line/RiseFallChart';
-export BaseChart from './charts/BaseChart';
+export BinaryChart from './BinaryChart';

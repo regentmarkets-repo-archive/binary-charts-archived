@@ -3,12 +3,7 @@ var path = require('path');
 module.exports = {
     entry: './src/index.js',
 
-    output: {
-        library: 'binary-charts',
-        libraryTarget: 'commonjs2',
-        filename: 'binary-charts.js',
-        path: './lib'
-    },
+    devtool: 'source-map',
 
     module: {
         loaders: [
@@ -19,7 +14,14 @@ module.exports = {
             },
         ],
     },
-    devtool: 'source-map',
+
+    output: {
+        library: 'binary-charts',
+        libraryTarget: 'umd',
+        filename: 'binary-charts.js',
+        path: './lib'
+    },
+
     externals: {
         react: {
             root: 'React',

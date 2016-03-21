@@ -1,121 +1,65 @@
-import BaseChart from './charts/BaseChart';
-import RiseFallChart from './charts/line/RiseFallChart';
 import ReactDOM from 'react-dom';
-import React from 'react';
-import { createSeriesAsLine } from './model/LineData';
-import {createTitle} from './model/Title';
-import { createZoomSlider, createSlideInside } from './model/DataZoom';
+import React, { Component } from 'react';
+import BinaryChart from './BinaryChart';
 
-const randomNum = () => Math.floor(Math.random() * (20 - 10) + 10);
-const testData = [
-    [2, randomNum()],
-    [4, randomNum()],
-    [6, randomNum()],
-    [8, randomNum()],
-    [9, randomNum()],
-    [10, randomNum()],
-    [11, randomNum()],
-    [15, randomNum()],
-    [19, randomNum()],
-    [20, randomNum()],
-    [26, randomNum()]
-];
-
-const barriers = [
-    { from: [3, randomNum()], to: [18, randomNum()], name: 'halo', formatter: 'formatter'}
-];
-const points = [
-    { at: [10, randomNum()], name: 'halo', formatter: 'formatter'}
-];
-const series = createSeriesAsLine('Test', testData, barriers, points);
-
-/********************
- * Base Chart Start *
- * ******************/
-const staticChartTitle = createTitle('Static base chart');
-const dynamicChartTitle = createTitle('Dynamic base chart');
-
-ReactDOM.render(<BaseChart className="chart" title={staticChartTitle} series={[series]} />, document.getElementById('base-chart'));
-
-const dynamicBaseChart = (d = testData) => window.setTimeout(() => {
-    "use strict";
-    const lastData = d[d.length - 1];
-    let newData;
-    if (d.length > 20) {
-        newData = d.slice(1);
-        newData.push([lastData[0] + 2, randomNum()]);
-    } else {
-        newData = d.concat([[lastData[0] + 2, randomNum()]]);
-    }
-    const updatedSeries = createSeriesAsLine('Test', newData, barriers, points);
-    ReactDOM.render(
-        <BaseChart
-            className="chart"
-            title={dynamicChartTitle}
-            series={[updatedSeries]}
-        />, document.getElementById('dynamic-base-chart'));
-    dynamicBaseChart(newData);
-}, 1500);
-
-dynamicBaseChart();
-
-/********************
- * Base Chart End *
- * ******************/
+const randomNum = () => Math.random() * (20 - 10) + 10;
+const seqDate = () => new Date().getTime() / 10;
+const testData = [];
 
 
-/*************************
- * Rise Fall Chart Start *
- * ***********************/
-const riseFallTitle = 'Rise fall chart';
-const entry = [10, randomNum()];
-const exit = [20, randomNum()];
+class TestContainer extends Component {
 
-const contracts = [{
-    id: 'C1',
-    entry,
-    exit
-}];
+     constructor(props) {
+         super(props);
+         this.state = {
+             ticks: testData.map(x => ({ epoch: x[0], quote: x[1] }))
+         }
+     }
 
-ReactDOM.render(
-    <RiseFallChart
-        className="chart"
-        title={riseFallTitle}
-        data={testData}
-        contracts={contracts}
-        symbol="Random 100"
-        xOffsetPercentage={0.1}
-        yOffsetPercentage={2}
-    />,
-    document.getElementById('rise-fall-chart')
-);
+     componentDidMount() {
+         const chartInterval = setInterval(() => {
+             const { ticks } = this.state;
+             const newTick = { epoch: new Date().getTime() / 1000, quote: randomNum() };
+             this.setState({
+                 ticks: ticks.concat([newTick])
+             })
+         }, 1000);
+         window.stopUpdates = () => clearInterval(chartInterval);
+     }
 
-const dynamicRiseFallChart = (d = testData) => window.setTimeout(() => {
-    const lastData = d[d.length - 1];
-    let newData;
-    if (d.length > 60) {
-        newData = d.slice(1);
-        newData.push([lastData[0] + 2, randomNum()]);
-    } else {
-        newData = d.concat([[lastData[0] + 2, randomNum()]]);
-    }
-    ReactDOM.render(
-        <RiseFallChart
-            className="resizable-chart"
-            title="Dynamic Rise Fall"
-            data={newData}
-            contracts={contracts}
-            symbol="Random 100"
-            xOffsetPercentage={0.05}
-            yOffsetPercentage={2}
-        />,
-        document.getElementById('dynamic-rise-fall-chart')
-    );
-    dynamicRiseFallChart(newData);
-}, 1500);
+     render() {
+         const { ticks } = this.state;
 
-dynamicRiseFallChart();
+         const contract = {
+             contract_type: 'UPORDOWN',
+             barrier: 150,
+             barrier2: 180,
+             date_expiry: new Date().getTime() / 1000 + 10,
+             date_settlement: new Date().getTime() / 1000 + 11,
+             date_start: new Date().getTime() / 1000 - 3,
+             entry_tick_time: new Date().getTime() / 1000 + 2,
+             expiry_time: new Date().getTime() / 1000 + 1,
+         };
 
-/*************************
- * Rise Fall Chart End *
- * ***********************/
+         const staysInTrade = {
+             type: 'RANGE',
+             barrier: 2,
+             barrier2: -1.5
+         };
+
+         return (
+             <div>
+                 <h1>Ticks</h1>
+                 {/*<BinaryChart ticks={ticks} />*/}
+                 <h1>Trade</h1>
+                 <BinaryChart ticks={ticks} trade={staysInTrade} />
+                 <h1>Contract</h1>
+                 {/*<BinaryChart ticks={ticks} contract={contract} />*/}
+                 <h1>Empty</h1>
+                 <BinaryChart />
+             </div>
+         );
+     }
+ }
+
+ ReactDOM.render(<TestContainer />, document.getElementById('trade-chart'));

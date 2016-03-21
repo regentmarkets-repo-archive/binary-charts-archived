@@ -1,7 +1,3 @@
-### Example user template template
-### Example user template
-
-# IntelliJ project files
 .idea
 *.iml
 out
@@ -10,6 +6,5 @@ node_modules/
 dist/
 lib/
 example/bundle*
-# Created by .ignore support plugin (hsz.mobi)
-
+.DS_Store
 npm-debug.log

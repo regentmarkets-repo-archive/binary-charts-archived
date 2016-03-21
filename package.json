@@ -1,10 +1,20 @@
 {
   "name": "binary-charts",
-  "version": "0.1.5",
-  "description": "High-level React chart component that hopefully could be use for binary.com",
-  "main": "index.js",
+  "version": "3.11.4",
+  "description": "Binary trade and contract visualisation library, written in React",
+  "contributors": [
+    {
+      "name": "Boris Yankov",
+      "email": "boris@binary.com"
+    },
+    {
+      "name": "Lim Qing Wei",
+      "email": "qingwei@binary.com"
+    }
+  ],
+  "main": "lib/binary-charts.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register ./src/**/**--test/*.js",
+    "test": "mocha --compilers js:babel-core/register ./src/**/__tests__/*.js",
     "clean": "rm -rf lib",
     "compile": "npm run clean && webpack --config webpack.config.publish.js",
     "prepublish": "npm run compile",
@@ -13,11 +23,9 @@
   "keywords": [
     "binary.com"
   ],
-  "author": "qingwei@binary.com",
   "license": "MIT",
   "dependencies": {
-    "deepmerge": "^0.2.10",
-    "echarts": "^3.1.1"
+    "react-highcharts": "^8.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",
@@ -27,7 +35,7 @@
     "babel-preset-stage-1": "^6.5.0",
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
-    "webpack": "^1.12.14"
+    "webpack": "^2.1.0-beta.4"
   },
   "peerDependencies": {
     "react": "^0.14.7",
