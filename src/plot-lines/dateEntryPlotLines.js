@@ -21,5 +21,4 @@ export default (contract) => [
     vertPlotLine(contract.expiry_time, 'navy', 'End Time', 'right'),
     vertPlotLine(contract.exit_tick_time, 'navy', 'Exit Spot', 'left'),
     vertPlotLine(contract.sell_spot_time, 'navy', 'Sell Time', 'right'),
-
 ];

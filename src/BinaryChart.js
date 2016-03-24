@@ -14,19 +14,35 @@ spotIndicator();
 import theme from './theme/';
 ReactHighstock.Highcharts.setOptions(theme);
 
+const contractOrTradeShape = PropTypes.shape({
+    barrier: PropTypes.number,
+    barrier2: PropTypes.number,
+    date_expiry: PropTypes.number,
+    date_settlement: PropTypes.number,
+    date_start: PropTypes.number,
+    entry_spot: PropTypes.number,
+    entry_tick_time: PropTypes.number,
+    exit_tick_time: PropTypes.number,
+    expiry_time: PropTypes.number,
+    purchase_time: PropTypes.number,
+    sell_spot_time: PropTypes.number,
+});
+
+const tickArrayType = PropTypes.arrayOf(PropTypes.shape({
+    epoch: PropTypes.number.isRequired,
+    quote: PropTypes.number.isRequired,
+}));
 
 export default class BinaryChart extends Component {
 
     static propTypes = {
-        ticks: PropTypes.arrayOf(PropTypes.shape({
-            epoch: PropTypes.number.isRequired,
-            quote: PropTypes.number.isRequired,
-        })).isRequired,
-        contract: PropTypes.shape({
-            barrier: PropTypes.number,
-            entry_spot: PropTypes.string,
-        }),
-        trade: PropTypes.object,
+        symbol: PropTypes.string,
+        ticks: PropTypes.oneOfType([
+            tickArrayType,
+            PropTypes.function,
+        ]).isRequired,
+        contract: contractOrTradeShape,
+        trade: contractOrTradeShape,
     };
 
     static defaultProps = {
