@@ -99,13 +99,13 @@ export default () => {
         }
     };
 
-    wrap(Chart.prototype, 'init', function (proceed) {
-        proceed.apply(this, Array.prototype.slice.call(arguments, 1));
+    wrap(Chart.prototype, 'init', function init(proceed, ...args) {
+        proceed.apply(this, args);
         renderSpotIndicator(this);
     });
 
-    wrap(Chart.prototype, 'redraw', function (proceed) {
-        proceed.apply(this, Array.prototype.slice.call(arguments, 1));
+    wrap(Chart.prototype, 'redraw', function redraw(proceed, ...args) {
+        proceed.apply(this, args);
         renderSpotIndicator(this);
     });
 };

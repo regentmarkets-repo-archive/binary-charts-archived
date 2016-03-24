@@ -49,6 +49,10 @@ export default class BinaryChart extends Component {
         ticks: [],
     };
 
+    componentDidMount() {
+        this.chart = this.refs.chart.getChart();
+    }
+
     shouldComponentUpdate(nextProps) {
         const tickDataIsSame = this.props.symbol === nextProps.symbol &&
             areTickArraysEqual(this.props.ticks, nextProps.ticks);
@@ -56,7 +60,7 @@ export default class BinaryChart extends Component {
         const lastTick = getLastTick(ticks);
 
         if (!tickDataIsSame) {
-            const series = this.refs.chart.getChart().series[0];
+            const series = this.chart.series[0];
             const oneTickDiff = doTicksDifferJustOneEntry(this.props.ticks, nextProps.ticks);
 
             if (oneTickDiff) {
@@ -70,8 +74,7 @@ export default class BinaryChart extends Component {
             !shallowEqual(nextProps.trade, this.props.trade) ||
             !tickDataIsSame) {
             const { contract, trade } = nextProps;
-            const chart = this.refs.chart.getChart();
-            updateChart({ chart, contract, trade, ticks });
+            updateChart({ chart: this.chart, contract, trade, ticks });
         }
 
         return false;
