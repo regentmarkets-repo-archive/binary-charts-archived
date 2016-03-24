@@ -8,9 +8,9 @@ export const winPlotBand = (from, to) => ({
         style: {
             fontSize: '25px',
             fontWeight: 'bold',
-            color: 'rgba(0, 255, 0, .5)'
-        }
-    }
+            color: 'rgba(0, 255, 0, .5)',
+        },
+    },
 });
 
 export const lossPlotBand = (from, to) => ({
@@ -23,7 +23,7 @@ export const lossPlotBand = (from, to) => ({
         style: {
             fontSize: '25px',
             fontWeight: 'bold',
-            color: 'rgba(255, 0, 0, .5)'
-        }
-    }
+            color: 'rgba(255, 0, 0, .5)',
+        },
+    },
 });

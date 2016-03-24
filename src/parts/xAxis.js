@@ -7,7 +7,7 @@ export default () => ({
         day: '%Y<br/>%m-%d',
         week: '%Y<br/>%m-%d',
         month: '%Y-%m',
-        year: '%Y'
+        year: '%Y',
     },
     tickWidth: 0,
 });

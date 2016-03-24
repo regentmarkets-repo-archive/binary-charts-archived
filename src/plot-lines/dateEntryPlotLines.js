@@ -8,8 +8,8 @@ const vertPlotLine = (epoch, color, text, textAlign) => ({
         textAlign,
         style: {
             color,
-        }
-    }
+        },
+    },
 });
 
 export default (contract) => [

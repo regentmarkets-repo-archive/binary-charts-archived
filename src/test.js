@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import BinaryChart from './BinaryChart';
 
 const randomNum = () => Math.random() * (20 - 10) + 10;
-const seqDate = () => new Date().getTime() / 10;
+// const seqDate = () => new Date().getTime() / 10;
 const testData = [];
 
 
@@ -12,8 +12,8 @@ class TestContainer extends Component {
      constructor(props) {
          super(props);
          this.state = {
-             ticks: testData.map(x => ({ epoch: x[0], quote: x[1] }))
-         }
+             ticks: testData.map(x => ({ epoch: x[0], quote: x[1] })),
+         };
      }
 
      componentDidMount() {
@@ -21,8 +21,8 @@ class TestContainer extends Component {
              const { ticks } = this.state;
              const newTick = { epoch: new Date().getTime() / 1000, quote: randomNum() };
              this.setState({
-                 ticks: ticks.concat([newTick])
-             })
+                 ticks: ticks.concat([newTick]),
+             });
          }, 1000);
          window.stopUpdates = () => clearInterval(chartInterval);
      }
@@ -55,11 +55,11 @@ class TestContainer extends Component {
          return (
              <div>
                  <h1>Ticks</h1>
-                 {/*<BinaryChart ticks={ticks} />*/}
+                 <BinaryChart ticks={ticks} />
                  <h1>Trade</h1>
                  <BinaryChart ticks={ticks} trade={higherTrade} />
                  <h1>Contract</h1>
-                 {/*<BinaryChart ticks={ticks} contract={contract} />*/}
+                 <BinaryChart ticks={ticks} contract={contract} />
                  <h1>Empty</h1>
                  <BinaryChart />
              </div>

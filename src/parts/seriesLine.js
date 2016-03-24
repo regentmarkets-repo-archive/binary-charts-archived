@@ -11,11 +11,11 @@ export default data => [{
     fillColor: {
         linearGradient: [0, 0, 0, 300],
         stops: [
-            [0, brand(.25)],
-            [1, brand(.1)],
-        ]
+            [0, brand(0.25)],
+            [1, brand(0.1)],
+        ],
     },
     lineWidth: 1,
-    fillOpacity: .1,
+    fillOpacity: 0.1,
     threshold: null,
 }];

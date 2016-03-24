@@ -8,4 +8,4 @@ export default (contractOrTrade, lastTick) => {
 
     if (!configFunc) throw Error('Not a known type: ' + type);
     return configFunc(contractOrTrade, lastTick);
-}
+};

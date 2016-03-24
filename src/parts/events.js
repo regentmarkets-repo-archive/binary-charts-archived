@@ -1,5 +1,5 @@
 export default () => ({
     redraw(...params) {
-        // console.log('redraw', params);
-    }
+        window.console.log('redraw', params);
+    },
 });

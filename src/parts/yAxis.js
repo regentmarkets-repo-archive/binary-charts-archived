@@ -3,6 +3,6 @@ export default () => ({
     opposite: true,
     labels: {
         align: 'left',
-        formatter: function () { return this.value.toFixed(2) }
-    }
+        formatter() { return this.value.toFixed(2); },
+    },
 });

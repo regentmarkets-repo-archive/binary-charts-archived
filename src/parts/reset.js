@@ -1,4 +1,4 @@
-export default data => ({
+export default () => ({
     animation: false,
     exporting: { enabled: false },
     scrollbar: { enabled: false },
@@ -8,5 +8,5 @@ export default data => ({
         spacingTop: 0,
         spacingLeft: 0,
         spacingRight: 3,
-    }
+    },
 });
