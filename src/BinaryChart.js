@@ -5,14 +5,18 @@ import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './_ut
 import { fullConfig, updateChart } from './configurator';
 import { getLastTick } from './_utils';
 
+
 import spotIndicator from './plugins/spotIndicator';
-spotIndicator();
-
 // import tradeMarker from './plugins/tradeMarker';
-// tradeMarker();
-
 import theme from './theme/';
-ReactHighstock.Highcharts.setOptions(theme);
+
+// crazy workaround for tests to work, hopefully will resolve soon
+if (Object.keys(ReactHighstock.Highcharts).length > 0) {
+    spotIndicator();
+// tradeMarker();
+    ReactHighstock.Highcharts.setOptions(theme);
+}
+
 
 const contractOrTradeShape = PropTypes.shape({
     barrier: PropTypes.number,

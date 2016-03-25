@@ -21,7 +21,7 @@ class TestContainer extends Component {
              const { ticks } = this.state;
              const newTick = { epoch: new Date().getTime() / 1000, quote: randomNum() };
              this.setState({
-                 ticks: ticks.concat([newTick]),
+                 ticks: Math.round(newTick.epoch) % 10 === 0 ? (ticks.concat || [])([newTick]) : undefined,
              });
          }, 1000);
          window.stopUpdates = () => clearInterval(chartInterval);
@@ -54,6 +54,8 @@ class TestContainer extends Component {
 
          return (
              <div>
+                <BinaryChart ticks={ticks} trade={contract} />
+{/*
                  <h1>Ticks</h1>
                  <BinaryChart ticks={ticks} />
                  <h1>Trade</h1>
@@ -61,7 +63,7 @@ class TestContainer extends Component {
                  <h1>Contract</h1>
                  <BinaryChart ticks={ticks} contract={contract} />
                  <h1>Empty</h1>
-                 <BinaryChart />
+                 <BinaryChart />*/}
              </div>
          );
      }
