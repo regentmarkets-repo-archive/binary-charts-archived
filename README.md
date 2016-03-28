@@ -30,7 +30,7 @@ To run unit tests:
 npm test
 ```
 
-To run during development:
+For live rebuild during development:
 ```
 webpack --watch
 open example/index.html
@@ -83,4 +83,5 @@ Dynamically loading more data when needed by the chart will be available soon.
 ## Usage outside React projects:
 
 [React components as jQuery plugins](http://swizec.com/blog/using-react-in-the-real-world/swizec/6710)
+
 [Integrating React.js into Existing jQuery Web Applications](http://winterbe.com/posts/2015/08/24/integrate-reactjs-into-jquery-webapps/)
