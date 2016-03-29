@@ -1,5 +1,3 @@
-var path = require('path');
-
 module.exports = {
     entry: './src/index.js',
 
@@ -10,7 +8,7 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
             },
         ],
     },
@@ -19,7 +17,7 @@ module.exports = {
         library: 'binary-charts',
         libraryTarget: 'umd',
         filename: 'binary-charts.js',
-        path: './lib'
+        path: './lib',
     },
 
     externals: {
@@ -29,11 +27,11 @@ module.exports = {
             commonjs2: 'react',
             amd: 'react',
         },
-        "react-dom": {
+        'react-dom': {
             root: 'ReactDOM',
             commonjs: 'react-dom',
             commonjs2: 'react-dom',
             amd: 'react-dom',
-        }
+        },
     },
 };
