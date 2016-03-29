@@ -21,7 +21,7 @@ class TestContainer extends Component {
              const { ticks } = this.state;
              const newTick = { epoch: new Date().getTime() / 1000, quote: randomNum() };
              this.setState({
-                 ticks: Math.round(newTick.epoch) % 10 === 0 ? (ticks.concat || [])([newTick]) : undefined,
+                 ticks: Math.round(newTick.epoch) % 10 === 0 ? (ticks || []).concat([newTick]) : undefined,
              });
          }, 1000);
          window.stopUpdates = () => clearInterval(chartInterval);
