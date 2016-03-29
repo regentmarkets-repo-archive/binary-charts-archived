@@ -12,7 +12,7 @@ const defaultOptions = {
 };
 
 const lastPriceFromSeries = series =>
-    series.yData.length ? series.yData[series.yData.length - 1] : 0;
+    series.yData.length && series.yData[series.yData.length - 1] || 0;
 
 const polyPath = (x, y, width, height) => [
     'M', 0, y - 0.5,
