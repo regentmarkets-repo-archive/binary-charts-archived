@@ -1,7 +1,7 @@
 module.exports = {
-    devtool: 'source-map',
+    entry: './src/index.js',
 
-    entry: 'src/test.js',
+    devtool: 'source-map',
 
     module: {
         loaders: [{
@@ -16,7 +16,7 @@ module.exports = {
     },
 
     output: {
-        path: 'example/',
+        path: './example/',
         filename: 'bundle.js',
     },
 };
