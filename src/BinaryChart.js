@@ -21,6 +21,7 @@ if (Object.keys(ReactHighstock.Highcharts).length > 0) {
 const contractOrTradeShape = PropTypes.shape({
     barrier: PropTypes.number,
     barrier2: PropTypes.number,
+    contract_type: PropTypes.string.isRequired,
     date_expiry: PropTypes.number,
     date_settlement: PropTypes.number,
     date_start: PropTypes.number,
