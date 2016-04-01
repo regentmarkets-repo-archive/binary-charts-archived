@@ -14,7 +14,7 @@
   ],
   "main": "lib/binary-charts.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register ./src/**/__tests__/*.js",
+    "test": "mocha --compilers js:babel-core/register ./**/__tests__/*.js",
     "compile": "webpack --config webpack.config.publish.js",
     "prepublish": "npm run compile",
     "ci": "webpack --config webpack.config.js --progress --colors --watch"
