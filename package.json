@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "chai": "^3.5.0",
+    "fbjs": "^0.8.0-alpha.3",
     "react-highcharts": "^8.0.3"
   },
   "devDependencies": {
