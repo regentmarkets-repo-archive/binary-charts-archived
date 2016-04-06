@@ -1,11 +1,13 @@
-const vertPlotLine = (epoch, color, text, textAlign) => ({
+const vertPlotLine = (epoch, color, text, position) => ({
     id: text,
     value: epoch * 1000,
     color,
     width: 2,
     label: {
         text,
-        textAlign,
+        rotation: position === 'left' ? 270 : 90,
+        x: position === 'left' ? -5 : 0,
+        verticalAlign: 'center',
         style: {
             color,
         },
