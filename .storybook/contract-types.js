@@ -1,112 +1,97 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import DynamicChart from './DynamicChart';
+import BinaryChart from '../src/BinaryChart';
 
-storiesOf('Contract Types', module)
-    .add('CALL', () =>
-        <DynamicChart contract={{
-            type: 'CALL',
-        }} />
-    )
-    .add('PUT', () =>
-        <DynamicChart contract={{
-            type: 'PUT',
-        }} />
-    )
-    .add('CALL2', () =>
-        <DynamicChart contract={{
-            type: 'CALL',
-            barrier: 10,
-        }} />
-    )
-    .add('PUT2', () =>
-        <DynamicChart contract={{
-            type: 'PUT',
-            barrier: 10,
-        }} />
-    )
-    .add('DIGITMATCH', () =>
-        <DynamicChart contract={{
-            type: 'DIGITMATCH',
-        }} />
-    )
-    .add('Digit Differs', () =>
-        <DynamicChart contract={{
-            type: 'DIGITDIFF',
-        }} />
-    )
-    .add('Digit Over', () =>
-        <DynamicChart contract={{
-            type: 'DIGITOVER',
-        }} />
-    )
-    .add('Digit Under', () =>
-        <DynamicChart contract={{
-            type: 'DIGITUNDER',
-        }} />
-    )
-    .add('Digit Even', () =>
-        <DynamicChart contract={{
-            type: 'DIGITEVEN',
-        }} />
-    )
-    .add('Digit Odd', () =>
-        <DynamicChart contract={{
-            type: 'DIGITODD',
-        }} />
-    )
-    .add('Asian Up', () =>
-        <DynamicChart contract={{
-            type: 'ASIANU',
-        }} />
-    )
-    .add('Asian Down', () =>
-        <DynamicChart contract={{
-            type: 'ASIAND',
-        }} />
-    )
-    .add('Ends Between', () =>
-        <DynamicChart contract={{
-            type: 'EXPIRYRANGE',
-        }} />
-    )
-    .add('Ends Outside', () =>
-        <DynamicChart contract={{
-            type: 'EXPIRYMISS',
-        }} />
-    )
-    .add('Asian Down', () =>
-        <DynamicChart contract={{
-            type: 'ASIAND',
-        }} />
-    )
-    .add('Stays Between', () =>
-        <DynamicChart contract={{
-            type: 'RANGE',
-        }} />
-    )
-    .add('Goes Outside', () =>
-        <DynamicChart contract={{
-            type: 'UPORDOWN',
-        }} />
-    )
-    .add('Touches', () =>
-        <DynamicChart contract={{
-            type: 'ONETOUCH',
-        }} />
-    )
-    .add('Does Not Touch', () =>
-        <DynamicChart contract={{
-            type: 'NOTOUCH',
-        }} />
-    )
-    .add('Spread Long', () =>
-        <DynamicChart contract={{
-            type: 'SPREADU',
-        }} />
-    )
-    .add('Spread Short', () =>
-        <DynamicChart contract={{
-            type: 'SPREADD',
-        }} />
-    );
+const ticks = [
+    { epoch: 0, quote: 50 },
+    { epoch: 1, quote: 40 },
+    { epoch: 2, quote: 60 },
+    { epoch: 3, quote: 20 },
+    { epoch: 4, quote: 40 },
+    { epoch: 5, quote: 30 },
+];
+
+const contracts = {
+    Higher: {
+        type: 'CALL',
+    },
+    Lower: {
+        type: 'PUT',
+    },
+    Rise: {
+        type: 'CALL',
+        barrier: 10,
+    },
+    Fall: {
+        type: 'PUT',
+        barrier: 10,
+    },
+    'Digit Match': {
+        type: 'DIGITMATCH',
+    },
+    'Digit Differs': {
+        type: 'DIGITDIFF',
+    },
+    'Digit Over': {
+        type: 'DIGITOVER',
+    },
+    'Digit Under': {
+        type: 'DIGITUNDER',
+    },
+    'Digit Even': {
+        type: 'DIGITEVEN',
+    },
+    'Digit Odd': {
+        type: 'DIGITODD',
+    },
+    'Asian Up': {
+        type: 'ASIANU',
+    },
+    'Asian Down': {
+        type: 'ASIAND',
+    },
+    'Ends Between': {
+        type: 'EXPIRYRANGE',
+        barrier: 10,
+        barrier2: -10,
+    },
+    'Ends Outside': {
+        type: 'EXPIRYMISS',
+        barrier: 10,
+        barrier2: -10,
+    },
+    'Stays Between': {
+        type: 'RANGE',
+        barrier: 10,
+        barrier2: -10,
+    },
+    'Goes Outside': {
+        type: 'UPORDOWN',
+        barrier: 10,
+        barrier2: -10,
+    },
+    Touches: {
+        type: 'ONETOUCH',
+        barrier: 10,
+    },
+    'Does Not Touch': {
+        type: 'NOTOUCH',
+        barrier: 10,
+    },
+    'Spread Long': {
+        type: 'SPREADU',
+    },
+    'Spread Short': {
+        type: 'SPREADD',
+    },
+};
+
+Object.keys(contracts).forEach(key =>
+    storiesOf('Contract Types', module)
+        .add(key, () =>
+            <BinaryChart
+                ticks={ticks}
+                contract={contracts[key]}
+            />
+        )
+);
