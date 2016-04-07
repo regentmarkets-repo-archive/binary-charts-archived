@@ -17,10 +17,14 @@ if (Object.keys(ReactHighstock.Highcharts).length > 0) {
     ReactHighstock.Highcharts.setOptions(theme);
 }
 
+const barrierType = PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+]);
 
 const contractOrTradeShape = PropTypes.shape({
-    barrier: PropTypes.string,
-    barrier2: PropTypes.string,
+    barrier: barrierType,
+    barrier2: barrierType,
     contract_type: PropTypes.string.isRequired,
     date_expiry: PropTypes.number,
     date_settlement: PropTypes.number,
