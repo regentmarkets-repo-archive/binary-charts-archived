@@ -1,8 +1,9 @@
 import { configure } from '@kadira/storybook';
 
-function loadStories() {
-  require('./simple');
-  // require as many as stories you need.
-}
-
-configure(loadStories, module);
+configure(() => {
+    require('./simple');
+    require('./contract-types');
+    require('./past-contracts');
+    require('./open-contracts');
+    require('./indicators');
+}, module);
