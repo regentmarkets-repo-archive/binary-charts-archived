@@ -5,6 +5,7 @@ import { getLastTick } from '../_utils';
 
 const baseConiguration = () =>
     new BaseConfigurator()
+        .plotOptions()
         .navigator()
         .rangeSelector()
         .yAxis()

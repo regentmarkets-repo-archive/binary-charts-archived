@@ -1,4 +1,5 @@
 import reset from '../parts/reset';
+import plotOptions from '../parts/plotOptions';
 import navigator from '../parts/navigator';
 import rangeSelector from '../parts/rangeSelector';
 import yAxis from '../parts/yAxis';
@@ -13,6 +14,11 @@ import { tickToData } from '../_utils';
 export default class BaseConfigurator {
     constructor() {
         this.config = reset();
+    }
+
+    plotOptions() {
+        this.config.plotOptions = plotOptions();
+        return this;
     }
 
     navigator() {
