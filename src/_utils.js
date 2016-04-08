@@ -26,19 +26,19 @@ export const areTickArraysEqual = (ticks1, ticks2) =>
     ticks1.length === ticks2.length &&
         (ticks1.length === 0 || ticks1[ticks1.length - 1].epoch === ticks2[ticks2.length - 1].epoch);
 
+export const commonRelativeBarrier = (barrier, entrySpot, lastSpot) =>
+    +barrier + (+entrySpot || (lastSpot && lastSpot.quote));
+
 export const relativeBarrier = (contract, lastSpot) =>
-    (+contract.barrier) + (+contract.entry_spot || (lastSpot && lastSpot.quote));
+    commonRelativeBarrier(contract.barrier, contract.entry_spot, lastSpot);
+
+export const relativeBarrier2 = (contract, lastSpot) =>
+    commonRelativeBarrier(contract.barrier2, contract.entry_spot, lastSpot);
 
 export const callPutBarrier = (contract, lastSpot) =>
     contract.barrier ?
         relativeBarrier(contract, lastSpot) :
         +contract.entry_spot || (lastSpot && lastSpot.quote);
 
-export const relativeBarrier2 = (contract, lastSpot) =>
-    (+contract.barrier2) + (+contract.entry_spot || (lastSpot && lastSpot.quote));
-
 export const getLastTick = ticks =>
-    ticks.length && ticks[ticks.length - 1];
-
-export const getLastTickQuote = ticks =>
-    ticks.length && ticks[ticks.length - 1].quote;
+    ticks && (ticks.length === 0 ? undefined : ticks[ticks.length - 1]);

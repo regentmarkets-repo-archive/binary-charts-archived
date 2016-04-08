@@ -38,4 +38,20 @@ storiesOf('Times', module)
                 exit_tick_time: 10,
             }}
         />
+    )
+    .add('Trading Times', () =>
+        <BinaryChart
+            ticks={ticks}
+            tradingTimes={{
+                open: [
+                    '02:00:00',
+                    '06:30:00',
+                ],
+                close: [
+                    '05:00:00',
+                    '08:50:00',
+                ],
+                settlement: '11:50:00',
+            }}
+        />
     );
