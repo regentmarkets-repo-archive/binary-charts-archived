@@ -5,7 +5,5 @@ export default () => ({
         align: 'left',
         formatter() { return this.value.toFixed(2); },
     },
-    title: {
-        text: null,
-    },
+    title: { text: null },
 });

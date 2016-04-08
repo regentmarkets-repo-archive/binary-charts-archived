@@ -4,6 +4,7 @@ export default () => ({
     scrollbar: { enabled: false },
     credits: { enabled: false },
     legend: { enabled: false },
+    title: { text: null },
     chart: {
         spacingBottom: 0,
         spacingTop: 0,
