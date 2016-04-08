@@ -1,6 +1,6 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData } from './_utils';
-import { getLastTick } from './_utils';
+import { areTickArraysEqual, doTicksDifferJustOneEntry, tickToData, getLastTick } from './_utils';
+import { updateChart } from './configurator';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -21,7 +21,7 @@ const paramsAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.contract, prevProps.contract) &&
         shallowEqual(nextProps.trade, prevProps.trade);
 
-export const updateChart = (chart, prevProps, nextProps) => {
+export const shouldUpdateChart = (chart, prevProps, nextProps) => {
     if (!ticksAreEqual(prevProps, nextProps)) {
         updateTicks(chart.series[0], prevProps, nextProps);
     }

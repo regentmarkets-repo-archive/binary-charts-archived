@@ -3,7 +3,7 @@ import Highcharts from 'Highcharts/Highstock';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './configurator/initChart';
 // import { fullConfig } from './configurator';
-import { updateChart } from './updater';
+import { shouldUpdateChart } from './updater';
 
 import spotIndicator from './plugins/spotIndicator';
 // import tradeMarker from './plugins/tradeMarker';
@@ -33,11 +33,11 @@ export default class BinaryChart extends Component {
         const config = initChart(this.props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.Chart(config);
-        updateChart(this.chart, { ticks: [] }, this.props);
+        shouldUpdateChart(this.chart, { ticks: this.props.ticks }, this.props);
     }
 
     shouldComponentUpdate(nextProps) {
-        updateChart(this.chart, this.props, nextProps);
+        shouldUpdateChart(this.chart, this.props, nextProps);
         return false;
     }
 
