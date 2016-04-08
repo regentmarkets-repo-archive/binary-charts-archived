@@ -11,5 +11,5 @@ describe('BinaryChart', () => {
     it.skip('renders something', () => {
         const wrapper = shallow(<BinaryChart />);
         expect(wrapper.type()).to.equal('div');
-    })
+    });
 });
