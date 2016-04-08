@@ -16,6 +16,14 @@ Or by including the file via CDN and a script tag:
 <script src="https://npmcdn.com/binary-charts@3.16.0/lib/binary-charts.js"></script>
 ```
 
+## See Demos
+
+```
+npm install
+npm start
+open localhost:9001
+```
+
 ## Build
 
 To build the project:
