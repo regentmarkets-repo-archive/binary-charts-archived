@@ -6,6 +6,5 @@ configure(() => {
     require('./times');
     require('./past-contracts');
     require('./open-contracts');
-    require('./trading-times');
     require('./indicators');
 }, module);

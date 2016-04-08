@@ -5,10 +5,10 @@ export const barrierType = PropTypes.oneOfType([
     PropTypes.number,
 ]);
 
-export const contractOrTradeShape = PropTypes.shape({
+export const contractOrTrade = PropTypes.shape({
     barrier: barrierType,
     barrier2: barrierType,
-    contract_type: PropTypes.string.isRequired,
+    contract_type: PropTypes.string,
     date_expiry: PropTypes.number,
     date_settlement: PropTypes.number,
     date_start: PropTypes.number,
@@ -20,12 +20,7 @@ export const contractOrTradeShape = PropTypes.shape({
     sell_spot_time: PropTypes.number,
 });
 
-export const tickArrayType = PropTypes.arrayOf(PropTypes.shape({
+export const tickArray = PropTypes.arrayOf(PropTypes.shape({
     epoch: PropTypes.number.isRequired,
-    quote: PropTypes.number.isRequired,
+    quote: PropTypes.number,
 }));
-
-export const ticksType = PropTypes.oneOfType([
-    tickArrayType,
-    PropTypes.function,
-]);

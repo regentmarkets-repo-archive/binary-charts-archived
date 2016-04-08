@@ -3,6 +3,7 @@ export default () => ({
     exporting: { enabled: false },
     scrollbar: { enabled: false },
     credits: { enabled: false },
+    legend: { enabled: false },
     chart: {
         spacingBottom: 0,
         spacingTop: 0,

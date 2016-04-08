@@ -1,4 +1,4 @@
-import { Highcharts } from 'react-highcharts/bundle/ReactHighstock.src';
+import Highcharts from 'Highcharts/Highstock';
 const { merge, wrap, Chart } = Highcharts;
 
 const defaultOptions = {

@@ -8,7 +8,7 @@ describe('BinaryChart', () => {
         expect(<BinaryChart />).to.not.throw;
     });
 
-    it.skip('renders something', () => {
+    it('renders a div', () => {
         const wrapper = shallow(<BinaryChart />);
         expect(wrapper.type()).to.equal('div');
     });

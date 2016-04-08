@@ -29,9 +29,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "chai": "^3.5.0",
     "fbjs": "^0.8.0",
-    "react-highcharts": "^8.1.1"
+    "highcharts": "^4.2.3"
   },
   "devDependencies": {
     "@kadira/storybook": "^1.5.0",
@@ -58,7 +57,7 @@
     "webpack": "^2.1.0-beta.4"
   },
   "peerDependencies": {
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8"
+    "react": "^0.15.0",
+    "react-dom": "^0.15.0"
   }
 }
