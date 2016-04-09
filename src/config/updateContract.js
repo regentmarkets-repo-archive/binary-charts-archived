@@ -1,5 +1,5 @@
 import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
-import plotLinesForContract from './plotLinesForContract';
+import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
 import { getLastTick } from '../_utils';
 
 const replacePlotBands = (axis, newPlotBands) => {
@@ -8,8 +8,8 @@ const replacePlotBands = (axis, newPlotBands) => {
 };
 
 const replacePlotLines = (axis, newPlotLines) => {
+    axis.removePlotLine('time-line');
     newPlotLines.forEach(line => {
-        axis.removePlotLine(line.id);
         axis.addPlotLine(line);
     });
 };
@@ -18,9 +18,9 @@ export default ({ chart, contract, trade, ticks }) => {
     const lastTick = getLastTick(ticks);
     const newPlotBands = plotBandsForContractAndTrade(contract || trade, lastTick);
     replacePlotBands(chart.yAxis[0], newPlotBands);
-    if (contract) {
-        const newPlotLines = plotLinesForContract(contract);
-        replacePlotLines(chart.xAxis[0], newPlotLines);
-    }
+
+    const newPlotLines = dateEntryPlotLines(contract);
+    replacePlotLines(chart.xAxis[0], newPlotLines);
+
     // updateExtremes(chart.xAxis[0], ticks, contract || trade)
 };

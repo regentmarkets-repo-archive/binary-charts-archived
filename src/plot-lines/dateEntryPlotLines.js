@@ -1,7 +1,7 @@
 import { brand } from '../_utils';
 
 const vertPlotLine = (epoch, color, text, position) => ({
-    id: text,
+    id: 'time-line',
     value: epoch * 1000,
     color,
     width: 2,
@@ -19,13 +19,20 @@ const vertPlotLine = (epoch, color, text, position) => ({
 
 const lineColor = brand(1);
 
-export default (contract) => [
-    vertPlotLine(contract.purchase_time, lineColor, 'Purchase Time', 'left'),
-    vertPlotLine(contract.date_start, lineColor, 'Start Time', 'left'),
-    vertPlotLine(contract.entry_tick_time, lineColor, 'Entry Spot', 'right'),
-    vertPlotLine(contract.date_expiry, lineColor, 'Time of Expiry', 'left'),
-    vertPlotLine(contract.date_settlement, lineColor, 'Settlement Time', 'right'),
-    vertPlotLine(contract.expiry_time, lineColor, 'End Time', 'right'),
-    vertPlotLine(contract.exit_tick_time, lineColor, 'Exit Spot', 'left'),
-    vertPlotLine(contract.sell_spot_time, lineColor, 'Sell Time', 'right'),
+const timePlotLines = [
+    { id: 'date_start', name: 'Start Time', position: 'left' },
+    { id: 'purchase_time', name: 'Purchase Time', position: 'left' },
+    { id: 'entry_tick_time', name: 'Entry Spot', position: 'right' },
+    { id: 'date_expiry', name: 'Time of Expiry', position: 'left' },
+    { id: 'date_settlement', name: 'Settlement Time', position: 'right' },
+    { id: 'expiry_time', name: 'End Time', position: 'right' },
+    { id: 'exit_tick_time', name: 'Exit Spot', position: 'left' },
+    { id: 'sell_spot_time', name: 'Sell Time', position: 'right' },
 ];
+
+export default (contract) =>
+    !contract ?
+        [] :
+        timePlotLines.map(param =>
+            vertPlotLine(contract[param.id], lineColor, param.name, param.position)
+        );
