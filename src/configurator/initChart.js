@@ -26,5 +26,3 @@ export default () => ({
 });
 
 // this.config.chart.events = events();
-// this.config.series = seriesLine(data);
-// this.config.yAxis = Object.assign(this.config.yAxis, spot(spotValue));

@@ -6,7 +6,7 @@ import { shouldUpdateChart } from './updater';
 
 import spotIndicator from './plugins/spotIndicator';
 // import tradeMarker from './plugins/tradeMarker';
-import theme from './theme/';
+import theme from './theme';
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
