@@ -2,23 +2,6 @@ import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
 import plotLinesForContract from './plotLinesForContract';
 import { getLastTick } from '../_utils';
 
-const enhanceConfigWithContractAndTrade = ({ config, lastTick, contract, trade }) => {
-    config.yAxis.plotBands = plotBandsForContractAndTrade(contract || trade, lastTick, lastTick);
-    config.xAxis.plotLines = plotLinesForContract(contract);
-
-    return config;
-};
-
-// export const fullConfig = ({ ticks, contract, trade }) => {
-//     const ticksConfig = baseConiguration().series(ticks).end();
-//     return enhanceConfigWithContractAndTrade({
-//         config: ticksConfig,
-//         lastTick: getLastTick(ticks),
-//         contract,
-//         trade,
-//     });
-// };
-
 const replacePlotBands = (axis, newPlotBands) => {
     axis.removePlotBand('barrier-band');
     newPlotBands.forEach(band => axis.addPlotBand(band));

@@ -1,5 +1,6 @@
 export default () => ({
     type: 'datetime',
+    ordinal: false,
     dateTimeLabelFormats: {
         second: '%Y-%m-%d<br/>%H:%M:%S',
         minute: '%Y-%m-%d<br/>%H:%M',

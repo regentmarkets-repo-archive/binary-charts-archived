@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts/highstock';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './configurator/initChart';
-// import { fullConfig } from './configurator';
 import { shouldUpdateChart } from './updater';
 
 import spotIndicator from './plugins/spotIndicator';
@@ -32,7 +31,7 @@ export default class BinaryChart extends Component {
     componentDidMount() {
         const config = initChart(this.props);
         config.chart.renderTo = this.refs.chart;
-        this.chart = new Highcharts.Chart(config);
+        this.chart = new Highcharts.StockChart(config);
         shouldUpdateChart(this.chart, { ticks: this.props.ticks }, this.props);
     }
 

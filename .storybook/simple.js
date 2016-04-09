@@ -16,14 +16,24 @@ storiesOf('Basic', module)
             ]}
         />
     )
-    .add('Missing data', () =>
+    .add('Missing data (nulls)', () =>
         <BinaryChart
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
-                { epoch: 2, quote: 60 },
+                { epoch: 2, quote: null },
                 { epoch: 3, quote: null },
                 { epoch: 4, quote: null },
+                { epoch: 5, quote: 20 },
+                { epoch: 6, quote: 30 },
+            ]}
+        />
+    )
+    .add('Missing data (no entries)', () =>
+        <BinaryChart
+            ticks={[
+                { epoch: 0, quote: 50 },
+                { epoch: 1, quote: 40 },
                 { epoch: 5, quote: 20 },
                 { epoch: 6, quote: 30 },
             ]}
