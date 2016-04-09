@@ -1,5 +1,4 @@
-import Highcharts from 'highcharts/highstock';
-const { merge, wrap, Chart } = Highcharts;
+import { merge, wrap, Chart } from 'highcharts';
 
 const defaultOptions = {
     color: 'red',
