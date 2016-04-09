@@ -1,5 +1,4 @@
-export const brand = percentage =>
-    `rgba(42, 48, 82, ${percentage})`;
+import { brand } from './_utils';
 
 export default ({
     colors: [brand(1)],

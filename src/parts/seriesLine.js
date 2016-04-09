@@ -1,4 +1,4 @@
-import { brand } from '../theme';
+import { brand } from '../_utils';
 
 export default data => [{
     name: 'Spot',

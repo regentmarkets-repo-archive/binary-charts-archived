@@ -1,4 +1,4 @@
-import { brand } from '../theme';
+import { brand } from '../_utils';
 
 const vertPlotLine = (epoch, color, text, position) => ({
     id: text,

@@ -24,3 +24,9 @@ export const tickArray = PropTypes.arrayOf(PropTypes.shape({
     epoch: PropTypes.number.isRequired,
     quote: PropTypes.number,
 }));
+
+export const tradingTimes = PropTypes.shape({
+    open: PropTypes.arrayOf(PropTypes.string),
+    close: PropTypes.arrayOf(PropTypes.string),
+    settlement: PropTypes.string.isRequired,
+});

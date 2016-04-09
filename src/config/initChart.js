@@ -5,9 +5,7 @@ import rangeSelector from '../parts/rangeSelector';
 import yAxis from '../parts/yAxis';
 import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
-// import spot from '../parts/spot';
 // import events from '../parts/events';
-// import { tickToData } from '../_utils';
 
 export default () => ({
     ...reset(),
@@ -24,5 +22,3 @@ export default () => ({
     series: seriesLine([]),
     // events: events()
 });
-
-// this.config.chart.events = events();

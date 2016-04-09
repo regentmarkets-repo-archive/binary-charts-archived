@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts/highstock';
 import * as BinaryTypes from './BinaryTypes';
-import initChart from './configurator/initChart';
-import { shouldUpdateChart } from './updater';
+import initChart from './config/initChart';
+import updateChart from './config/updateChart';
 
 import spotIndicator from './plugins/spotIndicator';
 // import tradeMarker from './plugins/tradeMarker';
@@ -22,6 +22,7 @@ export default class BinaryChart extends Component {
         ticks: BinaryTypes.tickArray,
         contract: BinaryTypes.contractOrTrade,
         trade: BinaryTypes.contractOrTrade,
+        tradintTimes: BinaryTypes.tradingTimes,
     };
 
     static defaultProps = {
@@ -32,11 +33,11 @@ export default class BinaryChart extends Component {
         const config = initChart(this.props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
-        shouldUpdateChart(this.chart, { ticks: this.props.ticks }, this.props);
+        updateChart(this.chart, { ticks: this.props.ticks }, this.props);
     }
 
     shouldComponentUpdate(nextProps) {
-        shouldUpdateChart(this.chart, this.props, nextProps);
+        updateChart(this.chart, this.props, nextProps);
         return false;
     }
 

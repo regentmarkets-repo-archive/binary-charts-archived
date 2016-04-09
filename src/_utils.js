@@ -1,3 +1,6 @@
+export const brand = percentage =>
+    `rgba(42, 48, 82, ${percentage})`;
+
 export const tickToData = tick => [
     tick.epoch * 1000,
     tick.quote,
