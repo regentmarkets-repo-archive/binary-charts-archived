@@ -1,4 +1,4 @@
-import Highcharts from 'Highcharts/Highstock';
+import Highcharts from 'highcharts/highstock';
 const { merge, wrap, Chart } = Highcharts;
 
 const defaultOptions = {

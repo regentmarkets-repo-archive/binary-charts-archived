@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Highcharts from 'Highcharts/Highstock';
+import Highcharts from 'highcharts/highstock';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './configurator/initChart';
 // import { fullConfig } from './configurator';
