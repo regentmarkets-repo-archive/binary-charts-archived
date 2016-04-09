@@ -3,7 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 import BinaryChart from '../src/BinaryChart';
 import ticks from './ticks';
 
-const contracts = {
+const contractsMain = {
     Higher: {
         type: 'CALL',
     },
@@ -18,29 +18,13 @@ const contracts = {
         type: 'PUT',
         barrier: 10,
     },
-    'Digit Match': {
-        type: 'DIGITMATCH',
+    Touches: {
+        type: 'ONETOUCH',
+        barrier: 10,
     },
-    'Digit Differs': {
-        type: 'DIGITDIFF',
-    },
-    'Digit Over': {
-        type: 'DIGITOVER',
-    },
-    'Digit Under': {
-        type: 'DIGITUNDER',
-    },
-    'Digit Even': {
-        type: 'DIGITEVEN',
-    },
-    'Digit Odd': {
-        type: 'DIGITODD',
-    },
-    'Asian Up': {
-        type: 'ASIANU',
-    },
-    'Asian Down': {
-        type: 'ASIAND',
+    'Does Not Touch': {
+        type: 'NOTOUCH',
+        barrier: 10,
     },
     'Ends Between': {
         type: 'EXPIRYRANGE',
@@ -62,13 +46,35 @@ const contracts = {
         barrier: 10,
         barrier2: -10,
     },
-    Touches: {
-        type: 'ONETOUCH',
-        barrier: 10,
+};
+
+const contractsDigits = {
+    'Digit Match': {
+        type: 'DIGITMATCH',
     },
-    'Does Not Touch': {
-        type: 'NOTOUCH',
-        barrier: 10,
+    'Digit Differs': {
+        type: 'DIGITDIFF',
+    },
+    'Digit Over': {
+        type: 'DIGITOVER',
+    },
+    'Digit Under': {
+        type: 'DIGITUNDER',
+    },
+    'Digit Even': {
+        type: 'DIGITEVEN',
+    },
+    'Digit Odd': {
+        type: 'DIGITODD',
+    },
+};
+
+const contractsRest = {
+    'Asian Up': {
+        type: 'ASIANU',
+    },
+    'Asian Down': {
+        type: 'ASIAND',
     },
     'Spread Long': {
         type: 'SPREADU',
@@ -78,12 +84,17 @@ const contracts = {
     },
 };
 
-Object.keys(contracts).forEach(key =>
-    storiesOf('Contract Types', module)
-        .add(key, () =>
-            <BinaryChart
-                ticks={ticks}
-                contract={contracts[key]}
-            />
-        )
-);
+const createStories = (category, contracts) =>
+    Object.keys(contracts).forEach(key =>
+        storiesOf(category, module)
+            .add(key, () =>
+                <BinaryChart
+                    ticks={ticks}
+                    contract={contracts[key]}
+                />
+            )
+    );
+
+createStories('Contract Types - Main', contractsMain);
+createStories('Contract Types - Digits', contractsDigits);
+createStories('Contract Types - Rest', contractsRest);

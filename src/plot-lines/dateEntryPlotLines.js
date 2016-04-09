@@ -1,21 +1,5 @@
 import { brand } from '../_utils';
-
-const vertPlotLine = (epoch, color, text, position) => ({
-    id: 'time-line',
-    value: epoch * 1000,
-    color,
-    width: 2,
-    label: {
-        text,
-        rotation: position === 'left' ? 270 : 90,
-        x: position === 'left' ? -5 : 5,
-        textAlign: position === 'left' ? 'right' : 'left',
-        verticalAlign: 'top',
-        style: {
-            color,
-        },
-    },
-});
+import vertPlotLine from './vertPlotLine';
 
 const lineColor = brand(1);
 
@@ -34,5 +18,5 @@ export default (contract) =>
     !contract ?
         [] :
         timePlotLines.map(param =>
-            vertPlotLine(contract[param.id], lineColor, param.name, param.position)
+            vertPlotLine('time-line', contract[param.id], lineColor, param.name, param.position)
         );

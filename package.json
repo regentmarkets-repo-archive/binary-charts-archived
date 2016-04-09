@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -33,9 +33,9 @@
     "highcharts": "^4.2.3"
   },
   "devDependencies": {
-    "@kadira/storybook": "^1.5.0",
-    "babel-cli": "^6.6.5",
-    "babel-core": "^6.7.4",
+    "@kadira/storybook": "^1.8.0",
+    "babel-cli": "^6.7.5",
+    "babel-core": "^6.7.6",
     "babel-eslint": "^6.0.2",
     "babel-istanbul": "^0.7.0",
     "babel-loader": "^6.2.4",
@@ -51,9 +51,9 @@
     "eslint-plugin-react": "^4.3.0",
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0",
-    "react": "^0.14.8",
-    "react-addons-test-utils": "^0.14.8",
-    "react-dom": "^0.14.8",
+    "react": "^15.0.1",
+    "react-addons-test-utils": "^15.0.1",
+    "react-dom": "^15.0.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "webpack": "^2.1.0-beta.4"
