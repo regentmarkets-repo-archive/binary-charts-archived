@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { doTicksDifferJustOneEntry } from '../_utils';
 
 describe('doTicksDifferJustOneEntry', () => {
-    it('two empty lists do differ one tick', () => {
+    it('two empty lists do not differ one tick', () => {
         const ticks1 = [];
         const ticks2 = [];
         const result = doTicksDifferJustOneEntry(ticks1, ticks2);
-        expect(result).to.equal(true);
+        expect(result).to.equal(false);
     });
 
     it('one empty lists and a list of one item do differ one tick', () => {

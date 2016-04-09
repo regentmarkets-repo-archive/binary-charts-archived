@@ -12,14 +12,14 @@ export const doTicksEqual = (tick1, tick2) =>
     !!tick1 && !!tick2 && tick1.epoch === tick2.epoch && tick1.quote === tick2.quote;
 
 export const doTicksDifferJustOneEntry = (ticks1, ticks2) => {
-    switch (Math.abs(ticks1.length - ticks2.length)) {
-        case 0:
-        case 1:
-            return doTicksEqual(ticks1[ticks1.length - 1], ticks2[ticks2.length - 2])
-                || doTicksEqual(ticks1[ticks1.length - 2], ticks2[ticks2.length - 1]);
-        default:
-            return false;
+    const lengthDiff = Math.abs(ticks1.length - ticks2.length);
+
+    if (lengthDiff !== 1 && ticks1.length === 0) {
+        return false;
     }
+
+    return doTicksEqual(ticks1[ticks1.length - 1], ticks2[ticks2.length - 2])
+        || doTicksEqual(ticks1[ticks1.length - 2], ticks2[ticks2.length - 1]);
 };
 
 export const areTickArraysEqual = (ticks1, ticks2) =>
