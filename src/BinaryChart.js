@@ -11,7 +11,7 @@ import theme from './theme/';
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
-    // spotIndicator();
+    spotIndicator();
 // tradeMarker();
     Highcharts.setOptions(theme);
 }

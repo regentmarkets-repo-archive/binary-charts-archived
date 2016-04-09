@@ -15,7 +15,12 @@ export default () => ({
     navigator: navigator(),
     rangeSelector: rangeSelector(),
     xAxis: xAxis(),
-    yAxis: yAxis(),
+    yAxis: {
+        ...yAxis(),
+        spotIndicator: {
+            enabled: true,
+        },
+    },
     series: seriesLine([]),
     // events: events()
 });

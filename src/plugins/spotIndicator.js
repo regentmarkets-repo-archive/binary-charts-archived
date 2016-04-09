@@ -55,11 +55,14 @@ const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, pric
 const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.label.attr({
         text: currentPrice.toFixed(2),
+    });
+
+    spotIndicator.label.animate({
         x: priceYAxis.width + x - 5,
         y: y - 8,
     });
 
-    spotIndicator.poly.attr({
+    spotIndicator.poly.animate({
         d: polyPath(priceYAxis.width, y, 60, 15),
     });
 
@@ -75,7 +78,7 @@ const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
 export default () => {
     const renderSpotIndicator = chart => {
         let options = chart.options.yAxis[0].spotIndicator;
-        if (!options.enabled) return;
+        if (!options || !options.enabled) return;
         options = merge(true, defaultOptions, options);
 
         const priceYAxis = chart.yAxis[0];
