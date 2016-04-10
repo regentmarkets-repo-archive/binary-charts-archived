@@ -29,6 +29,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "binary-utils": "^1.1.1",
     "fbjs": "^0.8.0",
     "highcharts": "^4.2.3"
   },

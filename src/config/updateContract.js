@@ -1,6 +1,6 @@
 import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
-import { getLastTick } from '../_utils';
+import getLastTick from 'binary-utils/lib/getLastTick';
 
 const replacePlotBands = (axis, newPlotBands) => {
     axis.removePlotBand('barrier-band');

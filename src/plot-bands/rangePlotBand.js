@@ -1,5 +1,6 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
-import { relativeBarrier, relativeBarrier2 } from '../_utils';
+import relativeBarrier from 'binary-utils/lib/barrier/relativeBarrier';
+import relativeBarrier2 from 'binary-utils/lib/barrier/relativeBarrier2';
 
 export default (contract, lastSpot) => [
     lossPlotBand(0, relativeBarrier2(contract, lastSpot)),

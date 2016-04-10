@@ -1,5 +1,5 @@
+import callPutBarrier from 'binary-utils/lib/barrier/callPutBarrier';
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
-import { callPutBarrier } from '../_utils';
 
 export default (contract, lastSpot) => [
     winPlotBand(0, callPutBarrier(contract, lastSpot)),

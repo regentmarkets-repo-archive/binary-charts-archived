@@ -1,4 +1,4 @@
-import { getLastTick } from '../_utils';
+import getLastTick from 'binary-utils/lib/getLastTick';
 
 export default (axis, ticks, contract) => {
     const tickMin = ticks[0] && ticks[0].epoch;

@@ -1,7 +1,7 @@
-import { brand } from './_utils';
+import brandColor from 'binary-utils/lib/brandColor';
 
 export default ({
-    colors: [brand(1)],
+    colors: [brandColor(1)],
     series: [{
         lineWidth: 1,
     }],
@@ -15,7 +15,7 @@ export default ({
 		gridLineColor: 'rgba(42, 48, 82, .2)',
         labels: {
 			style: {
-				color: brand(0.75),
+				color: brandColor(0.75),
 			},
 		},
 		lineColor: '#707073',
@@ -28,10 +28,10 @@ export default ({
 		},
 	},
 	yAxis: {
-        gridLineColor: brand(0.2),
+        gridLineColor: brandColor(0.2),
 		labels: {
 			style: {
-				color: brand(0.75),
+				color: brandColor(0.75),
 			},
 		},
 		lineColor: '#707073',
@@ -51,20 +51,20 @@ export default ({
     },
     navigator: {
 		handles: {
-			backgroundColor: brand(0.25),
-			borderColor: brand(0.5),
+			backgroundColor: brandColor(0.25),
+			borderColor: brandColor(0.5),
 		},
 		outlineColor: 'none',
-		maskFill: brand(0.1),
+		maskFill: brandColor(0.1),
 		series: {
-			color: brand(0.25),
-			lineColor: brand(0.25),
+			color: brandColor(0.25),
+			lineColor: brandColor(0.25),
 		},
 		xAxis: {
-			gridLineColor: brand(0.1),
+			gridLineColor: brandColor(0.1),
             labels: {
                 style: {
-                    color: brand(0.75),
+                    color: brandColor(0.75),
                 },
             },
 		},
@@ -77,26 +77,26 @@ export default ({
             r: 2,
             borderRadius: 5,
 			style: {
-				color: brand(0.75),
+				color: brandColor(0.75),
 			},
 			states: {
                 hover: {
                     fill: 'none',
                 },
 				select: {
-                    fill: brand(0.1),
+                    fill: brandColor(0.1),
 					style: {
-                        color: brand(0.75),
+                        color: brandColor(0.75),
 					},
 				},
 			},
 		},
 	},
     tooltip: {
-        borderColor: brand(0.25),
+        borderColor: brandColor(0.25),
         shadow: false,
         style: {
-            color: brand(1),
+            color: brandColor(1),
         },
     },
     resetZoomButton: {

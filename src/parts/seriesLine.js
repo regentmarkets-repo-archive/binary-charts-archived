@@ -1,4 +1,4 @@
-import { brand } from '../_utils';
+import brandColor from 'binary-utils/lib/brandColor';
 
 export default data => [{
     name: 'Spot',
@@ -11,8 +11,8 @@ export default data => [{
     fillColor: {
         linearGradient: [0, 0, 0, 300],
         stops: [
-            [0, brand(0.25)],
-            [1, brand(0.1)],
+            [0, brandColor(0.25)],
+            [1, brandColor(0.1)],
         ],
     },
     lineWidth: 1,

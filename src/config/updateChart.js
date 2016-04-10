@@ -1,5 +1,5 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import { areTickArraysEqual } from '../_utils';
+import areTickArraysEqual from 'binary-utils/lib/ticks/areTickArraysEqual';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
