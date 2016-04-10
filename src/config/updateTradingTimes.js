@@ -1,7 +1,15 @@
 import vertPlotLine from '../plot-lines/vertPlotLine';
 
+const strToSeconds = timeStr => {
+    const parts = timeStr.split(':');
+    return +parts[0] * 24 * 60 + +parts[1] * 60 + +parts[0];
+};
+
+export const dateToEpoch = date =>
+    Math.floor(date.getTime() / 1000);
+
 export const strTimePlusDayAsEpoch = (day, time) =>
-    2;
+    dateToEpoch(day) + strToSeconds(time);
 
 export const tradingTimesToEpochs = (day, times) => !times ? [] : [
     ...times.open,
