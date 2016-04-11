@@ -1,8 +1,10 @@
 export default () => ({
-    animation: false,
+    // animation: true,
     exporting: { enabled: false },
     scrollbar: { enabled: false },
     credits: { enabled: false },
+    legend: { enabled: false },
+    title: { text: null },
     chart: {
         spacingBottom: 0,
         spacingTop: 0,

@@ -12,4 +12,11 @@ describe('plotBandsForContractAndTrade', () => {
             contract_type: 'NONEXISTING',
         })).to.throw();
     });
+
+    it('should return a list of plot bands for existing contract type', () => {
+        const plotBands = plotBandsForContractAndTrade({
+            contract_type: 'CALL',
+        });
+        expect(plotBands.length > 0).to.be.true;
+    });
 });

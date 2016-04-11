@@ -3,6 +3,15 @@ import { storiesOf } from '@kadira/storybook';
 import DynamicChart from './DynamicChart';
 
 storiesOf('Indicators', module)
-    .add('Empty', () =>
-        <DynamicChart />
+    .add('Trend Line', () =>
+        <DynamicChart indicators={['trend']} />
+    )
+    .add('Simple Moving Average', () =>
+        <DynamicChart indicators={['SMA']} />
+    )
+    .add('Relative Strength Index', () =>
+        <DynamicChart indicators={['RSI']} />
+    )
+    .add('Bollinger Band', () =>
+        <DynamicChart indicators={['bollinger']} />
     );

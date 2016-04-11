@@ -1,26 +1,19 @@
-import ReactHighstock from 'react-highcharts/bundle/ReactHighstock.src';
+import { wrap, Chart } from 'highcharts';
 
 export default () => {
-    const { wrap, Chart } = ReactHighstock.Highcharts;
-
-     wrap(Chart.prototype, 'redraw', function(proceed) {
-        proceed.apply(this, Array.prototype.slice.call(arguments, 1));
-        renderTradeMarker(this);
-    });
-
-    function renderTradeMarker(chart){
-        if (chart.tradeMarker){
+    function renderTradeMarker(chart) {
+        if (chart.tradeMarker) {
             (chart.tradeMarker.element).remove();
         }
 
-        const series = chart.series[0],
-              len = series.data.length - 1,
-              lastPoint = series.data[len];
+        const series = chart.series[0];
+        const len = series.data.length - 1;
+        const lastPoint = series.data[len];
 
         if (!lastPoint) return;
 
-        const pixelX = chart.xAxis[0].toPixels(lastPoint.x),
-              pixelY = chart.yAxis[0].toPixels(lastPoint.y);
+        const pixelX = chart.xAxis[0].toPixels(lastPoint.x);
+        const pixelY = chart.yAxis[0].toPixels(lastPoint.y);
 
         chart.tradeMarker = chart.renderer
             .circle(pixelX, pixelY, 4).attr({
@@ -32,4 +25,9 @@ export default () => {
             })
             .add();
     }
-}
+
+    wrap(Chart.prototype, 'redraw', function redraw(proceed, ...args) {
+        proceed.apply(this, args);
+        renderTradeMarker(this);
+    });
+};
