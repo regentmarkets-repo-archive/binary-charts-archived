@@ -10,8 +10,8 @@ const ticksAreEqual = (prevProps, nextProps) =>
     areTickArraysEqual(prevProps.ticks, nextProps.ticks);
 
 const contractsAreEqual = (prevProps, nextProps) =>
-    shallowEqual(nextProps.contract, prevProps.contract) &&
-        shallowEqual(nextProps.trade, prevProps.trade);
+    shallowEqual(prevProps.contract, nextProps.contract) &&
+        shallowEqual(prevProps.trade, nextProps.trade);
 
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
@@ -26,7 +26,7 @@ export default (chart, prevProps, nextProps) => {
         updateContract({ chart, contract, trade, ticks });
     }
 
-    if (!tradingTimesAreEqual(prevProps, nextProps)) { // todo: if ticks differ too?
+    if (!tradingTimesAreEqual(prevProps, nextProps)) {
         const { tradingTimes } = nextProps;
         updateTradingTimes({ chart, tradingTimes });
     }

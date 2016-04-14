@@ -33,7 +33,7 @@ export default class BinaryChart extends Component {
         const config = initChart(this.props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
-        updateChart(this.chart, { ticks: this.props.ticks }, this.props);
+        updateChart(this.chart, { ticks: [] }, this.props);
     }
 
     shouldComponentUpdate(nextProps) {

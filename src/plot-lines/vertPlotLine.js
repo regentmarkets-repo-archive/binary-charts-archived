@@ -2,7 +2,8 @@ export default (id, epoch, color, text, position) => ({
     id,
     value: epoch * 1000,
     color,
-    width: 2,
+    dashStyle: 'longdash',
+    width: 1,
     label: {
         text,
         rotation: position === 'left' ? 270 : 90,

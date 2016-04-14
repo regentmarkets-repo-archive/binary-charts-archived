@@ -1,12 +1,10 @@
+import { dateToEpoch } from 'binary-utils/lib/DateUtils';
 import vertPlotLine from '../plot-lines/vertPlotLine';
 
 const strToSeconds = timeStr => {
     const parts = timeStr.split(':');
     return +parts[0] * 60 * 60 + +parts[1] * 60 + +parts[2];
 };
-
-export const dateToEpoch = date =>
-    Math.floor(date.getTime() / 1000);
 
 /**
  * @param day   [Date]
