@@ -36,6 +36,10 @@ export default class BinaryChart extends Component {
         updateChart(this.chart, { ticks: [] }, this.props);
     }
 
+    componentWillUnmount() {
+        this.chart.destroy();
+    }
+
     shouldComponentUpdate(nextProps) {
         updateChart(this.chart, this.props, nextProps);
         return false;

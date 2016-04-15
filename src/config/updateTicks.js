@@ -7,7 +7,7 @@ export default (chart, prevProps, nextProps) => {
 
     if (oneTickDiff) {
         const lastTick = getLastTick(nextProps.ticks);
-        series.series[0].addPoint(tickToData(lastTick));
+        chart.series[0].addPoint(tickToData(lastTick));
     } else {
         chart.series[0].setData(nextProps.ticks.map(tickToData));
         chart.redraw();
