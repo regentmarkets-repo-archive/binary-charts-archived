@@ -3,8 +3,6 @@ import areTickArraysEqual from 'binary-utils/lib/ticks/areTickArraysEqual';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
-import updateAxis from './updateAxis';
-
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -39,10 +37,10 @@ export default (chart, prevProps, nextProps) => {
 
     if (nextProps.trade && nextProps.trade.pipSize && !pipSizeAreEqual(prevProps, nextProps)) {
         const { trade } = nextProps;
-        updateAxis(chart.yAxis[0], {
+        chart.yAxis[0].update({
             labels: {
                 formatter() {return this.value.toFixed(trade.pipSize);}
             }
-        })
+        });
     }
 };
