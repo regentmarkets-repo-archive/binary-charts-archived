@@ -18,7 +18,7 @@ const tradingTimesAreEqual = (prevProps, nextProps) =>
 
 export default (chart, prevProps, nextProps) => {
     if (!ticksAreEqual(prevProps, nextProps)) {
-        updateTicks(chart.series[0], prevProps, nextProps);
+        updateTicks(chart, prevProps, nextProps);
     }
 
     if (!contractsAreEqual(prevProps, nextProps)) { // todo: if ticks differ too?

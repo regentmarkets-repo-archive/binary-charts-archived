@@ -2,13 +2,14 @@ import doTicksDifferJustOneEntry from 'binary-utils/lib/ticks/doTicksDifferJustO
 import tickToData from 'binary-utils/lib/ticks/tickToData';
 import getLastTick from 'binary-utils/lib/ticks/getLastTick';
 
-export default (series, prevProps, nextProps) => {
+export default (chart, prevProps, nextProps) => {
     const oneTickDiff = doTicksDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
 
     if (oneTickDiff) {
         const lastTick = getLastTick(nextProps.ticks);
-        series.addPoint(tickToData(lastTick));
+        series.series[0].addPoint(tickToData(lastTick));
     } else {
-        series.setData(nextProps.ticks.map(tickToData));
+        chart.series[0].setData(nextProps.ticks.map(tickToData));
+        chart.redraw();
     }
 };
