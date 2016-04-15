@@ -3,7 +3,6 @@ import areTickArraysEqual from 'binary-utils/lib/ticks/areTickArraysEqual';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
-import updateAxis from './updateAxis';
 
 
 const ticksAreEqual = (prevProps, nextProps) =>
@@ -16,11 +15,6 @@ const contractsAreEqual = (prevProps, nextProps) =>
 
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
-
-const pipSizeAreEqual = (prevProps, nextProps) =>
-    (nextProps.trade && prevProps.trade) &&
-    (nextProps.trade.pipSize && prevProps.trade.pipSize) &&
-        prevProps.trade.pipSize === nextProps.trade.pipSize;
 
 export default (chart, prevProps, nextProps) => {
     if (!ticksAreEqual(prevProps, nextProps)) {
@@ -35,14 +29,5 @@ export default (chart, prevProps, nextProps) => {
     if (!tradingTimesAreEqual(prevProps, nextProps)) {
         const { tradingTimes } = nextProps;
         updateTradingTimes({ chart, tradingTimes });
-    }
-
-    if (nextProps.trade && nextProps.trade.pipSize && !pipSizeAreEqual(prevProps, nextProps)) {
-        const { trade } = nextProps;
-        updateAxis(chart.yAxis[0], {
-            labels: {
-                formatter() {return this.value.toFixed(trade.pipSize);}
-            }
-        })
     }
 };
