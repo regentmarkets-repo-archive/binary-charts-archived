@@ -5,44 +5,44 @@ import ticks from './ticks';
 
 const contractsBasic = {
     Higher: {
-        type: 'CALL',
+        contract_type: 'CALL',
     },
     Lower: {
-        type: 'PUT',
+        contract_type: 'PUT',
     },
     Rise: {
-        type: 'CALL',
+        contract_type: 'CALL',
         barrier: 10,
     },
     Fall: {
-        type: 'PUT',
+        contract_type: 'PUT',
         barrier: 10,
     },
     Touches: {
-        type: 'ONETOUCH',
+        contract_type: 'ONETOUCH',
         barrier: 10,
     },
     'Does Not Touch': {
-        type: 'NOTOUCH',
+        contract_type: 'NOTOUCH',
         barrier: 10,
     },
     'Ends Between': {
-        type: 'EXPIRYRANGE',
+        contract_type: 'EXPIRYRANGE',
         barrier: 10,
         barrier2: -10,
     },
     'Ends Outside': {
-        type: 'EXPIRYMISS',
+        contract_type: 'EXPIRYMISS',
         barrier: 10,
         barrier2: -10,
     },
     'Stays Between': {
-        type: 'RANGE',
+        contract_type: 'RANGE',
         barrier: 10,
         barrier2: -10,
     },
     'Goes Outside': {
-        type: 'UPORDOWN',
+        contract_type: 'UPORDOWN',
         barrier: 10,
         barrier2: -10,
     },
@@ -50,37 +50,37 @@ const contractsBasic = {
 
 const contractsDigits = {
     'Digit Match': {
-        type: 'DIGITMATCH',
+        contract_type: 'DIGITMATCH',
     },
     'Digit Differs': {
-        type: 'DIGITDIFF',
+        contract_type: 'DIGITDIFF',
     },
     'Digit Over': {
-        type: 'DIGITOVER',
+        contract_type: 'DIGITOVER',
     },
     'Digit Under': {
-        type: 'DIGITUNDER',
+        contract_type: 'DIGITUNDER',
     },
     'Digit Even': {
-        type: 'DIGITEVEN',
+        contract_type: 'DIGITEVEN',
     },
     'Digit Odd': {
-        type: 'DIGITODD',
+        contract_type: 'DIGITODD',
     },
 };
 
 const contractsAdvanced = {
     'Asian Up': {
-        type: 'ASIANU',
+        contract_type: 'ASIANU',
     },
     'Asian Down': {
-        type: 'ASIAND',
+        contract_type: 'ASIAND',
     },
     'Spread Long': {
-        type: 'SPREADU',
+        contract_type: 'SPREADU',
     },
     'Spread Short': {
-        type: 'SPREADD',
+        contract_type: 'SPREADD',
     },
 };
 
