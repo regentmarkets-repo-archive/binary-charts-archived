@@ -54,4 +54,7 @@ storiesOf('Basic', module)
     )
     .add('Dynamic', () =>
         <DynamicChart />
+    )
+    .add('Dynamic with contract', () =>
+        <DynamicChart contract={{ contract_type: 'CALL' }} />
     );

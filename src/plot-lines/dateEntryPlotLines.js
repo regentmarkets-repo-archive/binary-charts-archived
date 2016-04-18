@@ -3,7 +3,7 @@ import vertPlotLine from './vertPlotLine';
 
 const lineColor = brandColor(1);
 
-const timePlotLines = [
+export const timePlotLines = [
     { id: 'date_start', name: 'Start Time', position: 'left' },
     { id: 'purchase_time', name: 'Purchase Time', position: 'left' },
     { id: 'entry_tick_time', name: 'Entry Spot', position: 'right' },

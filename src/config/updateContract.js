@@ -1,6 +1,7 @@
 import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
 import getLastTick from 'binary-utils/lib/getLastTick';
+import updateExtremes from './updateExtremes';
 
 const replacePlotBands = (axis, newPlotBands) => {
     axis.removePlotBand('barrier-band');
@@ -14,13 +15,13 @@ const replacePlotLines = (axis, newPlotLines) => {
     });
 };
 
-export default ({ chart, contract, trade, ticks }) => {
+export default ({ chart, contract, ticks }) => {
     const lastTick = getLastTick(ticks);
-    const newPlotBands = plotBandsForContractAndTrade(contract || trade, lastTick);
+    const newPlotBands = plotBandsForContractAndTrade(contract, lastTick);
     replacePlotBands(chart.yAxis[0], newPlotBands);
 
     const newPlotLines = dateEntryPlotLines(contract);
     replacePlotLines(chart.xAxis[0], newPlotLines);
 
-    // updateExtremes(chart.xAxis[0], ticks, contract || trade)
+    updateExtremes(chart, ticks, contract);
 };

@@ -39,6 +39,15 @@ storiesOf('Times', module)
             }}
         />
     )
+    .add('Barrier outside ticks', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                contract_type: 'CALL',
+                barrier: 100,
+            }}
+        />
+    )
     .add('Trading Times', () =>
         <BinaryChart
             ticks={ticks}

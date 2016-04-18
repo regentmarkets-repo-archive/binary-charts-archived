@@ -21,16 +21,20 @@ const pipSizeAreEqual = (prevProps, nextProps) =>
         prevProps.trade.pipSize === nextProps.trade.pipSize;
 
 export default (chart, prevProps, nextProps) => {
-    if (!ticksAreEqual(prevProps, nextProps)) {
+    const ticksDiffer = !ticksAreEqual(prevProps, nextProps);
+    const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
+    const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
+
+    if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);
     }
 
-    if (!contractsAreEqual(prevProps, nextProps)) { // todo: if ticks differ too?
+    if (contractsDiffer || ticksDiffer) {
         const { contract, trade, ticks } = nextProps;
-        updateContract({ chart, contract, trade, ticks });
+        updateContract({ chart, contract: contract || trade, ticks });
     }
 
-    if (!tradingTimesAreEqual(prevProps, nextProps)) {
+    if (tradingTimesDiffer) {
         const { tradingTimes } = nextProps;
         updateTradingTimes({ chart, tradingTimes });
     }
@@ -39,8 +43,10 @@ export default (chart, prevProps, nextProps) => {
         const { trade } = nextProps;
         chart.yAxis[0].update({
             labels: {
-                formatter() {return this.value.toFixed(trade.pipSize);}
-            }
+                formatter() {
+                    return this.value.toFixed(trade.pipSize);
+                },
+            },
         });
     }
 };
