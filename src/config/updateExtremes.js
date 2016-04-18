@@ -13,24 +13,25 @@ const updateExtremesXAxis = (axis, ticks, contract) => {
         return;
     }
 
-//    const tickMin = ticks[0] && ticks[0].epoch;
-//    const contractMin = contract.entry_spot;
-//    const extremesMin = [tickMin, contractMin].filter(x => x);
     const min = arrayMin(timeEntries) - 1000;
     const max = arrayMax(timeEntries) + 1000;
 
-//    const tickMax = getLastTick(ticks).epoch;
-//    const contractMax = contract.expiry_time + 1;
-//    const extremesMax = [tickMax, contractMax].filter(x => x);
     axis.setExtremes(min, max);
 };
 
+const getAbsoluteBarrier = (barrier, lastTickQuote) =>
+    typeof barrier === 'number' ? barrier : lastTickQuote + +barrier;
+
 const updateExtremesYAxis = (axis, ticks, contract) => {
+    if (!contract.barrier && !contract.barrier2) {
+        return;
+    }
+
     const prevExtermes = axis.getExtremes();
     const lastTickQuote = getLastTick(ticks);
-    const minExtremes = [lastTickQuote + contract.barrier2, prevExtermes.min].filter(x => x);
+    const minExtremes = [getAbsoluteBarrier(contract.barrier2, lastTickQuote), prevExtermes.dataMin].filter(x => x);
     const min = arrayMin(minExtremes);
-    const maxExtremes = [lastTickQuote + contract.barrier, prevExtermes.max].filter(x => x);
+    const maxExtremes = [getAbsoluteBarrier(contract.barrier, lastTickQuote), prevExtermes.dataMax].filter(x => x);
     const max = arrayMax(maxExtremes);
 
     axis.setExtremes(min, max);

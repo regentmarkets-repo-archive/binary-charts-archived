@@ -44,7 +44,7 @@ storiesOf('Times', module)
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',
-                barrier: 100,
+                barrier: '100',
             }}
         />
     )

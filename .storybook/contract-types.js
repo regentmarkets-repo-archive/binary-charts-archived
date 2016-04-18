@@ -12,39 +12,39 @@ const contractsBasic = {
     },
     Rise: {
         contract_type: 'CALL',
-        barrier: 10,
+        barrier: '10',
     },
     Fall: {
         contract_type: 'PUT',
-        barrier: 10,
+        barrier: '10',
     },
     Touches: {
         contract_type: 'ONETOUCH',
-        barrier: 10,
+        barrier: '10',
     },
     'Does Not Touch': {
         contract_type: 'NOTOUCH',
-        barrier: 10,
+        barrier: '10',
     },
     'Ends Between': {
         contract_type: 'EXPIRYRANGE',
-        barrier: 10,
-        barrier2: -10,
+        barrier: '10',
+        barrier2: '-10',
     },
     'Ends Outside': {
         contract_type: 'EXPIRYMISS',
-        barrier: 10,
-        barrier2: -10,
+        barrier: '10',
+        barrier2: '-10',
     },
     'Stays Between': {
         contract_type: 'RANGE',
-        barrier: 10,
-        barrier2: -10,
+        barrier: '10',
+        barrier2: '-10',
     },
     'Goes Outside': {
         contract_type: 'UPORDOWN',
-        barrier: 10,
-        barrier2: -10,
+        barrier: '10',
+        barrier2: '-10',
     },
 };
 
