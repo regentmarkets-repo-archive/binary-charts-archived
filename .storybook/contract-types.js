@@ -3,7 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 import BinaryChart from '../src/BinaryChart';
 import ticks from './ticks';
 
-const contractsMain = {
+const contractsBasic = {
     Higher: {
         type: 'CALL',
     },
@@ -69,7 +69,7 @@ const contractsDigits = {
     },
 };
 
-const contractsRest = {
+const contractsAdvanced = {
     'Asian Up': {
         type: 'ASIANU',
     },
@@ -95,6 +95,6 @@ const createStories = (category, contracts) =>
             )
     );
 
-createStories('Contract Types - Main', contractsMain);
+createStories('Contract Types - Basic', contractsBasic);
 createStories('Contract Types - Digits', contractsDigits);
-createStories('Contract Types - Rest', contractsRest);
+createStories('Contract Types - Advanced', contractsAdvanced);

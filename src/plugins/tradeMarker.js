@@ -1,4 +1,4 @@
-import { wrap, Chart } from 'highcharts';
+import { wrap, Chart } from 'highcharts/highstock';
 
 export default () => {
     function renderTradeMarker(chart) {

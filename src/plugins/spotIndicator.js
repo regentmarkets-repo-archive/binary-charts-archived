@@ -1,4 +1,4 @@
-import { merge, wrap, Chart } from 'highcharts';
+import { merge, wrap, Chart } from 'highcharts/highstock';
 
 const defaultOptions = {
     color: 'red',
@@ -85,7 +85,7 @@ export default () => {
 
         let x = chart.marginRight;
         let y = priceYAxis.toPixels(currentPrice);
-
+        console.log('rofl');
         if (priceYAxis.spotIndicator) {
             update({ currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator, priceYAxis });
         } else {
