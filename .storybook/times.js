@@ -19,7 +19,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
-                purchase_time: 0,
+                purchase_time: 1,
                 date_start: 1,
                 entry_tick_time: 2,
                 sell_spot_time: 3,

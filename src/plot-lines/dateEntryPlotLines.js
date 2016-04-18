@@ -14,9 +14,15 @@ const timePlotLines = [
     { id: 'sell_spot_time', name: 'Sell Time', position: 'right' },
 ];
 
-export default (contract) =>
-    !contract ?
-        [] :
-        timePlotLines.map(param =>
+export default (contract) => {
+    if (!contract) {
+        return [];
+    }
+
+    return timePlotLines
+        .filter(param => contract[param.id])
+        .filter(param => param.id !== 'purchase_time' || contract.purchase_time !== contract.date_start)
+        .map(param =>
             vertPlotLine('time-line', contract[param.id], lineColor, param.name, param.position)
         );
+};
