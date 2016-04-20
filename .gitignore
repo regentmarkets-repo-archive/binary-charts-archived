@@ -8,3 +8,4 @@ lib/
 example/bundle*
 .DS_Store
 npm-debug.log
+coverage/
