@@ -1,7 +1,6 @@
 # Binary Charts
 
 [![Build Status](https://travis-ci.org/binary-com/binary-charts.svg?branch=master)](https://travis-ci.org/binary-com/binary-charts)
-
 [![Coverage Status](https://coveralls.io/repos/github/binary-com/binary-charts/badge.svg?branch=master)](https://coveralls.io/github/binary-com/binary-charts?branch=master)
 
 ## Install by running:
@@ -76,7 +75,6 @@ The component can optionally display the trade parameters or contract already bo
 ```
 <BinaryCharts ticks={ticks} trade={trade} />
 ```
-
 or
 
 ```
@@ -85,11 +83,19 @@ or
 
 Trade and contract properties have the exact format as accepted or returned by the API.
 
+## Trading Times
+
+<BinaryCharts ticks={ticks} tradingTimes={tradingTimes} />
+
+You can optionally provide a trading times object and the Chart will display plot lines visialising open, close and settlement times.
+
 ## Dynamic data
 
 Dynamically loading more data when needed by the chart will be available soon.
 
-## Usage outside React projects:
+## Usage outside React projects
+
+The project is currently lightly dependent on React, but will soon be usable without it. Until then, you can integrate a React component in non-React project like this:
 
 [React components as jQuery plugins](http://swizec.com/blog/using-react-in-the-real-world/swizec/6710)
 
