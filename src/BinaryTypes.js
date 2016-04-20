@@ -1,13 +1,14 @@
 import { PropTypes } from 'react';
 
-export const barrierType = PropTypes.oneOfType([
+export const stringOrNumber = PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
 ]);
 
 export const contractOrTrade = PropTypes.shape({
-    barrier: barrierType,
-    barrier2: barrierType,
+    barrier: stringOrNumber,
+    barrier2: stringOrNumber,
+    barrierType: PropTypes.oneOf(['absolute', 'relative']),
     contract_type: PropTypes.string,
     date_expiry: PropTypes.number,
     date_settlement: PropTypes.number,
