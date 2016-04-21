@@ -33,7 +33,7 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
     const maxExtremes = [+contract.barrier, prevExtermes.dataMax].filter(x => x);
     const max = arrayMax(maxExtremes);
 
-    console.log(prevExtermes, min, max);
+    // console.log(prevExtermes, min, max);
     axis.setExtremes(min, max);
 };
 

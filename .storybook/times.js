@@ -19,7 +19,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
-                purchase_time: 1,
+                purchase_time: 0,
                 date_start: 1,
                 entry_tick_time: 2,
                 sell_spot_time: 3,
@@ -27,6 +27,33 @@ storiesOf('Times', module)
                 expiry_time: 4,
                 date_settlement: 5,
                 date_expiry: 5,
+            }}
+        />
+    )
+    .add('Purchase Time not shown if same as Start Time', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                purchase_time: 2,
+                date_start: 2,
+            }}
+        />
+    )
+    .add('Exit Spot is not shown if the same as expiry', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                exit_tick_time: 3,
+                date_expiry: 3,
+            }}
+        />
+    )
+    .add('If Sell Time < Expiry then show Sell Time', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                sell_spot_time: 2,
+                expiry_time: 4,
             }}
         />
     )
