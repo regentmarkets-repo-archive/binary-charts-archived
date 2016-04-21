@@ -28,12 +28,12 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
     }
 
     const prevExtermes = axis.getExtremes();
-    const lastTickQuote = getLastTick(ticks);
-    const minExtremes = [getAbsoluteBarrier(contract.barrier2, lastTickQuote), prevExtermes.dataMin].filter(x => x);
+    const minExtremes = [+contract.barrier2, prevExtermes.dataMin].filter(x => x);
     const min = arrayMin(minExtremes);
-    const maxExtremes = [getAbsoluteBarrier(contract.barrier, lastTickQuote), prevExtermes.dataMax].filter(x => x);
+    const maxExtremes = [+contract.barrier, prevExtermes.dataMax].filter(x => x);
     const max = arrayMax(maxExtremes);
 
+    console.log(prevExtermes, min, max);
     axis.setExtremes(min, max);
 };
 
