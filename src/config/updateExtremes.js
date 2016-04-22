@@ -1,4 +1,3 @@
-import getLastTick from 'binary-utils/lib/getLastTick';
 import { timePlotLines } from '../plot-lines/dateEntryPlotLines';
 
 const arrayMin = arr => Math.min.apply(Math, arr);
@@ -18,9 +17,6 @@ const updateExtremesXAxis = (axis, ticks, contract) => {
 
     axis.setExtremes(min, max);
 };
-
-const getAbsoluteBarrier = (barrier, lastTickQuote) =>
-    typeof barrier === 'number' ? barrier : lastTickQuote + +barrier;
 
 const updateExtremesYAxis = (axis, ticks, contract) => {
     if (!contract.barrier && !contract.barrier2) {
