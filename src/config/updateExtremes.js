@@ -28,9 +28,9 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
     }
 
     const prevExtermes = axis.getExtremes();
-    const minExtremes = [+contract.barrier2, prevExtermes.dataMin].filter(x => x);
+    const minExtremes = [0, +contract.barrier2 - 10, prevExtermes.dataMin].filter(x => x);
     const min = arrayMin(minExtremes);
-    const maxExtremes = [+contract.barrier, prevExtermes.dataMax].filter(x => x);
+    const maxExtremes = [+contract.barrier + 10, prevExtermes.dataMax].filter(x => x);
     const max = arrayMax(maxExtremes);
 
     // console.log(prevExtermes, min, max);

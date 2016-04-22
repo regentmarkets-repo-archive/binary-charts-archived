@@ -3,7 +3,6 @@
 out
 gen
 node_modules/
-dist/
 lib/
 example/bundle*
 .DS_Store
