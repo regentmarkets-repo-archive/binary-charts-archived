@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Non React Test</title>
+</head>
+<body>
+    <div id="chart"></div>
+    <script src="./bundle.js"></script>
+    <script type="text/javascript">
+        Chart = BinaryChart.createChart('chart', { ticks: [] });
+        // to update
+        function random() {
+            return Math.random() * (20 - 10) + 10;
+        }
+
+        function nowEpoch() {
+            return new Date().getTime() / 1000;
+        }
+        var ticks = [];
+        window.setInterval(function() {
+            var newTick = { epoch: nowEpoch(), quote: random() };
+            ticks = ticks.concat(newTick);
+            Chart.updateChart({ ticks: ticks})
+        }, 1000);
+    </script>
+</body>
+</html>

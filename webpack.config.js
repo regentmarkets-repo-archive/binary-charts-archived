@@ -16,6 +16,8 @@ module.exports = {
     },
 
     output: {
+        libraryTarget: "var",
+        library: "BinaryChart",
         path: './example/',
         filename: 'bundle.js',
     },
