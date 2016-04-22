@@ -1,7 +1,0 @@
-instrumentation:
-  root: src
-  include-all-sources: true
-  verbose: true
-  excludes: ["**/__tests__/**"]
-reporting:
-  dir: "coverage"

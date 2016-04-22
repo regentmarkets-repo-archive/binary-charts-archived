@@ -1,1 +1,0 @@
-export BinaryChart from './BinaryChart';
