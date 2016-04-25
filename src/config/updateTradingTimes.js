@@ -1,4 +1,4 @@
-import dateToEpoch from 'binary-utils/lib/date/dateToEpoch';
+import dateToEpoch from 'binary-utils/lib/dateToEpoch';
 import vertPlotLine from '../plot-lines/vertPlotLine';
 
 const strToSeconds = timeStr => {

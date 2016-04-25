@@ -1,6 +1,6 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
-import barrierFromContract from 'binary-utils/lib/barrier/barrierFromContract';
-import barrier2FromContract from 'binary-utils/lib/barrier/barrier2FromContract';
+import barrierFromContract from 'binary-utils/lib/barrierFromContract';
+import barrier2FromContract from 'binary-utils/lib/barrier2FromContract';
 
 export default (contract, lastSpot) => [
     winPlotBand(0, barrier2FromContract(contract, lastSpot)),

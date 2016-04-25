@@ -1,4 +1,4 @@
-module.exports = (wallaby) => ({
+module.exports = wallaby => ({
     files: [{
         pattern: 'src/**/*.js*',
         load: false,

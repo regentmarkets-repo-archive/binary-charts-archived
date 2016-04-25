@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Non React Test</title>
+    <script src="https://npmcdn.com/binary-utils@1.8.0/lib/binary-live-api.js"></script>
 </head>
 <body>
     <div id="chart"></div>
-    <script src="./bundle.js"></script>
-    <script type="text/javascript">
+    <script>
         Chart = BinaryChart.createChart('chart', { ticks: [] });
         // to update
         function random() {

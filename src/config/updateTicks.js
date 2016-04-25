@@ -1,6 +1,6 @@
-import doTicksDifferJustOneEntry from 'binary-utils/lib/ticks/doTicksDifferJustOneEntry';
-import tickToData from 'binary-utils/lib/ticks/tickToData';
-import getLastTick from 'binary-utils/lib/ticks/getLastTick';
+import doTicksDifferJustOneEntry from 'binary-utils/lib/doTicksDifferJustOneEntry';
+import tickToData from 'binary-utils/lib/tickToData';
+import getLastTick from 'binary-utils/lib/getLastTick';
 
 export default (chart, prevProps, nextProps) => {
     const oneTickDiff = doTicksDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
