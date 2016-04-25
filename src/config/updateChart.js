@@ -1,5 +1,6 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import areTickArraysEqual from 'binary-utils/lib/ticks/areTickArraysEqual';
+import getLastTick from 'binary-utils/lib/getLastTick';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
@@ -40,12 +41,18 @@ export default (chart, prevProps, nextProps) => {
     }
 
     if (nextProps.trade && nextProps.trade.pipSize && !pipSizeAreEqual(prevProps, nextProps)) {
-        const { trade } = nextProps;
+        const { trade, ticks } = nextProps;
         chart.yAxis[0].update({
             labels: {
                 formatter() {
                     return this.value.toFixed(trade.pipSize);
                 },
+            },
+        });
+
+        chart.series[0].update({
+            tooltip: {
+                valueDecimals: trade.pipSize,
             },
         });
     }
