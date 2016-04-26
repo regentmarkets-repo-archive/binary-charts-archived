@@ -30,7 +30,7 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
     const max = arrayMax(maxExtremes);
 
     // console.log(prevExtermes, min, max);
-    axis.setExtremes(min, max);
+    axis.setExtremes(min > 0 ? min : 0, max);
 };
 
 export default (chart, ticks, contract) => {
