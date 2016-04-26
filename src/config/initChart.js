@@ -7,18 +7,19 @@ import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 // import events from '../parts/events';
 
-export default () => ({
+export default ({ pipSize }) => ({
     ...reset(),
     plotOptions: plotOptions(),
     navigator: navigator(),
     rangeSelector: rangeSelector(),
     xAxis: xAxis(),
     yAxis: {
-        ...yAxis(),
+        ...yAxis({ pipSize }),
         spotIndicator: {
             enabled: true,
+            pipSize,
         },
     },
-    series: seriesLine([]),
+    series: seriesLine({ data: [], pipSize }),
     // events: events()
 });

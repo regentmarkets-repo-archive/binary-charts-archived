@@ -60,7 +60,7 @@ storiesOf('Basic', module)
                 { epoch: 5, quote: 20.333 },
                 { epoch: 6, quote: 30.444 },
             ]}
-            trade={{ pipSize: 3 }}
+            pipSize={3}
         />
     )
     .add('Dynamic', () =>

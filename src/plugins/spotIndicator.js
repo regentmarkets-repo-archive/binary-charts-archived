@@ -38,7 +38,7 @@ const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, pric
         .add(spotIndicator.group);
 
     spotIndicator.label = renderer
-        .label(currentPrice.toFixed(2), priceYAxis.width + x, y - 8)
+        .label(currentPrice.toFixed(options.pipSize), priceYAxis.width + x, y - 8)
         .attr({
             padding: 1,
         })
@@ -51,9 +51,9 @@ const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, pric
         .add(spotIndicator.group);
 };
 
-const update = ({ currentPrice, x, y, spotIndicator, priceYAxis }) => {
+const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.label.attr({
-        text: currentPrice.toFixed(2),
+        text: currentPrice.toFixed(options.pipSize),
     });
 
     spotIndicator.label.animate({
@@ -87,7 +87,7 @@ export default () => {
         let y = priceYAxis.toPixels(currentPrice);
 
         if (priceYAxis.spotIndicator) {
-            update({ currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator, priceYAxis });
+            update({ options, currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator, priceYAxis });
         } else {
             priceYAxis.spotIndicator = {};
             initialize({
