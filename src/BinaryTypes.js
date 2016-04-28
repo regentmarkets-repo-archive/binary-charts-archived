@@ -13,7 +13,7 @@ export const contractOrTrade = PropTypes.shape({
     date_expiry: PropTypes.number,
     date_settlement: PropTypes.number,
     date_start: PropTypes.number,
-    entry_spot: PropTypes.number,
+    entry_spot: stringOrNumber,
     entry_tick_time: PropTypes.number,
     exit_tick_time: PropTypes.number,
     expiry_time: PropTypes.number,
