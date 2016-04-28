@@ -1,6 +1,6 @@
 import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
-import getLastTick from 'binary-utils/lib/getLastTick';
+import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import updateZones from './updateZones';
 import updateExtremes from './updateExtremes';
 
@@ -17,7 +17,7 @@ const replacePlotLines = (axis, newPlotLines) => {
 };
 
 export default ({ chart, contract, ticks }) => {
-    const lastTick = getLastTick(ticks);
+    const lastTick = getLastTickQuote(ticks);
     const newPlotBands = plotBandsForContractAndTrade(contract, lastTick);
     replacePlotBands(chart.yAxis[0], newPlotBands);
 
