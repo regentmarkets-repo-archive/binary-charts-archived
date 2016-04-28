@@ -6,4 +6,6 @@ export default ({ pipSize }) => ({
         formatter() { return this.value.toFixed(pipSize); },
     },
     title: { text: null },
+    floor: 0,
+    offset: 10,
 });
