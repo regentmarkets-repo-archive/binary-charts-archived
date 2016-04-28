@@ -12,7 +12,7 @@ export default ({
 		plotBorderColor: 'red',
 	},
     xAxis: {
-		gridLineColor: 'rgba(42, 48, 82, .2)',
+		gridLineColor: brandColor(0.2),
         labels: {
 			style: {
 				color: brandColor(0.75),
@@ -23,7 +23,7 @@ export default ({
 		tickColor: '#707073',
 		title: {
 			style: {
-				color: '#2a3052',
+                color: brandColor(0.75),
 			},
 		},
 	},
@@ -34,13 +34,11 @@ export default ({
 				color: brandColor(0.75),
 			},
 		},
-		lineColor: '#707073',
-		minorGridLineColor: '#505053',
-		tickColor: '#707073',
+		tickColor: brandColor(0.2),
 		tickWidth: 1,
 		title: {
 			style: {
-				color: '#2a3052',
+				color: brandColor(0.75),
 			},
 		},
 	},

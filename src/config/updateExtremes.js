@@ -15,7 +15,12 @@ const updateExtremesXAxis = (axis, ticks, contract) => {
     const min = arrayMin(timeEntries) - 1000;
     const max = arrayMax(timeEntries) + 1000;
 
-    axis.setExtremes(min, max);
+    const prevExtremes = axis.getExtremes();
+
+    // console.log(prevExtremes, min, max);
+    if (prevExtremes.min !== min || prevExtremes.max !== max) {
+        axis.setExtremes(min, max);
+    }
 };
 
 const updateExtremesYAxis = (axis, ticks, contract) => {
@@ -23,14 +28,16 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
         return;
     }
 
-    const prevExtermes = axis.getExtremes();
-    const minExtremes = [0, +contract.barrier2 - 10, prevExtermes.dataMin].filter(x => x);
+    const prevExtremes = axis.getExtremes();
+    const minExtremes = [0, +contract.barrier2 - 10, prevExtremes.dataMin].filter(x => x);
     const min = arrayMin(minExtremes);
-    const maxExtremes = [+contract.barrier + 10, prevExtermes.dataMax].filter(x => x);
+    const maxExtremes = [+contract.barrier + 10, prevExtremes.dataMax].filter(x => x);
     const max = arrayMax(maxExtremes);
 
-    // console.log(prevExtermes, min, max);
-    axis.setExtremes(min > 0 ? min : 0, max);
+    // console.log(prevExtremes, min, max);
+    if (prevExtremes.min !== min || prevExtremes.max !== max) {
+        axis.setExtremes(min > 0 ? min : 0, max);
+    }
 };
 
 export default (chart, ticks, contract) => {

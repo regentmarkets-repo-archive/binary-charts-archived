@@ -1,5 +1,5 @@
 export default () => ({
-    // animation: true,
+    animation: true,
     exporting: { enabled: false },
     scrollbar: { enabled: false },
     credits: { enabled: false },
