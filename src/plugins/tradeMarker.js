@@ -16,7 +16,7 @@ export default () => {
         const pixelY = chart.yAxis[0].toPixels(lastPoint.y);
 
         chart.tradeMarker = chart.renderer
-            .circle(pixelX, pixelY, 4).attr({
+            .circle(pixelX, pixelY, 3).attr({
                 fill: lastPoint.color,
                 zIndex: 115,
             })

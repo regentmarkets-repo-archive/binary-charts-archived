@@ -31,7 +31,7 @@ const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, pric
         .add();
 
     spotIndicator.poly = renderer
-        .path(polyPath(priceYAxis.width + x - 5, y, x, 15))
+        .path(polyPath(priceYAxis.width + x - 15, y, x, 15))
         .attr({
             fill: options.color,
         })
@@ -62,7 +62,7 @@ const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     });
 
     spotIndicator.poly.animate({
-        d: polyPath(priceYAxis.width, y, 60, 15),
+        d: polyPath(priceYAxis.width + 10, y, 60, 15),
     });
 
     const extremes = priceYAxis.getExtremes();

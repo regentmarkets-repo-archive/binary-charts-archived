@@ -5,13 +5,13 @@ import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
 import spotIndicator from './plugins/spotIndicator';
-// import tradeMarker from './plugins/tradeMarker';
+import tradeMarker from './plugins/tradeMarker';
 import theme from './theme';
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
     spotIndicator();
-    // tradeMarker();
+    tradeMarker();
     Highcharts.setOptions(theme);
 }
 
