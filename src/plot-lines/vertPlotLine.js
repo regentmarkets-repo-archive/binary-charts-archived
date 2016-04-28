@@ -1,8 +1,10 @@
+import brandColor from 'binary-utils/lib/brandColor';
+
 export default (id, epoch, color, text, position) => ({
     id,
     value: epoch * 1000,
-    color,
-    dashStyle: 'longdash',
+    color: brandColor(0.5),
+//    dashStyle: 'longdash',
     width: 1,
     label: {
         text,
@@ -11,7 +13,7 @@ export default (id, epoch, color, text, position) => ({
         textAlign: position === 'left' ? 'right' : 'left',
         verticalAlign: 'top',
         style: {
-            color,
+            color: brandColor(1),
         },
     },
 });

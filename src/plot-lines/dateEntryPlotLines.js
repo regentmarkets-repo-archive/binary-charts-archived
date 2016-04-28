@@ -1,7 +1,7 @@
 import brandColor from 'binary-utils/lib/brandColor';
 import vertPlotLine from './vertPlotLine';
 
-const lineColor = brandColor(1);
+const lineColor = brandColor(0.5);
 
 export const timePlotLines = [
     { id: 'date_start', name: 'Start Time', position: 'left' },
