@@ -8,14 +8,9 @@ export default ({ data, pipSize }) => [{
         valueDecimals: pipSize,
         zIndex: 120,
     },
-    fillColor: {
-        linearGradient: [0, 0, 0, 300],
-        stops: [
-            [0, brandColor(0.25)],
-            [1, brandColor(0.1)],
-        ],
-    },
-    lineWidth: 1,
+    fillColor: brandColor(0.1),
+    lineWidth: 1.5,
     fillOpacity: 0.1,
     threshold: null,
+    zoneAxis: 'x',
 }];
