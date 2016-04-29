@@ -1,3 +1,6 @@
+import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
+import barrierFromContract from 'binary-utils/lib/barrierFromContract';
+import barrier2FromContract from 'binary-utils/lib/barrier2FromContract';
 import { timePlotLines } from '../plot-lines/dateEntryPlotLines';
 
 const arrayMin = arr => Math.min.apply(Math, arr);
@@ -28,12 +31,18 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
         return;
     }
 
+    const lastTick = getLastTickQuote(ticks);
+    const maxBarrier = barrierFromContract(contract, lastTick) + 10;
+    const minBarrier = barrier2FromContract(contract, lastTick) + 10;
+
     const prevExtremes = axis.getExtremes();
-    const minExtremes = [0, +contract.barrier2 - 10, prevExtremes.dataMin].filter(x => x);
+    const minExtremes = [0, minBarrier, prevExtremes.dataMin].filter(x => x);
     const min = arrayMin(minExtremes);
-    const maxExtremes = [+contract.barrier + 10, prevExtremes.dataMax].filter(x => x);
+    const maxExtremes = [maxBarrier, prevExtremes.dataMax].filter(x => x);
     const max = arrayMax(maxExtremes);
 
+    // console.log('min', 0, minBarrier, prevExtremes.dataMin);
+    // console.log('max', 0, maxBarrier, prevExtremes.dataMax);
     // console.log(prevExtremes, min, max);
     if (prevExtremes.min !== min || prevExtremes.max !== max) {
         axis.setExtremes(min > 0 ? min : 0, max);
