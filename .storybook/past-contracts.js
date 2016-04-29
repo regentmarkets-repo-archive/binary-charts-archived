@@ -2,10 +2,14 @@ import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 import { LiveApi } from 'binary-live-api';
 import BinaryChart from '../src/BinaryChart'
+import nowEpoch from 'binary-utils/lib/nowAsEpoch';
+import durationToSecs from 'binary-utils/lib/durationToSecs';
 
-const token = 'DKTDX5MnzTPTM43';
+const token = 'qdJ86Avvrsh0Le4';
 const api = new LiveApi();
 
+const contract5day = '8686428788';
+const contract5min = '8686424368';
 
 const getAllData = (contractID, style = 'ticks', granularity = 60) =>
     api.subscribeToOpenContract(contractID)
@@ -14,11 +18,13 @@ const getAllData = (contractID, style = 'ticks', granularity = 60) =>
             const symbol = contract.underlying;
             const purchaseT = contract.purchase_time;
             const sellT = contract.sell_time;
+            const end = contract.sell_spot ? sellT: 'latest';
             return api.getTickHistory(symbol,
                 {
                     start: purchaseT,
-                    end: sellT,
+                    end,
                     adjust_start_time: 1,
+                    count: 4999,
                     style,
                     granularity,
                 }
@@ -39,13 +45,18 @@ const hcUnitConverter = type => {
  * durationCount {Number}
  * durationType  {second|minute|day|ytd|year|all}      check http://api.highcharts.com/highstock#rangeSelector.buttons
  */
-const getData = (contractID, durationCount, durationType, style = 'ticks', granularity = 60) =>
+const getData = (contractID, durationType, durationCount, style = 'ticks', granularity = 60) =>
     api.subscribeToOpenContract(contractID)
         .then(r => {
             const contract = r.proposal_open_contract;
             const symbol = contract.underlying;
             const purchaseT = contract.purchase_time;
             const sellT = contract.sell_time;
+
+            if (durationType === 'all') {
+                return getAllData(contractID, style, granularity);
+            }
+
             const end = contract.sell_spot ? sellT: nowEpoch();
             const durationUnit = hcUnitConverter(durationType);
             const start = Math.min(purchaseT, end - durationToSecs(durationCount, durationUnit));
@@ -54,6 +65,7 @@ const getData = (contractID, durationCount, durationType, style = 'ticks', granu
                     start,
                     end,
                     adjust_start_time: 1,
+                    count: 4999,
                     style,
                     granularity,
                 }
@@ -69,30 +81,35 @@ class PastContractChart extends React.Component {
         };
     }
 
+    updateTicks(history) {
+        const ticks = history.times.map((t, idx) => {
+            const quote = history.prices[idx];
+            return { epoch: +t, quote: +quote };
+        });
+        this.setState({ ticks });
+    }
+
     componentWillMount() {
-        const { style } = this.props
-        api.authorize(token).then(() =>
-            api.getStatement({ description: 1, limit: 1 })
-        ).then(r =>
-            getAllData(r.statement.transactions[0].contract_id, style)
+        const { style, contractID } = this.props
+        api.authorize(token).then(r =>
+            getAllData(contractID, style)
         ).then(r => {
-            const ticks = r.history.times.map((t, idx) => {
-                const quote = r.history.prices[idx];
-                return { epoch: +t, quote: +quote };
-            });
-            this.setState({ ticks });
+            this.updateTicks(r.history);
         });
     }
 
     render() {
         const { ticks, contract } = this.state;
+        const { contractID } = this.props;
+        const getDataWhenChange = (count, type) =>
+            getData(contractID, type, count).then(r => this.updateTicks(r.history));
         return (
-            <BinaryChart ticks={ticks} contract={contract} />
+            <BinaryChart ticks={ticks} contract={contract} rangeChange={getDataWhenChange} />
         );
     }
 }
 
 storiesOf('Past Contracts', module)
     .add('All data in ticks', () =>
-        <PastContractChart />
+        <PastContractChart contractID={contract5min}/>
     );
