@@ -1,5 +1,3 @@
-export default () => ({
-    redraw(...params) {
-        window.console.log('redraw', params);
-    },
+export default ({ rangeChange = () => undefined }) => ({
+    setExtremes: rangeChange,
 });

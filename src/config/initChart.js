@@ -5,10 +5,11 @@ import rangeSelector from '../parts/rangeSelector';
 import yAxis from '../parts/yAxis';
 import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
-// import events from '../parts/events';
+import events from '../parts/events';
 
-export default ({ pipSize = 0 }) => ({
+export default ({ pipSize = 0, rangeChange }) => ({
     ...reset(),
+    events: events({ rangeChange }),
     plotOptions: plotOptions(),
     navigator: navigator(),
     rangeSelector: rangeSelector(),
