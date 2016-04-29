@@ -7,5 +7,4 @@ configure(() => {
     require('./past-contracts');
     require('./open-contracts');
     require('./indicators');
-    require('./data-retrieval');
 }, module);
