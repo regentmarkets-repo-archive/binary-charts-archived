@@ -57,6 +57,19 @@ storiesOf('Times', module)
             }}
         />
     )
+    .add('If all end on same time, show ...', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                date_start: 1,
+                entry_tick_time: 2,
+                date_settlement: 4,
+                date_expiry: 4,
+                sell_spot_time: 4,
+                exit_tick_time: 4,
+            }}
+        />
+    )
     .add('Ends In Future', () =>
         <BinaryChart
             ticks={ticks}
