@@ -33,4 +33,19 @@ export default (chart, prevProps, nextProps) => {
         const { tradingTimes } = nextProps;
         updateTradingTimes({ chart, tradingTimes });
     }
+
+    if (nextProps.pipSize && (prevProps.pipSize !== nextProps.pipSize)) {
+        chart.yAxis[0].update({
+            labels: {
+                formatter() {
+                    return this.value.toFixed(nextProps.pipSize);
+                },
+            },
+        });
+        chart.series[0].update({
+            tooltip: {
+                valueDecimals: nextProps.pipSize,
+            }
+        })
+    }
 };
