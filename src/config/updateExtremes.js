@@ -15,8 +15,8 @@ const updateExtremesXAxis = (axis, ticks, contract) => {
         return;
     }
 
-    const min = arrayMin(timeEntries) - 1000;
-    const max = arrayMax(timeEntries) + 1000;
+    const min = arrayMin(timeEntries) - axis.tickInterval;
+    const max = arrayMax(timeEntries) + axis.tickInterval;
 
     const prevExtremes = axis.getExtremes();
 
@@ -32,20 +32,27 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
     }
 
     const lastTick = getLastTickQuote(ticks);
-    const maxBarrier = barrierFromContract(contract, lastTick) + 10;
-    const minBarrier = barrier2FromContract(contract, lastTick) + 10;
+    const barrier1 = contract.barrier && barrierFromContract(contract, lastTick);
+    const barrier2 = contract.barrier2 && barrier2FromContract(contract, lastTick);
 
     const prevExtremes = axis.getExtremes();
-    const minExtremes = [0, minBarrier, prevExtremes.dataMin].filter(x => x);
-    const min = arrayMin(minExtremes);
-    const maxExtremes = [maxBarrier, prevExtremes.dataMax].filter(x => x);
-    const max = arrayMax(maxExtremes);
+    const minData = prevExtremes.dataMin - axis.tickInterval;
+    const maxData = prevExtremes.dataMax + axis.tickInterval;
 
-    // console.log('min', 0, minBarrier, prevExtremes.dataMin);
-    // console.log('max', 0, maxBarrier, prevExtremes.dataMax);
-    // console.log(prevExtremes, min, max);
+    const extremes = [
+        barrier1 + axis.tickInterval,
+        barrier1 - axis.tickInterval,
+        barrier2 + axis.tickInterval,
+        barrier2 - axis.tickInterval,
+        minData,
+        maxData,
+    ].filter(x => x || x === 0);
+
+    const min = arrayMin(extremes);
+    const max = arrayMax(extremes);
+
     if (prevExtremes.min !== min || prevExtremes.max !== max) {
-        axis.setExtremes(min > 0 ? min : 0, max);
+        axis.setExtremes(min, max);
     }
 };
 

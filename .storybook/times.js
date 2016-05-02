@@ -79,6 +79,14 @@ storiesOf('Times', module)
             }}
         />
     )
+    .add('Contract Is Open', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                entry_tick_time: 3,
+            }}
+        />
+    )
     .add('Barrier outside ticks', () =>
         <BinaryChart
             ticks={ticks}

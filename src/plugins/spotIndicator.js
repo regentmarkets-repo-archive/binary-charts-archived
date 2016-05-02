@@ -14,15 +14,12 @@ const lastPriceFromSeries = series =>
     series.yData.length && series.yData[series.yData.length - 1] || 0;
 
 const polyPath = (x, y, width, height) => [
-    'M', 0, y - 0.5,
+    'M', x - 8, y,
     'L',
-    x - 8, y,
     x, y - (height / 2),
     x + width + 5, y - (height / 2),
     x + width + 5, y + (height / 2),
     x, y + (height / 2),
-    x - 8, y + 0.5,
-    0, y + 0.5,
 ];
 
 const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
