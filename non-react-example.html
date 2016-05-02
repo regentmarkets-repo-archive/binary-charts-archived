@@ -10,22 +10,20 @@
 <body>
     <div id="chart"></div>
     <script>
-        var PlainChart = window['binary-charts'].PlainChart;
-        var chart = PlainChart('chart', { ticks: [] });
+        const PlainChart = window['binary-charts'].PlainChart;
+        const chart = PlainChart('chart', { ticks: [], pipSize: 2 });
 
-        // to update
-        function random() {
-            return Math.random() * (20 - 10) + 10;
-        }
+        const random = () =>
+            Math.random() * (20 - 10) + 10;
 
-        function nowEpoch() {
-            return new Date().getTime() / 1000;
-        }
-        var ticks = [];
-        window.setInterval(function() {
-            var newTick = { epoch: nowEpoch(), quote: random() };
+        const nowEpoch = () =>
+            new Date().getTime() / 1000;
+
+        let ticks = [];
+        window.setInterval(() => {
+            const newTick = { epoch: nowEpoch(), quote: random() };
             ticks = ticks.concat(newTick);
-            chart.updateChart({ ticks: ticks})
+            chart.updateChart({ ticks: ticks, pipSize: 4 });
         }, 1000);
     </script>
 </body>
