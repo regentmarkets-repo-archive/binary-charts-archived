@@ -1,7 +1,7 @@
 import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import barrierFromContract from 'binary-utils/lib/barrierFromContract';
 import barrier2FromContract from 'binary-utils/lib/barrier2FromContract';
-import { timePlotLines } from '../plot-lines/dateEntryPlotLines';
+import timePlotLines from '../plot-lines/timePlotLines';
 
 const arrayMin = arr => Math.min.apply(Math, arr);
 const arrayMax = arr => Math.max.apply(Math, arr);

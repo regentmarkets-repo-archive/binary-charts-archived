@@ -1,6 +1,7 @@
+import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
-import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
+import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
 import updateExtremes from './updateExtremes';
 
@@ -10,10 +11,18 @@ const replacePlotBands = (axis, newPlotBands) => {
 };
 
 const replacePlotLines = (axis, newPlotLines) => {
-    axis.removePlotLine('time-line');
-    newPlotLines.forEach(line => {
-        axis.addPlotLine(line);
+    console.groupCollapsed('replacePlotLines');
+    timePlotLines.forEach(plotLine => {
+        const existing = newPlotLines.find(x => x.id === plotLine.id);
+        if (!existing) {
+            axis.removePlotLine(plotLine.id);
+            console.log('remove', plotLine.id);
+        } else {
+            axis.addPlotLine(existing);
+            console.log('add', plotLine.id);
+        }
     });
+    console.groupEnd();
 };
 
 export default ({ chart, contract, ticks }) => {
