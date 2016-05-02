@@ -1,8 +1,13 @@
 {
     "presets": [
-      "react",
-      "es2015",
-      "stage-1"
+        "react",
+        "es2015",
+        "stage-1"
     ],
-    "sourceMaps": true
+    "sourceMaps": true,
+    "env": {
+        "production": {
+            "plugins": ["transform-react-remove-prop-types"]
+        }
+    }
 }

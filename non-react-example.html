@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Non React Test</title>
-    <script src="https://npmcdn.com/binary-utils@1.8.0/lib/binary-live-api.js"></script>
+    <!-- <script> React = { PropTypes: { oneOfType: function() {}, oneOf: function() {}, shape: function() {}, arrayOf: function() {}, string: {}, number: {} } };</script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.min.js"></script>
+    <script src="https://npmcdn.com/binary-charts@5.5.11/lib/binary-charts.js"></script>
 </head>
 <body>
     <div id="chart"></div>
     <script>
-        Chart = BinaryChart.createChart('chart', { ticks: [] });
+        var PlainChart = window['binary-charts'].PlainChart;
+        var chart = PlainChart('chart', { ticks: [] });
+
         // to update
         function random() {
             return Math.random() * (20 - 10) + 10;
@@ -21,7 +25,7 @@
         window.setInterval(function() {
             var newTick = { epoch: nowEpoch(), quote: random() };
             ticks = ticks.concat(newTick);
-            Chart.updateChart({ ticks: ticks})
+            chart.updateChart({ ticks: ticks})
         }, 1000);
     </script>
 </body>

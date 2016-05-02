@@ -16,6 +16,6 @@ export default (renderTo, params) => {
 
     return {
         chart,
-        updateChart: imperativeUpdate
+        updateChart: imperativeUpdate,
     };
 };

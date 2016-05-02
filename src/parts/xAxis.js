@@ -11,5 +11,5 @@ export default ({ rangeChange = () => undefined }) => ({
                 rangeChange(count, type);
             }
         },
-    }
+    },
 });
