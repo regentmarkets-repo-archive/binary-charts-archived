@@ -1,3 +1,4 @@
+import shallowEqual from 'fbjs/lib/shallowEqual';
 import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
@@ -13,13 +14,20 @@ const replacePlotBands = (axis, newPlotBands) => {
 const replacePlotLines = (axis, newPlotLines) => {
     console.groupCollapsed('replacePlotLines');
     timePlotLines.forEach(plotLine => {
-        const existing = newPlotLines.find(x => x.id === plotLine.id);
-        if (!existing) {
-            axis.removePlotLine(plotLine.id);
-            console.log('remove', plotLine.id);
+        const newLine = newPlotLines.find(x => x.id === plotLine.id);
+        if (!newLine) {
+            if (axis.plotLinesAndBand && axis.plotLinesAndBand.includes(x => x.id === plotLine.id)) {
+                axis.removePlotLine(plotLine.id);
+                console.log('remove', plotLine.id);
+            }
         } else {
-            axis.addPlotLine(existing);
-            console.log('add', plotLine.id);
+            const oldLine = axis.plotLinesAndBand && axis.plotLinesAndBand.find(x => x.id === plotLine.id).options;
+            if (!oldLine || !shallowEqual(oldLine, newLine)) {
+                axis.removePlotLine(plotLine.id);
+                console.log('remove', plotLine.id);
+                axis.addPlotLine(newLine);
+                console.log('add', plotLine.id);
+            }
         }
     });
     console.groupEnd();

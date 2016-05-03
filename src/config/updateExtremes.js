@@ -22,7 +22,7 @@ const updateExtremesXAxis = (axis, ticks, contract) => {
 
     // console.log(prevExtremes, min, max);
     if (prevExtremes.min !== min || prevExtremes.max !== max) {
-        axis.setExtremes(min, max);
+        axis.setExtremes(min, max, true, false);
     }
 };
 
@@ -52,7 +52,7 @@ const updateExtremesYAxis = (axis, ticks, contract) => {
     const max = arrayMax(extremes);
 
     if (prevExtremes.min !== min || prevExtremes.max !== max) {
-        axis.setExtremes(min, max);
+        axis.setExtremes(min, max, true, false);
     }
 };
 
