@@ -1,6 +1,6 @@
 import React from 'react';
 import { LiveApi } from 'binary-live-api';
-import BinaryChart from '../src/BinaryChart'
+import BinaryChart from '../src/BinaryChart';
 import nowEpoch from 'binary-utils/lib/nowAsEpoch';
 import durationToSecs from 'binary-utils/lib/durationToSecs';
 
@@ -59,7 +59,7 @@ const getAllData = (contractID, style = 'ticks', granularity = 60) =>
             const symbol = contract.underlying;
             const start = contract.purchase_time;
             const sellT = contract.sell_time;
-            const end = contract.sell_spot ? sellT: nowEpoch();
+            const end = contract.sell_spot ? sellT : nowEpoch();
             return autoAdjustGetData(symbol, start, end);
         });
 
@@ -89,13 +89,19 @@ const getData = (contractID, durationType, durationCount, style = 'ticks', granu
                 return getAllData(contractID, style, granularity);
             }
 
-            const end = contract.sell_spot ? sellT: nowEpoch();
+            const end = contract.sell_spot ? sellT : nowEpoch();
             const durationUnit = hcUnitConverter(durationType);
             const start = Math.min(purchaseT, end - durationToSecs(durationCount, durationUnit));
             return autoAdjustGetData(symbol, start, end);
         });
 
 export default class ContractChart extends React.Component {
+
+    static propTypes = {
+        contractId: PropTypes.number,
+        style: PropTypes.object,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -104,9 +110,9 @@ export default class ContractChart extends React.Component {
     }
 
     componentWillMount() {
-        const { style, contractID } = this.props
-        api.authorize(token).then(r =>
-            getAllData(contractID, style)
+        const { style, contractId } = this.props;
+        api.authorize(token).then(() =>
+            getAllData(contractId, style)
         ).then(ticks => {
             this.setState({ ticks });
         });
@@ -114,9 +120,9 @@ export default class ContractChart extends React.Component {
 
     render() {
         const { ticks, contract } = this.state;
-        const { contractID } = this.props;
+        const { contractId } = this.props;
         const getDataWhenChange = (count, type) =>
-            getData(contractID, type, count).then(ticks => this.setState({ ticks }));
+            getData(contractId, type, count).then(newTicks => this.setState({ ticks: newTicks }));
         return (
             <BinaryChart ticks={ticks} contract={contract} rangeChange={getDataWhenChange} />
         );

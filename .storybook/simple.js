@@ -68,4 +68,12 @@ storiesOf('Basic', module)
     )
     .add('Dynamic with contract', () =>
         <DynamicChart contract={{ contract_type: 'CALL' }} />
+    )
+    .add('Dynamic with plot lines', () =>
+        <DynamicChart
+            contract={{
+                date_start: (new Date().getTime() + 2),
+                sell_spot_time: (new Date().getTime() + 5),
+            }}
+        />
     );
