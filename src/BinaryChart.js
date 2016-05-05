@@ -23,7 +23,7 @@ export default class BinaryChart extends Component {
         contract: BinaryTypes.contractOrTrade,
         rangeChange: PropTypes.func,
         trade: BinaryTypes.contractOrTrade,
-        tradintTimes: BinaryTypes.tradingTimes,
+        tradingTimes: BinaryTypes.tradingTimes,
     };
 
     static defaultProps = {

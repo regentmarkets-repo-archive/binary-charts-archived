@@ -32,8 +32,8 @@
   "license": "MIT",
   "dependencies": {
     "binary-utils": "^2.0.6",
-    "fbjs": "^0.8.1",
-    "highcharts": "^4.2.4"
+    "highcharts": "^4.2.4",
+    "react-addons-shallow-compare": "^15.0.2"
   },
   "devDependencies": {
     "@kadira/storybook": "^1.18.0",
