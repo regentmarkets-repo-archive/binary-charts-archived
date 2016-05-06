@@ -11,7 +11,6 @@ const replacePlotBands = (axis, newPlotBands) => {
 };
 
 const replacePlotLines = (axis, newPlotLines) => {
-    console.groupCollapsed('replacePlotLines');
     timePlotLines.forEach(plotLine => {
         const newLine = newPlotLines.find(x => x.id === plotLine.id);
         if (!newLine) {
@@ -21,16 +20,11 @@ const replacePlotLines = (axis, newPlotLines) => {
             const shouldUpdate = !oldLine || oldLine.options.value !== newLine.value;
 
             if (shouldUpdate) {
-                console.log('oldLine', oldLine && oldLine.options.value, newLine.value);
                 axis.removePlotLine(plotLine.id);
                 axis.addPlotLine(newLine);
-                console.log('update', plotLine.id);
-            } else {
-                console.log('same', plotLine.id);
             }
         }
     });
-    console.groupEnd();
 };
 
 export default ({ chart, contract, ticks }) => {

@@ -1,4 +1,4 @@
-import shallowCompare from 'react-addons-shallow-compare';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
@@ -9,11 +9,11 @@ const ticksAreEqual = (prevProps, nextProps) =>
     areTickArraysEqual(prevProps.ticks, nextProps.ticks);
 
 const contractsAreEqual = (prevProps, nextProps) =>
-    shallowCompare(prevProps.contract, nextProps.contract) &&
-        shallowCompare(prevProps.trade, nextProps.trade);
+    shallowEqual(prevProps.contract, nextProps.contract) &&
+        shallowEqual(prevProps.trade, nextProps.trade);
 
 const tradingTimesAreEqual = (prevProps, nextProps) =>
-    shallowCompare(nextProps.tradingTimes, prevProps.tradingTimes);
+    shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
 
 export default (chart, prevProps, nextProps) => {
     const ticksDiffer = !ticksAreEqual(prevProps, nextProps);

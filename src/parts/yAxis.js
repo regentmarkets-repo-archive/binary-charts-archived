@@ -8,4 +8,5 @@ export default ({ pipSize }) => ({
     tickWidth: 0,
     title: { text: null },
     floor: 0,
+    spotIndicator: {},
 });

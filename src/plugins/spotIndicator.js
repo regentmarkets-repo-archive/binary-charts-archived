@@ -22,7 +22,7 @@ const polyPath = (x, y, width, height) => [
     x, y + (height / 2),
 ];
 
-const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
+const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.group = renderer.g('spot')
         .attr({ zIndex: options.zIndex })
         .add();
@@ -30,7 +30,7 @@ const initialize = ({ renderer, options, currentPrice, x, y, spotIndicator, pric
     spotIndicator.poly = renderer
         .path(polyPath(priceYAxis.width + x - 15, y, x, 15))
         .attr({
-            fill: options.color,
+            fill: color,
         })
         .add(spotIndicator.group);
 
@@ -83,19 +83,21 @@ export default () => {
         let x = chart.marginRight;
         let y = priceYAxis.toPixels(currentPrice);
 
-        if (priceYAxis.spotIndicator) {
-            update({ options, currentPrice, x, y, spotIndicator: priceYAxis.spotIndicator, priceYAxis });
-        } else {
+        const updateFunc = priceYAxis.spotIndicator ? update : initialize;
+
+        if (!priceYAxis.spotIndicator) {
             priceYAxis.spotIndicator = {};
-            initialize({
-                renderer: chart.renderer,
-                options,
-                currentPrice,
-                x, y,
-                spotIndicator: priceYAxis.spotIndicator,
-                priceYAxis,
-            });
         }
+
+        updateFunc({
+            renderer: chart.renderer,
+            options,
+            color: '#f50c35',
+            currentPrice,
+            x, y,
+            spotIndicator: priceYAxis.spotIndicator,
+            priceYAxis,
+        });
     };
 
     wrap(Chart.prototype, 'init', function init(proceed, ...args) {
