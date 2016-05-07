@@ -27,10 +27,12 @@ const replacePlotLines = (axis, newPlotLines) => {
     });
 };
 
-export default ({ chart, contract, ticks }) => {
+export default ({ chart, contract, ticks, contractDidNotChange }) => {
     const lastTick = getLastTickQuote(ticks);
     const newPlotBands = plotBandsForContractAndTrade(contract, lastTick);
     replacePlotBands(chart.yAxis[0], newPlotBands);
+
+    if (contractDidNotChange) return;
 
     const newPlotLines = dateEntryPlotLines(contract);
     replacePlotLines(chart.xAxis[0], newPlotLines);

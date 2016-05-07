@@ -26,7 +26,12 @@ export default (chart, prevProps, nextProps) => {
 
     if (contractsDiffer || ticksDiffer) {
         const { contract, trade, ticks } = nextProps;
-        updateContract({ chart, contract: contract || trade, ticks });
+        updateContract({
+            chart,
+            contract: contract || trade,
+            ticks,
+            contractDidNotChange: !contractsDiffer,
+        });
     }
 
     if (tradingTimesDiffer) {
