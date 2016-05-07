@@ -1,49 +1,38 @@
 import { merge, wrap, Chart } from 'highcharts/highstock';
 
 const defaultOptions = {
-    color: 'red',
     enabled: true,
-    style: {
-        color: 'white',
-        fontSize: '11px',
-    },
-    zIndex: 100,
 };
 
 const lastPriceFromSeries = series =>
     series.yData.length && series.yData[series.yData.length - 1] || 0;
 
-const polyPath = (x, y, width, height) => [
-    'M', x - 8, y,
+const polyPath = (x, y) => [
+    'M', x - 10, y,
     'L',
-    x, y - (height / 2),
-    x + width + 5, y - (height / 2),
-    x + width + 5, y + (height / 2),
-    x, y + (height / 2),
+    x, y - 8,
+    x + 65, y - 8,
+    x + 65, y + 8,
+    x, y + 8,
 ];
 
 const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.group = renderer.g('spot')
-        .attr({ zIndex: options.zIndex })
+        .attr({ zIndex: 10 })
         .add();
 
     spotIndicator.poly = renderer
-        .path(polyPath(priceYAxis.width + x - 15, y, x, 15))
-        .attr({
-            fill: color,
-        })
+        .path(polyPath(x + 10, y))
+        .attr({ fill: color })
         .add(spotIndicator.group);
 
     spotIndicator.label = renderer
-        .label(currentPrice.toFixed(options.pipSize), priceYAxis.width + x, y - 8)
+        .label(currentPrice.toFixed(options.pipSize), x - 4 + priceYAxis.chart.marginRight, y - 9)
         .attr({
             padding: 1,
-        })
-        .css({
             cursor: 'default',
             textAnchor: 'end',
-            color: options.style.color,
-            fontSize: options.style.fontSize,
+            color: 'white',
         })
         .add(spotIndicator.group);
 };
@@ -54,33 +43,33 @@ const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     });
 
     spotIndicator.label.animate({
-        x: priceYAxis.width + x - 5,
-        y: y - 8,
+        x: x - 4 + priceYAxis.chart.marginRight,
+        y: y - 9,
     });
 
     spotIndicator.poly.animate({
-        d: polyPath(priceYAxis.width + 10, y, 60, 15),
+        d: polyPath(x + 10, y),
     });
 
     const extremes = priceYAxis.getExtremes();
 
     if (currentPrice > extremes.min && currentPrice < extremes.max) {
-        priceYAxis.spotIndicator.group.show();
+         priceYAxis.spotIndicator.group.show();
     } else {
-        priceYAxis.spotIndicator.group.hide();
+         priceYAxis.spotIndicator.group.hide();
     }
 };
 
 export default () => {
     const renderSpotIndicator = chart => {
-        let options = chart.options.yAxis[0].spotIndicator;
+        const priceYAxis = chart.yAxis[0];
+        let options = priceYAxis.spotIndicator;
         if (!options || !options.enabled) return;
         options = merge(true, defaultOptions, options);
 
-        const priceYAxis = chart.yAxis[0];
         const currentPrice = lastPriceFromSeries(chart.series[0]);
 
-        let x = chart.marginRight;
+        let x = priceYAxis.width;
         let y = priceYAxis.toPixels(currentPrice);
 
         const updateFunc = priceYAxis.spotIndicator ? update : initialize;
