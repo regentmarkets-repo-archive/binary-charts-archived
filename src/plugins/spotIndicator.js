@@ -1,8 +1,8 @@
-import { merge, wrap, Chart } from 'highcharts/highstock';
+import { wrap, Chart } from 'highcharts/highstock';
 
-const defaultOptions = {
-    enabled: true,
-};
+// const defaultOptions = {
+//     enabled: true,
+// };
 
 const lastPriceFromSeries = series =>
     series.yData.length && series.yData[series.yData.length - 1] || 0;
@@ -30,6 +30,8 @@ const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicato
         .label(currentPrice.toFixed(options.pipSize), x - 4 + priceYAxis.chart.marginRight, y - 9)
         .attr({
             padding: 1,
+        })
+        .css({
             cursor: 'default',
             textAnchor: 'end',
             color: 'white',
@@ -63,9 +65,7 @@ const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
 export default () => {
     const renderSpotIndicator = chart => {
         const priceYAxis = chart.yAxis[0];
-        let options = priceYAxis.spotIndicator;
-        if (!options || !options.enabled) return;
-        options = merge(true, defaultOptions, options);
+        let options = priceYAxis.spotIndicator || {};
 
         const currentPrice = lastPriceFromSeries(chart.series[0]);
 
