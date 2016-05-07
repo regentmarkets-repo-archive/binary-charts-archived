@@ -63,6 +63,16 @@ storiesOf('Basic', module)
             pipSize={3}
         />
     )
+    .add('Pip size larger than ticks', () =>
+        <BinaryChart
+            ticks={[
+                { epoch: 0, quote: 20 },
+                { epoch: 1, quote: 21 },
+                { epoch: 2, quote: 20 },
+                { epoch: 3, quote: 21 },
+            ]}
+        />
+    )
     .add('Dynamic', () =>
         <DynamicChart />
     )

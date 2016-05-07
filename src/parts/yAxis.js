@@ -1,3 +1,5 @@
+import digitsToPips from 'binary-utils/lib/digitsToPips';
+
 export default ({ pipSize }) => ({
     // lineWidth: 1,
     opposite: true,
@@ -8,4 +10,5 @@ export default ({ pipSize }) => ({
     tickWidth: 0,
     title: { text: null },
     floor: 0,
+    minTickInterval: digitsToPips(pipSize),
 });
