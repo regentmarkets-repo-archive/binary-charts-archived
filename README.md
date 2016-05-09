@@ -2,8 +2,9 @@
 
 [![Build Status](https://travis-ci.org/binary-com/binary-charts.svg?branch=master)](https://travis-ci.org/binary-com/binary-charts)
 [![Coverage Status](https://coveralls.io/repos/github/binary-com/binary-charts/badge.svg?branch=master)](https://coveralls.io/github/binary-com/binary-charts?branch=master)
+[![Code Climate](https://codeclimate.com/github/binary-com/binary-charts/badges/gpa.svg)](https://codeclimate.com/github/binary-com/binary-charts)
 
-[Demos](binary-com.github.io/binary-charts/)
+[Demos](https://binary-com.github.io/binary-charts/)
 
 ## Install by running:
 
