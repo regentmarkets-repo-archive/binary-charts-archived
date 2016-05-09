@@ -1,5 +1,5 @@
-export const winPlotBand = (from, to) => ({
-    id: 'barrier-band',
+export const winPlotBand = (id, from, to) => ({
+    id,
     from,
     to,
     color: 'rgba(0, 255, 0, 0.05)',
@@ -13,8 +13,8 @@ export const winPlotBand = (from, to) => ({
     },
 });
 
-export const lossPlotBand = (from, to) => ({
-    id: 'barrier-band',
+export const lossPlotBand = (id, from, to) => ({
+    id,
     from,
     to,
     color: 'rgba(255, 0, 0, 0.05)',

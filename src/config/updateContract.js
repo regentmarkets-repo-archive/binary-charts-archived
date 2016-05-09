@@ -5,26 +5,30 @@ import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
 import updateExtremes from './updateExtremes';
 
-const replacePlotBands = (axis, newPlotBands) => {
-    axis.removePlotBand('barrier-band');
-    newPlotBands.forEach(band => axis.addPlotBand(band));
-};
-
-const replacePlotLines = (axis, newPlotLines) => {
-    timePlotLines.forEach(plotLine => {
-        const newLine = newPlotLines.find(x => x.id === plotLine.id);
-        if (!newLine) {
-            axis.removePlotLine(plotLine.id);
+const replacePlotObj = (axis, allPlotObjs, newPlotObjs, addFuncName, removeFuncName) => {
+    allPlotObjs.forEach(plotObj => {
+        const newObj = newPlotObjs.find(x => x.id === plotObj.id);
+        if (!newObj) {
+            axis[removeFuncName](plotObj.id);
         } else {
-            const oldLine = axis.plotLinesAndBands.find(x => x.id === plotLine.id);
-            const shouldUpdate = !oldLine || oldLine.options.value !== newLine.value;
+            const oldObj = axis.plotLinesAndBands.find(x => x.id === plotObj.id);
+            const shouldUpdate = !oldObj || oldObj.options.value !== plotObj.value;
 
             if (shouldUpdate) {
-                axis.removePlotLine(plotLine.id);
-                axis.addPlotLine(newLine);
+                axis[removeFuncName](plotObj.id);
+                axis[addFuncName](newObj);
             }
         }
     });
+};
+
+const replacePlotBands = (axis, newPlotBands) => {
+    const allPlotBands = [{ id: 'win1' }, { id: 'loss1' }, { id: 'win2' }, { id: 'loss2' }];
+    replacePlotObj(axis, allPlotBands, newPlotBands, 'addPlotBand', 'removePlotBand');
+};
+
+const replacePlotLines = (axis, newPlotLines) => {
+    replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
 export default ({ chart, contract, ticks, contractDidNotChange }) => {
