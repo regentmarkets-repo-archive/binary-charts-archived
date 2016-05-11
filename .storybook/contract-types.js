@@ -28,21 +28,25 @@ const contractsBasic = {
     },
     'Ends Between': {
         contract_type: 'EXPIRYRANGE',
+        barrierType: 'relative',
         barrier: '10',
         barrier2: '-10',
     },
     'Ends Outside': {
         contract_type: 'EXPIRYMISS',
+        barrierType: 'relative',
         barrier: '10',
         barrier2: '-10',
     },
     'Stays Between': {
         contract_type: 'RANGE',
+        barrierType: 'relative',
         barrier: '10',
         barrier2: '-10',
     },
     'Goes Outside': {
         contract_type: 'UPORDOWN',
+        barrierType: 'relative',
         barrier: '10',
         barrier2: '-10',
     },

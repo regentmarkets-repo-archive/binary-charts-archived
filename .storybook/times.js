@@ -30,12 +30,12 @@ storiesOf('Times', module)
             }}
         />
     )
-    .add('Purchase Time not shown if same as Start Time', () =>
+    .add('Purchase Time not shown if same as Entry Time', () =>
         <BinaryChart
             ticks={ticks}
             contract={{
                 purchase_time: 2,
-                date_start: 2,
+                entry_tick_time: 2,
             }}
         />
     )

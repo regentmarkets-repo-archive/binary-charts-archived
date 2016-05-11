@@ -9,6 +9,7 @@ export default ({ rangeChange = () => undefined }) => ({
             if (e.rangeSelectorButton) {
                 const { count, type } = e.rangeSelectorButton;
                 rangeChange(count, type);
+                // updateExtremesYAxis(e.chart.yAxis[0], contract, lastTick);
             }
         },
     },
