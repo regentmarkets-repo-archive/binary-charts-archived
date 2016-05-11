@@ -6,6 +6,8 @@ import timePlotLines from '../plot-lines/timePlotLines';
 const arrayMin = arr => Math.min.apply(Math, arr);
 const arrayMax = arr => Math.max.apply(Math, arr);
 
+let lastExtremesX = {};
+
 const updateExtremesXAxis = (axis, contract) => {
     const timeEntries = timePlotLines
         .filter(x => contract[x.id])
@@ -18,13 +20,14 @@ const updateExtremesXAxis = (axis, contract) => {
     const min = arrayMin(timeEntries) - axis.tickInterval;
     const max = arrayMax(timeEntries) + axis.tickInterval;
 
-    const prevExtremes = axis.getExtremes();
-
-    // console.log(prevExtremes, min, max);
-    if (prevExtremes.min !== min || prevExtremes.max !== max) {
+    // console.log('Updating extremes on X', lastExtremesX, min, max);
+    if (lastExtremesX.min !== min || lastExtremesX.max !== max) {
+        lastExtremesX = { min, max };
         axis.setExtremes(min, max);
     }
 };
+
+let lastExtremesY = {};
 
 const updateExtremesYAxis = (axis, contract, lastTick) => {
     if (!contract.barrier && !contract.barrier2) {
@@ -50,8 +53,16 @@ const updateExtremesYAxis = (axis, contract, lastTick) => {
     const min = arrayMin(extremes);
     const max = arrayMax(extremes);
 
-    if (prevExtremes.min !== min || prevExtremes.max !== max) {
-        console.log('Updating extremes', extremes, prevExtremes, min, max);
+    if (lastExtremesY.min !== min || lastExtremesY.max !== max) {
+        // console.log('Updating extremes on Y', [
+        //     barrier1 + axis.tickInterval,
+        //     barrier1 - axis.tickInterval,
+        //     barrier2 + axis.tickInterval,
+        //     barrier2 - axis.tickInterval,
+        //     minData,
+        //     maxData,
+        // ], lastExtremesY, min, max);
+        lastExtremesY = { min, max };
         axis.setExtremes(min, max);
     }
 };

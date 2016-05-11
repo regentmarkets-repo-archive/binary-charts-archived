@@ -14,6 +14,8 @@ export default (id, epoch, color, text, position) => ({
         verticalAlign: 'top',
         style: {
             color: brandColor(1),
+            fontWeight: 'bold',
+            letterSpacing: '.2px',
         },
     },
 });
