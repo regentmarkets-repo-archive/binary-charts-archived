@@ -7,7 +7,7 @@ import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 // import events from '../parts/events';
 
-export default ({ pipSize = 0, rangeChange }) => ({
+export default ({ pipSize = 0, rangeChange, type = 'area' }) => ({
     ...reset(),
     plotOptions: plotOptions(),
     navigator: navigator(),
@@ -20,6 +20,6 @@ export default ({ pipSize = 0, rangeChange }) => ({
             pipSize,
         },
     },
-    series: seriesLine({ data: [], pipSize }),
+    series: seriesLine({ data: [], pipSize, type }),
     // events: events()
 });

@@ -22,12 +22,14 @@ export default class BinaryChart extends Component {
         ticks: BinaryTypes.tickArray,
         contract: BinaryTypes.contractOrTrade,
         rangeChange: PropTypes.func,
+        type: PropTypes.oneOf(['area', 'candlestick']),
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
     };
 
     static defaultProps = {
         ticks: [],
+        type: 'area',
     };
 
     componentDidMount() {
@@ -48,7 +50,11 @@ export default class BinaryChart extends Component {
 
     render() {
         return (
-            <div {...this.props} ref="chart" />
+            <div>
+                <div {...this.props} ref="chart" />
+                <input type="radio" name="chart-type" value="tick" /> Ticks <br />
+                <input type="radio" name="chart-type" value="candle-stick" /> Candle Stick <br />
+            </div>
         );
     }
 }
