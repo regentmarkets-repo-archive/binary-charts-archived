@@ -23,6 +23,7 @@ export default class BinaryChart extends Component {
         contract: BinaryTypes.contractOrTrade,
         rangeChange: PropTypes.func,
         type: PropTypes.oneOf(['area', 'candlestick']),
+        typeChange: PropTypes.func,
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
     };
@@ -49,11 +50,16 @@ export default class BinaryChart extends Component {
     }
 
     render() {
+        const { typeChange } = this.props;
         return (
             <div>
                 <div {...this.props} ref="chart" />
-                <input type="radio" name="chart-type" value="tick" /> Ticks <br />
-                <input type="radio" name="chart-type" value="candle-stick" /> Candle Stick <br />
+                <input type="radio" name="chart-type" value="tick" onChange={e => typeChange(e.target.value)} />
+                Ticks
+                <br />
+                <input type="radio" name="chart-type" value="candlestick" onChange={e => typeChange(e.target.value)} />
+                Candle Stick
+                <br />
             </div>
         );
     }
