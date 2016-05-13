@@ -15,10 +15,18 @@ const contractsAreEqual = (prevProps, nextProps) =>
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
 
+const chartTypesAreEqual = (prevProps, nextProps) =>
+    prevProps.type === nextProps.type;
+
 export default (chart, prevProps, nextProps) => {
     const ticksDiffer = !ticksAreEqual(prevProps, nextProps);
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
+    const chartTypeDiffer = !chartTypesAreEqual(prevProps, nextProps);
+
+    if (chartTypeDiffer) {
+        chart.series[0].update({ type: nextProps.type });
+    }
 
     if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);

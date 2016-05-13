@@ -1,8 +1,8 @@
 import brandColor from 'binary-utils/lib/brandColor';
 
-export default ({ data, pipSize }) => [{
+export default ({ data, pipSize, type }) => [{
     name: 'Spot',
-    type: 'area',
+    type,
     data,
     tooltip: {
         valueDecimals: pipSize,
