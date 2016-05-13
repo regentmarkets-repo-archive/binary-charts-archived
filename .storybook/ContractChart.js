@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { LiveApi } from 'binary-live-api';
 import BinaryChart from '../src/BinaryChart';
 import nowEpoch from 'binary-utils/lib/nowAsEpoch';
