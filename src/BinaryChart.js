@@ -21,6 +21,7 @@ export default class BinaryChart extends Component {
         symbol: PropTypes.string,
         ticks: BinaryTypes.tickArray,
         contract: BinaryTypes.contractOrTrade,
+        pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
@@ -28,6 +29,7 @@ export default class BinaryChart extends Component {
 
     static defaultProps = {
         ticks: [],
+        pipSize: 0,
     };
 
     componentDidMount() {

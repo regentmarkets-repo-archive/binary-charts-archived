@@ -10,10 +10,10 @@ const lastPriceFromSeries = series =>
 const polyPath = (x, y) => [
     'M', x - 10, y,
     'L',
-    x, y - 8,
-    x + 65, y - 8,
-    x + 65, y + 8,
-    x, y + 8,
+    x, y - 7,
+    x + 65, y - 7,
+    x + 65, y + 7,
+    x, y + 7,
 ];
 
 const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicator, priceYAxis }) => {
@@ -43,7 +43,7 @@ const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.label.attr({
         text: currentPrice.toFixed(options.pipSize),
     });
-
+    // console.log('pipsize', options)
     spotIndicator.label.animate({
         x: x - 4 + priceYAxis.chart.marginRight,
         y: y - 9,

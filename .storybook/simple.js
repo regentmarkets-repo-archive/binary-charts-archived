@@ -77,7 +77,10 @@ storiesOf('Basic', module)
         <DynamicChart />
     )
     .add('Dynamic with contract', () =>
-        <DynamicChart contract={{ contract_type: 'CALL' }} />
+        <DynamicChart contract={{ contract_type: 'CALL', barrier: '+53.42' }} />
+    )
+    .add('Dynamic with trade', () =>
+        <DynamicChart trade={{ contract_type: 'CALL', barrier: '+53.42' }} />
     )
     .add('Dynamic with plot lines', () =>
         <DynamicChart

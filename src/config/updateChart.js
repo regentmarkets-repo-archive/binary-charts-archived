@@ -3,6 +3,7 @@ import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
+import updateRest from './updateRest';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -15,10 +16,12 @@ const contractsAreEqual = (prevProps, nextProps) =>
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
 
+const restAreEqual = (prevProps, nextProps) =>
+    nextProps.pipSize === prevProps.pipSize;
+
 export default (chart, prevProps, nextProps) => {
     const ticksDiffer = !ticksAreEqual(prevProps, nextProps);
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
-    const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
 
     if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);
@@ -34,8 +37,14 @@ export default (chart, prevProps, nextProps) => {
         });
     }
 
+    const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
     if (tradingTimesDiffer) {
         const { tradingTimes } = nextProps;
         updateTradingTimes({ chart, tradingTimes });
+    }
+
+    const restDiffer = !restAreEqual(prevProps, nextProps);
+    if (restDiffer) {
+        updateRest(chart, nextProps);
     }
 };

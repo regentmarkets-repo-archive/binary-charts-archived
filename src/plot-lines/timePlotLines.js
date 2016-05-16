@@ -15,13 +15,15 @@ export default [
     // Expiry time is the same as date_expiry but incorrectly named in Portfolio call
 
     { id: 'exit_tick_time', name: 'Exit Spot', position: 'left' },
-    // Time when the contact actually expires ***
+    // Time when the contact actually expires
+    // Do not show if value is close to date_expiry
 
     { id: 'date_settlement', name: 'Settlement Time', position: 'right' },
     // Settlement time, depends on market, shown in trading times
 
     { id: 'sell_spot_time', name: 'Sell Time', position: 'left' },
-    //  time of tick when contract are sold, if there isn’t any tick on that point, it will use the previous tick before sell_ti
+    // Time of tick when contract are sold
+    // If there isn’t any tick on that point, it will use the previous tick
 
     { id: 'sell_time', name: 'Server Sell Time', position: 'right' },
     // Time when server performed sell action

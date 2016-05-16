@@ -5,7 +5,11 @@ export default ({ pipSize }) => ({
     opposite: true,
     labels: {
         align: 'left',
-        formatter() { return this.value.toFixed(pipSize); },
+        formatter() {
+            const params = this.chart.options.binary;
+            console.log(params ? params.pipSize : 0);
+            return this.value.toFixed(params ? params.pipSize : 0);
+        },
     },
     tickWidth: 0,
     title: { text: null },
