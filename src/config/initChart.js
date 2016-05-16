@@ -1,4 +1,5 @@
 import reset from '../parts/reset';
+import exporting from '../parts/exporting';
 import plotOptions from '../parts/plotOptions';
 import navigator from '../parts/navigator';
 import rangeSelector from '../parts/rangeSelector';
@@ -7,7 +8,7 @@ import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 // import events from '../parts/events';
 
-export default ({ pipSize = 0, rangeChange, type = 'area' }) => ({
+export default ({ pipSize = 0, rangeChange, typeChange, type = 'area' }) => ({
     ...reset(),
     plotOptions: plotOptions(),
     navigator: navigator(),
@@ -21,5 +22,6 @@ export default ({ pipSize = 0, rangeChange, type = 'area' }) => ({
         },
     },
     series: seriesLine({ data: [], pipSize, type }),
+    exporting: exporting({ typeChange }),
     // events: events()
 });
