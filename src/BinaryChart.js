@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts/highstock';
+import exporting from 'highcharts/modules/exporting';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
@@ -7,6 +8,8 @@ import updateChart from './config/updateChart';
 import spotIndicator from './plugins/spotIndicator';
 // import tradeMarker from './plugins/tradeMarker';
 import theme from './theme';
+
+exporting(Highcharts)
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
@@ -46,21 +49,14 @@ export default class BinaryChart extends Component {
 
     shouldComponentUpdate(nextProps) {
         updateChart(this.chart, this.props, nextProps);
+        console.log(this.chart.options)
         return false;
     }
 
     render() {
         const { typeChange } = this.props;
         return (
-            <div>
-                <div {...this.props} ref="chart" />
-                <input type="radio" name="chart-type" value="tick" onChange={e => typeChange(e.target.value)} />
-                Ticks
-                <br />
-                <input type="radio" name="chart-type" value="candlestick" onChange={e => typeChange(e.target.value)} />
-                Candle Stick
-                <br />
-            </div>
+            <div {...this.props} ref="chart" />
         );
     }
 }
