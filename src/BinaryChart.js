@@ -49,7 +49,6 @@ export default class BinaryChart extends Component {
 
     shouldComponentUpdate(nextProps) {
         updateChart(this.chart, this.props, nextProps);
-        console.log(this.chart.options)
         return false;
     }
 
