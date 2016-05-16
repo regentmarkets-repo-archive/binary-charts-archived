@@ -71,6 +71,45 @@ var ticks = [
 ];
 ```
 
+## API
+| Props | Default | Description |
+ -------|---------|-------------
+ symbol | N/A     | string represent symbol of data, eg. 'R_100'
+ ticks  | [ ]      | data for charts, can be in ticks structure or ohlc structure, check below for data shape
+ contract | N/A   | description of a bought contract, check response of https://developers.binary.com/api/#proposal_open_contract
+ rangeChange | N/A | function with signature `(count, type) => undefined`, called when user clicked one of the range selector buttons, useful when library client want to load more data when user click those buttons
+ type | 'area' | can be either `area` or `candlestick`, defines chart type
+ typeChange | N/A | function with signature `(type) => undefined`, called when user change chart type **WIP**
+ trade | N/A | an object describe proposal that user might want to buy, check request of https://developers.binary.com/api/#proposal
+ trading times | N/A | trading times of symbol, check https://developers.binary.com/api/#trading_times
+
+## Ticks data structure
+TICKS:
+```
+[
+    {
+        epoch: number,
+        quote: number
+    },
+    ...
+]
+```
+
+OHLC:
+```
+[
+    {
+        epoch: number,
+        open: number,
+        high: number,
+        low: number,
+        close: number,
+    },
+    ...
+]
+```
+
+
 ## Contract visualization
 
 The component can optionally display the trade parameters or contract already bought.

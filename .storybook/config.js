@@ -8,4 +8,5 @@ configure(() => {
     require('./open-contracts');
     require('./indicators');
     require('./plotlines');
+    require('./ohlc');
 }, module);

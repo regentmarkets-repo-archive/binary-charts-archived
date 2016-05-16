@@ -5,7 +5,8 @@ import timePlotLines from './timePlotLines';
 const lineColor = brandColor(0.5);
 
 const shoudShowPurchaseTime = contract =>
-    contract.purchase_time !== contract.entry_tick_time;
+    contract.purchase_time !== contract.entry_tick_time &&
+        contract.purchase_time !== contract.date_start;
 
 const shouldShowExitSpot = contract =>
     contract.exit_tick_time !== contract.date_expiry;

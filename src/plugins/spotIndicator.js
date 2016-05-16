@@ -64,6 +64,9 @@ const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
 
 export default () => {
     const renderSpotIndicator = chart => {
+        if (chart.series[0].type === 'candlestick') {          // OHLC not able to show current spot
+            return;
+        }
         const priceYAxis = chart.yAxis[0];
         let options = priceYAxis.spotIndicator || {};
 

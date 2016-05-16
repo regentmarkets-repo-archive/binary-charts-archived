@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts/highstock';
+import exporting from 'highcharts/modules/exporting';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
@@ -7,6 +8,8 @@ import updateChart from './config/updateChart';
 import spotIndicator from './plugins/spotIndicator';
 // import tradeMarker from './plugins/tradeMarker';
 import theme from './theme';
+
+exporting(Highcharts)
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
@@ -23,6 +26,8 @@ export default class BinaryChart extends Component {
         contract: BinaryTypes.contractOrTrade,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
+        type: PropTypes.oneOf(['area', 'candlestick']),
+        typeChange: PropTypes.func,
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
     };
@@ -30,6 +35,7 @@ export default class BinaryChart extends Component {
     static defaultProps = {
         ticks: [],
         pipSize: 0,
+        type: 'area',
     };
 
     componentDidMount() {
@@ -49,6 +55,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
+        const { typeChange } = this.props;
         return (
             <div {...this.props} ref="chart" />
         );

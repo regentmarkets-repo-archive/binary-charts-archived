@@ -1,6 +1,5 @@
 export default () => ({
     // animation: true,
-    exporting: { enabled: false },
     scrollbar: { enabled: false },
     credits: { enabled: false },
     legend: { enabled: false },
