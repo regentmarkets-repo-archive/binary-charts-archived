@@ -30,10 +30,9 @@ const updateExtremesXAxis = (axis, contract) => {
 let lastExtremesY = {};
 
 const updateExtremesYAxis = (axis, contract, lastTick) => {
-    if (!contract.barrier && !contract.barrier2) {
+    if (!contract.barrier && !contract.barrier2 || contract.contract_type.includes('DIGIT')) {
         return;
     }
-
     const barrier1 = contract.barrier && barrierFromContract(contract, lastTick);
     const barrier2 = contract.barrier2 && barrier2FromContract(contract, lastTick);
 
