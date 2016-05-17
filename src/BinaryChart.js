@@ -26,7 +26,7 @@ export default class BinaryChart extends Component {
         contract: BinaryTypes.contractOrTrade,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
-        type: PropTypes.oneOf(['area', 'candlestick']),
+        type: PropTypes.oneOf(['ticks', 'candles']),
         typeChange: PropTypes.func,
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
@@ -55,7 +55,6 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { typeChange } = this.props;
         return (
             <div {...this.props} ref="chart" />
         );
