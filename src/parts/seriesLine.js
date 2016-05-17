@@ -2,7 +2,7 @@ import brandColor from 'binary-utils/lib/brandColor';
 
 export default ({ data, pipSize, type }) => [{
     name: 'Spot',
-    type: type === 'candles' ? 'candlestick' : 'area',
+    type: (type === 'candles') ? 'candlestick' : 'area',
     data,
     tooltip: {
         valueDecimals: pipSize,

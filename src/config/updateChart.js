@@ -29,7 +29,8 @@ export default (chart, prevProps, nextProps) => {
     const chartTypeDiffer = !chartTypesAreEqual(prevProps, nextProps);
 
     if (chartTypeDiffer) {
-        chart.series[0].update({ type: nextProps.type });
+        const type = nextProps.type === 'candles' ? 'candlestick' : 'area';
+        chart.series[0].update({ type: type });
     }
 
     if (ticksDiffer) {
