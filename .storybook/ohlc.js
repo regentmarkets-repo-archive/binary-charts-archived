@@ -80,7 +80,7 @@ export const convertEpochToMS = dataArr => dataArr.map(d => Object.assign(d, { e
 
 storiesOf('OHLC', module)
     .add('Simple OHLC chart', () =>
-        <BinaryChart type="candlestick" ticks={convertEpochToMS(rawData)} />
+        <BinaryChart type="candles" ticks={convertEpochToMS(rawData)} />
     )
     .add('Combine with live-api', () => {
 

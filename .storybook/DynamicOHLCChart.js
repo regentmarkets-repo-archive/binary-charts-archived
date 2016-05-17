@@ -29,7 +29,7 @@ export default class DynamicOHLCChart extends React.Component {
         const { ticks } = this.state;
 
         return (
-            <BinaryChart type="candlestick" ticks={convertEpochToMS(ticks)} />
+            <BinaryChart type="candles" ticks={convertEpochToMS(ticks)} />
         );
     }
 }

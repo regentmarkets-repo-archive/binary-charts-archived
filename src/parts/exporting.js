@@ -8,11 +8,11 @@ export default ({ typeChange }) => {
             },
             tickButton: {
                 text: 'Ticks',
-                onclick: () => typeChange('tick'),
+                onclick: () => typeChange('ticks'),
             },
             ohlcButton: {
                 text: 'Candlestick',
-                onclick: () => typeChange('candlestick'),
+                onclick: () => typeChange('candles'),
             },
         },
     };
