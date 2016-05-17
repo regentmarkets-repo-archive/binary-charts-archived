@@ -1,18 +1,25 @@
 import brandColor from 'binary-utils/lib/brandColor';
 
 export default ({
-    colors: [brandColor(1)],
-    series: [{
-        lineWidth: 1,
-    }],
+    colors: [brandColor(1), '#f45b5b', '#8085e9', '#8d4654'],
     chart: {
 		style: {
 			fontFamily: "'Roboto', sans-serif",
 		},
 		plotBorderColor: 'red',
 	},
-    candlestick: {
-        lineColor: 'white',
+    plotOptions: {
+        area: {
+            lineWidth: 1.5,
+        },
+        candlestick: {
+            color: 'red',
+            lineColor: 'red',
+            lineWidth: 3,
+            upColor: 'green',
+            upLineColor: 'green',
+            pointPadding: 0.3,
+        },
     },
     xAxis: {
 		gridLineColor: brandColor(0.2),

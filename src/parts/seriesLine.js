@@ -9,7 +9,6 @@ export default ({ data, pipSize, type }) => [{
         zIndex: 120,
     },
     fillColor: brandColor(0.1),
-    lineWidth: 1.5,
     fillOpacity: 0.1,
     threshold: null,
     zoneAxis: 'x',
