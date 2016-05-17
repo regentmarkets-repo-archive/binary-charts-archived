@@ -11,6 +11,9 @@ export default ({
 		},
 		plotBorderColor: 'red',
 	},
+    candlestick: {
+        lineColor: 'white',
+    },
     xAxis: {
 		gridLineColor: brandColor(0.2),
         labels: {

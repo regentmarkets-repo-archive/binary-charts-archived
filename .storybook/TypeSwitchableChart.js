@@ -1,6 +1,7 @@
 import React from 'react';
 import BinaryChart from '../src/BinaryChart';
 import api from './ApiSingleton';
+import { convertEpochToMS } from './ohlc';
 
 export default class TypeSwitchChart extends React.Component {
     constructor(props) {
@@ -13,17 +14,22 @@ export default class TypeSwitchChart extends React.Component {
 
     changeType(t) {
         switch (t) {
-            case 'tick': api.getTickHistory('R_100').then(r => {
-                const ticks = r.history.times.map((t, idx) => {
-                    const quote = r.history.prices[idx];
-                    return { epoch: +t, quote: +quote };
+            case 'tick':
+                    api.getTickHistory('R_100').then(r => {
+                    const ticks = r.history.times.map((t, idx) => {
+                        const quote = r.history.prices[idx];
+                        return { epoch: +t, quote: +quote };
+                    });
+                    this.setState({ ticks, type: 'area' });
                 });
-                this.setState({ ticks, type: 'area' });
-            });
                 break;
-            case 'candlestick': api.getCandles('R_100').then(r => {
-                this.setState({ type: 'candlestick', ticks: convertEpochToMS(rawData)});
-            });
+            case 'candlestick':
+                api.getCandles('R_100').then(r => {
+                    this.setState({
+                        type: 'candlestick',
+                        ticks: convertEpochToMS(rawData),
+                     });
+                });
                 break;
             default: return;
         }
@@ -33,6 +39,6 @@ export default class TypeSwitchChart extends React.Component {
         const { ticks, type } = this.state;
         return (
             <BinaryChart type={type} ticks={ticks} typeChange={t => this.changeType(t)} />
-        )
+        );
     }
 }

@@ -6,10 +6,10 @@ import { convertEpochToMS } from './ohlc';
 
 export default class DynamicOHLCChart extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             ticks: [],
-        }
+        };
     }
 
     componentWillMount() {
@@ -30,6 +30,6 @@ export default class DynamicOHLCChart extends React.Component {
 
         return (
             <BinaryChart type="candlestick" ticks={convertEpochToMS(ticks)} />
-        )
+        );
     }
 }
