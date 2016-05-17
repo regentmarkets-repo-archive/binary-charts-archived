@@ -30,7 +30,7 @@ export default (chart, prevProps, nextProps) => {
 
     if (chartTypeDiffer) {
         const type = nextProps.type === 'candles' ? 'candlestick' : 'area';
-        chart.series[0].update({ type: type });
+        chart.series[0].update({ type });
     }
 
     if (ticksDiffer) {
