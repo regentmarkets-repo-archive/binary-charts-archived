@@ -9,10 +9,9 @@ import spotIndicator from './plugins/spotIndicator';
 // import tradeMarker from './plugins/tradeMarker';
 import theme from './theme';
 
-exporting(Highcharts);
-
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
+    exporting(Highcharts);
     spotIndicator();
 //    tradeMarker();
     Highcharts.setOptions(theme);
