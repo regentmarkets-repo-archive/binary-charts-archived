@@ -1,7 +1,7 @@
 import React from 'react';
-import BinaryChart from '../src/BinaryChart';
-import api from './ApiSingleton';
-import { convertEpochToMS } from './ohlc';
+import BinaryChart from '../../src/BinaryChart';
+import api from '../ApiSingleton';
+import { convertEpochToMS } from '../ohlc';
 
 export default class TypeSwitchChart extends React.Component {
     constructor(props) {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 import BinaryChart from '../src/BinaryChart';
-import TypeSwitchChart from './TypeSwitchableChart';
-import DynamicOHLCChart from './DynamicOHLCChart';
+import TypeSwitchChart from './charts/TypeSwitchableChart';
+import DynamicOHLCChart from './charts/DynamicOHLCChart';
 
 const rawData = [
     {

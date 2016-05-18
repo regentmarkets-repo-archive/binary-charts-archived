@@ -9,6 +9,6 @@ export default (chart, oldRangeChange, newRangeChange) => {
                     }
                 },
             },
-        }, false);
+        });
     }
 };
