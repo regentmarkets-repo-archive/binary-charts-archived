@@ -1,8 +1,7 @@
 import doTicksDifferJustOneEntry from 'binary-utils/lib/doTicksDifferJustOneEntry';
 import tickToData from 'binary-utils/lib/tickToData';
+import ohlcToData from 'binary-utils/lib/ohlcToData';
 import getLastTick from 'binary-utils/lib/getLastTick';
-
-const ohlcToData = d => [+d.epoch, +d.open, +d.high, +d.low, +d.close];
 
 export default (chart, prevProps, nextProps) => {
     const oneTickDiff = doTicksDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
