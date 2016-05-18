@@ -6,10 +6,9 @@ export default (chart, oldRangeChange, newRangeChange) => {
                     if (e.rangeSelectorButton) {
                         const { count, type } = e.rangeSelectorButton;
                         newRangeChange(count, type);
-                        // updateExtremesYAxis(e.chart.yAxis[0], contract, lastTick);
                     }
                 },
             },
         }, false);
     }
-}
+};
