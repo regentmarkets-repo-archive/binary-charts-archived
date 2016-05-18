@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import DynamicChart from './DynamicChart';
+import DynamicChart from './charts/DynamicChart';
 
 storiesOf('Indicators', module)
     .add('Trend Line', () =>

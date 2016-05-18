@@ -4,6 +4,8 @@ import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
+import updateRangeChangeFunc from './updateRangeChangeFunc';
+import updateTypeChangeFunc from './updateTypeChangeFunc';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -57,4 +59,7 @@ export default (chart, prevProps, nextProps) => {
     if (restDiffer) {
         updateRest(chart, nextProps);
     }
+
+    updateRangeChangeFunc(chart, prevProps.rangeChange, nextProps.rangeChange);
+    updateTypeChangeFunc(chart, prevProps.typeChange, nextProps.typeChange);
 };

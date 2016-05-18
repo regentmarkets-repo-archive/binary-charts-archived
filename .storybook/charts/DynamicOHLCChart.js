@@ -1,8 +1,8 @@
 import React from 'react';
-import BinaryChart from '../src/BinaryChart';
-import api from './ApiSingleton';
+import BinaryChart from '../../src/BinaryChart';
+import api from '../ApiSingleton';
 import { LiveEvents } from 'binary-live-api';
-import { convertEpochToMS } from './ohlc';
+import { convertEpochToMS } from '../ohlc';
 
 export default class DynamicOHLCChart extends React.Component {
     constructor(props) {

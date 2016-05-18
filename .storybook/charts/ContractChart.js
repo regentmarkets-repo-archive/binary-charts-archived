@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
-import BinaryChart from '../src/BinaryChart';
-import api from './ApiSingleton';
+import BinaryChart from '../../src/BinaryChart';
+import api from '../ApiSingleton';
 
 const token = 'qdJ86Avvrsh0Le4';
+
+const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);
 
 export default class ContractChart extends React.Component {
 
@@ -20,7 +22,7 @@ export default class ContractChart extends React.Component {
     componentWillMount() {
         const { contractId } = this.props;
         api.authorize(token).then(() =>
-            api.getDataForContract(contractId)
+            api.getDataForContract(() => getContract(contractId), 1, 'all')
         ).then(ticks => {
             this.setState({ ticks });
         });
@@ -30,7 +32,7 @@ export default class ContractChart extends React.Component {
         const { ticks, contract } = this.state;
         const { contractId } = this.props;
         const getDataWhenChange = (count, type) =>
-            api.getDataForContract(contractId, type, count).then(newTicks => this.setState({ ticks: newTicks }));
+            api.getDataForContract(() => getContract(contractId), count, type).then(newTicks => this.setState({ ticks: newTicks }));
         return (
             <BinaryChart ticks={ticks} contract={contract} rangeChange={getDataWhenChange} />
         );

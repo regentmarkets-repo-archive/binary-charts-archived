@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BinaryChart from '../src/BinaryChart';
+import BinaryChart from '../../src/BinaryChart';
 
 const randomNum = () => Math.random() * (20 - 10) + 10;
 // const seqDate = () => new Date().getTime() / 10;
