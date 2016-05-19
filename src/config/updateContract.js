@@ -43,5 +43,5 @@ export default ({ chart, contract, ticks, contractDidNotChange }) => {
 
     updateZones(chart, newPlotLines);
 
-    updateExtremes(chart, ticks, contract);
+    // updateExtremes(chart, ticks, contract);
 };

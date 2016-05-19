@@ -29,22 +29,26 @@ const updateExtremesXAxis = (axis, contract) => {
 
 let lastExtremesY = {};
 
-const updateExtremesYAxis = (axis, contract, lastTick) => {
+const updateExtremesYAxis = (axis, contract, ticks) => {
+    const lastTick = getLastTickQuote(ticks);
+
     if (!contract.barrier && !contract.barrier2 || contract.contract_type.includes('DIGIT')) {
         return;
     }
     const barrier1 = contract.barrier && barrierFromContract(contract, lastTick);
     const barrier2 = contract.barrier2 && barrier2FromContract(contract, lastTick);
 
+    const allQuotes = ticks.map(t => t.quote);
+    const minTick = arrayMin(allQuotes);
+    const maxTick = arrayMax(allQuotes);
+
     const prevExtremes = axis.getExtremes();
-    const minData = prevExtremes.dataMin - axis.tickInterval;
-    const maxData = prevExtremes.dataMax + axis.tickInterval;
+    const minData = prevExtremes.dataMin || minTick;
+    const maxData = prevExtremes.dataMax || maxTick;
 
     const extremes = [
-        barrier1 + axis.tickInterval,
-        barrier1 - axis.tickInterval,
-        barrier2 + axis.tickInterval,
-        barrier2 - axis.tickInterval,
+        barrier1,
+        barrier2,
         minData,
         maxData,
     ].filter(x => x || x === 0);
@@ -53,14 +57,6 @@ const updateExtremesYAxis = (axis, contract, lastTick) => {
     const max = arrayMax(extremes);
 
     if (lastExtremesY.min !== min || lastExtremesY.max !== max) {
-        // console.log('Updating extremes on Y', [
-        //     barrier1 + axis.tickInterval,
-        //     barrier1 - axis.tickInterval,
-        //     barrier2 + axis.tickInterval,
-        //     barrier2 - axis.tickInterval,
-        //     minData,
-        //     maxData,
-        // ], lastExtremesY, min, max);
         lastExtremesY = { min, max };
         axis.setExtremes(min, max);
     }
@@ -68,8 +64,7 @@ const updateExtremesYAxis = (axis, contract, lastTick) => {
 
 export default (chart, ticks, contract) => {
     if (!contract) return;
-    const lastTick = getLastTickQuote(ticks);
 
     updateExtremesXAxis(chart.xAxis[0], contract);
-    updateExtremesYAxis(chart.yAxis[0], contract, lastTick);
+    updateExtremesYAxis(chart.yAxis[0], contract, ticks);
 };
