@@ -8,7 +8,7 @@ export default ({ typeChange }) => {
             },
             tickButton: {
                 text: 'Area',
-                //symbol: 'url(http://localhost:3000/img/chart-area.svg)',
+                // symbol: 'url(http://localhost:3000/img/chart-area.svg)',
                 onclick: () => typeChange('ticks'),
             },
             ohlcButton: {

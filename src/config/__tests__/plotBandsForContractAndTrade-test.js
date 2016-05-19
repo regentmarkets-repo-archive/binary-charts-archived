@@ -1,28 +1,49 @@
 import { expect } from 'chai';
-import plotBandsForContractAndTrade from '../plotBandsForContractAndTrade';
+import { plotBandForContract, plotBandForTrade } from '../plotBandsForContractAndTrade';
 
 describe('plotBandsForContractAndTrade', () => {
-    it('should return empty list when no contract is provided', () => {
-        const bands = plotBandsForContractAndTrade();
-        expect(bands).to.deep.equal([]);
+    describe('plotBandForContract', () => {
+        it('should return empty list when no contract is provided', () => {
+            const bands = plotBandForContract();
+            expect(bands).to.deep.equal([]);
+        });
+
+        it('should throw an exception for non existing contract types', () => {
+            expect(() => plotBandForContract({
+                contract_type: 'NONEXISTING',
+            })).to.throw();
+        });
+
+        it('should return a list of plot bands for existing contract type', () => {
+            const contract = { contract_type: 'CALL' };
+            const plotBands = plotBandForContract(contract);
+            expect(plotBands).to.not.be.empty;
+        });
     });
 
-    it('should throw an exception for non existing contract types', () => {
-        expect(() => plotBandsForContractAndTrade({
-            contract_type: 'NONEXISTING',
-        })).to.throw();
-    });
+    describe('plotBandForTrade', () => {
+        it('should return empty list when no contract is provided', () => {
+            const bands = plotBandForTrade();
+            expect(bands).to.deep.equal([]);
+        });
 
-    it('should return a list of plot bands for existing contract type', () => {
-        const contract = { contract_type: 'CALL' };
-        const plotBands = plotBandsForContractAndTrade(contract);
-        expect(plotBands).to.not.be.empty;
-    });
+        it('should throw an exception for non existing contract types', () => {
+            expect(() => plotBandForTrade({
+                contract_type: 'NONEXISTING',
+            })).to.throw();
+        });
 
-    it('when no barrier provided, barrier should equal last tick', () => {
-        const contract = { contract_type: 'CALL' };
-        const lastTick = 123;
-        const plotBands = plotBandsForContractAndTrade(contract, lastTick);
-        expect(plotBands[0].to).to.equal(123);
+        it('should return a list of plot bands for existing contract type', () => {
+            const contract = { contract_type: 'CALL' };
+            const plotBands = plotBandForTrade(contract);
+            expect(plotBands).to.not.be.empty;
+        });
+
+        it('when no barrier provided, barrier should equal last tick', () => {
+            const contract = { contract_type: 'CALL' };
+            const lastTick = 123;
+            const plotBands = plotBandForTrade(contract, lastTick);
+            expect(plotBands[0].to).to.equal(123);
+        });
     });
 });
