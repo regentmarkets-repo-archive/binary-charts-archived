@@ -7,12 +7,12 @@ export default ({ typeChange }) => {
                 enabled: false,
             },
             tickButton: {
-                symbol: 'url(http://localhost:3000/img/chart-area.svg)',
-                onclick: () => typeChange('ticks'),
+                symbol: 'url(https://app.binary.com/img/chart-area.svg)',
+                onclick: () => typeChange('area'),
             },
             ohlcButton: {
-                symbol: 'url(http://localhost:3000/img/chart-ohlc.svg)',
-                onclick: () => typeChange('candles'),
+                symbol: 'url(https://app.binary.com/img/chart-ohlc.svg)',
+                onclick: () => typeChange('candlestick'),
             },
         },
     };

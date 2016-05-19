@@ -16,7 +16,7 @@ const polyPath = (x, y) => [
     x, y + 7,
 ];
 
-const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicator, priceYAxis }) => {
+const initialize = ({ renderer, pipSize, color, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.group = renderer.g('spot')
         .attr({ zIndex: 10 })
         .add();
@@ -27,7 +27,7 @@ const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicato
         .add(spotIndicator.group);
 
     spotIndicator.label = renderer
-        .label(currentPrice.toFixed(options.pipSize), x - 4 + priceYAxis.chart.marginRight, y - 9)
+        .label(currentPrice.toFixed(pipSize), x - 4 + priceYAxis.chart.marginRight, y - 9)
         .attr({
             padding: 1,
         })
@@ -39,11 +39,11 @@ const initialize = ({ renderer, options, color, currentPrice, x, y, spotIndicato
         .add(spotIndicator.group);
 };
 
-const update = ({ options, currentPrice, x, y, spotIndicator, priceYAxis }) => {
+const update = ({ pipSize, currentPrice, x, y, spotIndicator, priceYAxis }) => {
     spotIndicator.label.attr({
-        text: currentPrice.toFixed(options.pipSize),
+        text: currentPrice.toFixed(pipSize),
     });
-    // console.log('pipsize', options)
+
     spotIndicator.label.animate({
         x: x - 4 + priceYAxis.chart.marginRight,
         y: y - 9,
@@ -67,8 +67,9 @@ export default () => {
         if (chart.series[0].type === 'candlestick') {          // OHLC not able to show current spot
             return;
         }
+        const pipSize = chart.binary ? chart.binary.pipSize : 0;
         const priceYAxis = chart.yAxis[0];
-        let options = priceYAxis.spotIndicator || {};
+        // let options = priceYAxis.spotIndicator || {};
 
         const currentPrice = lastPriceFromSeries(chart.series[0]);
 
@@ -83,7 +84,7 @@ export default () => {
 
         updateFunc({
             renderer: chart.renderer,
-            options,
+            pipSize,
             color: '#f50c35',
             currentPrice,
             x, y,

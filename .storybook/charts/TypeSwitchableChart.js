@@ -8,13 +8,13 @@ export default class TypeSwitchChart extends React.Component {
         super(props);
         this.state = {
             ticks: [],
-            type: 'ticks',
+            type: 'area',
         };
     }
 
     changeType(type) {
         switch (type) {
-            case 'ticks':
+            case 'area':
                 api.getTickHistory('R_100').then(r => {
                     const ticks = r.history.times.map((t, idx) => {
                         const quote = r.history.prices[idx];
@@ -23,9 +23,9 @@ export default class TypeSwitchChart extends React.Component {
                     this.setState({ ticks, type: 'area' });
                 });
                 break;
-            case 'candles': api.getCandles('R_100').then(r => {
+            case 'candlestick': api.getCandles('R_100').then(r => {
                 this.setState({
-                    type: 'candles',
+                    type: 'candlestick',
                     ticks: convertEpochToMS(r.candles),
                 });
             });

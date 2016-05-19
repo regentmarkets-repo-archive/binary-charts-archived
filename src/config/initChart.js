@@ -8,8 +8,11 @@ import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 // import events from '../parts/events';
 
-export default ({ pipSize = 0, rangeChange, typeChange, type = 'ticks' }) => ({
+export default ({ pipSize = 0, type = 'area', rangeChange, typeChange }) => ({
     ...reset(),
+    binary: {
+        pipSize,
+    },
     plotOptions: plotOptions(),
     navigator: navigator(),
     rangeSelector: rangeSelector(),

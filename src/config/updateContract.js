@@ -36,12 +36,14 @@ const replacePlotLines = (axis, newPlotLines) => {
     replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
-export default ({ chart, contract, trade, ticks, contractDidNotChange }) => {
+export const updatePlotBands = ({ chart, contract, trade, ticks }) => {
     const lastTick = getLastTickQuote(ticks);
     const newPlotBands = contract ? plotBandForContract(contract, lastTick) : plotBandForTrade(trade, lastTick);
     replacePlotBands(chart.yAxis[0], newPlotBands);
+};
 
-    if (contractDidNotChange) return;
+export default ({ chart, contract, trade, ticks }) => {
+    updatePlotBands({ chart, contract, trade, ticks });
 
     const newPlotLines = dateEntryPlotLines(contract);
     replacePlotLines(chart.xAxis[0], newPlotLines);

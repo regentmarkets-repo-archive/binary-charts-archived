@@ -5,9 +5,8 @@ export default ({ pipSize }) => ({
     labels: {
         align: 'left',
         formatter() {
-            const params = this.chart.options.binary;
-            // console.log(params ? params.pipSize : 0);
-            return this.value.toFixed(params ? params.pipSize : 0);
+            const updatedPipSize = this.chart.binary ? this.chart.binary.pipSize : 0;
+            return this.value.toFixed(updatedPipSize);
         },
     },
     tickWidth: 0,

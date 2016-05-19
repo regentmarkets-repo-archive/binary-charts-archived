@@ -1,7 +1,7 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
 import updateTicks from './updateTicks';
-import updateContract from './updateContract';
+import updateContract, { updatePlotBands } from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
 import updateRangeChangeFunc from './updateRangeChangeFunc';
@@ -18,9 +18,6 @@ const contractsAreEqual = (prevProps, nextProps) =>
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
 
-const chartTypesAreEqual = (prevProps, nextProps) =>
-    prevProps.type === nextProps.type;
-
 const restAreEqual = (prevProps, nextProps) =>
     nextProps.pipSize === prevProps.pipSize;
 
@@ -28,26 +25,19 @@ const restAreEqual = (prevProps, nextProps) =>
 export default (chart, prevProps, nextProps) => {
     const ticksDiffer = !ticksAreEqual(prevProps, nextProps);
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
-    const chartTypeDiffer = !chartTypesAreEqual(prevProps, nextProps);
-
-    if (chartTypeDiffer) {
-        const type = nextProps.type === 'candles' ? 'candlestick' : 'area';
-        chart.series[0].update({ type });
-    }
 
     if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);
     }
 
+    const { contract, trade, ticks } = nextProps;
+
     if (contractsDiffer || ticksDiffer) {
-        const { contract, trade, ticks } = nextProps;
-        updateContract({
-            chart,
-            contract,
-            trade,
-            ticks,
-            contractDidNotChange: !contractsDiffer,
-        });
+        updateContract({ chart, contract, trade, ticks });
+    }
+
+    if (!contractsDiffer && ticksDiffer) {
+        updatePlotBands({ chart, contract, trade, ticks });
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
