@@ -13,7 +13,7 @@ const shouldShowExitSpot = contract =>
   // Math.abs(contract.exit_tick_time - contract.date_expiry) > 100;
 
 const shouldShowEndTime = contract =>
-    contract.expiry_time < contract.sell_spot_time;
+    contract.expiry_time < contract.sell_time;
 
 export default (contract) => {
     if (!contract) {
