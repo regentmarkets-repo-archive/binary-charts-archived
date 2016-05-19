@@ -1,7 +1,7 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
 
 // TODO: calculate average of N ticks
-export default (contract) => [
-    winPlotBand('win1', 0, contract.barrier),
-    lossPlotBand('loss1', contract.barrier, Number.MAX_VALUE),
+export default ({ barrier }) => [
+    winPlotBand('win1', 0, barrier),
+    lossPlotBand('loss1', barrier, Number.MAX_VALUE),
 ];
