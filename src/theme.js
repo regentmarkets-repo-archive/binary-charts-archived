@@ -112,6 +112,18 @@ export default ({
             display: 'none',
         },
     },
+    navigation: {
+        buttonOptions: {
+            theme: {
+                states: {
+                    hover: {
+                        fill: brandColor(0.1),
+                        stroke: brandColor(0.1),
+                    },
+                },
+            },
+        },
+    },
 });
 
 // const dark = {
