@@ -86,7 +86,7 @@ storiesOf('Basic', module)
         <DynamicChart
             contract={{
                 date_start: (new Date().getTime() + 2),
-                sell_spot_time: (new Date().getTime() + 5),
+                sell_time: (new Date().getTime() + 5),
             }}
         />
     );
