@@ -17,11 +17,6 @@ if (Object.keys(Highcharts).length > 0) {
     Highcharts.setOptions(theme);
 }
 
-function replaceEventHandler(type, handler) {
-    console.log(Highcharts.Chart.prototype.callbacks)
-    // Highcharts.Chart.prototype.callbacks[3] = chart => console.log(chart);
-}
-
 export default class BinaryChart extends Component {
 
     static propTypes = {
