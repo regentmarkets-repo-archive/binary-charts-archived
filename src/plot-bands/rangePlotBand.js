@@ -1,13 +1,11 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
-import barrierFromContract from 'binary-utils/lib/barrierFromContract';
-import barrier2FromContract from 'binary-utils/lib/barrier2FromContract';
 
-export default (contract, lastSpot) => [
-    lossPlotBand('loss1', 0, barrier2FromContract(contract, lastSpot)),
+export default ({ low_barrier, high_barrier }) => [
+    lossPlotBand('loss1', 0, low_barrier),
     winPlotBand(
         'win1',
-        barrierFromContract(contract, lastSpot),
-        barrier2FromContract(contract, lastSpot)
+        low_barrier,
+        high_barrier
     ),
-    lossPlotBand('loss2', barrierFromContract(contract, lastSpot), Number.MAX_VALUE),
+    lossPlotBand('loss2', high_barrier, Number.MAX_VALUE),
 ];

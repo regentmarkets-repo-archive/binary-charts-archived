@@ -1,9 +1,8 @@
 import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
-import plotBandsForContractAndTrade from './plotBandsForContractAndTrade';
+import { plotBandForContract, plotBandForTrade } from './plotBandsForContractAndTrade';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
 import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
-import updateExtremes from './updateExtremes';
 
 const replacePlotObj = (axis, allPlotObjs, newPlotObjs, addFuncName, removeFuncName) => {
     allPlotObjs.forEach(plotObj => {
@@ -12,7 +11,13 @@ const replacePlotObj = (axis, allPlotObjs, newPlotObjs, addFuncName, removeFuncN
             axis[removeFuncName](plotObj.id);
         } else {
             const oldObj = axis.plotLinesAndBands.find(x => x.id === plotObj.id);
-            const shouldUpdate = !oldObj || oldObj.options.value !== plotObj.value;
+
+            let shouldUpdate = true;
+            if (oldObj && oldObj.value) {                               // it is a line
+                shouldUpdate = oldObj.options.value !== newObj.value;
+            } else if (oldObj && oldObj.from) {                         // it is a band
+                shouldUpdate = (oldObj.from !== newObj.from) || (oldObj.to !== newObj.to);
+            }
 
             if (shouldUpdate) {
                 axis[removeFuncName](plotObj.id);
@@ -31,9 +36,9 @@ const replacePlotLines = (axis, newPlotLines) => {
     replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
-export default ({ chart, contract, ticks, contractDidNotChange }) => {
+export default ({ chart, contract, trade, ticks, contractDidNotChange }) => {
     const lastTick = getLastTickQuote(ticks);
-    const newPlotBands = plotBandsForContractAndTrade(contract, lastTick);
+    const newPlotBands = contract ? plotBandForContract(contract, lastTick) : plotBandForTrade(trade, lastTick);
     replacePlotBands(chart.yAxis[0], newPlotBands);
 
     if (contractDidNotChange) return;
@@ -43,5 +48,5 @@ export default ({ chart, contract, ticks, contractDidNotChange }) => {
 
     updateZones(chart, newPlotLines);
 
-    updateExtremes(chart, ticks, contract);
+    // updateExtremes(chart, ticks, contract);
 };

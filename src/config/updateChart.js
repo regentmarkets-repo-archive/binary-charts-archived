@@ -43,7 +43,8 @@ export default (chart, prevProps, nextProps) => {
         const { contract, trade, ticks } = nextProps;
         updateContract({
             chart,
-            contract: contract || trade,
+            contract,
+            trade,
             ticks,
             contractDidNotChange: !contractsDiffer,
         });
