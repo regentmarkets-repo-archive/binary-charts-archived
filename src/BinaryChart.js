@@ -49,6 +49,13 @@ export default class BinaryChart extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
+        if (this.props.symbol !== nextProps.symbol) {
+            this.chart.destroy();
+            const config = initChart(nextProps);
+            config.chart.renderTo = this.refs.chart;
+            this.chart = new Highcharts.StockChart(config);
+        }
+
         updateChart(this.chart, this.props, nextProps);
         return false;
     }
