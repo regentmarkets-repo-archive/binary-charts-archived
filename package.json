@@ -32,8 +32,9 @@
   "license": "MIT",
   "dependencies": {
     "binary-utils": "^3.0.1",
+    "fbjs": "^0.8.2",
     "highcharts": "^4.2.5",
-    "fbjs": "^0.8.2"
+    "lodash.throttle": "^4.0.1"
   },
   "devDependencies": {
     "@kadira/storybook": "^1.25.0",
