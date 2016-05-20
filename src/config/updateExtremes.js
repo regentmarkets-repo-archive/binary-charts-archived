@@ -62,7 +62,7 @@ const updateExtremesYAxis = (axis, contract, ticks) => {
     }
 };
 
-export default (chart, ticks, contract) => {
+export default (chart, ticks, contract, repaint = true) => {
     if (!contract) return;
 
     const xAxis = chart.xAxis[0];
@@ -91,12 +91,5 @@ export default (chart, ticks, contract) => {
     const nextMax = arrayMax(boundaries);
 
     const yAxis = chart.yAxis[0];
-    console.log('xMin', xMin);
-    console.log('xMax', xMax);
-    console.log('boundaries', boundaries);
-    console.log('newMin', nextMin);
-    console.log('newMax', nextMax);
     yAxis.setExtremes(nextMin, nextMax);
-
-    // updateExtremesYAxis(chart.yAxis[0], contract, ticks);
 };

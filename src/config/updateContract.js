@@ -52,4 +52,6 @@ export default ({ chart, contract, trade, ticks }) => {
     updateZones(chart, newPlotLines);
 
     updateExtremes(chart, ticks, contract);
+
+    chart.rawContract = contract;
 };

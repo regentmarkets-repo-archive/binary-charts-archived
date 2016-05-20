@@ -9,5 +9,10 @@ export default () => ({
         spacingTop: 0,
         spacingLeft: 0,
         spacingRight: 3,
+        events: {
+            load: function() {
+                this.xAxis[0].chart = this
+            }
+        },
     },
 });

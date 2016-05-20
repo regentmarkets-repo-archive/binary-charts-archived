@@ -1,3 +1,5 @@
+import updateExtremes from '../config/updateExtremes'
+
 export default ({ rangeChange = () => undefined }) => ({
     type: 'datetime',
     ordinal: false,
@@ -5,12 +7,19 @@ export default ({ rangeChange = () => undefined }) => ({
     startOnTick: false,
     endOnTick: false,
     events: {
-        setExtremes: e => {
+        setExtremes: function(e) {
             if (e.rangeSelectorButton) {
                 const { count, type } = e.rangeSelectorButton;
                 rangeChange(count, type);
-                // updateExtremesYAxis(e.chart.yAxis[0], contract, lastTick);
             }
         },
+        afterSetExtremes: function () {
+            const chart = this.chart;
+            const ticks = chart.rawTicks;
+            const contract = chart.rawContract;
+            if (ticks && contract) {
+                updateExtremes(chart, ticks, contract);
+            }
+        }
     },
 });
