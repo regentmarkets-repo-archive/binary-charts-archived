@@ -65,6 +65,38 @@ const updateExtremesYAxis = (axis, contract, ticks) => {
 export default (chart, ticks, contract) => {
     if (!contract) return;
 
-    updateExtremesXAxis(chart.xAxis[0], contract);
-    updateExtremesYAxis(chart.yAxis[0], contract, ticks);
+    const xAxis = chart.xAxis[0];
+    const xMin = xAxis.min;
+    const xMax = xAxis.max;
+
+    const zoomedTicks = ticks
+        .filter(t => (t.epoch * 1000) > xMin && (t.epoch * 1000) < xMax);
+
+    let ticksMin = 0;
+    let ticksMax = 0;
+    if (chart.series[0].type === 'area') {
+        const quotes = zoomedTicks.map(t => +t.quote);
+        ticksMax = arrayMax(quotes);
+        ticksMin = arrayMin(quotes);
+    } else if (chart.series[0].type === 'candlestick') {
+        const highLow = zoomedTicks.map(t => [+t.high, +t.low]).reduce((a, b) => a.concat(b), []);
+        ticksMax = arrayMax(highLow);
+        ticksMin = arrayMin(highLow);
+    }
+
+    const { low_barrier, high_barrier } = contract;
+    const boundaries = [ticksMin, ticksMax, low_barrier, high_barrier].filter(x => x || x === 0);
+
+    const nextMin = arrayMin(boundaries);
+    const nextMax = arrayMax(boundaries);
+
+    const yAxis = chart.yAxis[0];
+    console.log('xMin', xMin);
+    console.log('xMax', xMax);
+    console.log('boundaries', boundaries);
+    console.log('newMin', nextMin);
+    console.log('newMax', nextMax);
+    yAxis.setExtremes(nextMin, nextMax);
+
+    // updateExtremesYAxis(chart.yAxis[0], contract, ticks);
 };

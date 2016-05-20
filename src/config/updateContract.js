@@ -3,6 +3,7 @@ import { plotBandForContract, plotBandForTrade } from './plotBandsForContractAnd
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
 import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
+import updateExtremes from './updateExtremes';
 
 const replacePlotObj = (axis, allPlotObjs, newPlotObjs, addFuncName, removeFuncName) => {
     allPlotObjs.forEach(plotObj => {
@@ -50,5 +51,5 @@ export default ({ chart, contract, trade, ticks }) => {
 
     updateZones(chart, newPlotLines);
 
-    // updateExtremes(chart, ticks, contract);
+    updateExtremes(chart, ticks, contract);
 };

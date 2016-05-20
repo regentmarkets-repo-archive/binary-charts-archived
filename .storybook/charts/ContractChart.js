@@ -22,7 +22,10 @@ export default class ContractChart extends React.Component {
     componentWillMount() {
         const { contractId } = this.props;
         api.authorize(token).then(() =>
-            api.getDataForContract(() => getContract(contractId), 1, 'all')
+            api.getDataForContract(() => getContract(contractId).then(c => {
+                this.setState({ contract: c });
+                return c;
+            }), 1, 'all')
         ).then(ticks => {
             this.setState({ ticks });
         });
