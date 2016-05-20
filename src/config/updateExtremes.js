@@ -3,6 +3,8 @@ import barrierFromContract from 'binary-utils/lib/barrierFromContract';
 import barrier2FromContract from 'binary-utils/lib/barrier2FromContract';
 import timePlotLines from '../plot-lines/timePlotLines';
 
+import throttle from 'lodash.throttle';
+
 const arrayMin = arr => Math.min.apply(Math, arr);
 const arrayMax = arr => Math.max.apply(Math, arr);
 
@@ -62,7 +64,7 @@ const updateExtremesYAxis = (axis, contract, ticks) => {
     }
 };
 
-export default (chart, ticks, contract, repaint = true) => {
+const updateExtremes = (chart, ticks, contract) => {
     if (!contract) return;
 
     const xAxis = chart.xAxis[0];
@@ -93,3 +95,5 @@ export default (chart, ticks, contract, repaint = true) => {
     const yAxis = chart.yAxis[0];
     yAxis.setExtremes(nextMin, nextMax);
 };
+
+export default throttle(updateExtremes, 500);
