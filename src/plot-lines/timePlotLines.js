@@ -14,7 +14,7 @@ export default [
     // { id: 'expiry_time', position: 'left' },
     // Expiry time is the same as date_expiry but incorrectly named in Portfolio call
 
-    { id: 'exit_tick_time', name: 'Exit Spot', position: 'left' },
+    { id: 'exit_tick_time', position: 'left' },
     // Time when the contact actually expires
     // Do not show if value is same as date_expiry
 

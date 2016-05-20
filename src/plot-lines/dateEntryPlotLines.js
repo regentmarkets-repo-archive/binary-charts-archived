@@ -1,4 +1,5 @@
 import brandColor from 'binary-utils/lib/brandColor';
+import contractCodeToText from 'binary-utils/lib/contractCodeToText';
 import vertPlotLine from './vertPlotLine';
 import timePlotLines from './timePlotLines';
 
@@ -26,6 +27,6 @@ export default (contract) => {
         .filter(param => param.id !== 'exit_tick_time' || shouldShowExitSpot(contract))
         .filter(param => param.id !== 'expiry_time' || shouldShowEndTime(contract))
         .map(param =>
-            vertPlotLine(param.id, contract[param.id], lineColor, param.name, param.position)
+            vertPlotLine(param.id, contract[param.id], lineColor, contractCodeToText(param.id), param.position)
         );
 };
