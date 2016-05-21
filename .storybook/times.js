@@ -70,15 +70,6 @@ storiesOf('Times', module)
             }}
         />
     )
-    .add('Ends In Future', () =>
-        <BinaryChart
-            ticks={ticks}
-            contract={{
-                entry_tick_time: 3,
-                exit_tick_time: 10,
-            }}
-        />
-    )
     .add('Contract Is Open', () =>
         <BinaryChart
             ticks={ticks}

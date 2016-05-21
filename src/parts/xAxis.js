@@ -1,4 +1,4 @@
-import updateExtremes from '../config/updateExtremes'
+import updateExtremes from '../config/updateExtremes';
 
 export default ({ rangeChange = () => undefined }) => ({
     type: 'datetime',
@@ -7,7 +7,7 @@ export default ({ rangeChange = () => undefined }) => ({
     startOnTick: false,
     endOnTick: false,
     events: {
-        setExtremes: function(e) {
+        setExtremes: function (e) {
             if (e.rangeSelectorButton) {
                 const { count, type } = e.rangeSelectorButton;
                 rangeChange(count, type);
@@ -20,6 +20,6 @@ export default ({ rangeChange = () => undefined }) => ({
             if (ticks && contract) {
                 updateExtremes(chart, ticks, contract);
             }
-        }
+        },
     },
 });
