@@ -5,4 +5,7 @@ export default [
     { epoch: 3, quote: 20 },
     { epoch: 4, quote: 40 },
     { epoch: 5, quote: 30 },
+    { epoch: 6, quote: 60 },
+    { epoch: 7, quote: 30 },
+    { epoch: 8, quote: 40 },
 ];

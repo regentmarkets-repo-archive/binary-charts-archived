@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
+import contractCodeToText from 'binary-utils/lib/contractCodeToText';
 import BinaryChart from '../src/BinaryChart';
 import ticks from './ticks';
 
@@ -19,18 +20,30 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
-                purchase_time: 0,
-                date_start: 1,
-                entry_tick_time: 2,
-                sell_spot_time: 3,
-                exit_tick_time: 4,
-                expiry_time: 4,
-                date_settlement: 5,
-                date_expiry: 5,
+                purchase_time: 1,
+                date_start: 2,
+                entry_tick_time: 3,
+                date_expiry: 4,
+                exit_tick_time: 5,
+                date_settlement: 6,
+                sell_time: 7,
             }}
         />
     )
-    .add('Purchase Time not shown if same as Entry Time', () =>
+    .add('Real example', () =>
+        <BinaryChart
+            ticks={ticks}
+            contract={{
+                date_start: 1,
+                purchase_time: 1,
+                entry_tick_time: 2,
+                date_expiry: 6,
+                exit_tick_time: 6,
+                sell_time: 7,
+            }}
+        />
+    )
+    .add(contractCodeToText('purchase_time') + ' not shown if same as ' + contractCodeToText('entry_tick_time'), () =>
         <BinaryChart
             ticks={ticks}
             contract={{
@@ -39,7 +52,8 @@ storiesOf('Times', module)
             }}
         />
     )
-    .add('Exit Spot is not shown if the same as expiry', () =>
+    .add(contractCodeToText('exit_tick_time') + ' is not shown if the same as '
+        + contractCodeToText('date_expiry'), () =>
         <BinaryChart
             ticks={ticks}
             contract={{
@@ -48,11 +62,12 @@ storiesOf('Times', module)
             }}
         />
     )
-    .add('If Sell Time < Expiry then show Sell Time', () =>
+    .add('If ' + contractCodeToText('expiry_time') + ' is earlier than '
+    + contractCodeToText('sell_time'), () =>
         <BinaryChart
             ticks={ticks}
             contract={{
-                sell_spot_time: 2,
+                sell_time: 2,
                 expiry_time: 4,
             }}
         />
