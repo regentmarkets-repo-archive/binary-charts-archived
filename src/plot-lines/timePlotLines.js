@@ -9,14 +9,14 @@ export default [
     { id: 'entry_tick_time', position: 'right' },
     // Entry Spot Time
 
+    { id: 'exit_tick_time', position: 'left' },
+    // Exit Time, when the contact actually expires
+    // Do not show if value is same as date_expiry
+
     { id: 'date_expiry', position: 'right' },
     // Expiry Time, when the contract is expected to expire
     // { id: 'expiry_time', position: 'right' },
     // Expiry time is the same as date_expiry but incorrectly named in Portfolio call
-
-    { id: 'exit_tick_time', position: 'left' },
-    // Exit Time, when the contact actually expires
-    // Do not show if value is same as date_expiry
 
     { id: 'date_settlement', position: 'right' },
     // Settlement Time, depends on market, shown in trading times

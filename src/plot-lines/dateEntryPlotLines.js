@@ -9,11 +9,11 @@ const shoudShowPurchaseTime = contract =>
     contract.purchase_time !== contract.entry_tick_time &&
         contract.purchase_time !== contract.entry_tick_time;
 
-const shouldShowExitSpot = contract =>
-    contract.exit_tick_time !== contract.date_expiry;
+// const shouldShowExitSpot = contract =>
+//     contract.exit_tick_time !== contract.date_expiry;
 
 const shouldShowSettlement = contract =>
-    contract.date_settlement !== contract.exit_tick_time;
+    contract.date_settlement !== contract.date_expiry;
 
 export default (contract) => {
     if (!contract) {

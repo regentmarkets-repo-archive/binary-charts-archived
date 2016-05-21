@@ -52,12 +52,12 @@ storiesOf('Times', module)
             }}
         />
     )
-    .add(contractCodeToText('exit_tick_time') + ' is not shown if the same as '
+    .add(contractCodeToText('date_settlement') + ' is not shown if the same as '
         + contractCodeToText('date_expiry'), () =>
         <BinaryChart
             ticks={ticks}
             contract={{
-                exit_tick_time: 3,
+                date_settlement: 3,
                 date_expiry: 3,
             }}
         />
