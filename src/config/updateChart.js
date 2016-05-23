@@ -1,11 +1,11 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
 import updateTicks from './updateTicks';
-import updateContract, { updatePlotBands } from './updateContract';
+import getLastTick from 'binary-utils/lib/getLastTick';
+import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
-import updateRangeChangeFunc from './updateRangeChangeFunc';
-import updateTypeChangeFunc from './updateTypeChangeFunc';
+import mergeTradeWithContract from './mergeTradeWithContract';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -28,12 +28,15 @@ export default (chart, prevProps, nextProps) => {
 
     if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);
+        chart.redraw();         // redraw is needed as other updating function need to access a stable chart instance
     }
 
     const { contract, trade, ticks } = nextProps;
 
+    const mergedContract = mergeTradeWithContract({ trade, contract, lastTick: getLastTick(ticks) });
+
     if (contractsDiffer || ticksDiffer) {
-        updateContract({ chart, contract, trade, ticks });
+        updateContract({ chart, contract: mergedContract, ticks });
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
@@ -46,6 +49,6 @@ export default (chart, prevProps, nextProps) => {
     if (restDiffer) {
         updateRest(chart, nextProps);
     }
-
+    
     chart.redraw();
 };

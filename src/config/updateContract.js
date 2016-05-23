@@ -1,5 +1,4 @@
-import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
-import { plotBandForContract, plotBandForTrade } from './plotBandsForContractAndTrade';
+import { plotBandForContract } from './plotBandsForContract';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
 import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
@@ -37,14 +36,13 @@ const replacePlotLines = (axis, newPlotLines) => {
     replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
-export const updatePlotBands = ({ chart, contract, trade, ticks }) => {
-    const lastTick = getLastTickQuote(ticks);
-    const newPlotBands = contract ? plotBandForContract(contract, lastTick) : plotBandForTrade(trade, lastTick);
+export const updatePlotBands = ({ chart, contract }) => {
+    const newPlotBands = plotBandForContract(contract);
     replacePlotBands(chart.yAxis[0], newPlotBands);
 };
 
-export default ({ chart, contract, trade, ticks }) => {
-    updatePlotBands({ chart, contract, trade, ticks });
+export default ({ chart, contract, ticks }) => {
+    updatePlotBands({ chart, contract });
 
     const newPlotLines = dateEntryPlotLines(contract);
     replacePlotLines(chart.xAxis[0], newPlotLines);
