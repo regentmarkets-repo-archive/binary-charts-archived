@@ -62,7 +62,7 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
     const yAxis = chart.yAxis[0];
 
     if (lastExtremesY.min !== nextMin || lastExtremesY.max !== nextMax) {
-        yAxis.setExtremes(nextMin, nextMax);
+        yAxis.setExtremes(nextMin, nextMax, false);
         lastExtremesY.min = nextMin;
         lastExtremesY.max = nextMax;
     }

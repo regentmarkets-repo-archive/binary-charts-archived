@@ -36,10 +36,6 @@ export default (chart, prevProps, nextProps) => {
         updateContract({ chart, contract, trade, ticks });
     }
 
-    if (!contractsDiffer && ticksDiffer) {
-        updatePlotBands({ chart, contract, trade, ticks });
-    }
-
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
     if (tradingTimesDiffer) {
         const { tradingTimes } = nextProps;
@@ -51,6 +47,5 @@ export default (chart, prevProps, nextProps) => {
         updateRest(chart, nextProps);
     }
 
-    updateRangeChangeFunc(chart, prevProps.rangeChange, nextProps.rangeChange);
-    updateTypeChangeFunc(chart, prevProps.typeChange, nextProps.typeChange);
+    chart.redraw();
 };
