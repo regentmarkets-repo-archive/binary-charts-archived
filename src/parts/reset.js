@@ -10,7 +10,7 @@ export default () => ({
         spacingLeft: 0,
         spacingRight: 3,
         events: {
-            load: function () {
+            load: function onLoad() {                 // eslint-disable-line object-shorthand
                 this.xAxis[0].chart = this;
                 this.binary = {};
             },
