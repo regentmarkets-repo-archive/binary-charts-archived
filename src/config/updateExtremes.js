@@ -1,9 +1,4 @@
-import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
-import barrierFromContract from 'binary-utils/lib/barrierFromContract';
-import barrier2FromContract from 'binary-utils/lib/barrier2FromContract';
 import timePlotLines from '../plot-lines/timePlotLines';
-
-import throttle from 'lodash.throttle';
 
 const arrayMin = arr => Math.min.apply(Math, arr);
 const arrayMax = arr => Math.max.apply(Math, arr);
@@ -31,40 +26,7 @@ const updateExtremesXAxis = (axis, contract) => {
 
 let lastExtremesY = {};
 
-const updateExtremesYAxis = (axis, contract, ticks) => {
-    const lastTick = getLastTickQuote(ticks);
-
-    if (!contract.barrier && !contract.barrier2 || contract.contract_type.includes('DIGIT')) {
-        return;
-    }
-    const barrier1 = contract.barrier && barrierFromContract(contract, lastTick);
-    const barrier2 = contract.barrier2 && barrier2FromContract(contract, lastTick);
-
-    const allQuotes = ticks.map(t => t.quote);
-    const minTick = arrayMin(allQuotes);
-    const maxTick = arrayMax(allQuotes);
-
-    const prevExtremes = axis.getExtremes();
-    const minData = prevExtremes.dataMin || minTick;
-    const maxData = prevExtremes.dataMax || maxTick;
-
-    const extremes = [
-        barrier1,
-        barrier2,
-        minData,
-        maxData,
-    ].filter(x => x || x === 0);
-
-    const min = arrayMin(extremes);
-    const max = arrayMax(extremes);
-
-    if (lastExtremesY.min !== min || lastExtremesY.max !== max) {
-        lastExtremesY = { min, max };
-        axis.setExtremes(min, max);
-    }
-};
-
-const updateExtremes = (chart, ticks, contract) => {
+const updateExtremesYAxis = (chart, ticks, contract) => {
     if (!contract) return;
 
     const xAxis = chart.xAxis[0];
@@ -93,7 +55,16 @@ const updateExtremes = (chart, ticks, contract) => {
     const nextMax = arrayMax(boundaries);
 
     const yAxis = chart.yAxis[0];
-    yAxis.setExtremes(nextMin, nextMax);
+
+    if (lastExtremesY.min !== nextMin || lastExtremesY.max !== nextMax) {
+        yAxis.setExtremes(nextMin, nextMax);
+        lastExtremesY.min = nextMin;
+        lastExtremesY.max = nextMax;
+    }
 };
 
-export default throttle(updateExtremes, 500);
+const updateExtremes = (chart, ticks, contract) => {
+    updateExtremesYAxis(chart, ticks, contract);
+};
+
+export default updateExtremes;

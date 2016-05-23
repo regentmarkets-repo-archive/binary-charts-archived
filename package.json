@@ -33,8 +33,7 @@
   "dependencies": {
     "binary-utils": "^3.0.1",
     "fbjs": "^0.8.2",
-    "highcharts": "^4.2.5",
-    "lodash.throttle": "^4.0.1"
+    "highcharts": "^4.2.5"
   },
   "devDependencies": {
     "@kadira/storybook": "^1.25.0",

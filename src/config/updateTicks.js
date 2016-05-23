@@ -18,5 +18,4 @@ export default (chart, prevProps, nextProps) => {
         chart.redraw();
     }
     chart.rawTicks = nextProps.ticks;
-    console.log('s', chart);
 };
