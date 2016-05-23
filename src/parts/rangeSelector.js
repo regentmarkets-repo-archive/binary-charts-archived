@@ -29,7 +29,7 @@ export default () => ({
         text: 'MAX',
     }],
     allButtonsEnabled: true,
-    selected: 1,
+    selected: 0,
     inputEnabled: false,
     labelStyle: { display: 'none' },
 });

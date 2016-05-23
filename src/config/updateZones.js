@@ -21,5 +21,5 @@ export default (chart, newPlotLines) => {
         });
     }
 
-    chart.series[0].update({ zones });
+    chart.series[0].update({ zones }, false);
 };
