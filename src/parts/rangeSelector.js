@@ -1,4 +1,4 @@
-export default () => ({
+export default (defaultRange = 0) => ({
     buttons: [{
         type: 'second',
         count: 15,
@@ -29,7 +29,7 @@ export default () => ({
         text: 'MAX',
     }],
     allButtonsEnabled: true,
-    selected: 0,
+    selected: defaultRange,
     inputEnabled: false,
     labelStyle: { display: 'none' },
 });

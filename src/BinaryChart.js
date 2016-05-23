@@ -23,6 +23,7 @@ export default class BinaryChart extends Component {
         symbol: PropTypes.string,
         ticks: BinaryTypes.tickArray,
         contract: BinaryTypes.contractOrTrade,
+        defaultRange: PropTypes.number.isRequired,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
         type: PropTypes.oneOf(['area', 'candlestick']),
@@ -32,6 +33,7 @@ export default class BinaryChart extends Component {
     };
 
     static defaultProps = {
+        defaultRange: 0,
         ticks: [],
         pipSize: 0,
         type: 'area',
