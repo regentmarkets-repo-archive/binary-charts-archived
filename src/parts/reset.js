@@ -12,6 +12,7 @@ export default () => ({
         events: {
             load: function () {
                 this.xAxis[0].chart = this;
+                this.binary = {};
             },
         },
     },
