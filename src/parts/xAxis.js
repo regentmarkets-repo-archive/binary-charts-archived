@@ -15,8 +15,11 @@ export default ({ rangeChange = () => undefined }) => ({
         },
         afterSetExtremes: function handler() { // eslint-disable-line object-shorthand
             const chart = this.chart;
-            const ticks = chart.rawTicks;
-            const contract = chart.rawContract;
+            if (!chart.binary) {
+                return;
+            }
+
+            const { ticks, contract } = chart.binary;
             if (ticks && contract) {
                 updateExtremes(chart, ticks, contract);
             }

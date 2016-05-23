@@ -53,5 +53,5 @@ export default ({ chart, contract, trade, ticks }) => {
 
     updateExtremes(chart, ticks, contract);
 
-    chart.rawContract = contract;
+    chart.binary.contract = contract;
 };
