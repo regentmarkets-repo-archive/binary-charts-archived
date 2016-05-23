@@ -55,7 +55,7 @@ export default class BinaryChart extends Component {
     shouldComponentUpdate(nextProps) {
         if (
             this.props.symbol !== nextProps.symbol ||
-                this.props.rangeChange !== nextProps.rangeChange
+                this.props.type !== nextProps.type
         ) {
             this.chart.destroy();
             this.createChart(nextProps);
