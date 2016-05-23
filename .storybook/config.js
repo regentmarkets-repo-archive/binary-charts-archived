@@ -10,4 +10,5 @@ configure(() => {
     require('./indicators');
     require('./plotlines');
     require('./ohlc');
+    require('./extremes');
 }, module);

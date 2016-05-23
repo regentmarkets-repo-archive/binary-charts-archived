@@ -37,10 +37,14 @@ export default class BinaryChart extends Component {
         type: 'area',
     };
 
-    componentDidMount() {
+    createChart() {
         const config = initChart(this.props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
+    }
+
+    componentDidMount() {
+        this.createChart();
         updateChart(this.chart, { ticks: [] }, this.props);
     }
 
@@ -51,9 +55,7 @@ export default class BinaryChart extends Component {
     shouldComponentUpdate(nextProps) {
         if (this.props.symbol !== nextProps.symbol) {
             this.chart.destroy();
-            const config = initChart(nextProps);
-            config.chart.renderTo = this.refs.chart;
-            this.chart = new Highcharts.StockChart(config);
+            this.createChart();
         }
 
         updateChart(this.chart, this.props, nextProps);

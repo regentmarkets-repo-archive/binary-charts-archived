@@ -48,8 +48,12 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
         ticksMin = arrayMin(highLow);
     }
 
-    const { low_barrier, high_barrier } = contract;
-    const boundaries = [ticksMin, ticksMax, low_barrier, high_barrier].filter(x => x || x === 0);
+    const boundaries = [
+        ticksMin,
+        ticksMax,
+        contract.low_barrier,
+        contract.high_barrier,
+    ].filter(x => x || x === 0);
 
     const nextMin = arrayMin(boundaries);
     const nextMax = arrayMax(boundaries);
