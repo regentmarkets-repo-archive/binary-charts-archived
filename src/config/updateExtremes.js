@@ -51,6 +51,7 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
     const boundaries = [
         ticksMin,
         ticksMax,
+        contract.barrier,
         contract.low_barrier,
         contract.high_barrier,
     ].filter(x => x || x === 0);

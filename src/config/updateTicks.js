@@ -17,5 +17,5 @@ export default (chart, prevProps, nextProps) => {
         chart.series[0].setData(dataList);
         chart.redraw();
     }
-    chart.rawTicks = nextProps.ticks;
+    chart.binary.ticks = nextProps.ticks;
 };
