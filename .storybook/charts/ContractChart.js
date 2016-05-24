@@ -6,6 +6,19 @@ const token = 'qdJ86Avvrsh0Le4';
 
 const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);
 
+const callTrade = {
+    barrier: '+70',
+    barrierType: 'relative',
+    contract_type: 'CALL'
+};
+
+const endsoutsideTrade = {
+    barrier: '+70',
+    barrier2: '-70',
+    barrierType: 'relative',
+    contract_type: 'EXPIRYMISS'
+};
+
 export default class ContractChart extends React.Component {
 
     static propTypes = {
