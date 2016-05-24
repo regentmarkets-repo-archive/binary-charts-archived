@@ -2,7 +2,6 @@ import React from 'react';
 import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
 import { LiveEvents } from 'binary-live-api';
-import { convertEpochToMS } from '../ohlc';
 
 export default class DynamicOHLCChart extends React.Component {
     constructor(props) {
@@ -12,11 +11,12 @@ export default class DynamicOHLCChart extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         api.events.on('ohlc', response => {
             const { ticks } = this.state;
             const newTick = response.ohlc;
             this.setState({ ticks: ticks.concat([newTick]) });
+            this.forceUpdate();
         });
         api.getCandles('R_100', { subscribe: 1, end: 'latest', count: 10 });
     }
@@ -27,9 +27,8 @@ export default class DynamicOHLCChart extends React.Component {
 
     render() {
         const { ticks } = this.state;
-
         return (
-            <BinaryChart type="candlestick" ticks={convertEpochToMS(ticks)} />
+            <BinaryChart type="area" ticks={ticks} />
         );
     }
 }
