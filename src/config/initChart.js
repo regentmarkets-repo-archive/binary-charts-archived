@@ -9,10 +9,7 @@ import seriesLine from '../parts/seriesLine';
 // import events from '../parts/events';
 
 export default ({ pipSize = 0, type = 'area', rangeChange, typeChange, defaultRange, height, width }) => ({
-    ...reset({ height, width }),
-    binary: {
-        pipSize,
-    },
+    ...reset({ height, width, pipSize }),
     plotOptions: plotOptions(),
     navigator: navigator(),
     rangeSelector: rangeSelector(defaultRange),
