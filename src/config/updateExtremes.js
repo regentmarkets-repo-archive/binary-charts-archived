@@ -48,13 +48,21 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
         ticksMin = arrayMin(highLow);
     }
 
-    const boundaries = [
-        ticksMin,
-        ticksMax,
-        contract.barrier,
-        contract.low_barrier,
-        contract.high_barrier,
-    ].filter(x => x || x === 0);
+    let boundaries = [];
+    if (contract.contract_type.includes('DIGIT')) {         // digit's barrier are not used to set extremes
+        boundaries = [
+            ticksMin,
+            ticksMax,
+        ].filter(x => x || x === 0);
+    } else {
+        boundaries = [
+            ticksMin,
+            ticksMax,
+            contract.barrier,
+            contract.low_barrier,
+            contract.high_barrier,
+        ].filter(x => x || x === 0);
+    }
 
     const nextMin = arrayMin(boundaries);
     const nextMax = arrayMax(boundaries);
