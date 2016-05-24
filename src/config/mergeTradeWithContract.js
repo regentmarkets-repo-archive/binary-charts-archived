@@ -19,14 +19,14 @@ export default ({ trade, contract, lastTick }) => {
     if (!barrier) {                                 //  if trade do not have barrier, default to last tick
         cloned.barrier = lastTick;
     } else if (barrierType === 'relative') {        // for relative, transform to absolute
-        const computedBarrier1 = +(barrier) + lastTick;
-        const computedBarrier2 = +(barrier2) + lastTick;
+        const absoluteBarrier1 = +(barrier) + lastTick;
+        const absoluteBarrier2 = +(barrier2) + lastTick;
 
         if (barrier && barrier2) {
-            cloned.low_barrier = computedBarrier2;
-            cloned.high_barrier = computedBarrier1;
+            cloned.low_barrier = absoluteBarrier2;
+            cloned.high_barrier = absoluteBarrier1;
         } else if (!barrier2) {
-            cloned.barrier = computedBarrier1;
+            cloned.barrier = absoluteBarrier1;
         }
     }
 
