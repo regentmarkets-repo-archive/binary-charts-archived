@@ -18,6 +18,7 @@ export default ({ trade, contract, lastTick }) => {
     }
 
     if (barrier && barrier2) {
+        delete cloned.barrier;
         cloned.low_barrier = barrier2;
         cloned.high_barrier = barrier;
     }
