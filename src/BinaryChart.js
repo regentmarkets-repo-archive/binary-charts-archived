@@ -45,11 +45,13 @@ export default class BinaryChart extends Component {
         const config = initChart(newProps || this.props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
+        
     }
 
     componentDidMount() {
         this.createChart();
         updateChart(this.chart, { ticks: [] }, this.props);
+        this.chart.rangeSelector.clickButton(0, 0, true);
     }
 
     componentWillUnmount() {
