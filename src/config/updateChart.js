@@ -49,6 +49,6 @@ export default (chart, prevProps, nextProps) => {
     if (restDiffer) {
         updateRest(chart, nextProps);
     }
-    
+
     chart.redraw();
 };

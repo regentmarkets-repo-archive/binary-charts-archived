@@ -4,7 +4,7 @@ export default ({ trade, contract, lastTick }) => {
     }
 
     if (!trade) {
-        return {};
+        return undefined;
     }
 
     const cloned = Object.assign({}, trade);
