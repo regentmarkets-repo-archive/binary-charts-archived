@@ -16,6 +16,17 @@ storiesOf('Basic', module)
             ]}
         />
     )
+    .add('Explicit size', () =>
+        <BinaryChart
+            ticks={[
+                { epoch: 0, quote: 50 },
+                { epoch: 1, quote: 40 },
+                { epoch: 2, quote: 60 },
+            ]}
+            height={300}
+            width={400}
+        />
+    )
     .add('Resizable', () =>
         <div style={{ display: 'flex' }}>
             <BinaryChart

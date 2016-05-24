@@ -1,4 +1,4 @@
-export default () => ({
+export default ({ height, width }) => ({
     // animation: true,
     scrollbar: { enabled: false },
     credits: { enabled: false },
@@ -9,6 +9,8 @@ export default () => ({
         spacingTop: 0,
         spacingLeft: 0,
         spacingRight: 3,
+        height,
+        width,
         events: {
             load: function onLoad() {                 // eslint-disable-line object-shorthand
                 this.xAxis[0].chart = this;

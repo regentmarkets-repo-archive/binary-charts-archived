@@ -20,16 +20,18 @@ if (Object.keys(Highcharts).length > 0) {
 export default class BinaryChart extends Component {
 
     static propTypes = {
-        symbol: PropTypes.string,
-        ticks: BinaryTypes.tickArray,
         contract: BinaryTypes.contractOrTrade,
         defaultRange: PropTypes.number.isRequired,
+        height: PropTypes.number,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
-        type: PropTypes.oneOf(['area', 'candlestick']),
-        typeChange: PropTypes.func,
+        symbol: PropTypes.string,
+        ticks: BinaryTypes.tickArray,
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
+        type: PropTypes.oneOf(['area', 'candlestick']),
+        typeChange: PropTypes.func,
+        width: PropTypes.number,
     };
 
     static defaultProps = {
