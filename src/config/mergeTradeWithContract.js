@@ -13,14 +13,15 @@ export default ({ trade, contract, lastTick }) => {
     if (!barrier) {
         cloned.barrier = lastTick;
     } else if (barrierType === 'relative') {
-        barrier = +(barrier) + lastTick;
-        barrier2 = +(barrier2) + lastTick;
+        cloned.barrier = +(barrier) + lastTick;
+        cloned.barrier2 = +(barrier2) + lastTick;
     }
 
     if (barrier && barrier2) {
+        cloned.low_barrier = cloned.barrier2;
+        cloned.high_barrier = cloned.barrier;
         delete cloned.barrier;
-        cloned.low_barrier = barrier2;
-        cloned.high_barrier = barrier;
+        delete cloned.barrier2;
     }
 
     return cloned;
