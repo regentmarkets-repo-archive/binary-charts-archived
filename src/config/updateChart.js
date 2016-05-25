@@ -29,8 +29,6 @@ export default (chart, prevProps, nextProps) => {
     const { contract, trade, ticks } = nextProps;
 
     const mergedContract = mergeTradeWithContract({ trade, contract, lastTick: getLastTickQuote(ticks) });
-    console.log('tr', trade);
-    console.log(mergedContract);
     if (contractsDiffer || ticksDiffer) {
         updateContract({ chart, contract: mergedContract, ticks });
     }
