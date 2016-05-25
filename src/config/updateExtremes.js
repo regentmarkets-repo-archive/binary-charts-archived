@@ -64,8 +64,13 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
         ].filter(x => x || x === 0);
     }
 
-    const nextMin = arrayMin(boundaries);
-    const nextMax = arrayMax(boundaries);
+    const dataMin = arrayMin(boundaries);
+    const dataMax = arrayMax(boundaries);
+
+    const fivePercent = (dataMax - dataMin) * 0.05;
+
+    const nextMin = dataMin - fivePercent;
+    const nextMax = dataMax + fivePercent;
 
     const yAxis = chart.yAxis[0];
 
