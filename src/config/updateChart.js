@@ -26,17 +26,17 @@ export default (chart, prevProps, nextProps) => {
     const ticksDiffer = !ticksAreEqual(prevProps, nextProps);
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
-    if (ticksDiffer) {
-        updateTicks(chart, prevProps, nextProps);
-        chart.redraw();         // redraw is needed as other updating function need to access a stable chart instance
-    }
-
     const { contract, trade, ticks } = nextProps;
 
     const mergedContract = mergeTradeWithContract({ trade, contract, lastTick: getLastTickQuote(ticks) });
 
     if (contractsDiffer || ticksDiffer) {
         updateContract({ chart, contract: mergedContract, ticks });
+    }
+
+    if (ticksDiffer) {
+        updateTicks(chart, prevProps, nextProps);
+        chart.redraw();         // redraw is needed as other updating function need to access a stable chart instance
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
