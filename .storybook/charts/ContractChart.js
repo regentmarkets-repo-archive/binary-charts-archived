@@ -7,8 +7,8 @@ const token = 'qdJ86Avvrsh0Le4';
 const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);
 
 const callTrade = {
-    barrier: '+70',
-    barrierType: 'relative',
+    barrier: '30000',
+    barrierType: 'absolute',
     contract_type: 'CALL'
 };
 
@@ -50,7 +50,7 @@ export default class ContractChart extends React.Component {
         const getDataWhenChange = (count, type) =>
             api.getDataForContract(() => getContract(contractId), count, type).then(newTicks => this.setState({ ticks: newTicks }));
         return (
-            <BinaryChart ticks={ticks} contract={contract} rangeChange={getDataWhenChange} />
+            <BinaryChart ticks={ticks} trade={callTrade} rangeChange={getDataWhenChange} />
         );
     }
 }
