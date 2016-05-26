@@ -16,7 +16,7 @@ storiesOf('Basic', module)
             ]}
         />
     )
-    .add('Explicit size', () =>
+    .add('Fixed Size', () =>
         <BinaryChart
             ticks={[
                 { epoch: 0, quote: 50 },
