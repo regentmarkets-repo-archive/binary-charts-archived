@@ -4,7 +4,7 @@ export default ({ trade, contract, lastTick }) => {
     }
 
     if (!trade) {
-        return undefined;
+        return;
     }
 
     const cloned = Object.assign({}, trade);
@@ -45,7 +45,9 @@ export default ({ trade, contract, lastTick }) => {
         }
         case 'digit': {
             cloned.barrier = barrier;
+            break;
         }
-        default: console.warn(`Unrecognized barrierType: ${barrierType}`);
+        default:
+            throw new Error(`Unrecognized barrierType: ${barrierType}`);
     }
 };
