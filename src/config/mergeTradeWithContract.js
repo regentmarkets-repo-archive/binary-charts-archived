@@ -43,6 +43,9 @@ export default ({ trade, contract, lastTick }) => {
             }
             return cloned;
         }
-        default: throw new Error(`Unrecognized barrierType: ${barrierType}`);
+        case 'digit': {
+            cloned.barrier = barrier;
+        }
+        default: console.warn(`Unrecognized barrierType: ${barrierType}`);
     }
 };
