@@ -1,8 +1,8 @@
 export default (chart, newPlotLines) => {
     const lastPlotLine = newPlotLines[newPlotLines.length - 1];
-
+    const startLine = newPlotLines.find(x => x.label.text === 'Start Time');
     const zones = newPlotLines.length === 0 ? [] : [{
-        value: newPlotLines[0].value,
+        value: startLine.value,
         dashStyle: 'dash',
         color: 'grey',
         fillColor: 'none',

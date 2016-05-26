@@ -7,7 +7,7 @@ const lineColor = brandColor(0.5);
 
 const shoudShowPurchaseTime = contract =>
     contract.purchase_time !== contract.entry_tick_time &&
-        contract.purchase_time !== contract.entry_tick_time;
+        contract.purchase_time !== contract.date_start;
 
 // const shouldShowExitSpot = contract =>
 //     contract.exit_tick_time !== contract.date_expiry;
@@ -22,8 +22,7 @@ export default (contract) => {
 
     return timePlotLines
         .filter(param => contract[param.id])
-        .filter(param => param.id !== 'purchase_time')
-        .filter(param => param.id !== 'date_expiry')
+        .filter(param => param.id !== 'purchase_time' || shoudShowPurchaseTime(contract))
         // .filter(param => param.id !== 'exit_tick_time' || shouldShowExitSpot(contract))
         .filter(param => param.id !== 'date_settlement' || shouldShowSettlement(contract))
         .map(param =>
