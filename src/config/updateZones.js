@@ -1,24 +1,22 @@
 export default (chart, newPlotLines) => {
-    const lastPlotLine = newPlotLines[newPlotLines.length - 1];
-
-    const zones = newPlotLines.length === 0 ? [] : [{
-        value: newPlotLines[0].value,
+    const entryLine = newPlotLines.find(x => x.id === 'entry_tick_time');
+    const exitLine = newPlotLines.find(x => x.id === 'exit_tick_time');
+    let zones = newPlotLines.length === 0 ? [] : [{
+        value: entryLine.value,
         dashStyle: 'dash',
         color: 'grey',
         fillColor: 'none',
-    }, {
-        value: lastPlotLine.value,
-        dashStyle: 'solid',
     }];
 
-    if (lastPlotLine && lastPlotLine.label.text !== 'Start Time' &&
-        lastPlotLine.label.text !== 'Purchase Time' &&
-        lastPlotLine.label.text !== 'Entry Spot') {
-        zones.push({
+    if (exitLine) {
+        zones = zones.concat([{
+            value: exitLine.value,
+            dashStyle: 'solid',
+        }, {
             dashStyle: 'dash',
             color: 'grey',
             fillColor: 'none',
-        });
+        }]);
     }
 
     chart.series[0].update({ zones }, false);
