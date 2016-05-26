@@ -22,7 +22,23 @@ export default ({ trade, contract, lastTick }) => {
     }
 
     switch (barrierType) {
-        case 'relative': {
+        case 'absolute': {
+            if (barrier && barrier2) {
+                cloned.low_barrier = barrier2;
+                cloned.high_barrier = barrier;
+            } else if (!barrier2) {
+                cloned.barrier = barrier;
+            }
+            return cloned;
+        }
+        case 'digit': {
+            return {
+                ...cloned,
+                barrier,
+            };
+        }
+        case 'relative':
+        default: {
             const absoluteBarrier1 = +(barrier) + lastTick;
             const absoluteBarrier2 = +(barrier2) + lastTick;
 
@@ -34,20 +50,5 @@ export default ({ trade, contract, lastTick }) => {
             }
             return cloned;
         }
-        case 'absolute': {
-            if (barrier && barrier2) {
-                cloned.low_barrier = barrier2;
-                cloned.high_barrier = barrier;
-            } else if (!barrier2) {
-                cloned.barrier = barrier;
-            }
-            return cloned;
-        }
-        case 'digit': {
-            cloned.barrier = barrier;
-            break;
-        }
-        default:
-            throw new Error(`Unrecognized barrierType: ${barrierType}`);
     }
 };
