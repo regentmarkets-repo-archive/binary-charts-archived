@@ -1,5 +1,5 @@
 export default ({ height, width, pipSize }) => ({
-    // animation: true,
+    animation: true,
     scrollbar: { enabled: false },
     credits: { enabled: false },
     legend: { enabled: false },

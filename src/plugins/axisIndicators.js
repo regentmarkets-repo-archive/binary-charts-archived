@@ -17,7 +17,7 @@ const polyPath = (x, y) => [
     x, y + 7,
 ];
 
-const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis }) => {
+    const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis }) => {
     indicator.group = renderer.g(indicator)
         .attr({ zIndex: 10 })
         .add();
@@ -71,7 +71,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
 };
 
 const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color }) => {
-    const y = value ? yAxis.toPixels(value) : 0;
+    const y = yAxis.toPixels(value) || 0;
     const updateFunc = yAxis[indicator] ? update : initialize;
 
     if (!yAxis[indicator]) {
@@ -98,15 +98,17 @@ const renderAxisIndicator = chart => {
     const currentPrice = lastPriceFromSeries(chart.series[0]);
     const x = yAxis.width;
 
-    renderIndicator({ chart, indicator: 'spot', value: currentPrice, x, pipSize, yAxis, color: '#f50c35' });
+    renderIndicator({ chart, indicator: 'spot', value: currentPrice,
+        x, pipSize, yAxis, color: '#f50c35' });
 
     const { contract } = chart.binary;
 
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
             if (contract && contract[b] && contract[b] !== currentPrice) {
-                renderIndicator({ chart, x, pipSize, yAxis, color: brandColor(1),
-                    indicator: x, value: contract[b] });
+                renderIndicator({ chart, indicator: b, value: contract[b],
+                    x, pipSize, yAxis, color: brandColor(1),
+                    });
             } else {
                 if (yAxis[b] && yAxis[b].group) yAxis[b].group.hide();
             }
