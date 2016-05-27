@@ -12,6 +12,12 @@ const callTrade = {
     contract_type: 'CALL'
 };
 
+const digitTrade = {
+    barrierType: 'digit',
+    barrier: 8,
+    contract_type: 'DIGITMATCH',
+};
+
 const endsoutsideTrade = {
     barrier: '+70',
     barrier2: '-70',
@@ -50,7 +56,7 @@ export default class ContractChart extends React.Component {
         const getDataWhenChange = (count, type) =>
             api.getDataForContract(() => getContract(contractId), count, type).then(newTicks => this.setState({ ticks: newTicks }));
         return (
-            <BinaryChart ticks={ticks} contract={contract} rangeChange={getDataWhenChange} />
+            <BinaryChart id="halo" ticks={ticks} contract={contract} rangeChange={getDataWhenChange} />
         );
     }
 }
