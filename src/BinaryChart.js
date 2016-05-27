@@ -57,11 +57,10 @@ export default class BinaryChart extends Component {
 
         const self = this.chart;
         const eventListeners = props.events.map(e => {
-            const handler = function() {
+            function handler() {
                 e.handler(self);
-            };
-
-            this.refs.chart.addEventListener(e.type, handler)
+            }
+            this.refs.chart.addEventListener(e.type, handler);
             return { type: e.type, handler };
         });
         this.setState({ eventListeners });

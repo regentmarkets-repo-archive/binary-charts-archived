@@ -1,28 +1,5 @@
-import timePlotLines from '../plot-lines/timePlotLines';
-
 const arrayMin = arr => Math.min.apply(Math, arr);
 const arrayMax = arr => Math.max.apply(Math, arr);
-
-let lastExtremesX = {};
-
-const updateExtremesXAxis = (axis, contract) => {
-    const timeEntries = timePlotLines
-        .filter(x => contract[x.id])
-        .map(x => contract[x.id] * 1000);
-
-    if (timeEntries.length === 0) {
-        return;
-    }
-
-    const min = arrayMin(timeEntries) - axis.tickInterval;
-    const max = arrayMax(timeEntries) + axis.tickInterval;
-
-    // console.log('Updating extremes on X', lastExtremesX, min, max);
-    if (lastExtremesX.min !== min || lastExtremesX.max !== max) {
-        lastExtremesX = { min, max };
-        axis.setExtremes(min, max);
-    }
-};
 
 let lastExtremesY = {};
 
@@ -49,7 +26,7 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
     }
 
     let boundaries = [];
-    if (contract.contract_type && contract.contract_type.includes('DIGIT')) {         // digit's barrier are not used to set extremes
+    if (contract.contract_type && contract.contract_type.includes('DIGIT')) {     // digit's barrier are not used to set extremes
         boundaries = [
             ticksMin,
             ticksMax,
