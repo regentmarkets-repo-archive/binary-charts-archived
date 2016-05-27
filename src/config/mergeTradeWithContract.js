@@ -1,16 +1,16 @@
 // TODO: improve this into an adapter that transform messy server data into cleaner data for internal use
 export default ({ trade, contract, lastTick }) => {
     if (contract) {
-        const cloned = contract;
+        const cloned = Object.assign({}, contract);
         const { barrier, low_barrier, high_barrier } = contract;
         if (barrier) {
             cloned.barrier = +barrier;
             return cloned;
         }
 
-        if (low_barrier && high_barrier) {
-            cloned.low_barrier = +low_barrier;
-            cloned.high_barrer = +high_barrier;
+        if (low_barrier && high_barrier) {          // eslint-disable-line camelcase
+            cloned.low_barrier = +low_barrier;      // eslint-disable-line camelcase
+            cloned.high_barrer = +high_barrier;     // eslint-disable-line camelcase
             return cloned;
         }
 
