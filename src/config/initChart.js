@@ -16,7 +16,7 @@ export default ({ pipSize = 0, type = 'area', rangeChange, typeChange, defaultRa
     xAxis: xAxis({ rangeChange }),
     yAxis: {
         ...yAxis({ pipSize }),
-        spotIndicator: {
+        indicators: {
             enabled: true,
             pipSize,
         },

@@ -5,14 +5,14 @@ import * as BinaryTypes from './BinaryTypes';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
-import spotIndicator from './plugins/spotIndicator';
+import axisIndicators from './plugins/axisIndicators';
 // import tradeMarker from './plugins/tradeMarker';
 import theme from './theme';
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
     exporting(Highcharts);
-    spotIndicator();
+    axisIndicators();
 //    tradeMarker();
     Highcharts.setOptions(theme);
 }
