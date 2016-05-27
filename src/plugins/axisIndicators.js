@@ -22,6 +22,11 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis })
         .attr({ zIndex: 10 })
         .add();
 
+    indicator.line = renderer
+        .rect(0, y, x + 10, 1)
+        .attr({ fill: color, opacity: 0.5 })
+        .add(indicator.group);
+
     indicator.poly = renderer
         .path(polyPath(x + 10, y))
         .attr({ fill: color })
@@ -45,6 +50,8 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
         text: value.toFixed(pipSize),
     });
 
+    indicator.line.animate({ y });
+
     indicator.label.animate({
         x: x - 4 + yAxis.chart.marginRight,
         y: y - 9,
@@ -64,7 +71,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
 };
 
 const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color }) => {
-    const y = yAxis.toPixels(value);
+    const y = value ? yAxis.toPixels(value) : 0;
     const updateFunc = yAxis[indicator] ? update : initialize;
 
     if (!yAxis[indicator]) {
@@ -94,14 +101,16 @@ const renderAxisIndicator = chart => {
     renderIndicator({ chart, indicator: 'spot', value: currentPrice, x, pipSize, yAxis, color: '#f50c35' });
 
     const { contract } = chart.binary;
-    if (!contract) return;
 
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
-        .filter(b => contract[b] && contract[b] !== currentPrice)
-        .forEach(b =>
-            renderIndicator({ chart, x, pipSize, yAxis, color: brandColor(1),
-                indicator: x, value: contract[b] })
-        );
+        .forEach(b => {
+            if (contract && contract[b] && contract[b] !== currentPrice) {
+                renderIndicator({ chart, x, pipSize, yAxis, color: brandColor(1),
+                    indicator: x, value: contract[b] });
+            } else {
+                if (yAxis[b] && yAxis[b].group) yAxis[b].group.hide();
+            }
+        });
 };
 
 export default () => {
