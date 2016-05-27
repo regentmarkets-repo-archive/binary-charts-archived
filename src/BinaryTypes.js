@@ -8,8 +8,8 @@ export const stringOrNumber = PropTypes.oneOfType([
 export const contractOrTrade = PropTypes.shape({
     barrier: stringOrNumber,
     barrier2: stringOrNumber,
-    barrierType: PropTypes.oneOf(['absolute', 'relative']),
-    contract_type: PropTypes.string,
+    barrierType: PropTypes.oneOf(['absolute', 'relative', 'digit']),
+    contract_type: PropTypes.string.isRequired,
     date_expiry: PropTypes.number,
     date_settlement: PropTypes.number,
     date_start: PropTypes.number,
@@ -31,3 +31,8 @@ export const tradingTimes = PropTypes.shape({
     close: PropTypes.arrayOf(PropTypes.string),
     settlement: PropTypes.string.isRequired,
 });
+
+export const events = PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    handler: PropTypes.func.isRequired,
+}));

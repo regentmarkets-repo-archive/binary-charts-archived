@@ -18,10 +18,17 @@ if (Object.keys(Highcharts).length > 0) {
 }
 
 export default class BinaryChart extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            eventListeners: [],
+        };
+    }
 
     static propTypes = {
         contract: BinaryTypes.contractOrTrade,
         defaultRange: PropTypes.number.isRequired,
+        events: BinaryTypes.events,
         height: PropTypes.number,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
@@ -36,15 +43,28 @@ export default class BinaryChart extends Component {
 
     static defaultProps = {
         defaultRange: 0,
+        events: [],
         ticks: [],
         pipSize: 0,
         type: 'area',
     };
 
     createChart(newProps) {
-        const config = initChart(newProps || this.props);
+        const props = newProps || this.props;
+        const config = initChart(props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
+
+        const self = this.chart;
+        const eventListeners = props.events.map(e => {
+            const handler = function() {
+                e.handler(self);
+            };
+
+            this.refs.chart.addEventListener(e.type, handler)
+            return { type: e.type, handler };
+        });
+        this.setState({ eventListeners });
     }
 
     componentDidMount() {
@@ -53,6 +73,8 @@ export default class BinaryChart extends Component {
     }
 
     componentWillUnmount() {
+        const { eventListeners } = this.state;
+        eventListeners.forEach(e => this.refs.chart.removeEventListener(e.type, e.handler));
         this.chart.destroy();
     }
 
