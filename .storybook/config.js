@@ -11,4 +11,5 @@ configure(() => {
     require('./plotlines');
     require('./ohlc');
     require('./extremes');
+    require('./events');
 }, module);
