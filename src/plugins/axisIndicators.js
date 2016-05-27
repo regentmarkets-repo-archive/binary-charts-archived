@@ -17,13 +17,13 @@ const polyPath = (x, y) => [
     x, y + 7,
 ];
 
-    const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis }) => {
+const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis }) => {
     indicator.group = renderer.g(indicator)
         .attr({ zIndex: 10 })
         .add();
 
     indicator.line = renderer
-        .rect(0, y, x + 10, 1)
+        .rect(0, y + 1, x + 1, 2)
         .attr({ fill: color, opacity: 0.5 })
         .add(indicator.group);
 
@@ -50,7 +50,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
         text: value.toFixed(pipSize),
     });
 
-    indicator.line.animate({ y });
+    indicator.line.animate({ y: y - 1, width: x + 1 });
 
     indicator.label.animate({
         x: x - 4 + yAxis.chart.marginRight,
