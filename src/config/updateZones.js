@@ -1,7 +1,7 @@
 export default (chart, newPlotLines) => {
     const entryLine = newPlotLines.find(x => x.id === 'entry_tick_time');
     const exitLine = newPlotLines.find(x => x.id === 'exit_tick_time');
-    let zones = newPlotLines.length === 0 ? [] : [{
+    let zones = !entryLine ? [] : [{
         value: entryLine.value,
         dashStyle: 'dash',
         color: 'grey',
