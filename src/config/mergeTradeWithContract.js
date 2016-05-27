@@ -1,6 +1,21 @@
+// TODO: improve this into an adapter that transform messy server data into cleaner data for internal use
 export default ({ trade, contract, lastTick }) => {
     if (contract) {
-        return contract;
+        const cloned = contract;
+        const { barrier, low_barrier, high_barrier } = contract;
+        if (barrier) {
+            cloned.barrier = +barrier;
+            return cloned;
+        }
+
+        if (low_barrier && high_barrier) {
+            cloned.low_barrier = +low_barrier;
+            cloned.high_barrer = +high_barrier;
+            return cloned;
+        }
+
+        cloned.barrier = +lastTick;
+        return cloned;
     }
 
     if (!trade) {
@@ -17,24 +32,24 @@ export default ({ trade, contract, lastTick }) => {
     delete cloned.high_barrier;
 
     if (!barrier) {                                 //  if trade do not have barrier, default to last tick
-        cloned.barrier = lastTick;
+        cloned.barrier = +lastTick;
         return cloned;
     }
 
     switch (barrierType) {
         case 'absolute': {
             if (barrier && barrier2) {
-                cloned.low_barrier = barrier2;
-                cloned.high_barrier = barrier;
+                cloned.low_barrier = +barrier2;
+                cloned.high_barrier = +barrier;
             } else if (!barrier2) {
-                cloned.barrier = barrier;
+                cloned.barrier = +barrier;
             }
             return cloned;
         }
         case 'digit': {
             return {
                 ...cloned,
-                barrier,
+                barrier: +barrier,
             };
         }
         case 'relative':

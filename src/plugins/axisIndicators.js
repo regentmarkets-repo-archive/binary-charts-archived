@@ -32,6 +32,8 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis })
         .attr({ fill: color })
         .add(indicator.group);
 
+    console.log('what is val? ', value);
+
     indicator.label = renderer
         .label(value.toFixed(pipSize), x - 4 + yAxis.chart.marginRight, y - 9)
         .attr({
@@ -106,9 +108,17 @@ const renderAxisIndicator = chart => {
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
             if (contract && contract[b] && contract[b] !== currentPrice) {
-                renderIndicator({ chart, indicator: b, value: contract[b],
-                    x, pipSize, yAxis, color: brandColor(1),
-                    });
+                renderIndicator(
+                    {
+                        chart,
+                        indicator: b,
+                        value: contract[b],
+                        x,
+                        pipSize,
+                        yAxis,
+                        color: brandColor(1),
+                    }
+                );
             } else {
                 if (yAxis[b] && yAxis[b].group) yAxis[b].group.hide();
             }
