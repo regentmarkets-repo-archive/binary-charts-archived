@@ -10,7 +10,7 @@ export default ({ trade, contract, lastTick }) => {
 
         if (low_barrier && high_barrier) {          // eslint-disable-line camelcase
             cloned.low_barrier = +low_barrier;      // eslint-disable-line camelcase
-            cloned.high_barrer = +high_barrier;     // eslint-disable-line camelcase
+            cloned.high_barrier = +high_barrier;     // eslint-disable-line camelcase
             return cloned;
         }
 

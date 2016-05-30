@@ -99,9 +99,6 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color }) 
 };
 
 const renderAxisIndicator = chart => {
-    // if (chart.series[0].type === 'candlestick') {          // OHLC not able to show current spot
-    //     return;
-    // }
     const pipSize = chart.binary ? chart.binary.pipSize : 0;
     const yAxis = chart.yAxis[0];
     const currentPrice = lastPriceFromSeries(chart.series[0]);
