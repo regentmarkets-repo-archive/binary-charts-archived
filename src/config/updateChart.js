@@ -10,6 +10,7 @@ import mergeTradeWithContract from './mergeTradeWithContract';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
+    prevProps.type === nextProps.type &&
     areTickArraysEqual(prevProps.ticks, nextProps.ticks);
 
 const contractsAreEqual = (prevProps, nextProps) =>
