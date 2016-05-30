@@ -55,7 +55,6 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis })
 };
 
 const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
-    console.log('val', value);
     indicator.label.attr({
         text: (+value).toFixed(pipSize),
     });
