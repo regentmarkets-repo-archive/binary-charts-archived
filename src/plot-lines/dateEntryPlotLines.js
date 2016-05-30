@@ -25,6 +25,7 @@ export default (contract) => {
         .filter(param => param.id !== 'purchase_time' || shoudShowPurchaseTime(contract))
         // .filter(param => param.id !== 'exit_tick_time' || shouldShowExitSpot(contract))
         .filter(param => param.id !== 'date_settlement' || shouldShowSettlement(contract))
+        .filter(param => param.id !== 'sell_time')
         .map(param =>
             vertPlotLine(param.id, contract[param.id], lineColor, contractCodeToText(param.id), param.position)
         );
