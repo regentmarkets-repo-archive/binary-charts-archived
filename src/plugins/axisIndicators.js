@@ -5,8 +5,17 @@ import brandColor from 'binary-utils/lib/brandColor';
 //     enabled: true,
 // };
 
-const lastPriceFromSeries = series =>
-    series.yData.length && series.yData[series.yData.length - 1] || 0;
+const lastPriceFromSeries = series => {
+    let lastPrice = 0;
+    if (series.type === 'candlestick') {
+        lastPrice = series.yData.length && series.yData[series.yData.length - 1][3];
+    }
+    if (series.type === 'area') {
+        lastPrice = series.yData.length && series.yData[series.yData.length - 1];
+    }
+    return lastPrice;
+};
+
 
 const polyPath = (x, y) => [
     'M', x - 10, y,
@@ -32,8 +41,6 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis })
         .attr({ fill: color })
         .add(indicator.group);
 
-    console.log('what is val? ', value);
-
     indicator.label = renderer
         .label(value.toFixed(pipSize), x - 4 + yAxis.chart.marginRight, y - 9)
         .attr({
@@ -48,8 +55,9 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis })
 };
 
 const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
+    console.log('val', value);
     indicator.label.attr({
-        text: value.toFixed(pipSize),
+        text: (+value).toFixed(pipSize),
     });
 
     indicator.line.animate({ y: y - 1, width: x + 1 });
