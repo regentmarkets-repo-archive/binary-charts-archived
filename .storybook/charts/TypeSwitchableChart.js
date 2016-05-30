@@ -3,6 +3,10 @@ import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
 import { convertEpochToMS } from '../ohlc';
 
+const token = 'qdJ86Avvrsh0Le4';
+const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);
+const contractId = 8964601848;
+
 export default class TypeSwitchChart extends React.Component {
     constructor(props) {
         super(props);
@@ -15,20 +19,18 @@ export default class TypeSwitchChart extends React.Component {
     changeType(type) {
         switch (type) {
             case 'area':
-                api.getTickHistory('R_100').then(r => {
-                    const ticks = r.history.times.map((t, idx) => {
-                        const quote = r.history.prices[idx];
-                        return { epoch: +t, quote: +quote };
-                    });
-                    this.setState({ ticks, type: 'area' });
+                api.authorize(token).then(() =>
+                    api.getDataForContract(() => getContract(contractId), 1, 'all')
+                ).then(ticks => {
+                    this.setState({ type, ticks });
                 });
                 break;
-            case 'candlestick': api.getCandles('R_100').then(r => {
-                this.setState({
-                    type: 'candlestick',
-                    ticks: convertEpochToMS(r.candles),
+            case 'candlestick':
+                api.authorize(token).then(() =>
+                    api.getDataForContract(() => getContract(contractId), 1, 'all', 'candles')
+                ).then(ticks => {
+                    this.setState({ type, ticks });
                 });
-            });
                 break;
             default: return;
         }
