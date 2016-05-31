@@ -18,13 +18,6 @@ if (Object.keys(Highcharts).length > 0) {
 }
 
 export default class BinaryChart extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            eventListeners: [],
-        };
-    }
-
     static propTypes = {
         contract: BinaryTypes.contractOrTrade,
         defaultRange: PropTypes.number.isRequired,
@@ -56,14 +49,20 @@ export default class BinaryChart extends Component {
         this.chart = new Highcharts.StockChart(config);
 
         const self = this.chart;
-        const eventListeners = props.events.map(e => {
+        this.eventListeners = props.events.map(e => {
             function handler() {
                 e.handler(self);
             }
-            this.refs.chart.addEventListener(e.type, handler);
             return { type: e.type, handler };
         });
-        this.setState({ eventListeners });
+        this.eventListeners.forEach(e => this.refs.chart.addEventListener(e.type, e.handler));
+    }
+
+    destroyChart() {
+        this.eventListeners.forEach(e => {
+            this.refs.chart.removeEventListener(e.type, e.handler);
+        });
+        this.chart.destroy();
     }
 
     componentDidMount() {
@@ -72,9 +71,7 @@ export default class BinaryChart extends Component {
     }
 
     componentWillUnmount() {
-        const { eventListeners } = this.state;
-        eventListeners.forEach(e => this.refs.chart.removeEventListener(e.type, e.handler));
-        this.chart.destroy();
+        this.destroyChart();
     }
 
     shouldComponentUpdate(nextProps) {
@@ -82,7 +79,7 @@ export default class BinaryChart extends Component {
             this.props.symbol !== nextProps.symbol ||
                 this.props.type !== nextProps.type                 // this might break when we have more chart type
         ) {
-            this.chart.destroy();
+            this.destroyChart();
             this.createChart(nextProps);
         }
 
