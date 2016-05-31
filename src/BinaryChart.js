@@ -60,7 +60,7 @@ export default class BinaryChart extends Component {
 
     destroyChart() {
         this.eventListeners.forEach(e => {
-            this.refs.chart.removeEventListener(e.type, e.handler)
+            this.refs.chart.removeEventListener(e.type, e.handler);
         });
         this.chart.destroy();
     }
