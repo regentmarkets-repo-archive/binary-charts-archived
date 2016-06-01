@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts/highstock';
 import exporting from 'highcharts/modules/exporting';
+import noDataToDisplay from 'highcharts/modules/no-data-to-display.js';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
@@ -12,6 +13,7 @@ import theme from './theme';
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
     exporting(Highcharts);
+    noDataToDisplay(Highcharts);
     axisIndicators();
 //    tradeMarker();
     Highcharts.setOptions(theme);
