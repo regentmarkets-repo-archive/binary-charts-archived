@@ -26,9 +26,9 @@ const polyPath = (x, y) => [
     x, y + 7,
 ];
 
-const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis }) => {
+const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis, zIndex }) => {
     indicator.group = renderer.g(indicator)
-        .attr({ zIndex: 10 })
+        .attr({ zIndex })
         .add();
 
     indicator.line = renderer
@@ -79,7 +79,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
     }
 };
 
-const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color }) => {
+const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color, zIndex }) => {
     const y = yAxis.toPixels(value) || 0;
     const updateFunc = yAxis[indicator] ? update : initialize;
 
@@ -95,6 +95,7 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color }) 
         x, y,
         indicator: yAxis[indicator],
         yAxis,
+        zIndex,
     });
 };
 
@@ -104,29 +105,28 @@ const renderAxisIndicator = chart => {
     const currentPrice = lastPriceFromSeries(chart.series[0]);
     const x = yAxis.width;
 
-    renderIndicator({ chart, indicator: 'spot', value: currentPrice,
-        x, pipSize, yAxis, color: '#f50c35' });
-
     const { contract } = chart.binary;
 
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
             if (contract && contract[b] && contract[b] !== currentPrice) {
-                renderIndicator(
-                    {
-                        chart,
-                        indicator: b,
-                        value: contract[b],
-                        x,
-                        pipSize,
-                        yAxis,
-                        color: brandColor(1),
-                    }
-                );
+                renderIndicator({
+                    chart,
+                    indicator: b,
+                    value: contract[b],
+                    x,
+                    pipSize,
+                    yAxis,
+                    color: brandColor(1),
+                    zIndex: 10,
+                });
             } else {
                 if (yAxis[b] && yAxis[b].group) yAxis[b].group.hide();
             }
         });
+
+    renderIndicator({ chart, indicator: 'spot', value: currentPrice,
+        x, pipSize, yAxis, color: '#f50c35', zIndex: 11 });
 };
 
 export default () => {

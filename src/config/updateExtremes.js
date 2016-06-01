@@ -26,7 +26,8 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
     }
 
     let boundaries = [];
-    if (contract.contract_type && contract.contract_type.includes('DIGIT')) {     // digit's barrier are not used to set extremes
+    // digit's barrier are not used to set extremes
+    if (contract.contract_type && contract.contract_type.includes('DIGIT')) {
         boundaries = [
             ticksMin,
             ticksMax,
