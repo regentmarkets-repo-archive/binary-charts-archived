@@ -1,4 +1,5 @@
 import updateExtremes from '../config/updateExtremes';
+import { buttons } from './rangeSelector';
 
 export default ({ rangeChange = () => undefined }) => ({
     type: 'datetime',
@@ -7,10 +8,26 @@ export default ({ rangeChange = () => undefined }) => ({
     startOnTick: false,
     endOnTick: false,
     events: {
-        setExtremes: e => {
+        setExtremes: function(e) {
             if (e.rangeSelectorButton) {
-                const { count, type } = e.rangeSelectorButton;
-                rangeChange(count, type);
+                const chart = this.chart;
+                if (chart.binary.rangeSelectedProgrammatically) {
+                    chart.binary.rangeSelectedProgrammatically = false;
+                    return;
+                }
+
+                const { count, type, text } = e.rangeSelectorButton;
+                const asyncResult = rangeChange(count, type);
+
+                // a hack so that we can set x-extremes correctly after data is loaded
+                // works best if rangechange is only fire when needed.
+                if (asyncResult.then) {
+                    const buttonID = buttons.findIndex(button => button.text == text);
+                    asyncResult.then(() => {
+                        chart.binary.rangeSelectedProgrammatically = true;
+                        chart.rangeSelector.clickButton(buttonID, e.rangeSelectorButton, true);
+                    });
+                }
             }
         },
         afterSetExtremes: function handler() { // eslint-disable-line object-shorthand
@@ -22,6 +39,7 @@ export default ({ rangeChange = () => undefined }) => ({
             const { ticks, contract } = chart.binary;
             if (ticks && contract) {
                 updateExtremes(chart, ticks, contract);
+                chart.redraw();
             }
         },
     },

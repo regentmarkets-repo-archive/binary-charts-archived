@@ -51,16 +51,16 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
 
     const yAxis = chart.yAxis[0];
 
-    // console.groupCollapsed();
-    // console.log('t', ticks);
-    // console.log('xax', xAxis);
-    // console.log('xmin', xMin);
-    // console.log('xmax', xMax);
-    // console.log('z', zoomedTicks);
-    // console.log('b', boundaries);
-    // console.log('Ex Min', nextMin);
-    // console.log('Ex Max', nextMax);
-    // console.groupEnd();
+    console.groupCollapsed();
+    console.log('t', ticks);
+    console.log('xax', xAxis);
+    console.log('xmin', xMin);
+    console.log('xmax', xMax);
+    console.log('z', zoomedTicks);
+    console.log('b', boundaries);
+    console.log('Ex Min', nextMin);
+    console.log('Ex Max', nextMax);
+    console.groupEnd();
 
     if (lastExtremesY.min !== nextMin || lastExtremesY.max !== nextMax) {
         yAxis.setExtremes(nextMin, nextMax, false);
