@@ -11,6 +11,8 @@ export default ({ rangeChange = () => undefined }) => ({
         setExtremes: function(e) {
             if (e.rangeSelectorButton) {
                 const chart = this.chart;
+
+                // Do not call rangeChange if it is triggered by code, instead of user
                 if (chart.binary.rangeSelectedProgrammatically) {
                     chart.binary.rangeSelectedProgrammatically = false;
                     return;
