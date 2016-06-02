@@ -39,7 +39,6 @@ export default (chart, prevProps, nextProps) => {
 
     if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);
-        chart.redraw();         // redraw is needed as other updating function need to access a stable chart instance
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
