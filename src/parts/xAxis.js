@@ -12,11 +12,6 @@ export default ({ rangeChange = () => undefined }) => ({
             if (e.rangeSelectorButton) {
                 const chart = this.chart;
 
-                // Do not call rangeChange if it is triggered by code, instead of user
-                if (chart.binary.rangeSelectedProgrammatically) {
-                    return;
-                }
-
                 const { count, type, text } = e.rangeSelectorButton;
                 const asyncResult = rangeChange(count, type);
 
@@ -26,15 +21,15 @@ export default ({ rangeChange = () => undefined }) => ({
                     chart.showLoading();
                     const buttonID = buttons.findIndex(button => button.text === text);
                     asyncResult.then(() => {
-                        chart.binary.rangeSelectedProgrammatically = true;
-                        chart.rangeSelector.clickButton(buttonID, e.rangeSelectorButton, true);
                         chart.hideLoading();
+                        chart.rangeSelector.clickButton(buttonID, e.rangeSelectorButton, true);
                     });
                 }
             }
         },
-        afterSetExtremes: function afterSetExtremesHandler() { // eslint-disable-line object-shorthand
+        afterSetExtremes: function afterSetExtremesHandler(e) { // eslint-disable-line object-shorthand
             const chart = this.chart;
+            
             if (!chart.binary) {
                 return;
             }
@@ -42,10 +37,10 @@ export default ({ rangeChange = () => undefined }) => ({
             const { ticks, contract } = chart.binary;
             if (ticks && contract) {
                 updateExtremes(chart, ticks, contract);
-                if (chart.binary.rangeSelectedProgrammatically) {
-                    chart.binary.rangeSelectedProgrammatically = false;
-                    chart.redraw();
-                }
+            }
+
+            if (e.trigger === 'rangeSelectorButton') {
+                chart.redraw();
             }
         },
     },
