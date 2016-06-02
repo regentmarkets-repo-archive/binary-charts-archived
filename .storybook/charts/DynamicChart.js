@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import BinaryChart from '../../src/BinaryChart';
+import ticks from '../ticks';
 
 const randomNum = () => Math.random() * (20 - 10) + 10;
 // const seqDate = () => new Date().getTime() / 10;
-const testData = [];
+const testData = () =>
+    [6,5,4,3,2,1].map(i => {
+        const epoch = (new Date().getTime() / 1000) - i;
+        return { epoch, quote: randomNum() };
+    });
 
 export default class DynamicChart extends Component {
 
      constructor(props) {
          super(props);
          this.state = {
-             ticks: testData.map(x => ({ epoch: x[0], quote: x[1] })),
+             ticks: testData(),
          };
      }
 

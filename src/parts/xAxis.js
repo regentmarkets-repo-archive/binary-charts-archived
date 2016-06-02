@@ -14,7 +14,6 @@ export default ({ rangeChange = () => undefined }) => ({
 
                 // Do not call rangeChange if it is triggered by code, instead of user
                 if (chart.binary.rangeSelectedProgrammatically) {
-                    chart.binary.rangeSelectedProgrammatically = false;
                     return;
                 }
 
@@ -42,7 +41,10 @@ export default ({ rangeChange = () => undefined }) => ({
             const { ticks, contract } = chart.binary;
             if (ticks && contract) {
                 updateExtremes(chart, ticks, contract);
-                chart.redraw();
+                if (chart.binary.rangeSelectedProgrammatically) {
+                    chart.binary.rangeSelectedProgrammatically = false;
+                    chart.redraw();
+                }
             }
         },
     },
