@@ -59,7 +59,7 @@ export default class BinaryChart extends Component {
             return { type: e.type, handler };
         });
         this.eventListeners.forEach(e => this.refs.chart.addEventListener(e.type, e.handler));
-        this.chart.showLoading('Fetching data ...');
+        this.chart.showLoading();
     }
 
     destroyChart() {
