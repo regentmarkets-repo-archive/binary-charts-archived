@@ -4,5 +4,6 @@ export default () => ({
         marker: {
             enabled: false,
         },
+        turboThreshold: 3000,
     },
 });
