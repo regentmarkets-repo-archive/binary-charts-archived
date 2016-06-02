@@ -1,9 +1,12 @@
-export default ({ height, width, pipSize }) => ({
+export default ({ height, width, pipSize, noData }) => ({
     animation: true,
     scrollbar: { enabled: false },
     credits: { enabled: false },
     legend: { enabled: false },
     title: { text: null },
+    noData: {
+        style: noData ? {} : { display: 'none' },
+    },
     chart: {
         spacingBottom: 0,
         spacingTop: 0,
