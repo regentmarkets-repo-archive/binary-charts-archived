@@ -131,6 +131,9 @@ export default ({
             color: brandColor(0.5),
         },
     },
+    lang: {
+        noData: 'Chart data not available for this asset',
+    }
 });
 
 // const dark = {
