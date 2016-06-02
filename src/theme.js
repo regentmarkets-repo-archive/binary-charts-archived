@@ -133,7 +133,7 @@ export default ({
     },
     lang: {
         noData: 'Chart data not available for this asset',
-    }
+    },
 });
 
 // const dark = {
