@@ -28,6 +28,7 @@ export default ({ rangeChange = () => undefined }) => ({
                     asyncResult.then(() => {
                         chart.binary.rangeSelectedProgrammatically = true;
                         chart.rangeSelector.clickButton(buttonID, e.rangeSelectorButton, true);
+                        chart.hideLoading();
                     });
                 }
             }
