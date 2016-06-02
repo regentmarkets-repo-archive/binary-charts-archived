@@ -29,7 +29,7 @@ export default ({ rangeChange = () => undefined }) => ({
         },
         afterSetExtremes: function afterSetExtremesHandler(e) { // eslint-disable-line object-shorthand
             const chart = this.chart;
-            
+
             if (!chart.binary) {
                 return;
             }
