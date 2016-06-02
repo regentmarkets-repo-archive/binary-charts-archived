@@ -43,7 +43,7 @@ export default ({ rangeChange = () => undefined }) => ({
                 if (chart.binary.rangeSelectedProgrammatically) {
                     chart.binary.rangeSelectedProgrammatically = false;
                     chart.redraw();
-                };
+                }
             }
         },
     },
