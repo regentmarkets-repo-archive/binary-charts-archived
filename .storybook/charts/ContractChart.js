@@ -28,7 +28,7 @@ const endsoutsideTrade = {
 export default class ContractChart extends React.Component {
 
     static propTypes = {
-        contractId: PropTypes.number,
+        contractId: PropTypes.string,
     };
 
     constructor(props) {
