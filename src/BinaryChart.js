@@ -25,6 +25,7 @@ export default class BinaryChart extends Component {
         defaultRange: PropTypes.number.isRequired,
         events: BinaryTypes.events,
         height: PropTypes.number,
+        noData: PropTypes.bool,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
         symbol: PropTypes.string,
@@ -42,6 +43,7 @@ export default class BinaryChart extends Component {
         ticks: [],
         pipSize: 0,
         type: 'area',
+        noData: false,
     };
 
     createChart(newProps) {
@@ -49,7 +51,6 @@ export default class BinaryChart extends Component {
         const config = initChart(props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
-
         const self = this.chart;
         this.eventListeners = props.events.map(e => {
             function handler() {
@@ -58,6 +59,7 @@ export default class BinaryChart extends Component {
             return { type: e.type, handler };
         });
         this.eventListeners.forEach(e => this.refs.chart.addEventListener(e.type, e.handler));
+        this.chart.showLoading();
     }
 
     destroyChart() {

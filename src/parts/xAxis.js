@@ -23,6 +23,7 @@ export default ({ rangeChange = () => undefined }) => ({
                 // a hack so that we can set x-extremes correctly after data is loaded
                 // works best if rangechange is only fire when needed.
                 if (asyncResult.then) {
+                    chart.showLoading();
                     const buttonID = buttons.findIndex(button => button.text === text);
                     asyncResult.then(() => {
                         chart.binary.rangeSelectedProgrammatically = true;
