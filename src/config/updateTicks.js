@@ -8,13 +8,13 @@ export default (chart, prevProps, nextProps) => {
     if (oneTickDiff) {
         const lastTick = getLastTick(nextProps.ticks);
         const dataPoint = chart.series[0].type === 'area' ? tickToData(lastTick) : ohlcToData(lastTick);
-        chart.series[0].addPoint(dataPoint);
+        chart.series[0].addPoint(dataPoint, false);
     } else {
         const dataList =
             chart.series[0].type === 'area' ?
                 nextProps.ticks.map(tickToData) :
                 nextProps.ticks.map(ohlcToData);
-        chart.series[0].setData(dataList);
+        chart.series[0].setData(dataList, false);
     }
     chart.binary.ticks = nextProps.ticks;
 };
