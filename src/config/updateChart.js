@@ -1,5 +1,6 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
+import areOHLCArraysEqual from 'binary-utils/lib/areOHLCArrayEqual';
 import updateTicks from './updateTicks';
 import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import getLastOHLCTick from 'binary-utils/lib/getLastOHLCTick';
@@ -13,6 +14,11 @@ const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.type === nextProps.type &&
     areTickArraysEqual(prevProps.ticks, nextProps.ticks);
 
+const ohlcAreEqual = (prevProps, nextProps) =>
+    prevProps.symbol === nextProps.symbol &&
+    prevProps.type === nextProps.type &&
+    areOHLCArraysEqual(prevProps.ticks, nextProps.ticks);
+
 const contractsAreEqual = (prevProps, nextProps) =>
     shallowEqual(prevProps.contract, nextProps.contract) &&
         shallowEqual(prevProps.trade, nextProps.trade);
@@ -25,12 +31,27 @@ const restAreEqual = (prevProps, nextProps) =>
 
 
 export default (chart, prevProps, nextProps) => {
-    const ticksDiffer = !ticksAreEqual(prevProps, nextProps);
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
     const { contract, trade, ticks, type } = nextProps;
 
-    const lastTick = type === 'area' ? getLastTickQuote(ticks) : getLastOHLCTick(ticks);
+    let lastTick = {};
+    let ticksDiffer = true;
+    switch (type) {
+        case 'area': {
+            lastTick = getLastTickQuote(ticks);
+            ticksDiffer = !ticksAreEqual(prevProps, nextProps);
+            break;
+        }
+        case 'candlestick': {
+            lastTick = getLastOHLCTick(ticks);
+            ticksDiffer = !ohlcAreEqual(prevProps, nextProps);
+            break;
+        }
+        default: {
+            console.warn('Not recognized chart type: ', type);
+        }
+    }
 
     const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
     if (contractsDiffer || ticksDiffer) {
