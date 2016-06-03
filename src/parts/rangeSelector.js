@@ -35,8 +35,8 @@ export default (defaultRange = 0) => ({
     inputEnabled: false,
     labelStyle: { display: 'none' },
     buttonPosition: {
-        x: 0,
-        y: 5,
+        x: -5,
+        y: 7,
     },
     buttonTheme: {
         style: {
