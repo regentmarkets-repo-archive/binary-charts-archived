@@ -34,4 +34,13 @@ export default (defaultRange = 0) => ({
     selected: defaultRange,
     inputEnabled: false,
     labelStyle: { display: 'none' },
+    buttonPosition: {
+        x: -5,
+        y: 7,
+    },
+    buttonTheme: {
+        style: {
+            fontSize: '1rem',
+        },
+    },
 });

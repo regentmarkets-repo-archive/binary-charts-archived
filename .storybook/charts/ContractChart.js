@@ -54,7 +54,15 @@ export default class ContractChart extends React.Component {
         const { ticks, contract } = this.state;
         const { contractId } = this.props;
         const getDataWhenChange = (count, type) =>
-            api.getDataForContract(() => getContract(contractId), count, type).then(newTicks => this.setState({ ticks: newTicks }));
+            api
+                .getDataForContract(() => getContract(contractId), count, type)
+                .then(newTicks => {
+                    if (contract) {
+                        this.setState({ ticks: newTicks, contract });
+                    } else {
+                        this.setState({ ticks: newTicks });
+                    }
+                });
         return (
             <BinaryChart
                 id="halo"
