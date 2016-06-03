@@ -18,7 +18,9 @@ export default class DynamicOHLCChart extends React.Component {
             this.setState({ ticks: ticks.concat([newTick]) });
             this.forceUpdate();
         });
-        api.getCandles('R_100', { subscribe: 1, end: 'latest', count: 10 });
+        api
+            .getCandles('R_100', { subscribe: 1, end: 'latest', count: 100 })
+            .then(r => this.setState({ ticks: r.candles }));
     }
 
     componentWillUnmount() {
@@ -28,7 +30,7 @@ export default class DynamicOHLCChart extends React.Component {
     render() {
         const { ticks } = this.state;
         return (
-            <BinaryChart type="area" ticks={ticks} />
+            <BinaryChart type="candlestick" ticks={ticks} />
         );
     }
 }
