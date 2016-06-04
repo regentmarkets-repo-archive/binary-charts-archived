@@ -1,7 +1,7 @@
 import updateExtremes from '../config/updateExtremes';
 import { buttons } from './rangeSelector';
 
-export default ({ rangeChange = () => {} }) => ({
+export default ({ rangeChange = () => ({}) }) => ({
     type: 'datetime',
     ordinal: false,
     tickWidth: 0,
