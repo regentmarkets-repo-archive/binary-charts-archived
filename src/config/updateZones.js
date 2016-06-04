@@ -1,22 +1,31 @@
+const insideStyle = {
+    color: 'lightgrey',
+    fillColor: 'none',
+    lineWidth: 5,
+};
+
+const outsideStyle = {
+    dashStyle: 'solid',
+};
+
 export default (chart, newPlotLines) => {
     const entryLine = newPlotLines.find(x => x.id === 'entry_tick_time');
     const exitLine = newPlotLines.find(x => x.id === 'exit_tick_time');
-    let zones = !entryLine ? [] : [{
-        value: entryLine.value,
-        dashStyle: 'dash',
-        color: 'grey',
-        fillColor: 'none',
-    }];
+    let zones = [];
+
+    if (entryLine) {
+        zones.push({
+            value: entryLine.value,
+            ...insideStyle,
+        });
+    }
 
     if (exitLine) {
-        zones = zones.concat([{
+        zones.push({
             value: exitLine.value,
-            dashStyle: 'solid',
-        }, {
-            dashStyle: 'dash',
-            color: 'grey',
-            fillColor: 'none',
-        }]);
+            ...outsideStyle,
+        });
+        zones.push(insideStyle);
     }
 
     chart.series[0].update({ zones }, false);
