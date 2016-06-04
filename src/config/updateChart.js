@@ -49,7 +49,7 @@ export default (chart, prevProps, nextProps) => {
             break;
         }
         default: {
-            console.warn('Not recognized chart type: ', type);
+            throw new Error('Not recognized chart type: ', type);
         }
     }
 

@@ -41,7 +41,8 @@ export default (chart, prevProps, nextProps) => {
             }
             break;
         }
-        default: console.warn('Unexpected highchart series type: ', chartType);
+        default:
+            throw new Error('Unexpected highchart series type: ', chartType);
     }
     chart.binary.ticks = nextProps.ticks;
 };

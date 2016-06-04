@@ -10,7 +10,7 @@ const colorEvent = new Event('color');
 let colorIndex = 0;
 
 function colorHandler(chart) {
-    console.log('t', this);
+    // console.log('t', this);
     chart.series[0].update({ fillColor: colors[colorIndex] });
     colorIndex = (colorIndex + 1) % 4;
 }
