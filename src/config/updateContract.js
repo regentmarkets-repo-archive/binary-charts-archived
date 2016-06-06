@@ -50,6 +50,4 @@ export default ({ chart, contract, ticks }) => {
     updateZones(chart, newPlotLines);
 
     updateExtremes(chart, ticks, contract);
-
-    chart.binary.contract = contract;
 };

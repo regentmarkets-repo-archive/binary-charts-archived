@@ -44,5 +44,4 @@ export default (chart, prevProps, nextProps) => {
         default:
             throw new Error('Unexpected highchart series type: ', chartType);
     }
-    chart.binary.ticks = nextProps.ticks;
 };

@@ -1,9 +1,26 @@
+import getLastTick from 'binary-utils/lib/getLastTick';
+
 const arrayMin = arr => Math.min.apply(Math, arr);
 const arrayMax = arr => Math.max.apply(Math, arr);
 
-let lastExtremesY = {};
+export const updateExtremesXAxis = (chart, ticks, contract) => {
+    const lastTickEpoch = getLastTick(ticks) && getLastTick(ticks).epoch;
+    const startTime = contract && contract.date_start;
+    if (!lastTickEpoch || !startTime) {
+        return;
+    }
 
-const updateExtremesYAxis = (chart, ticks, contract) => {
+    if (lastTickEpoch < startTime) {
+        const series = chart.series[0];
+        const xAxis = chart.xAxis[0];
+        const max = startTime * 1000 + 3000;
+        series.addPoint([max, null], false);
+        xAxis.setExtremes(undefined, max, false);
+    }
+};
+
+let lastExtremesY = {};
+export const updateExtremesYAxis = (chart, ticks, contract) => {
     if (!contract) return;
 
     const xAxis = chart.xAxis[0];
@@ -72,6 +89,7 @@ const updateExtremesYAxis = (chart, ticks, contract) => {
 
 const updateExtremes = (chart, ticks, contract) => {
     updateExtremesYAxis(chart, ticks, contract);
+    updateExtremesXAxis(chart, ticks, contract);
 };
 
 export default updateExtremes;

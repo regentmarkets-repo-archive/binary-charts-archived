@@ -33,7 +33,11 @@ const restAreEqual = (prevProps, nextProps) =>
 export default (chart, prevProps, nextProps) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
-    const { contract, trade, ticks, type } = nextProps;
+    const { contract, trade, ticks, type, pipSize } = nextProps;
+
+    chart.binary.contract = contract;
+    chart.binary.ticks = ticks;
+    chart.binary.pipSize = pipSize;
 
     let lastTick = {};
     let ticksDiffer = true;
@@ -53,17 +57,17 @@ export default (chart, prevProps, nextProps) => {
         }
     }
 
-    const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
-    if (contractsDiffer || ticksDiffer) {
-        updateContract({ chart, contract: mergedContract, ticks });
-    }
-
     if (ticksDiffer) {
         updateTicks(chart, prevProps, nextProps);
         chart.redraw();
         if (ticks.length > 0) {
             chart.hideLoading();
         }
+    }
+
+    const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
+    if (contractsDiffer || ticksDiffer) {
+        updateContract({ chart, contract: mergedContract, ticks });
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
