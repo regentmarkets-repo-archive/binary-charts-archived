@@ -2,20 +2,27 @@
 export default ({ trade, contract, lastTick }) => {
     if (contract) {
         const cloned = Object.assign({}, contract);
-        const { barrier, low_barrier, high_barrier } = contract;
-        if (barrier) {
-            cloned.barrier = +barrier;
-            return cloned;
-        }
+        const { barrier_count, barrier, low_barrier, high_barrier } = contract;
 
-        if (low_barrier && high_barrier) {          // eslint-disable-line camelcase
-            cloned.low_barrier = +low_barrier;      // eslint-disable-line camelcase
-            cloned.high_barrier = +high_barrier;     // eslint-disable-line camelcase
-            return cloned;
+        switch (barrier_count) {                            // eslint-disable-line camelcase
+            case 1: {
+                if (barrier) {
+                    cloned.barrier = +barrier;
+                } else {
+                    cloned.barrier = +lastTick;
+                }
+                return cloned;
+            }
+            case 2: {
+                if (low_barrier && high_barrier) {          // eslint-disable-line camelcase
+                    cloned.low_barrier = +low_barrier;      // eslint-disable-line camelcase
+                    cloned.high_barrier = +high_barrier;     // eslint-disable-line camelcase
+                    return cloned;
+                }
+                break;
+            }
+            default: throw new Error('Unexpected barrier_count from contract: ', contract);
         }
-
-        cloned.barrier = +lastTick;
-        return cloned;
     }
 
     if (!trade) {
@@ -30,6 +37,7 @@ export default ({ trade, contract, lastTick }) => {
     delete cloned.barrier2;
     delete cloned.low_barrier;
     delete cloned.high_barrier;
+    delete cloned.barrierType;
 
     if (!barrier) {                                 //  if trade do not have barrier, default to last tick
         cloned.barrier = +lastTick;
