@@ -1,7 +1,5 @@
 export default (chart, params) => {
-    const { type, pipSize } = params;
-
-    chart.binary.pipSize = pipSize;
+    const { type } = params;
 
     chart.series[0].update({
         type,
