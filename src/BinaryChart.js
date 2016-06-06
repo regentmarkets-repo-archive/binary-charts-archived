@@ -38,7 +38,7 @@ export default class BinaryChart extends Component {
     };
 
     static defaultProps = {
-        defaultRange: 2,
+        defaultRange: 6,
         events: [],
         ticks: [],
         pipSize: 0,
