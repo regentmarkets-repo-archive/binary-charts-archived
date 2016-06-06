@@ -10,9 +10,9 @@ export default ({ typeChange }) => {
                 symbol: 'url(https://app.binary.com/img/chart-area.svg)',
                 onclick: function () {
                     const chart = this;
-                    chart.showLoading();
                     const result = typeChange('area');
                     if (result.then) {
+                        chart.showLoading();
                         result.then(() => chart.hideLoading());
                     }
                 },
@@ -21,9 +21,9 @@ export default ({ typeChange }) => {
                 symbol: 'url(https://app.binary.com/img/chart-ohlc.svg)',
                 onclick: function () {
                     const chart = this;
-                    chart.showLoading();
                     const result = typeChange('candlestick');
                     if (result.then) {
+                        chart.showLoading();
                         result.then(() => chart.hideLoading());
                     }
                 },
