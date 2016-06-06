@@ -8,11 +8,25 @@ export default ({ typeChange }) => {
             },
             tickButton: {
                 symbol: 'url(https://app.binary.com/img/chart-area.svg)',
-                onclick: () => typeChange('area'),
+                onclick: function () {
+                    const chart = this;
+                    chart.showLoading();
+                    const result = typeChange('area');
+                    if (result.then) {
+                        result.then(() => chart.hideLoading());
+                    }
+                },
             },
             ohlcButton: {
                 symbol: 'url(https://app.binary.com/img/chart-ohlc.svg)',
-                onclick: () => typeChange('candlestick'),
+                onclick: function () {
+                    const chart = this;
+                    chart.showLoading();
+                    const result = typeChange('candlestick');
+                    if (result.then) {
+                        result.then(() => chart.hideLoading());
+                    }
+                },
             },
         },
     };
