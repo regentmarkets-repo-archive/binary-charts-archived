@@ -6,12 +6,17 @@ const arrayMax = arr => Math.max.apply(Math, arr);
 export const updateExtremesXAxis = (chart, ticks, contract) => {
     const lastTickEpoch = getLastTick(ticks) && getLastTick(ticks).epoch;
     const startTime = contract && contract.date_start;
+    const series = chart.series[0];
+
     if (!lastTickEpoch || !startTime) {
+        const removeNull = series.options.data.filter(d => d[1] !== undefined);
+        if (removeNull.length !== series.options.data.length) {
+            series.setData(removeNull);
+        }
         return;
     }
 
     if (lastTickEpoch < startTime) {
-        const series = chart.series[0];
         const xAxis = chart.xAxis[0];
         const max = startTime * 1000 + 3000;
         series.addPoint([max, null], false);
@@ -88,8 +93,8 @@ export const updateExtremesYAxis = (chart, ticks, contract) => {
 };
 
 const updateExtremes = (chart, ticks, contract) => {
-    updateExtremesYAxis(chart, ticks, contract);
     updateExtremesXAxis(chart, ticks, contract);
+    updateExtremesYAxis(chart, ticks, contract);
 };
 
 export default updateExtremes;
