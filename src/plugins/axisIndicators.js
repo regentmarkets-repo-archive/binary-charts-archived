@@ -42,7 +42,7 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis, z
         .add(indicator.group);
 
     indicator.label = renderer
-        .label(value.toFixed(pipSize), x - 4 + yAxis.chart.marginRight, y - 9)
+        .label((+value).toFixed(pipSize), x - 4 + yAxis.chart.marginRight, y - 9)
         .attr({
             padding: 1,
         })
