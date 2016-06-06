@@ -9,9 +9,9 @@ export const updateExtremesXAxis = (chart, ticks, contract) => {
     const series = chart.series[0];
 
     if (!lastTickEpoch || !startTime) {
-        const removeNull = series.options.data.filter(d => d[1] !== undefined);
+        const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
-            series.setData(removeNull);
+            series.setData(removeNull, false);
         }
         return;
     }
