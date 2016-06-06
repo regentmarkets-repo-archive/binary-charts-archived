@@ -7,21 +7,24 @@ export const updateExtremesXAxis = (chart, ticks, contract) => {
     const lastTickEpoch = getLastTick(ticks) && getLastTick(ticks).epoch;
     const startTime = contract && contract.date_start;
     const series = chart.series[0];
+    const type = series.type;
 
-    const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
-    if (removeNull.length !== series.options.data.length) {
-        series.setData(removeNull, false);
-    }
+    if (type === 'area') {
+        const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
+        if (removeNull.length !== series.options.data.length) {
+            series.setData(removeNull, false);
+        }
 
-    if (!lastTickEpoch || !startTime) {
-        return;
-    }
+        if (!lastTickEpoch || !startTime) {
+            return;
+        }
 
-    if (lastTickEpoch < startTime) {
-        const xAxis = chart.xAxis[0];
-        const max = startTime * 1000 + 3000;
-        series.addPoint([max, null], false);
-        xAxis.setExtremes(undefined, max, false);
+        if (lastTickEpoch < startTime) {
+            const xAxis = chart.xAxis[0];
+            const max = startTime * 1000 + 3000;
+            series.addPoint([max, null], false);
+            xAxis.setExtremes(undefined, max, false);
+        }
     }
 };
 

@@ -11,7 +11,8 @@ const lastPriceFromSeries = series => {
         lastPrice = series.yData.length && series.yData[series.yData.length - 1][3];
     }
     if (series.type === 'area') {
-        lastPrice = series.yData.length && series.yData[series.yData.length - 1];
+        const nonNullSeries = series.yData.length && series.yData.filter(d => !!d[1] || d[1] === 0);
+        lastPrice = nonNullSeries && nonNullSeries[nonNullSeries.length - 1];
     }
     return lastPrice;
 };
