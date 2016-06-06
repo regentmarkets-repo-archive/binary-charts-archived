@@ -8,7 +8,7 @@ export default ({ typeChange }) => {
             },
             tickButton: {
                 symbol: 'url(https://app.binary.com/img/chart-area.svg)',
-                onclick: function () {
+                onclick: function changeToTick() {                      // eslint-disable-line object-shorthand
                     const chart = this;
                     const result = typeChange('area');
                     if (result.then) {
@@ -19,7 +19,7 @@ export default ({ typeChange }) => {
             },
             ohlcButton: {
                 symbol: 'url(https://app.binary.com/img/chart-ohlc.svg)',
-                onclick: function () {
+                onclick: function changeToOHLC() {                      // eslint-disable-line object-shorthand
                     const chart = this;
                     const result = typeChange('candlestick');
                     if (result.then) {
