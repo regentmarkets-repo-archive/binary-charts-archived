@@ -1,4 +1,4 @@
-import updateExtremes from '../config/updateExtremes';
+import updateExtremes, { updateExtremesYAxis } from '../config/updateExtremes';
 import { buttons } from './rangeSelector';
 
 export default ({ rangeChange = () => ({}) }) => ({
@@ -34,12 +34,15 @@ export default ({ rangeChange = () => ({}) }) => ({
                 return;
             }
 
+            const triggerByRangeSelector = e.trigger === 'rangeSelectorButton';
+
             const { ticks, contract } = chart.binary;
             if (ticks && contract) {
-                updateExtremes(chart, ticks, contract);
+                updateExtremesYAxis(chart, ticks, contract);
             }
 
-            if (e.trigger === 'rangeSelectorButton') {
+            if (triggerByRangeSelector) {
+                updateExtremes(chart, ticks, contract);
                 chart.redraw();
             }
         },
