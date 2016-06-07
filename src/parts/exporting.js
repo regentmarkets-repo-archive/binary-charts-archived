@@ -16,6 +16,7 @@ export default ({ typeChange }) => {
                         result.then(() => chart.hideLoading());
                     }
                 },
+                y: 7,
             },
             ohlcButton: {
                 symbol: 'url(https://app.binary.com/img/chart-ohlc.svg)',
@@ -27,6 +28,7 @@ export default ({ typeChange }) => {
                         result.then(() => chart.hideLoading());
                     }
                 },
+                y: 7,
             },
         },
     };
