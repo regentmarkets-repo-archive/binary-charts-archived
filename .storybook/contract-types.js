@@ -94,6 +94,7 @@ const createStories = (category, contracts) =>
             .add(key, () =>
                 <BinaryChart
                     ticks={ticks}
+                    pipSize={2}
                     trade={contracts[key]}
                 />
             )

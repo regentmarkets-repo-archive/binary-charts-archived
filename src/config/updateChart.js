@@ -67,7 +67,7 @@ export default (chart, prevProps, nextProps) => {
 
     const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
     if (contractsDiffer || ticksDiffer) {
-        updateContract({ chart, contract: mergedContract, ticks });
+        updateContract({ chart, contract: mergedContract, ticks, pipSize });
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
