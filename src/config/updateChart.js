@@ -35,10 +35,6 @@ export default (chart, prevProps, nextProps) => {
 
     const { contract, trade, ticks, type, pipSize } = nextProps;
 
-    chart.binary.contract = contract;
-    chart.binary.ticks = ticks;
-    chart.binary.pipSize = pipSize;
-
     let lastTick = {};
     let ticksDiffer = true;
     switch (type) {
@@ -66,6 +62,11 @@ export default (chart, prevProps, nextProps) => {
     }
 
     const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
+
+    chart.binary.contract = mergedContract;
+    chart.binary.ticks = ticks;
+    chart.binary.pipSize = pipSize;
+
     if (contractsDiffer || ticksDiffer) {
         updateContract({ chart, contract: mergedContract, ticks });
     }
