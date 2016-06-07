@@ -24,9 +24,7 @@ export default (chart, prevProps, nextProps) => {
 
             const frameSize = max - min;
             const isCloseToMostRecent = (dataMax - max) <= 2000;
-            console.log('size', frameSize);
             if (isCloseToMostRecent) {
-                console.log('close enough');
                 chart.xAxis[0].setExtremes(newDataMax - frameSize, newDataMax, true);
             }
             break;
