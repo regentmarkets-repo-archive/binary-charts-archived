@@ -21,6 +21,9 @@ export default ({ trade, contract, lastTick }) => {
                 }
                 break;
             }
+            case undefined: {
+                return cloned;
+            }
             default: throw new Error('Unexpected barrier_count from contract: ', contract);
         }
     }
