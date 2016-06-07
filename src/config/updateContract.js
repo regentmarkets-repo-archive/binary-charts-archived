@@ -36,10 +36,10 @@ const replacePlotLines = (axis, newPlotLines) => {
     replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
-const showDataLabelsForDigit = (chart, contract) => {
+const showDataLabelsForDigit = (chart, contract, pipSize) => {
     if (contract && contract.contract_type.includes('DIGIT')) {
         const opt = chart.series[0].options;
-        opt.dataLabels = { enabled: true };
+        opt.dataLabels = { enabled: true, format: `{point.y:,.${pipSize}f}` };
         chart.series[0].update(opt);
     } else {
         const opt = chart.series[0].options;
@@ -53,8 +53,8 @@ export const updatePlotBands = ({ chart, contract }) => {
     replacePlotBands(chart.yAxis[0], newPlotBands);
 };
 
-export default ({ chart, contract, ticks }) => {
-    showDataLabelsForDigit(chart, contract);
+export default ({ chart, contract, ticks, pipSize }) => {
+    showDataLabelsForDigit(chart, contract, pipSize);
 
     updatePlotBands({ chart, contract });
 
