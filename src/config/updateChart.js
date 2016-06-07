@@ -1,6 +1,6 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
-import areOHLCArraysEqual from 'binary-utils/lib/areOHLCArrayEqual';
+import areOHLCArraysEqual from 'binary-utils/lib/areCandleArrayEqual';
 import updateTicks from './updateTicks';
 import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import getLastOHLCTick from 'binary-utils/lib/getLastOHLCTick';
