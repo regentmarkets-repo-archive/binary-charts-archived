@@ -36,12 +36,26 @@ const replacePlotLines = (axis, newPlotLines) => {
     replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
+const showDataLabelsForDigit = (chart, contract) => {
+    if (contract && contract.contract_type.includes('DIGIT')) {
+        const opt = chart.series[0].options;
+        opt.dataLabels = { enabled: true };
+        chart.series[0].update(opt);
+    } else {
+        const opt = chart.series[0].options;
+        opt.dataLabels = { enabled: false };
+        chart.series[0].update(opt);
+    }
+};
+
 export const updatePlotBands = ({ chart, contract }) => {
     const newPlotBands = plotBandForContract(contract);
     replacePlotBands(chart.yAxis[0], newPlotBands);
 };
 
 export default ({ chart, contract, ticks }) => {
+    showDataLabelsForDigit(chart, contract);
+
     updatePlotBands({ chart, contract });
 
     const newPlotLines = dateEntryPlotLines(contract);
