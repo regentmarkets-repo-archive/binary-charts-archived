@@ -6,16 +6,28 @@ import getLastTick from 'binary-utils/lib/getLastTick';
 
 export default (chart, prevProps, nextProps) => {
     const chartType = chart.series[0].type;
+    const { dataMax, min, max } = chart.xAxis[0].getExtremes();
+    let newDataMax = dataMax;
     switch (chartType) {
         case 'area': {
             const oneTickDiff = doTicksDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
             if (oneTickDiff) {
                 const lastTick = getLastTick(nextProps.ticks);
                 const dataPoint = tickToData(lastTick);
+                newDataMax = dataPoint[0];
                 chart.series[0].addPoint(dataPoint, false);
             } else {
                 const dataList = nextProps.ticks.map(tickToData);
+                newDataMax = dataList[dataList.length - 1][0];
                 chart.series[0].setData(dataList, false);
+            }
+
+            const frameSize = max - min;
+            const isCloseToMostRecent = (dataMax - max) <= 2000;
+            console.log('size', frameSize);
+            if (isCloseToMostRecent) {
+                console.log('close enough');
+                chart.xAxis[0].setExtremes(newDataMax - frameSize, newDataMax, true);
             }
             break;
         }
