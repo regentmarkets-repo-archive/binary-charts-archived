@@ -14,12 +14,16 @@ export default (chart, prevProps, nextProps) => {
             if (oneTickDiff) {
                 const lastTick = getLastTick(nextProps.ticks);
                 const dataPoint = tickToData(lastTick);
-                newDataMax = dataPoint[0];
                 chart.series[0].addPoint(dataPoint, false);
+                if (dataPoint) {
+                    newDataMax = dataPoint[0];
+                }
             } else {
                 const dataList = nextProps.ticks.map(tickToData);
-                newDataMax = dataList[dataList.length - 1][0];
                 chart.series[0].setData(dataList, false);
+                if (dataList[dataList.length - 1]) {
+                    newDataMax = dataList[dataList.length - 1][0];
+                }
             }
 
             const frameSize = max - min;
