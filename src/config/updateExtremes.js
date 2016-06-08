@@ -44,11 +44,11 @@ export const updateExtremesYAxis = (chart, ticks, contract) => {
     if (!contract) return;
 
     const xAxis = chart.xAxis[0];
-    const xMin = xAxis.min;
-    const xMax = xAxis.max;
+    const xMin = xAxis.getExtremes().min;
+    const xMax = xAxis.getExtremes().max;
 
     const zoomedTicks = ticks
-        .filter(t => (t.epoch * 1000) > xMin && (t.epoch * 1000) < xMax);
+        .filter(t => (t.epoch * 1000) >= xMin && (t.epoch * 1000) <= xMax);
 
     let ticksMin = 0;
     let ticksMax = 0;
