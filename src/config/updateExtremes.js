@@ -82,7 +82,7 @@ export const updateExtremesYAxis = (chart, ticks, contract) => {
     const dataMin = arrayMin(boundaries);
     const dataMax = arrayMax(boundaries);
 
-    const fivePercent = (dataMax - dataMin) * 0.05;
+    const fivePercent = (dataMax - dataMin) * 0.25;
 
     const nextMin = dataMin - fivePercent;
     const nextMax = dataMax + fivePercent;
