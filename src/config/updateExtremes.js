@@ -21,16 +21,20 @@ export const updateExtremesXAxis = (chart, ticks, contract) => {
 
         if (lastTickEpoch < startTime) {
             const xAxis = chart.xAxis[0];
-            const max = startTime * 1000 + 3000;
+            const { min, max } = xAxis.getExtremes();
+            const startTimeMillis = startTime * 1000;
             const lastTickMillis = lastTickEpoch * 1000;
-            const blankWindowSize = max - lastTickMillis;
-            const blankWindowInterval = blankWindowSize / 8;
 
+            const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
+            const emptyDataCount = visiblePointCount * 0.1;
 
-            for (let i = 1; i <= 8; i++) {
+            const blankWindowSize = startTimeMillis - lastTickMillis;
+            const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+
+            for (let i = 1; i <= emptyDataCount; i++) {
                 series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
             }
-            xAxis.setExtremes(undefined, max, false);
+            xAxis.setExtremes(undefined, startTimeMillis, false);
         }
     }
 };
