@@ -22,7 +22,13 @@ export const updateExtremesXAxis = (chart, ticks, contract) => {
         if (lastTickEpoch < startTime) {
             const xAxis = chart.xAxis[0];
             const max = startTime * 1000 + 3000;
-            series.addPoint([max, null], false);
+            const lastTickMillis = lastTickEpoch * 1000;
+            const blankWindowSize = max - lastTickMillis;
+            const blankWindowInterval = blankWindowSize / 8;
+
+            for (let i = 1 ; i <= 8 ; i++) {
+                series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
+            }
             xAxis.setExtremes(undefined, max, false);
         }
     }

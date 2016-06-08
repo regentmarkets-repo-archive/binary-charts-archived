@@ -3,7 +3,7 @@ import { buttons } from './rangeSelector';
 
 export default ({ rangeChange = () => ({}) }) => ({
     type: 'datetime',
-    ordinal: false,
+    ordinal: true,
     tickWidth: 0,
     startOnTick: false,
     endOnTick: false,
