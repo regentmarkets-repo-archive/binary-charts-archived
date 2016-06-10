@@ -13,6 +13,9 @@ export default ({ rangeChange = () => ({}) }) => ({
                 const chart = this.chart;
 
                 const { count, type, text } = e.rangeSelectorButton;
+                if (chart.isLoading) {
+                    return;
+                }
                 const asyncResult = rangeChange(count, type);
 
                 // a hack so that we can set x-extremes correctly after data is loaded

@@ -7,6 +7,7 @@ import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
 import axisIndicators from './plugins/axisIndicators';
+import addLoadingFlag from './plugins/addLoadingFlag';
 // import tradeMarker from './plugins/tradeMarker';
 import theme from './theme';
 
@@ -15,6 +16,7 @@ if (Object.keys(Highcharts).length > 0) {
     exporting(Highcharts);
     noDataToDisplay(Highcharts);
     axisIndicators();
+    addLoadingFlag();
 //    tradeMarker();
     Highcharts.setOptions(theme);
 }
