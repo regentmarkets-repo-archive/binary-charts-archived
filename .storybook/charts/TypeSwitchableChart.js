@@ -16,6 +16,14 @@ export default class TypeSwitchChart extends React.Component {
         };
     }
 
+    componentDidMount() {
+        api.authorize(token).then(() =>
+            api.getDataForContract(() => getContract(contractId), 1, 'all')
+        ).then(ticks => {
+            this.setState({ type: 'area', ticks });
+        });
+    }
+
     changeType(type) {
         switch (type) {
             case 'area':
