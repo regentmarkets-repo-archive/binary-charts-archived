@@ -22,15 +22,15 @@ export default ({
         },
     },
     xAxis: {
-		gridLineColor: brandColor(0.2),
+		gridLineColor: brandColor(0.25),
         labels: {
 			style: {
 				color: brandColor(0.75),
 			},
 		},
-		lineColor: '#707073',
-		minorGridLineColor: '#505053',
-		tickColor: '#707073',
+		lineColor: brandColor(0.25),
+		// minorGridLineColor: 'blue',
+		// tickColor: 'red',
 		title: {
 			style: {
                 color: brandColor(0.75),
