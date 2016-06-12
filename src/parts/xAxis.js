@@ -3,7 +3,7 @@ import { buttons } from './rangeSelector';
 
 export default ({ rangeChange = () => ({}) }) => ({
     type: 'datetime',
-    ordinal: false,
+    ordinal: true,
     tickWidth: 0,
     startOnTick: false,
     endOnTick: false,
@@ -13,6 +13,9 @@ export default ({ rangeChange = () => ({}) }) => ({
                 const chart = this.chart;
 
                 const { count, type, text } = e.rangeSelectorButton;
+                if (chart.isLoading) {
+                    return;
+                }
                 const asyncResult = rangeChange(count, type);
 
                 // a hack so that we can set x-extremes correctly after data is loaded

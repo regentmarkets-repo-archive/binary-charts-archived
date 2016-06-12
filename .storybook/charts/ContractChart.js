@@ -63,6 +63,11 @@ export default class ContractChart extends React.Component {
                         this.setState({ ticks: newTicks });
                     }
                 });
+
+        // if (contract) {
+        //     contract.date_start = (new Date().getTime() / 1000) + 500;
+        //     delete contract.barrier;
+        // }
         return (
             <BinaryChart
                 id="halo"

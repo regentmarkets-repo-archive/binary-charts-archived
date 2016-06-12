@@ -20,9 +20,20 @@ export const updateExtremesXAxis = (chart, ticks, contract) => {
 
         if (lastTickEpoch < startTime) {
             const xAxis = chart.xAxis[0];
-            const max = startTime * 1000 + 3000;
-            series.addPoint([max, null], false);
-            xAxis.setExtremes(undefined, max, false);
+            const { min, max } = xAxis.getExtremes();
+            const startTimeMillis = startTime * 1000;
+            const lastTickMillis = lastTickEpoch * 1000;
+
+            const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
+            const emptyDataCount = visiblePointCount * 0.1;
+
+            const blankWindowSize = startTimeMillis - lastTickMillis;
+            const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+
+            for (let i = 1; i <= emptyDataCount; i++) {
+                series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
+            }
+            xAxis.setExtremes(undefined, startTimeMillis, false);
         }
     }
 };
@@ -32,11 +43,11 @@ export const updateExtremesYAxis = (chart, ticks, contract) => {
     if (!contract) return;
 
     const xAxis = chart.xAxis[0];
-    const xMin = xAxis.min;
-    const xMax = xAxis.max;
+    const xMin = xAxis.getExtremes().min;
+    const xMax = xAxis.getExtremes().max;
 
     const zoomedTicks = ticks
-        .filter(t => (t.epoch * 1000) > xMin && (t.epoch * 1000) < xMax);
+        .filter(t => (t.epoch * 1000) >= xMin && (t.epoch * 1000) <= xMax);
 
     let ticksMin = 0;
     let ticksMax = 0;
@@ -70,10 +81,11 @@ export const updateExtremesYAxis = (chart, ticks, contract) => {
     const dataMin = arrayMin(boundaries);
     const dataMax = arrayMax(boundaries);
 
-    const fivePercent = (dataMax - dataMin) * 0.05;
+    const upperBuffer = (dataMax - dataMin) * 0.3;      // more space to allow adding controls
+    const lowerBuffer = (dataMax - dataMin) * 0.25;
 
-    const nextMin = dataMin - fivePercent;
-    const nextMax = dataMax + fivePercent;
+    const nextMin = dataMin - lowerBuffer;
+    const nextMax = dataMax + upperBuffer;
 
     const yAxis = chart.yAxis[0];
 
