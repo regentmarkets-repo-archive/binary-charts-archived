@@ -1,7 +1,6 @@
 import getLastTick from 'binary-utils/lib/getLastTick';
-
-const arrayMin = arr => Math.min.apply(Math, arr);
-const arrayMax = arr => Math.max.apply(Math, arr);
+import arrayMin from 'binary-utils/lib/arrayMin';
+import arrayMax from 'binary-utils/lib/arrayMax';
 
 export const updateExtremesXAxis = (chart, ticks, contract) => {
     const lastTickEpoch = getLastTick(ticks) && getLastTick(ticks).epoch;
