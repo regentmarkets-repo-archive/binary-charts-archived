@@ -25,11 +25,10 @@ export default (chart, prevProps, nextProps) => {
                     newDataMax = dataList[dataList.length - 1][0];
                 }
             }
-
-            const frameSize = max - min;
+            
             const isCloseToMostRecent = (dataMax - max) <= 2000;
             if (isCloseToMostRecent) {
-                chart.xAxis[0].setExtremes(newDataMax - frameSize, newDataMax, false);
+                chart.xAxis[0].setExtremes(min, newDataMax);
             }
             break;
         }

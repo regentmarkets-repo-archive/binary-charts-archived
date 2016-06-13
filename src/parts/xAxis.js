@@ -6,6 +6,7 @@ export default ({ rangeChange = () => ({}) }) => ({
     ordinal: true,
     tickWidth: 0,
     startOnTick: false,
+    minRange: 1000,
     endOnTick: false,
     events: {
         setExtremes: function setExtremesHandler(e) {          // eslint-disable-line object-shorthand
@@ -32,7 +33,6 @@ export default ({ rangeChange = () => ({}) }) => ({
         },
         afterSetExtremes: function afterSetExtremesHandler(e) { // eslint-disable-line object-shorthand
             const chart = this.chart;
-
             if (!chart.binary) {
                 return;
             }
