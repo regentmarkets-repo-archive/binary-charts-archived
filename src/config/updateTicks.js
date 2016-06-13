@@ -20,16 +20,15 @@ export default (chart, prevProps, nextProps) => {
                 }
             } else {
                 const dataList = nextProps.ticks.map(tickToData);
-                chart.series[0].setData(dataList);
+                chart.series[0].setData(dataList, false);
                 if (dataList[dataList.length - 1]) {
                     newDataMax = dataList[dataList.length - 1][0];
                 }
             }
-
-            const frameSize = max - min;
+            
             const isCloseToMostRecent = (dataMax - max) <= 2000;
             if (isCloseToMostRecent) {
-                chart.xAxis[0].setExtremes(newDataMax - frameSize, newDataMax, false);
+                chart.xAxis[0].setExtremes(min, newDataMax);
             }
             break;
         }
@@ -51,7 +50,7 @@ export default (chart, prevProps, nextProps) => {
                 }
             } else {
                 const dataList = nextProps.ticks.map(ohlcToData);
-                chart.series[0].setData(dataList);
+                chart.series[0].setData(dataList, false);
             }
             break;
         }
