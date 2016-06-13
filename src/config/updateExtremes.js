@@ -1,8 +1,9 @@
 import getLastTick from 'binary-utils/lib/getLastTick';
 import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
+// import debounce from 'lodash.throttle';
 
-export const updateExtremesXAxis = (chart, ticks, contract) => {
+export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
     const lastTickEpoch = getLastTick(ticks) && getLastTick(ticks).epoch;
     const startTime = contract && contract.date_start;
     const series = chart.series[0];
@@ -39,9 +40,7 @@ export const updateExtremesXAxis = (chart, ticks, contract) => {
 };
 
 let lastExtremesY = {};
-export const updateExtremesYAxis = (chart, ticks, contract) => {
-    if (!contract) return;
-
+export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
     const xAxis = chart.xAxis[0];
     const xMin = xAxis.getExtremes().min;
     const xMax = xAxis.getExtremes().max;
@@ -81,8 +80,8 @@ export const updateExtremesYAxis = (chart, ticks, contract) => {
     const dataMin = arrayMin(boundaries);
     const dataMax = arrayMax(boundaries);
 
-    const upperBuffer = (dataMax - dataMin) * 0.1;      // more space to allow adding controls
-    const lowerBuffer = (dataMax - dataMin) * 0.1;
+    const upperBuffer = (dataMax - dataMin) * 0.05;      // more space to allow adding controls
+    const lowerBuffer = (dataMax - dataMin) * 0.05;
 
     const nextMin = dataMin - lowerBuffer;
     const nextMax = dataMax + upperBuffer;
