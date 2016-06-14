@@ -81,7 +81,7 @@ export default ({
 		buttonTheme: {
 			fill: 'none',
             width: null,
-            padding: 5,
+            padding: 2,
             r: 2,
             borderRadius: 5,
 			style: {
