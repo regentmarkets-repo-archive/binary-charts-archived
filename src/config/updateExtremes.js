@@ -2,7 +2,6 @@ import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
 
 export const updateExtremesXAxis = (chart, contract = {}) => {
-
     const series = chart.series[0];
     const type = series.type;
 
@@ -23,16 +22,23 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
     const startTimeMillis = startTime * 1000;
 
     if (!lastTickMillis || !startTime) {
+        const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
+        if (removeNull.length !== series.options.data.length) {
+            series.setData(removeNull, false);
+        }
         return;
     }
 
-    // start in future
-    if (lastTickMillis < startTimeMillis) {
+    const startTimeDataPoint = dataFromChart.find(d => d[0] > startTimeMillis);
+
+    // start in future relative to current data
+    const startInFuture = !startTimeDataPoint || !startTimeDataPoint[1];
+    if (!startTimeDataPoint) {
         const xAxis = chart.xAxis[0];
         const { min, max } = xAxis.getExtremes();
 
         const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
-        const emptyDataCount = visiblePointCount * 0.1;
+        const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
 
         const blankWindowSize = startTimeMillis - lastTickMillis;
         const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
@@ -40,8 +46,9 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
         for (let i = 1; i <= emptyDataCount; i++) {
             series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
         }
-        xAxis.setExtremes(undefined, startTimeMillis, false);
-    } else if (lastTickMillis > startTimeMillis) {
+
+        xAxis.setExtremes(min, startTimeMillis, false);
+    } else if (!startInFuture) {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
             series.setData(removeNull, false);
@@ -59,7 +66,11 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
     const xMax = xAxis.getExtremes().max;
 
     const zoomedTicks = chart.series[0].options.data
-        .filter(t => !!t[1] && t[0] >= xMin && t[0] <= xMax);
+        .filter(t => {
+            const valueValid = !!t[1] || t[1] === 0;
+            const withinRange = t[0] >= xMin && t[0] <= xMax;
+            return valueValid && withinRange;
+        });
 
     let ticksMin = 0;
     let ticksMax = 0;
@@ -120,9 +131,7 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
 };
 
 const updateExtremes = (chart, contract) => {
-
     updateExtremesXAxis(chart, contract);
-
     updateExtremesYAxis(chart, contract);
 };
 

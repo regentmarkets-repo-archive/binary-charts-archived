@@ -28,7 +28,11 @@ export default (chart, prevProps, nextProps) => {
 
             const isCloseToMostRecent = (dataMax - max) <= 2000;
             if (isCloseToMostRecent) {
-                chart.xAxis[0].setExtremes(min, newDataMax);
+                const hasNullData = chart.series[0].options.data.some(d => !d[1] && d[1] !== 0);
+                console.log('has', hasNullData);
+                if (!hasNullData) {
+                    chart.xAxis[0].setExtremes(min, newDataMax);
+                }
             }
             break;
         }

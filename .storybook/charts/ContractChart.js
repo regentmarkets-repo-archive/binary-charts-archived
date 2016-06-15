@@ -72,8 +72,8 @@ export default class ContractChart extends React.Component {
                 });
 
         if (contract) {
-            // contract.date_start = Math.round(new Date().getTime() / 1000) + 500;
-            // delete contract.barrier;
+            contract.date_start = Math.round(new Date().getTime() / 1000) + 500;
+            delete contract.barrier;
             // contract.tick_count = 10;
         }
         return (
