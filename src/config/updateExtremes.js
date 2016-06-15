@@ -44,20 +44,23 @@ export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
 let lastExtremesY = {};
 export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
     const xAxis = chart.xAxis[0];
-    const xMin = xAxis.getExtremes().min;
+
+    const { min, dataMin } = xAxis.getExtremes();
+
+    const xMin = Math.min(min, dataMin);
     const xMax = xAxis.getExtremes().max;
 
     const zoomedTicks = ticks
-        .filter(t => (t.epoch * 1000) >= xMin && (t.epoch * 1000) <= xMax);
+        .filter(t => (1000 * t.epoch) >= xMin && (1000 * t.epoch) <= xMax);
 
     let ticksMin = 0;
     let ticksMax = 0;
     if (chart.series[0].type === 'area') {
-        const quotes = zoomedTicks.map(t => +t.quote);
+        const quotes = zoomedTicks.map(t => +(t.quote));
         ticksMax = arrayMax(quotes);
         ticksMin = arrayMin(quotes);
     } else if (chart.series[0].type === 'candlestick') {
-        const highLow = zoomedTicks.map(t => [+t.high, +t.low]).reduce((a, b) => a.concat(b), []);
+        const highLow = zoomedTicks.map(t => [+(t.high), +(t.low)]).reduce((a, b) => a.concat(b), []);
         ticksMax = arrayMax(highLow);
         ticksMin = arrayMin(highLow);
     }
@@ -79,14 +82,14 @@ export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
         ].filter(x => x || x === 0);
     }
 
-    const dataMin = arrayMin(boundaries);
-    const dataMax = arrayMax(boundaries);
+    const visibleDataMin = arrayMin(boundaries);
+    const visibleDataMax = arrayMax(boundaries);
 
-    const upperBuffer = (dataMax - dataMin) * 0.05;      // more space to allow adding controls
-    const lowerBuffer = (dataMax - dataMin) * 0.05;
+    const upperBuffer = (visibleDataMax - visibleDataMin) * 0.05;      // more space to allow adding controls
+    const lowerBuffer = (visibleDataMax - visibleDataMin) * 0.05;
 
-    const nextMin = dataMin - lowerBuffer;
-    const nextMax = dataMax + upperBuffer;
+    const nextMin = visibleDataMin - lowerBuffer;
+    const nextMax = visibleDataMax + upperBuffer;
 
     const yAxis = chart.yAxis[0];
 
