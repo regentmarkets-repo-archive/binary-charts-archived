@@ -2,13 +2,13 @@ export const winPlotBand = (id, from, to) => ({
     id,
     from,
     to,
-    color: 'rgba(0, 255, 0, 0.05)',
+    color: 'rgba(46, 136, 54, 0.2)',
     label: {
-        text: 'Win',
+        text: 'WIN',
         style: {
             fontSize: '25px',
             fontWeight: 'bold',
-            color: 'rgba(0, 255, 0, 0.5)',
+            color: '#2E8836',
         },
     },
 });
@@ -17,13 +17,13 @@ export const lossPlotBand = (id, from, to) => ({
     id,
     from,
     to,
-    color: 'rgba(255, 0, 0, 0.05)',
+    color: 'rgba(204, 0, 51, 0.1)',
     label: {
-        text: 'Loss',
+        text: 'LOSS',
         style: {
             fontSize: '25px',
             fontWeight: 'bold',
-            color: 'rgba(255, 0, 0, 0.5)',
+            color: '#c03',
         },
     },
 });

@@ -127,7 +127,7 @@ const renderAxisIndicator = chart => {
         });
 
     renderIndicator({ chart, indicator: 'spot', value: currentPrice,
-        x, pipSize, yAxis, color: '#f50c35', zIndex: 11 });
+        x, pipSize, yAxis, color: '#c03', zIndex: 11 });
 };
 
 export default () => {

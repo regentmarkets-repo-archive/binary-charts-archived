@@ -13,12 +13,12 @@ export default ({
             lineWidth: 1.5,
         },
         candlestick: {
-            color: 'red',
-            lineColor: 'red',
-            lineWidth: 3,
-            upColor: 'green',
-            upLineColor: 'green',
-            pointPadding: 0.3,
+            color: '#c03',
+            lineColor: '#c03',
+            lineWidth: 2,
+            upColor: '#2E8836',
+            upLineColor: '#2E8836',
+            pointPadding: 0.2,
         },
     },
     xAxis: {
