@@ -41,7 +41,7 @@ export const updatePlotBands = ({ chart, contract }) => {
     replacePlotBands(chart.yAxis[0], newPlotBands);
 };
 
-export default ({ chart, contract, ticks }) => {
+export default ({ chart, contract }) => {
     updatePlotBands({ chart, contract });
 
     const newPlotLines = dateEntryPlotLines(contract);
@@ -49,5 +49,5 @@ export default ({ chart, contract, ticks }) => {
 
     updateZones(chart, newPlotLines);
 
-    updateExtremes(chart, ticks, contract);
+    updateExtremes(chart, contract);
 };
