@@ -49,7 +49,7 @@ export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
     const xMax = xAxis.getExtremes().max;
 
     const zoomedTicks = chart.series[0].options.data
-        .filter(t => t[0] >= xMin && t[0] <= xMax);
+        .filter(t => !!t[1] && t[0] >= xMin && t[0] <= xMax);
 
     let ticksMin = 0;
     let ticksMax = 0;
