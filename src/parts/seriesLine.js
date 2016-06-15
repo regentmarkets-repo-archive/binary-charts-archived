@@ -8,7 +8,7 @@ export default ({ data, pipSize, type }) => [{
         valueDecimals: pipSize,
         zIndex: 120,
     },
-    fillColor: brandColor(0.1),
+    // fillColor: brandColor(0.1),
     fillOpacity: 0.1,
     threshold: null,
     zoneAxis: 'x',

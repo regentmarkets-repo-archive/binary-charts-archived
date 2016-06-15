@@ -5,13 +5,13 @@ import DynamicChart from './charts/DynamicChart';
 import { massiveTicks } from './ticks';
 
 const realTrade = {
-    "tradeCategory": "risefall",
-    "duration": 5,
-    "amount": 50,
-    "duration_unit": "t",
-    "symbol": "R_100",
-    "contract_type": "CALL",
-    "basis": "stake"
+    tradeCategory: 'risefall',
+    duration: 5,
+    amount: 50,
+    duration_unit: 't',
+    symbol: 'R_100',
+    contract_type: 'CALL',
+    basis: 'stake',
 };
 
 storiesOf('Basic', module)
@@ -26,6 +26,27 @@ storiesOf('Basic', module)
                 { epoch: 2, quote: 60 },
             ]}
         />
+    )
+    .add('Dark Theme', () =>
+        <div style={{ background: '#1d1d24', padding: 10 }}>
+            <BinaryChart
+                ticks={[
+                    { epoch: 0, quote: 50 },
+                    { epoch: 1, quote: 40 },
+                    { epoch: 2, quote: 60 },
+                ]}
+                contract={{
+                    purchase_time: 1,
+                    date_start: 2,
+                    entry_tick_time: 3,
+                    date_expiry: 4,
+                    exit_tick_time: 5,
+                    date_settlement: 6,
+                    sell_time: 7,
+                }}
+                theme="dark"
+            />
+        </div>
     )
     .add('Fixed Size', () =>
         <BinaryChart

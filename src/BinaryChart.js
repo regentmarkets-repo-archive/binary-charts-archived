@@ -9,7 +9,7 @@ import updateChart from './config/updateChart';
 import axisIndicators from './plugins/axisIndicators';
 import addLoadingFlag from './plugins/addLoadingFlag';
 // import tradeMarker from './plugins/tradeMarker';
-import theme from './theme';
+import theme from './themes';
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
@@ -32,6 +32,7 @@ export default class BinaryChart extends Component {
         rangeChange: PropTypes.func,
         symbol: PropTypes.string,
         ticks: BinaryTypes.tickArray,
+        theme: PropTypes.string,
         trade: BinaryTypes.contractOrTrade,
         tradingTimes: BinaryTypes.tradingTimes,
         type: PropTypes.oneOf(['area', 'candlestick']),
@@ -42,6 +43,7 @@ export default class BinaryChart extends Component {
     static defaultProps = {
         defaultRange: 6,
         events: [],
+        theme: 'light',
         ticks: [],
         pipSize: 0,
         type: 'area',

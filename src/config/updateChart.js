@@ -6,6 +6,7 @@ import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import getLastOHLCTick from 'binary-utils/lib/getLastOHLCTick';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
+import updateTheme from './updateTheme';
 import updateRest from './updateRest';
 import mergeTradeWithContract from './mergeTradeWithContract';
 
@@ -25,6 +26,9 @@ const contractsAreEqual = (prevProps, nextProps) =>
 
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
+
+const themesAreEqual = (prevProps, nextProps) =>
+    nextProps.theme === prevProps.theme;
 
 const restAreEqual = (prevProps, nextProps) =>
     nextProps.pipSize === prevProps.pipSize;
@@ -83,4 +87,8 @@ export default (chart, prevProps, nextProps) => {
     }
 
     chart.redraw();
+
+    if (!themesAreEqual(prevProps, nextProps)) {
+        updateTheme(nextProps.theme);
+    }
 };
