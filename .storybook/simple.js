@@ -2,6 +2,17 @@ import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 import BinaryChart from '../src/BinaryChart';
 import DynamicChart from './charts/DynamicChart';
+import { massiveTicks } from './ticks';
+
+const realTrade = {
+    "tradeCategory": "risefall",
+    "duration": 5,
+    "amount": 50,
+    "duration_unit": "t",
+    "symbol": "R_100",
+    "contract_type": "CALL",
+    "basis": "stake"
+};
 
 storiesOf('Basic', module)
     .add('Empty', () =>
@@ -112,4 +123,12 @@ storiesOf('Basic', module)
                 sell_time: (new Date().getTime() + 5),
             }}
         />
-    );
+    )
+    .add('Massive ticks debug', () =>
+        <BinaryChart
+            ticks={massiveTicks}
+            trade={realTrade}
+            pipSize={2}
+        />
+    )
+;

@@ -25,6 +25,13 @@ const endsoutsideTrade = {
     contract_type: 'EXPIRYMISS'
 };
 
+const tickTrade = {
+    barrierType: 'digit',
+    barrier: 8,
+    contract_type: 'DIGITMATCH',
+    tick_count: 10,
+}
+
 export default class ContractChart extends React.Component {
 
     static propTypes = {
@@ -64,10 +71,11 @@ export default class ContractChart extends React.Component {
                     }
                 });
 
-        // if (contract) {
-        //     contract.date_start = (new Date().getTime() / 1000) + 500;
-        //     delete contract.barrier;
-        // }
+        if (contract) {
+            // contract.date_start = Math.round(new Date().getTime() / 1000) + 500;
+            // delete contract.barrier;
+            contract.tick_count = 10;
+        }
         return (
             <BinaryChart
                 id="halo"
