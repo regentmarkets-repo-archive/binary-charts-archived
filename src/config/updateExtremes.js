@@ -2,7 +2,6 @@ import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
 
 export const updateExtremesXAxis = (chart, contract = {}) => {
-
     const series = chart.series[0];
     const type = series.type;
 
@@ -111,9 +110,7 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
 };
 
 const updateExtremes = (chart, contract) => {
-
     updateExtremesXAxis(chart, contract);
-
     updateExtremesYAxis(chart, contract);
 };
 
