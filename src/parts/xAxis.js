@@ -40,15 +40,18 @@ export default ({ rangeChange = () => ({}) }) => ({
             const triggerByRangeSelector = e.trigger === 'rangeSelectorButton';
 
             const { ticks, contract } = chart.binary;
+            let toRedraw = false;
             if (ticks && contract) {
                 updateExtremesYAxis(chart, ticks, contract);
-                chart.redraw();
+                toRedraw = true;
             }
 
             if (triggerByRangeSelector) {
                 updateExtremes(chart, ticks, contract);
-                chart.redraw();
+                toRedraw = true;
             }
+
+            if (toRedraw) chart.redraw();
         },
     },
 });
