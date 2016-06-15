@@ -1,41 +1,41 @@
 import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
-// import debounce from 'lodash.throttle';
 
 export const updateExtremesXAxis = (chart, contract = {}) => {
+
     const series = chart.series[0];
+    const type = series.type;
+
+    if (type !== 'area') return;
+
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
     const startTime = contract && contract.date_start;
     const startTimeMillis = startTime * 1000;
 
-    const type = series.type;
+    if (!lastTickMillis || !startTime) {
+        return;
+    }
 
-    if (type === 'area') {
+    // start in future
+    if (lastTickMillis < startTimeMillis) {
+        const xAxis = chart.xAxis[0];
+        const { min, max } = xAxis.getExtremes();
+
+        const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
+        const emptyDataCount = visiblePointCount * 0.1;
+
+        const blankWindowSize = startTimeMillis - lastTickMillis;
+        const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+
+        for (let i = 1; i <= emptyDataCount; i++) {
+            series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
+        }
+        xAxis.setExtremes(undefined, startTimeMillis, false);
+    } else if (lastTickMillis > startTimeMillis) {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
             series.setData(removeNull, false);
-        }
-
-        if (!lastTickMillis || !startTime) {
-            return;
-        }
-
-        // start in future
-        if (lastTickMillis < startTimeMillis) {
-            const xAxis = chart.xAxis[0];
-            const { min, max } = xAxis.getExtremes();
-
-            const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
-            const emptyDataCount = visiblePointCount * 0.1;
-
-            const blankWindowSize = startTimeMillis - lastTickMillis;
-            const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
-
-            for (let i = 1; i <= emptyDataCount; i++) {
-                series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
-            }
-            xAxis.setExtremes(undefined, startTimeMillis, false);
         }
     }
 };
@@ -111,7 +111,9 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
 };
 
 const updateExtremes = (chart, contract) => {
+
     updateExtremesXAxis(chart, contract);
+
     updateExtremesYAxis(chart, contract);
 };
 
