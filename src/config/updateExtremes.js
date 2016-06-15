@@ -2,9 +2,18 @@ import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
 
 export const updateExtremesXAxis = (chart, contract = {}) => {
+
     const series = chart.series[0];
     const type = series.type;
 
+    if (type !== 'area') return;
+
+    const dataFromChart = series.options.data;
+    const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
+    const startTime = contract && contract.date_start;
+    const startTimeMillis = startTime * 1000;
+    
+    const type = series.type;
 
     if (type !== 'area') return;
 
@@ -27,7 +36,6 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
 
         const blankWindowSize = startTimeMillis - lastTickMillis;
         const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
-
 
         for (let i = 1; i <= emptyDataCount; i++) {
             series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
@@ -112,7 +120,9 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
 };
 
 const updateExtremes = (chart, contract) => {
+
     updateExtremesXAxis(chart, contract);
+
     updateExtremesYAxis(chart, contract);
 };
 
