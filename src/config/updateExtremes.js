@@ -13,6 +13,7 @@ export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
             series.setData(removeNull, false);
+            series.isDirty = true;
         }
 
         if (!lastTickEpoch || !startTime) {
@@ -35,6 +36,7 @@ export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
                 series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
             }
             xAxis.setExtremes(undefined, startTimeMillis, false);
+            xAxis.isDirty = true;
         }
     }
 };
@@ -101,6 +103,7 @@ export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
 
     if (lastExtremesY.min !== nextMin || lastExtremesY.max !== nextMax) {
         yAxis.setExtremes(nextMin, nextMax, false);
+        yAxis.isDirty = true;
         lastExtremesY.min = nextMin;
         lastExtremesY.max = nextMax;
     }
