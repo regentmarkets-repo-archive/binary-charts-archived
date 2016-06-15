@@ -42,6 +42,7 @@ export default ({ rangeChange = () => ({}) }) => ({
             const { ticks, contract } = chart.binary;
             if (ticks && contract) {
                 updateExtremesYAxis(chart, ticks, contract);
+                chart.redraw();
             }
 
             if (triggerByRangeSelector) {

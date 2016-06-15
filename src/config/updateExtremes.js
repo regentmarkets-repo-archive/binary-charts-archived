@@ -47,20 +47,20 @@ export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
 
     const { min, dataMin } = xAxis.getExtremes();
 
-    const xMin = Math.min(min, dataMin);
+    const xMin = Math.max(min, dataMin);
     const xMax = xAxis.getExtremes().max;
 
-    const zoomedTicks = ticks
-        .filter(t => (1000 * t.epoch) >= xMin && (1000 * t.epoch) <= xMax);
+    const zoomedTicks = chart.series[0].options.data
+        .filter(t => t[0] >= xMin && t[0] <= xMax);
 
     let ticksMin = 0;
     let ticksMax = 0;
     if (chart.series[0].type === 'area') {
-        const quotes = zoomedTicks.map(t => +(t.quote));
+        const quotes = zoomedTicks.map(t => +(t[1]));
         ticksMax = arrayMax(quotes);
         ticksMin = arrayMin(quotes);
     } else if (chart.series[0].type === 'candlestick') {
-        const highLow = zoomedTicks.map(t => [+(t.high), +(t.low)]).reduce((a, b) => a.concat(b), []);
+        const highLow = zoomedTicks.map(t => [+(t[1]), +(t[2])]).reduce((a, b) => a.concat(b), []);
         ticksMax = arrayMax(highLow);
         ticksMin = arrayMin(highLow);
     }
