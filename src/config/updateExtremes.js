@@ -1,12 +1,14 @@
-import getLastTick from 'binary-utils/lib/getLastTick';
 import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
 // import debounce from 'lodash.throttle';
 
-export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
-    const lastTickEpoch = getLastTick(ticks) && getLastTick(ticks).epoch;
-    const startTime = contract && contract.date_start;
+export const updateExtremesXAxis = (chart, contract = {}) => {
     const series = chart.series[0];
+    const dataFromChart = series.options.data;
+    const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
+    const startTime = contract && contract.date_start;
+    const startTimeMillis = startTime * 1000;
+
     const type = series.type;
 
     if (type === 'area') {
@@ -15,15 +17,14 @@ export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
             series.setData(removeNull, false);
         }
 
-        if (!lastTickEpoch || !startTime) {
+        if (!lastTickMillis || !startTime) {
             return;
         }
 
-        if (lastTickEpoch < startTime) {
+        // start in future
+        if (lastTickMillis < startTimeMillis) {
             const xAxis = chart.xAxis[0];
             const { min, max } = xAxis.getExtremes();
-            const startTimeMillis = startTime * 1000;
-            const lastTickMillis = lastTickEpoch * 1000;
 
             const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
             const emptyDataCount = visiblePointCount * 0.1;
@@ -40,7 +41,7 @@ export const updateExtremesXAxis = (chart, ticks, contract = {}) => {
 };
 
 let lastExtremesY = {};
-export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
+export const updateExtremesYAxis = (chart, contract = {}) => {
     const xAxis = chart.xAxis[0];
 
     const { min, dataMin } = xAxis.getExtremes();
@@ -109,9 +110,9 @@ export const updateExtremesYAxis = (chart, ticks, contract = {}) => {
     }
 };
 
-const updateExtremes = (chart, ticks, contract) => {
-    updateExtremesXAxis(chart, ticks, contract);
-    updateExtremesYAxis(chart, ticks, contract);
+const updateExtremes = (chart, contract) => {
+    updateExtremesXAxis(chart, contract);
+    updateExtremesYAxis(chart, contract);
 };
 
 export default updateExtremes;
