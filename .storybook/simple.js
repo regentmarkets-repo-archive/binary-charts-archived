@@ -5,13 +5,13 @@ import DynamicChart from './charts/DynamicChart';
 import { massiveTicks } from './ticks';
 
 const realTrade = {
-    tradeCategory: 'risefall',
-    duration: 5,
-    amount: 50,
-    duration_unit: 't',
-    symbol: 'R_100',
-    contract_type: 'CALL',
-    basis: 'stake',
+    "tradeCategory": "risefall",
+    "duration": 5,
+    "amount": 50,
+    "duration_unit": "t",
+    "symbol": "R_100",
+    "contract_type": "CALL",
+    "basis": "stake"
 };
 
 storiesOf('Basic', module)

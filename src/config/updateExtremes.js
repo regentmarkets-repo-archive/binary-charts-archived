@@ -5,6 +5,7 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
     const series = chart.series[0];
     const type = series.type;
 
+
     if (type !== 'area') return;
 
     const dataFromChart = series.options.data;
@@ -26,6 +27,7 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
 
         const blankWindowSize = startTimeMillis - lastTickMillis;
         const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+
 
         for (let i = 1; i <= emptyDataCount; i++) {
             series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
