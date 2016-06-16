@@ -13,7 +13,7 @@ export default ({ pipSize = 0, type = 'area', rangeChange, typeChange, defaultRa
     plotOptions: plotOptions(),
     navigator: navigator(),
     rangeSelector: rangeSelector(defaultRange),
-    xAxis: xAxis({ rangeChange }),
+    xAxis: xAxis({ rangeChange, type }),
     yAxis: {
         ...yAxis({ pipSize }),
         indicators: {
