@@ -42,7 +42,7 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
             newMax = futurePoint[0];
         }
         series.setData(newSeries, false);
-        setTimeout(() => xAxis.setExtremes(min, startTimeMillis), 100);
+        setTimeout(() => xAxis.setExtremes(min, newMax), 100);
     } else if (!startInFuture) {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
