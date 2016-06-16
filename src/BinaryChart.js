@@ -55,6 +55,13 @@ export default class BinaryChart extends Component {
         const config = initChart(props);
         config.chart.renderTo = this.refs.chart;
         this.chart = new Highcharts.StockChart(config);
+
+        if (props.type === 'candlestick') {
+            this.chart.xAxis[0].update({
+                minRange: 10 * 60 * 1000,
+            });
+        }
+
         const self = this.chart;
         this.eventListeners = props.events.map(e => {
             function handler() {
