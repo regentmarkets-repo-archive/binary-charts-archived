@@ -18,7 +18,7 @@ if (Object.keys(Highcharts).length > 0) {
     axisIndicators();
     addLoadingFlag();
 //    tradeMarker();
-    Highcharts.setOptions(theme);
+//    Highcharts.setOptions(theme);
 }
 
 export default class BinaryChart extends Component {

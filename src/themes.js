@@ -1,7 +1,4 @@
-import brandColor from 'binary-utils/lib/brandColor';
-
-const whiteColor = percentage =>
-    `rgba(255, 255, 255, ${percentage})`;
+import { merge } from 'highcharts/highstock';
 
 const themeColors = (colorFunc) => ({
     colors: [colorFunc(1), '#f45b5b', '#8085e9', '#8d4654'],
@@ -95,15 +92,7 @@ const themeColors = (colorFunc) => ({
     },
 });
 
-export const lightTheme = {
-    ...themeColors(brandColor),
-};
-
-export const darkTheme = {
-    ...themeColors(whiteColor),
-};
-
-export default {
+const commonTheme = {
     chart: {
 		style: {
 			fontFamily: "'Roboto', sans-serif",
@@ -166,6 +155,23 @@ export default {
         noData: 'Chart data not available for this asset',
     },
 };
+
+export const lightTheme = merge(
+    commonTheme,
+    themeColors(percentage => `rgba(42, 48, 82, ${percentage})`),
+);
+
+export const darkTheme = merge(
+    commonTheme,
+    themeColors(percentage => `rgba(255, 255, 255, ${percentage})`),
+);
+
+export const setLightTheme = () =>
+    Highcharts.setOptions(lightTheme);
+
+export const setDarkTheme = () =>
+    Highcharts.setOptions(darkTheme);
+
 
 // const dark = {
 // 	plotOptions: {

@@ -1,3 +1,4 @@
+import { merge } from 'highcharts/highstock';
 import reset from '../parts/reset';
 import exporting from '../parts/exporting';
 import plotOptions from '../parts/plotOptions';
@@ -7,8 +8,11 @@ import yAxis from '../parts/yAxis';
 import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 // import events from '../parts/events';
+import { lightTheme, darkTheme } from '../themes';
 
-export default ({ pipSize = 0, type = 'area', rangeChange, typeChange, defaultRange, noData, height, width }) => ({
+const theme = false ? lightTheme : darkTheme;
+
+export default ({ pipSize = 0, type = 'area', rangeChange, typeChange, defaultRange, noData, height, width }) => merge(theme, {
     ...reset({ height, width, pipSize, noData }),
     plotOptions: plotOptions(),
     navigator: navigator(),

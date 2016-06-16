@@ -27,9 +27,6 @@ const contractsAreEqual = (prevProps, nextProps) =>
 const tradingTimesAreEqual = (prevProps, nextProps) =>
     shallowEqual(nextProps.tradingTimes, prevProps.tradingTimes);
 
-const themesAreEqual = (prevProps, nextProps) =>
-    nextProps.theme === prevProps.theme;
-
 const restAreEqual = (prevProps, nextProps) =>
     nextProps.pipSize === prevProps.pipSize;
 
@@ -84,10 +81,6 @@ export default (chart, prevProps, nextProps) => {
     const restDiffer = !restAreEqual(prevProps, nextProps);
     if (restDiffer) {
         updateRest(chart, nextProps);
-    }
-
-    if (!themesAreEqual(prevProps, nextProps)) {
-        updateTheme(nextProps.theme);
     }
 
     chart.redraw();

@@ -35,6 +35,12 @@ storiesOf('Basic', module)
                     { epoch: 1, quote: 40 },
                     { epoch: 2, quote: 60 },
                 ]}
+                contract={{
+                    contract_type: 'EXPIRYRANGE',
+                    barrierType: 'relative',
+                    barrier: '10',
+                    barrier2: '-10',
+                }}
                 theme="dark"
             />
         </div>
