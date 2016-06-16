@@ -1,11 +1,12 @@
 import updateExtremes, { updateExtremesYAxis } from '../config/updateExtremes';
 import { buttons } from './rangeSelector';
 
-export default ({ rangeChange = () => ({}) }) => ({
+export default ({ rangeChange = () => ({}), type }) => ({
     type: 'datetime',
     ordinal: true,
     tickWidth: 0,
     startOnTick: false,
+    minRange: type === 'candlestick' ? 60000 : 1000,
     endOnTick: false,
     events: {
         setExtremes: function setExtremesHandler(e) {          // eslint-disable-line object-shorthand
