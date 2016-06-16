@@ -1,9 +1,9 @@
-import brandColor from 'binary-utils/lib/brandColor';
+import { colorBg } from '../themes';
 
-export default (id, epoch, color, text, position) => ({
+export default ({ id, epoch, text, position, theme }) => ({
     id,
     value: epoch * 1000,
-    color: brandColor(0.5),
+    color: colorBg(theme, 0.5),
 //    dashStyle: 'longdash',
     width: 1,
     label: {
@@ -13,7 +13,7 @@ export default (id, epoch, color, text, position) => ({
         textAlign: position === 'left' ? 'right' : 'left',
         verticalAlign: 'top',
         style: {
-            color: brandColor(1),
+            color: colorBg(theme, 1),
             fontWeight: 'bold',
             letterSpacing: '.2px',
         },

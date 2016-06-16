@@ -1,4 +1,4 @@
-export default ({ height, width, pipSize, noData }) => ({
+export default ({ height, width, noData }) => ({
     animation: true,
     scrollbar: { enabled: false },
     credits: { enabled: false },
@@ -15,9 +15,8 @@ export default ({ height, width, pipSize, noData }) => ({
         height,
         width,
         events: {
-            load: function onLoad() {                 // eslint-disable-line object-shorthand
+            load: function onLoad() { // eslint-disable-line object-shorthand
                 this.xAxis[0].chart = this;
-                this.binary = { pipSize };
             },
         },
     },

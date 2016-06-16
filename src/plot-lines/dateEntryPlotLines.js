@@ -1,9 +1,6 @@
-import brandColor from 'binary-utils/lib/brandColor';
 import contractCodeToText from 'binary-utils/lib/contractCodeToText';
 import vertPlotLine from './vertPlotLine';
 import timePlotLines from './timePlotLines';
-
-const lineColor = brandColor(0.5);
 
 const shoudShowPurchaseTime = contract =>
     contract.purchase_time !== contract.entry_tick_time &&
@@ -18,7 +15,7 @@ const shouldShowExpiry = contract => !contract.tick_count;
 const shouldShowSettlement = contract =>
     contract.date_settlement !== contract.date_expiry;
 
-export default (contract) => {
+export default (contract, theme) => {
     if (!contract) {
         return [];
     }
@@ -30,7 +27,11 @@ export default (contract) => {
         .filter(param => param.id !== 'date_expiry' || shouldShowExpiry(contract))
         .filter(param => param.id !== 'date_settlement' || shouldShowSettlement(contract))
         .filter(param => param.id !== 'sell_time')
-        .map(param =>
-            vertPlotLine(param.id, contract[param.id], lineColor, contractCodeToText(param.id), param.position)
-        );
+        .map(param => vertPlotLine({
+            id: param.id,
+            epoch: contract[param.id],
+            text: contractCodeToText(param.id),
+            position: param.position,
+            theme,
+        }));
 };

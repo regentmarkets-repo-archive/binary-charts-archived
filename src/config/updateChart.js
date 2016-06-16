@@ -6,7 +6,6 @@ import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
 import getLastOHLCTick from 'binary-utils/lib/getLastOHLCTick';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
-import updateTheme from './updateTheme';
 import updateRest from './updateRest';
 import mergeTradeWithContract from './mergeTradeWithContract';
 
@@ -34,7 +33,7 @@ const restAreEqual = (prevProps, nextProps) =>
 export default (chart, prevProps, nextProps) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
-    const { contract, trade, ticks, type, pipSize } = nextProps;
+    const { contract, pipSize, theme, trade, ticks, type } = nextProps;
 
     let lastTick = {};
     let ticksDiffer = true;
@@ -64,12 +63,15 @@ export default (chart, prevProps, nextProps) => {
 
     const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
 
-    chart.binary.contract = mergedContract;
-    chart.binary.ticks = ticks;
-    chart.binary.pipSize = pipSize;
+    chart.userOptions.binary = {
+        contract: mergedContract,
+        ticks,
+        pipSize,
+        theme,
+    };
 
     if (contractsDiffer || ticksDiffer) {
-        updateContract({ chart, contract: mergedContract, ticks });
+        updateContract({ chart, contract: mergedContract, theme });
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);

@@ -9,7 +9,6 @@ import updateChart from './config/updateChart';
 import axisIndicators from './plugins/axisIndicators';
 import addLoadingFlag from './plugins/addLoadingFlag';
 // import tradeMarker from './plugins/tradeMarker';
-import theme from './themes';
 
 // workaround for tests to work
 if (Object.keys(Highcharts).length > 0) {
@@ -18,7 +17,6 @@ if (Object.keys(Highcharts).length > 0) {
     axisIndicators();
     addLoadingFlag();
 //    tradeMarker();
-//    Highcharts.setOptions(theme);
 }
 
 export default class BinaryChart extends Component {

@@ -1,9 +1,5 @@
 import { wrap, Chart } from 'highcharts/highstock';
-import brandColor from 'binary-utils/lib/brandColor';
-
-// const defaultOptions = {
-//     enabled: true,
-// };
+import { colorBg, colorText } from '../themes';
 
 const lastPriceFromSeries = series => {
     let lastPrice = 0;
@@ -17,7 +13,6 @@ const lastPriceFromSeries = series => {
     return lastPrice;
 };
 
-
 const polyPath = (x, y) => [
     'M', x - 10, y,
     'L',
@@ -27,19 +22,19 @@ const polyPath = (x, y) => [
     x, y + 7,
 ];
 
-const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis, zIndex }) => {
+const initialize = ({ renderer, pipSize, background, text, value, x, y, indicator, yAxis, zIndex }) => {
     indicator.group = renderer.g(indicator)
         .attr({ zIndex })
         .add();
 
     indicator.line = renderer
-        .rect(0, y + 1, x + 1, 2)
-        .attr({ fill: color, opacity: 0.5 })
+        .rect(0, y + 1, x + 5, 2)
+        .attr({ fill: background, opacity: 0.75 })
         .add(indicator.group);
 
     indicator.poly = renderer
         .path(polyPath(x + 10, y))
-        .attr({ fill: color })
+        .attr({ fill: background })
         .add(indicator.group);
 
     indicator.label = renderer
@@ -50,7 +45,7 @@ const initialize = ({ renderer, pipSize, color, value, x, y, indicator, yAxis, z
         .css({
             cursor: 'default',
             textAnchor: 'end',
-            color: 'white',
+            color: text,
         })
         .add(indicator.group);
 };
@@ -60,7 +55,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
         text: (+value).toFixed(pipSize),
     });
 
-    indicator.line.animate({ y: y - 1, width: x + 1 });
+    indicator.line.animate({ y: y - 1, width: x + 5 });
 
     indicator.label.animate({
         x: x - 4 + yAxis.chart.marginRight,
@@ -80,7 +75,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
     }
 };
 
-const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color, zIndex }) => {
+const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, background, text, zIndex }) => {
     const y = yAxis.toPixels(value) || 0;
     const updateFunc = yAxis[indicator] ? update : initialize;
 
@@ -91,7 +86,8 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color, zI
     updateFunc({
         renderer: chart.renderer,
         pipSize,
-        color,
+        background,
+        text,
         value,
         x, y,
         indicator: yAxis[indicator],
@@ -101,12 +97,10 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, color, zI
 };
 
 const renderAxisIndicator = chart => {
-    const pipSize = chart.binary ? chart.binary.pipSize : 0;
+    const { contract, pipSize, theme } = chart.userOptions.binary;
     const yAxis = chart.yAxis[0];
     const currentPrice = lastPriceFromSeries(chart.series[0]);
     const x = yAxis.width;
-
-    const { contract } = chart.binary;
 
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
@@ -118,7 +112,8 @@ const renderAxisIndicator = chart => {
                     x,
                     pipSize,
                     yAxis,
-                    color: brandColor(1),
+                    background: colorBg(theme, 1),
+                    text: colorText(theme, 1),
                     zIndex: 10,
                 });
             } else {
@@ -127,7 +122,7 @@ const renderAxisIndicator = chart => {
         });
 
     renderIndicator({ chart, indicator: 'spot', value: currentPrice,
-        x, pipSize, yAxis, color: '#c03', zIndex: 11 });
+        x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
 };
 
 export default () => {

@@ -1,53 +1,61 @@
 import { merge } from 'highcharts/highstock';
 
-const themeColors = (colorFunc) => ({
-    colors: [colorFunc(1), '#f45b5b', '#8085e9', '#8d4654'],
+export const colorBg = (theme, percentage) =>
+    theme === 'light' ?
+        `rgba(42, 48, 82, ${percentage})` :
+        `rgba(242, 244, 255, ${percentage})`;
+
+export const colorText = (theme, percentage) =>
+    colorBg(theme === 'light' ? 'dark' : 'light', percentage);
+
+const themeColors = theme => ({
+    colors: [colorBg(theme, 1), '#f45b5b', '#8085e9', '#8d4654'],
     series: {
-        fillColor: 'red', // colorFunc(0.1),
+        fillColor: 'red',
     },
     xAxis: {
-		gridLineColor: colorFunc(0.25),
+		gridLineColor: colorBg(theme, 0.25),
         labels: {
 			style: {
-				color: colorFunc(0.75),
+				color: colorBg(theme, 0.75),
 			},
 		},
-		lineColor: colorFunc(0.25),
+		lineColor: colorBg(theme, 0.25),
 		title: {
 			style: {
-                color: colorFunc(0.75),
+                color: colorBg(theme, 0.75),
 			},
 		},
 	},
     yAxis: {
-        gridLineColor: colorFunc(0.2),
+        gridLineColor: colorBg(theme, 0.2),
 		labels: {
 			style: {
-				color: colorFunc(0.75),
+				color: colorBg(theme, 0.75),
 			},
 		},
-		tickColor: colorFunc(0.2),
+		tickColor: colorBg(theme, 0.2),
 		title: {
 			style: {
-				color: colorFunc(0.75),
+				color: colorBg(theme, 0.75),
 			},
 		},
 	},
     navigator: {
 		handles: {
-			backgroundColor: colorFunc(0.25),
-			borderColor: colorFunc(0.5),
+			backgroundColor: colorBg(theme, 0.25),
+			borderColor: colorBg(theme, 0.5),
 		},
-		maskFill: colorFunc(0.1),
+		maskFill: colorBg(theme, 0.1),
 		series: {
-			color: colorFunc(0.25),
-			lineColor: colorFunc(0.25),
+			color: colorBg(theme, 0.25),
+			lineColor: colorBg(theme, 0.25),
 		},
 		xAxis: {
-			gridLineColor: colorFunc(0.1),
+			gridLineColor: colorBg(theme, 0.1),
             labels: {
                 style: {
-                    color: colorFunc(0.75),
+                    color: colorBg(theme, 0.75),
                 },
             },
 		},
@@ -55,13 +63,13 @@ const themeColors = (colorFunc) => ({
     rangeSelector: {
 		buttonTheme: {
 			style: {
-				color: colorFunc(0.75),
+				color: colorBg(theme, 0.75),
 			},
 			states: {
 				select: {
-                    fill: colorFunc(0.1),
+                    fill: colorBg(theme, 0.1),
 					style: {
-                        color: colorFunc(0.75),
+                        color: colorBg(theme, 0.75),
 					},
 				},
 			},
@@ -72,22 +80,22 @@ const themeColors = (colorFunc) => ({
             theme: {
                 states: {
                     hover: {
-                        fill: colorFunc(0.1),
-                        stroke: colorFunc(0.1),
+                        fill: colorBg(0.1),
+                        stroke: colorBg(0.1),
                     },
                 },
             },
         },
     },
     tooltip: {
-        borderColor: colorFunc(0.25),
+        borderColor: colorBg(0.25),
         style: {
-            color: colorFunc(1),
+            color: colorBg(1),
         },
     },
     noData: {
         style: {
-            color: colorFunc(0.5),
+            color: colorBg(0.5),
         },
     },
 });
@@ -158,20 +166,13 @@ const commonTheme = {
 
 export const lightTheme = merge(
     commonTheme,
-    themeColors(percentage => `rgba(42, 48, 82, ${percentage})`),
+    themeColors('light'),
 );
 
 export const darkTheme = merge(
     commonTheme,
-    themeColors(percentage => `rgba(255, 255, 255, ${percentage})`),
+    themeColors('dark'),
 );
-
-export const setLightTheme = () =>
-    Highcharts.setOptions(lightTheme);
-
-export const setDarkTheme = () =>
-    Highcharts.setOptions(darkTheme);
-
 
 // const dark = {
 // 	plotOptions: {
