@@ -49,7 +49,7 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
             newSeries.push([lastTickMillis + (blankWindowInterval * i), null]);
         }
         series.setData(newSeries, false);
-        xAxis.setExtremes(min, startTimeMillis, false);
+        setTimeout(() => xAxis.setExtremes(min, startTimeMillis), 300);
     } else if (!startInFuture) {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
