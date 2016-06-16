@@ -11,15 +11,6 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
     const startTime = contract && contract.date_start;
     const startTimeMillis = startTime * 1000;
-    
-    const type = series.type;
-
-    if (type !== 'area') return;
-
-    const dataFromChart = series.options.data;
-    const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
-    const startTime = contract && contract.date_start;
-    const startTimeMillis = startTime * 1000;
 
     if (!lastTickMillis || !startTime) {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
