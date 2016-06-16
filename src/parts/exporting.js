@@ -16,12 +16,7 @@ export default ({ typeChange }) => {
                     const result = typeChange('area');
                     if (result.then) {
                         chart.showLoading();
-                        result.then(() => {
-                            chart.hideLoading();
-                            chart.xAxis.forEach(x => x.update({
-                                minRange: 1000,
-                            }));
-                        });
+                        result.then(() => chart.hideLoading());
                     }
                 },
                 y: 7,
@@ -36,12 +31,7 @@ export default ({ typeChange }) => {
                     const result = typeChange('candlestick');
                     if (result.then) {
                         chart.showLoading();
-                        result.then(() => {
-                            chart.hideLoading();
-                            chart.xAxis.forEach(x => x.update({
-                                minRange: 60000,
-                            }));
-                        });
+                        result.then(() => chart.hideLoading());
                     }
                 },
                 y: 7,
