@@ -1,5 +1,3 @@
-import brandColor from 'binary-utils/lib/brandColor';
-
 export default ({ data, pipSize, type }) => [{
     name: 'Spot',
     type,
@@ -8,7 +6,6 @@ export default ({ data, pipSize, type }) => [{
         valueDecimals: pipSize,
         zIndex: 120,
     },
-    // fillColor: brandColor(0.1),
     fillOpacity: 0.1,
     threshold: null,
     zoneAxis: 'x',

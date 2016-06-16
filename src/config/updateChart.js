@@ -86,9 +86,9 @@ export default (chart, prevProps, nextProps) => {
         updateRest(chart, nextProps);
     }
 
-    chart.redraw();
-
     if (!themesAreEqual(prevProps, nextProps)) {
         updateTheme(nextProps.theme);
     }
+
+    chart.redraw();
 };

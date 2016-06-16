@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 import BinaryChart from '../src/BinaryChart';
 import DynamicChart from './charts/DynamicChart';
-import { massiveTicks } from './ticks';
+import ticks, { massiveTicks } from './ticks';
 
 const realTrade = {
     tradeCategory: 'risefall',
@@ -35,6 +35,14 @@ storiesOf('Basic', module)
                     { epoch: 1, quote: 40 },
                     { epoch: 2, quote: 60 },
                 ]}
+                theme="dark"
+            />
+        </div>
+    )
+    .add('Dark Theme 2', () =>
+        <div style={{ background: '#1d1d24', padding: 10 }}>
+            <BinaryChart
+                ticks={ticks}
                 contract={{
                     purchase_time: 1,
                     date_start: 2,
