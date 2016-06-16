@@ -33,13 +33,10 @@ export default ({ rangeChange = () => ({}) }) => ({
         },
         afterSetExtremes: function afterSetExtremesHandler(e) { // eslint-disable-line object-shorthand
             const chart = this.chart;
-            if (!chart.binary) {
-                return;
-            }
 
             const triggerByRangeSelector = e.trigger === 'rangeSelectorButton';
 
-            const { contract } = chart.binary;
+            const { contract } = chart.userOptions.binary;
             let toRedraw = false;
             if (contract) {
                 updateExtremesYAxis(chart, contract);
