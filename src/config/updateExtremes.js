@@ -43,10 +43,12 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
         const blankWindowSize = startTimeMillis - lastTickMillis;
         const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
 
+        let newSeries = series.options.data;
         for (let i = 1; i <= emptyDataCount; i++) {
-            series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
+            // series.addPoint([lastTickMillis + (blankWindowInterval * i), null], false);
+            newSeries.push([lastTickMillis + (blankWindowInterval * i), null]);
         }
-
+        series.setData(newSeries, false);
         xAxis.setExtremes(min, startTimeMillis, false);
     } else if (!startInFuture) {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
