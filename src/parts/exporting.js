@@ -14,7 +14,7 @@ export default ({ typeChange }) => {
                         return;
                     }
                     const result = typeChange('area');
-                    if (result.then) {
+                    if (result && result.then) {    // show loading msg if typechange function return promise
                         chart.showLoading();
                         result.then(() => chart.hideLoading());
                     }
