@@ -30,20 +30,19 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
         return dataOlderThanStartTime;
     });
     const startInFuture = !startTimeDataPoint || !startTimeDataPoint[1];
+    const xAxis = chart.xAxis[0];
 
     if (startInFuture) {
-        const futureDataOnChart = startTimeDataPoint && startTimeDataPoint[1];
-        if (!futureDataOnChart) {
-            const xAxis = chart.xAxis[0];
+        if (!startTimeDataPoint) {
             const { min, max } = xAxis.getExtremes();
 
-            const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
+            const visiblePointCount = dataFromChart.filter(d => d[0] > min && d[0] < max).length;
             const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
 
             const blankWindowSize = startTimeMillis - lastTickMillis;
             const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
 
-            let newSeries = series.options.data;
+            let newSeries = dataFromChart;
             let newMax = startTimeMillis;
             for (let i = 1; i <= emptyDataCount; i++) {
                 const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
