@@ -33,7 +33,8 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
     const xAxis = chart.xAxis[0];
 
     if (startInFuture) {
-        if (!startTimeDataPoint) {
+        const hasFutureData = !!startTimeDataPoint;
+        if (!hasFutureData) {
             const { min, max } = xAxis.getExtremes();
 
             const visiblePointCount = dataFromChart.filter(d => d[0] > min && d[0] < max).length;
