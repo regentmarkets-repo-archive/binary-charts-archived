@@ -1,7 +1,18 @@
 import arrayMin from 'binary-utils/lib/arrayMin';
 import arrayMax from 'binary-utils/lib/arrayMax';
+import durationToSecs from 'binary-utils/lib/durationToSecs';
 
-export const updateExtremesXAxis = (chart, contract = {}) => {
+const hcUnitConverter = type => {
+    switch (type) {
+        case 'second': return 's';
+        case 'minute': return 'm';
+        case 'hour': return 'h';
+        case 'day': return 'd';
+        default: return 'd';
+    }
+};
+
+export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     const series = chart.series[0];
     const type = series.type;
 
@@ -52,6 +63,17 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
             }
             series.setData(newSeries, false);
             setTimeout(() => xAxis.setExtremes(min, newMax), 100);
+        } else if (rangeButton) {
+            const { count, type } = rangeButton;
+            const durationInSecs = durationToSecs(count, hcUnitConverter(type));
+            const validMax = dataFromChart.reduce((a, b) => {
+                if (b[1]) {
+                    return Math.max(a, b[0]);
+                } else {
+                    return a;
+                }
+            }, 0);
+            setTimeout(() => xAxis.setExtremes(validMax - (durationInSecs * 1000), validMax), 100);
         }
     } else {
         removeSeriesNullData();
@@ -132,8 +154,8 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
     }
 };
 
-const updateExtremes = (chart, contract) => {
-    updateExtremesXAxis(chart, contract);
+const updateExtremes = (chart, contract, rangeButton) => {
+    updateExtremesXAxis(chart, contract, rangeButton);
     updateExtremesYAxis(chart, contract);
 };
 

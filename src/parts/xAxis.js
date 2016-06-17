@@ -24,7 +24,7 @@ export default ({ rangeChange = () => ({}) }) => ({
                     chart.showLoading();
                     asyncResult.then(() => {
                         chart.hideLoading();
-                        updateExtremes(chart, chart.userOptions.binary.contract);
+                        updateExtremes(chart, chart.userOptions.binary.contract, e.rangeSelectorButton);
                     });
                 }
             }
