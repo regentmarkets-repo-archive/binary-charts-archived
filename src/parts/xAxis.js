@@ -1,5 +1,4 @@
 import updateExtremes, { updateExtremesYAxis } from '../config/updateExtremes';
-import { buttons } from './rangeSelector';
 
 export default ({ rangeChange = () => ({}) }) => ({
     type: 'datetime',
@@ -13,7 +12,7 @@ export default ({ rangeChange = () => ({}) }) => ({
             if (e.rangeSelectorButton) {
                 const chart = this.chart;
 
-                const { count, type, text } = e.rangeSelectorButton;
+                const { count, type } = e.rangeSelectorButton;
                 if (chart.isLoading) {
                     return;
                 }
@@ -23,10 +22,9 @@ export default ({ rangeChange = () => ({}) }) => ({
                 // works best if rangechange is only fire when needed.
                 if (asyncResult.then) {
                     chart.showLoading();
-                    const buttonID = buttons.findIndex(button => button.text === text);
                     asyncResult.then(() => {
                         chart.hideLoading();
-                        chart.rangeSelector.clickButton(buttonID, e.rangeSelectorButton, true);
+                        updateExtremes(chart, chart.userOptions.binary.contract);
                     });
                 }
             }
@@ -44,7 +42,7 @@ export default ({ rangeChange = () => ({}) }) => ({
             }
 
             if (triggerByRangeSelector) {
-                updateExtremes(chart, contract);
+                updateExtremes(chart, contract, e.rangeSelectorButton);
                 toRedraw = true;
             }
 

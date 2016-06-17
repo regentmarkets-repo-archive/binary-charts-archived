@@ -10,44 +10,51 @@ export const updateExtremesXAxis = (chart, contract = {}) => {
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
     const startTime = contract && contract.date_start;
-    const startTimeMillis = startTime * 1000;
+    const startTimeMillis = startTime && startTime * 1000;
 
-    if (!lastTickMillis || !startTime) {
+    function removeSeriesNullData() {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
         if (removeNull.length !== series.options.data.length) {
             series.setData(removeNull, false);
         }
+    }
+
+    // Special case, data not loaded or contract not loaded
+    if (!lastTickMillis || !startTime) {
+        removeSeriesNullData();
         return;
     }
 
-    const startTimeDataPoint = dataFromChart.find(d => d[0] > startTimeMillis);
-
-    // start in future relative to current data
+    const startTimeDataPoint = dataFromChart.find(d => {
+        const dataOlderThanStartTime = d[0] > startTimeMillis;
+        return dataOlderThanStartTime;
+    });
     const startInFuture = !startTimeDataPoint || !startTimeDataPoint[1];
-    if (!startTimeDataPoint) {
-        const xAxis = chart.xAxis[0];
-        const { min, max } = xAxis.getExtremes();
+    const xAxis = chart.xAxis[0];
 
-        const visiblePointCount = series.options.data.filter(d => d[0] > min && d[0] < max).length;
-        const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
+    if (startInFuture) {
+        const hasFutureData = !!startTimeDataPoint;
+        if (!hasFutureData) {
+            const { min, max } = xAxis.getExtremes();
 
-        const blankWindowSize = startTimeMillis - lastTickMillis;
-        const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+            const visiblePointCount = dataFromChart.filter(d => d[0] > min && d[0] < max).length;
+            const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
 
-        let newSeries = series.options.data;
-        let newMax = startTimeMillis;
-        for (let i = 1; i <= emptyDataCount; i++) {
-            const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
-            newSeries.push(futurePoint);
-            newMax = futurePoint[0];
+            const blankWindowSize = startTimeMillis - lastTickMillis;
+            const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+
+            let newSeries = dataFromChart;
+            let newMax = startTimeMillis;
+            for (let i = 1; i <= emptyDataCount; i++) {
+                const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
+                newSeries.push(futurePoint);
+                newMax = futurePoint[0];
+            }
+            series.setData(newSeries, false);
+            setTimeout(() => xAxis.setExtremes(min, newMax), 100);
         }
-        series.setData(newSeries, false);
-        setTimeout(() => xAxis.setExtremes(min, newMax), 100);
-    } else if (!startInFuture) {
-        const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
-        if (removeNull.length !== series.options.data.length) {
-            series.setData(removeNull, false);
-        }
+    } else {
+        removeSeriesNullData();
     }
 };
 

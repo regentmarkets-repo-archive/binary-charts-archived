@@ -18,20 +18,17 @@ export default (chart, prevProps, nextProps) => {
                 if (dataPoint) {
                     newDataMax = dataPoint[0];
                 }
+
+                const isCloseToMostRecent = (dataMax - max) <= 2000;
+                if (isCloseToMostRecent) {
+                    const hasNullData = chart.series[0].options.data.some(d => !d[1] && d[1] !== 0);
+                    if (!hasNullData) {
+                        chart.xAxis[0].setExtremes(min, newDataMax);
+                    }
+                }
             } else {
                 const dataList = nextProps.ticks.map(tickToData);
                 chart.series[0].setData(dataList, false);
-                if (dataList[dataList.length - 1]) {
-                    newDataMax = dataList[dataList.length - 1][0];
-                }
-            }
-
-            const isCloseToMostRecent = (dataMax - max) <= 2000;
-            if (isCloseToMostRecent) {
-                const hasNullData = chart.series[0].options.data.some(d => !d[1] && d[1] !== 0);
-                if (!hasNullData) {
-                    chart.xAxis[0].setExtremes(min, newDataMax);
-                }
             }
             break;
         }
