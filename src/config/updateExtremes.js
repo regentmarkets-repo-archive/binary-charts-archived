@@ -14,9 +14,9 @@ const hcUnitConverter = type => {
 
 export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     const series = chart.series[0];
-    const type = series.type;
+    const chartType = series.type;
 
-    if (type !== 'area') return;
+    if (chartType !== 'area') return;
 
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
@@ -62,18 +62,18 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
                 newMax = futurePoint[0];
             }
             series.setData(newSeries, false);
-            setTimeout(() => xAxis.setExtremes(min, newMax), 100);
+            window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);
         } else if (rangeButton) {
             const { count, type } = rangeButton;
             const durationInSecs = durationToSecs(count, hcUnitConverter(type));
             const validMax = dataFromChart.reduce((a, b) => {
                 if (b[1]) {
                     return Math.max(a, b[0]);
-                } else {
-                    return a;
                 }
+                return a;
             }, 0);
-            setTimeout(() => xAxis.setExtremes(validMax - (durationInSecs * 1000), validMax), 100);
+            const { dataMax } = xAxis.getExtremes();
+            window.setTimeout(() => xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax), 100);
         }
     } else {
         removeSeriesNullData();
