@@ -16,7 +16,7 @@
   "scripts": {
     "start": "start-storybook -p 9001",
     "test": "npm run test:eslint && mocha --compilers js:babel-core/register src/**/__tests__/*.js -R progress",
-    "build": "webpack --config webpack.config.js",
+    "build": "NODE_ENV=production webpack --config webpack.config.js",
     "storybook": "build-storybook -o dist",
     "ghpages": "git subtree push --prefix dist origin gh-pages",
     "prepublish": "npm run build",
