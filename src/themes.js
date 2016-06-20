@@ -1,4 +1,11 @@
-import { merge } from 'highcharts/highstock';
+import Highcharts from 'highcharts/highstock';
+
+function merge(a, b) {
+    if (process.env.NODE_ENV !== 'production') {
+        return a;
+    }
+    return Highcharts.merge(a, b);
+}
 
 export const colorBg = (theme, percentage) =>
     theme === 'light' ?
