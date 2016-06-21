@@ -29,7 +29,7 @@ export default ({ typeChange }) => {
                         return;
                     }
                     const result = typeChange('candlestick');
-                    if (result.then) {
+                    if (result && result.then) {
                         chart.showLoading();
                         result.then(() => chart.hideLoading());
                     }
