@@ -115,6 +115,13 @@ const commonTheme = {
 		backgroundColor: 'transparent',
 	},
     plotOptions: {
+        series: {
+            states: {
+                hover: {
+                    lineWidth: 1.5,
+                },
+            },
+        },
         area: {
             lineWidth: 1.5,
         },
