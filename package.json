@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "7.3.4",
+  "version": "7.3.5",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
