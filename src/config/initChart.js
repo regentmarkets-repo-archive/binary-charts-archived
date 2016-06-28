@@ -25,5 +25,10 @@ export default ({ pipSize = 0, type = 'area', rangeChange, typeChange, defaultRa
             },
         },
         series: seriesLine({ data: [], pipSize, type }),
+        tooltip: {
+            style: {
+                color: '#333333',
+            },
+        },
         exporting: exporting({ typeChange }),
     });
