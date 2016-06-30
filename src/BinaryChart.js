@@ -23,10 +23,12 @@ if (Object.keys(Highcharts).length > 0) {
 
 export default class BinaryChart extends Component {
     static propTypes = {
+        className: PropTypes.string,
         contract: BinaryTypes.contractOrTrade,
         defaultRange: PropTypes.number.isRequired,
         events: BinaryTypes.events,
         height: PropTypes.number,
+        id: PropTypes.string,
         noData: PropTypes.bool,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
@@ -106,8 +108,9 @@ export default class BinaryChart extends Component {
     }
 
     render() {
+        const { id, className } = this.props;
         return (
-            <div {...this.props} ref="chart" />
+            <div ref="chart" id={id} className={className} />
         );
     }
 }
