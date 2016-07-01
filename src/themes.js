@@ -134,6 +134,11 @@ const commonTheme = {
             pointPadding: 0.2,
         },
     },
+    xAxis: {
+        labels: {
+            y: 15,
+        },
+    },
 	yAxis: {
 		tickWidth: 1,
 	},
@@ -144,6 +149,16 @@ const commonTheme = {
     },
     navigator: {
 		outlineColor: 'none',
+        series: {
+            type: 'area',
+        },
+        height: 30,
+        margin: 5,
+        xAxis: {
+            labels: {
+                step: 1,
+            },
+        },
 	},
     rangeSelector: {
 		buttonTheme: {
