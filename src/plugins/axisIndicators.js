@@ -29,7 +29,7 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
         .add();
 
     indicator.line = renderer
-        .rect(0, y + 1, x + 5, 2)
+        .rect(0, y - 1, x + 5, 2)
         .attr({ fill: background, opacity: 0.75 })
         .add(indicator.group);
 
@@ -103,6 +103,8 @@ const renderAxisIndicator = chart => {
     const currentSpot = lastPriceFromSeries(chart.series[0]);
     const x = yAxis.width;
 
+    if (chart.series[0].yData.length === 0) return;
+
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
             if (contract && contract[b] && contract[b] !== currentSpot) {
@@ -122,10 +124,8 @@ const renderAxisIndicator = chart => {
             }
         });
 
-    if (chart.series[0].yData.length > 0) {
-        renderIndicator({ chart, indicator: 'spot', value: currentSpot,
-            x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
-    }
+    renderIndicator({ chart, indicator: 'spot', value: currentSpot,
+        x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
 };
 
 export default () => {
