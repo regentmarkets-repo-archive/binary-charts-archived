@@ -1,17 +1,18 @@
 import { wrap, Chart } from 'highcharts/highstock';
 import { colorBg, colorText } from '../themes';
 
-const lastPriceFromSeries = series => {
-    let lastPrice = 0;
-    if (series.type === 'candlestick') {
-        lastPrice = series.yData.length && series.yData[series.yData.length - 1][3];
-    }
-    if (series.type === 'area') {
-        const nonNullSeries = series.yData.length && series.yData.filter(d => !!d || d === 0);
-        lastPrice = nonNullSeries && nonNullSeries[nonNullSeries.length - 1];
-    }
-    return lastPrice;
+const lastPriceFromCandles = series =>
+    series.yData.length && series.yData[series.yData.length - 1][3];
+
+const lastPriceFromTicks = series => {
+    const nonNullSeries = series.yData.length && series.yData.filter(d => !!d || d === 0);
+    return nonNullSeries && nonNullSeries[nonNullSeries.length - 1];
 };
+
+const lastPriceFromSeries = series =>
+    (series.type === 'candlestick') ?
+        lastPriceFromCandles(series) :
+        lastPriceFromTicks(series);
 
 const polyPath = (x, y) => [
     'M', x - 10, y,
@@ -99,12 +100,12 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, backgroun
 const renderAxisIndicator = chart => {
     const { contract, pipSize, theme } = chart.userOptions.binary;
     const yAxis = chart.yAxis[0];
-    const currentPrice = lastPriceFromSeries(chart.series[0]);
+    const currentSpot = lastPriceFromSeries(chart.series[0]);
     const x = yAxis.width;
 
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
-            if (contract && contract[b] && contract[b] !== currentPrice) {
+            if (contract && contract[b] && contract[b] !== currentSpot) {
                 renderIndicator({
                     chart,
                     indicator: b,
@@ -121,8 +122,10 @@ const renderAxisIndicator = chart => {
             }
         });
 
-    renderIndicator({ chart, indicator: 'spot', value: currentPrice,
-        x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
+    if (chart.series[0].yData.length > 0) {
+        renderIndicator({ chart, indicator: 'spot', value: currentSpot,
+            x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
+    }
 };
 
 export default () => {
