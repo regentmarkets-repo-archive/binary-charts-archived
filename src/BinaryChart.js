@@ -26,6 +26,7 @@ export default class BinaryChart extends Component {
         className: PropTypes.string,
         contract: BinaryTypes.contractOrTrade,
         defaultRange: PropTypes.number.isRequired,
+        showAllRangeSelector: PropTypes.bool,
         events: BinaryTypes.events,
         height: PropTypes.number,
         id: PropTypes.string,
