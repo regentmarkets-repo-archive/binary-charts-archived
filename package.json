@@ -15,7 +15,7 @@
   "main": "lib/binary-charts.js",
   "scripts": {
     "start": "start-storybook -p 9001",
-    "test": "npm run test:eslint && mocha --compilers js:babel-core/register src/**/__tests__/*.js -R progress",
+    "test": "npm run test:eslint && mocha --compilers js:babel-core/register */__tests__/*.js src/**/__tests__/*.js -R progress",
     "build": "NODE_ENV=production webpack --config webpack.config.js",
     "storybook": "build-storybook -o dist",
     "ghpages": "git subtree push --prefix dist origin gh-pages",
