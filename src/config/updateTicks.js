@@ -12,18 +12,25 @@ export default (chart, prevProps, nextProps) => {
         case 'area': {
             const oneTickDiff = doTicksDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
             if (oneTickDiff) {
-                const lastTick = getLastTick(nextProps.ticks);
-                const dataPoint = tickToData(lastTick);
-                chart.series[0].addPoint(dataPoint, false);
-                if (dataPoint) {
-                    newDataMax = dataPoint[0];
+                const newTick = getLastTick(nextProps.ticks);
+                const dataPoint = tickToData(newTick);
+                if (!dataPoint) {
+                    return;
                 }
+                chart.series[0].addPoint(dataPoint, false);
+                newDataMax = dataPoint[0];
 
                 const isCloseToMostRecent = (dataMax - max) <= 2000;
                 if (isCloseToMostRecent) {
                     const hasNullData = chart.series[0].options.data.some(d => !d[1] && d[1] !== 0);
                     if (!hasNullData) {
-                        chart.xAxis[0].setExtremes(min, newDataMax);
+                        const newMin = min + (newDataMax - dataMax);
+                        chart.xAxis[0].setExtremes(newMin, newDataMax);
+                    } else {
+                        const lastTick = getLastTick(prevProps.ticks);
+                        const lastDataPoint = tickToData(lastTick);
+                        const xAxisDiff = newDataMax - lastDataPoint[0];
+                        chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
                     }
                 }
             } else {
