@@ -1,7 +1,11 @@
-import exporting from '../parts/exporting';
-
 export default (chart, oldTypeChange, newTypeChange) => {
-    if (oldTypeChange !== newTypeChange) {
-        chart.options.exporting = exporting({ typeChange: newTypeChange });
+    const exportElements = chart.exportSVGElements;
+    if (!exportElements || oldTypeChange === newTypeChange) {
+        return;
+    }
+    if (newTypeChange === undefined) {
+        exportElements.forEach(e => e.hide());
+    } else {
+        exportElements.forEach(e => e.show());
     }
 };

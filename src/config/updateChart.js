@@ -9,6 +9,8 @@ import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
 import mergeTradeWithContract from './mergeTradeWithContract';
 
+import updateTypeChange from './updateTypeChangeFunc';
+
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
     prevProps.type === nextProps.type &&
@@ -84,6 +86,8 @@ export default (chart, prevProps, nextProps) => {
     if (restDiffer) {
         updateRest(chart, nextProps);
     }
+
+    updateTypeChange(chart, prevProps.typeChange, nextProps.typeChange);
 
     chart.redraw();
 };
