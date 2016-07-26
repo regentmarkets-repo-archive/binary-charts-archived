@@ -12,4 +12,5 @@ configure(() => {
     require('./ohlc');
     require('./extremes');
     require('./events');
+    require('./dynamicTypeChange');
 }, module);
