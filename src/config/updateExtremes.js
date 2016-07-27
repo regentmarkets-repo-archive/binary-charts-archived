@@ -1,6 +1,4 @@
-import arrayMin from 'binary-utils/lib/arrayMin';
-import arrayMax from 'binary-utils/lib/arrayMax';
-import durationToSecs from 'binary-utils/lib/durationToSecs';
+import { arrayMin, arrayMax, durationToSecs } from 'binary-utils';
 
 const hcUnitConverter = type => {
     switch (type) {

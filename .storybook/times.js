@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import contractCodeToText from 'binary-utils/lib/contractCodeToText';
+import { contractCodeToText } from 'binary-utils';
 import BinaryChart from '../src/BinaryChart';
 import ticks from './ticks';
 

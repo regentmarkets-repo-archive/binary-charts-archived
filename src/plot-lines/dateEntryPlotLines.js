@@ -1,4 +1,4 @@
-import contractCodeToText from 'binary-utils/lib/contractCodeToText';
+import { contractCodeToText } from 'binary-utils';
 import vertPlotLine from './vertPlotLine';
 import timePlotLines from './timePlotLines';
 

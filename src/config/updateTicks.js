@@ -1,8 +1,5 @@
-import doTicksDifferJustOneEntry from 'binary-utils/lib/doTicksDifferJustOneEntry';
-import doCandlesDifferJustOneEntry from 'binary-utils/lib/doCandlesDifferJustOneEntry';
-import tickToData from 'binary-utils/lib/tickToData';
-import ohlcToData from 'binary-utils/lib/ohlcToData';
-import getLastTick from 'binary-utils/lib/getLastTick';
+import { doTicksDifferJustOneEntry, doCandlesDifferJustOneEntry,
+    tickToData, ohlcToData, getLastTick } from 'binary-utils';
 
 export default (chart, prevProps, nextProps) => {
     const chartType = chart.series[0].type;

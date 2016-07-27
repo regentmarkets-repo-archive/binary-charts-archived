@@ -1,4 +1,4 @@
-import digitsToPips from 'binary-utils/lib/digitsToPips';
+import { digitsToPips } from 'binary-utils';
 
 export default ({ pipSize }) => ({
     opposite: true,

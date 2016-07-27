@@ -1,9 +1,7 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import areTickArraysEqual from 'binary-utils/lib/areTickArraysEqual';
-import areOHLCArraysEqual from 'binary-utils/lib/areCandleArrayEqual';
+import { areTickArraysEqual, areOHLCArraysEqual,
+    getLastTickQuote, getLastOHLCTick } from 'binary-utils';
 import updateTicks from './updateTicks';
-import getLastTickQuote from 'binary-utils/lib/getLastTickQuote';
-import getLastOHLCTick from 'binary-utils/lib/getLastOHLCTick';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
