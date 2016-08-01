@@ -1,5 +1,5 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import { areTickArraysEqual, areOHLCArraysEqual,
+import { areTickArraysEqual, areCandleArrayEqual,
     getLastTickQuote, getLastOHLCTick } from 'binary-utils';
 import updateTicks from './updateTicks';
 import updateContract from './updateContract';
@@ -17,7 +17,7 @@ const ticksAreEqual = (prevProps, nextProps) =>
 const ohlcAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
     prevProps.type === nextProps.type &&
-    areOHLCArraysEqual(prevProps.ticks, nextProps.ticks);
+    areCandleArrayEqual(prevProps.ticks, nextProps.ticks);
 
 const contractsAreEqual = (prevProps, nextProps) =>
     shallowEqual(prevProps.contract, nextProps.contract) &&
