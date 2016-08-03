@@ -1,7 +1,8 @@
 // TODO: improve this into an adapter that transform messy server data into cleaner data for internal use
 export default ({ trade, contract, lastTick }) => {
     if (contract) {
-        const cloned = Object.assign({}, contract);
+        // default entry_tick as lastTick, will be override
+        const cloned = Object.assign({ }, contract);
         const { barrier_count, barrier, low_barrier, high_barrier } = contract;
 
         switch (barrier_count) {                            // eslint-disable-line camelcase
@@ -32,7 +33,7 @@ export default ({ trade, contract, lastTick }) => {
         return;
     }
 
-    const cloned = Object.assign({}, trade);
+    const cloned = Object.assign({ entry_tick: +lastTick }, trade);
     let { barrier, barrier2, barrierType } = trade;
 
     // clear all barrier
