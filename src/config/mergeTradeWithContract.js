@@ -4,7 +4,7 @@ export default ({ trade, contract, lastTick }) => {
         const cloned = Object.assign({ }, contract);
         const { barrier_count, barrier, low_barrier, high_barrier } = contract;
 
-        switch (barrier_count) {                            // eslint-disable-line camelcase
+        switch (barrier_count) {
             case 1: {
                 if (barrier) {
                     cloned.barrier = +barrier;
@@ -14,9 +14,9 @@ export default ({ trade, contract, lastTick }) => {
                 return cloned;
             }
             case 2: {
-                if (low_barrier && high_barrier) {          // eslint-disable-line camelcase
-                    cloned.low_barrier = +low_barrier;      // eslint-disable-line camelcase
-                    cloned.high_barrier = +high_barrier;     // eslint-disable-line camelcase
+                if (low_barrier && high_barrier) {
+                    cloned.low_barrier = +low_barrier;
+                    cloned.high_barrier = +high_barrier;
                     return cloned;
                 }
                 break;
