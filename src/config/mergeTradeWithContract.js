@@ -1,7 +1,6 @@
 // TODO: improve this into an adapter that transform messy server data into cleaner data for internal use
 export default ({ trade, contract, lastTick }) => {
     if (contract) {
-        // default entry_tick as lastTick, will be override
         const cloned = Object.assign({ }, contract);
         const { barrier_count, barrier, low_barrier, high_barrier } = contract;
 
@@ -33,6 +32,7 @@ export default ({ trade, contract, lastTick }) => {
         return;
     }
 
+    // default entry_tick as lastTick, will be override
     const cloned = Object.assign({ entry_tick: +lastTick }, trade);
     let { barrier, barrier2, barrierType } = trade;
 
