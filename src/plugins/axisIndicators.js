@@ -119,8 +119,8 @@ const renderAxisIndicator = chart => {
                     text: colorText(theme, 1),
                     zIndex: 10,
                 });
-            } else {
-                if (yAxis[b] && yAxis[b].group) yAxis[b].group.hide();
+            } else if (yAxis[b] && yAxis[b].group) {
+                yAxis[b].group.hide();
             }
         });
 

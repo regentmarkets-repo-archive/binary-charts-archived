@@ -52,7 +52,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
             const blankWindowSize = startTimeMillis - lastTickMillis;
             const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
 
-            let newSeries = dataFromChart;
+            const newSeries = dataFromChart;
             let newMax = startTimeMillis;
             for (let i = 1; i <= emptyDataCount; i++) {
                 const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
@@ -78,7 +78,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     }
 };
 
-let lastExtremesY = {};
+const lastExtremesY = {};
 export const updateExtremesYAxis = (chart, contract = {}) => {
     const xAxis = chart.xAxis[0];
 

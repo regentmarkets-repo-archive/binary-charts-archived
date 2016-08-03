@@ -11,7 +11,7 @@ const outsideStyle = {
 export default (chart, newPlotLines) => {
     const entryLine = newPlotLines.find(x => x.id === 'entry_tick_time');
     const exitLine = newPlotLines.find(x => x.id === 'exit_tick_time');
-    let zones = [];
+    const zones = [];
 
     if (entryLine) {
         zones.push({

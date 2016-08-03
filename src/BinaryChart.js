@@ -22,6 +22,7 @@ if (Object.keys(Highcharts).length > 0) {
 }
 
 export default class BinaryChart extends Component {
+
     static propTypes = {
         className: PropTypes.string,
         contract: BinaryTypes.contractOrTrade,
@@ -53,10 +54,32 @@ export default class BinaryChart extends Component {
         noData: false,
     };
 
+    componentDidMount() {
+        this.createChart();
+        updateChart(this.chart, { ticks: [] }, this.props);
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (this.props.symbol !== nextProps.symbol ||
+                this.props.type !== nextProps.type ||
+                this.props.noData !== nextProps.noData) {
+            this.destroyChart();
+            this.createChart(nextProps);
+        }
+
+        updateChart(this.chart, this.props, nextProps);
+
+        return false;
+    }
+
+    componentWillUnmount() {
+        this.destroyChart();
+    }
+
     createChart(newProps) {
         const props = newProps || this.props;
         const config = initChart(props);
-        config.chart.renderTo = this.refs.chart;
+        config.chart.renderTo = this.chartDiv;
         this.chart = new Highcharts.StockChart(config);
 
         if (props.type === 'candlestick') {
@@ -72,7 +95,7 @@ export default class BinaryChart extends Component {
             }
             return { type: e.type, handler };
         });
-        this.eventListeners.forEach(e => this.refs.chart.addEventListener(e.type, e.handler));
+        this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
 
         if (!props.noData) {
             this.chart.showLoading();
@@ -81,38 +104,15 @@ export default class BinaryChart extends Component {
 
     destroyChart() {
         this.eventListeners.forEach(e => {
-            this.refs.chart.removeEventListener(e.type, e.handler);
+            this.chartDiv.removeEventListener(e.type, e.handler);
         });
         this.chart.destroy();
-    }
-
-    componentDidMount() {
-        this.createChart();
-        updateChart(this.chart, { ticks: [] }, this.props);
-    }
-
-    componentWillUnmount() {
-        this.destroyChart();
-    }
-
-    shouldComponentUpdate(nextProps) {
-        if (
-            this.props.symbol !== nextProps.symbol ||
-                this.props.type !== nextProps.type ||                // this might break when we have more chart type
-                this.props.noData !== nextProps.noData
-        ) {
-            this.destroyChart();
-            this.createChart(nextProps);
-        }
-
-        updateChart(this.chart, this.props, nextProps);
-        return false;
     }
 
     render() {
         const { id, className } = this.props;
         return (
-            <div ref="chart" id={id} className={className} />
+            <div ref={x => { this.chartDiv = x; }} id={id} className={className} />
         );
     }
 }
