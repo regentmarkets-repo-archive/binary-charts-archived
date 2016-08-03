@@ -12,6 +12,6 @@ export const plotBandForContract = contract => {
     const configFunc = confs[type.toLowerCase() + 'PlotBand'];
 
     if (!configFunc) throw Error('Not a known type: ' + type);
-    const { barrier, low_barrier, high_barrier } = contract;
-    return configFunc({ barrier, low_barrier, high_barrier });
+    const { barrier, low_barrier, high_barrier, entry_tick } = contract;
+    return configFunc({ barrier, low_barrier, high_barrier, entry_tick });
 };
