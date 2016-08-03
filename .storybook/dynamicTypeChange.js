@@ -6,17 +6,24 @@ class RemoveTypeChange extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fn: () => {}
+            fn: () => {},
+            nodata: false,
         };
     }
 
     removeTypeChange = () => this.setState({ fn: undefined });
+    toggleNoData = () => {
+        const { nodata } = this.state;
+        this.setState({ nodata: !nodata });
+    }
 
     render() {
+        const { fn, nodata } = this.state;
         return (
             <div>
-                <BinaryChart typeChange={this.state.fn}/>
-                <button onClick={this.removeTypeChange}>Remove</button>
+                <BinaryChart typeChange={fn} noData={nodata}/>
+                <button onClick={this.removeTypeChange}>Remove type change button</button>
+                <button onClick={this.toggleNoData}>Toggle no data</button>
             </div>
         )
     }
