@@ -34,7 +34,7 @@ export default ({ trade, contract, lastTick }) => {
 
     // default entry_tick as lastTick, will be override
     const cloned = Object.assign({ entry_tick: +lastTick }, trade);
-    let { barrier, barrier2, barrierType } = trade;
+    const { barrier, barrier2, barrierType } = trade;
 
     // clear all barrier
     delete cloned.barrier;
