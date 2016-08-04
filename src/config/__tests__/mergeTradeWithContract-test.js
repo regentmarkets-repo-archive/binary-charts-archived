@@ -36,8 +36,8 @@ describe('mergeTradeWithContract', () => {
 
         const lastTick = 1000;
 
-        const actual = mergeTradeWithContract({ contract, trade, lastTick });
-        expect(actual).to.be.deep.equal({ low_barrier: 100, high_barrier: 1000 });
+        const actual = mergeTradeWithContract({ contract, trade, lastTick});
+        expect(actual).to.be.deep.equal({ low_barrier: 100, high_barrier: 1000, entry_tick: lastTick });
     });
 
     it('should add last tick to barrier when barrierType is relative', () => {
@@ -49,7 +49,7 @@ describe('mergeTradeWithContract', () => {
 
         const lastTick = 1000;
 
-        const actual = mergeTradeWithContract({ trade, lastTick });
-        expect(actual).to.be.deep.equal({ low_barrier: 1100, high_barrier: 2000 });
+        const actual = mergeTradeWithContract({ trade, lastTick});
+        expect(actual).to.be.deep.equal({ low_barrier: 1100, high_barrier: 2000, entry_tick: lastTick });
     });
 });

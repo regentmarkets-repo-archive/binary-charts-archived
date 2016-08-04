@@ -1,7 +1,7 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
 
 export default ({ barrier, entry_tick }) =>
-    barrier < entry_tick ?
+    barrier < entry_tick ?                      // eslint-disable-line camelcase
         [
             lossPlotBand('loss1', 0, barrier),
             winPlotBand('win1', barrier, Number.MAX_VALUE),
