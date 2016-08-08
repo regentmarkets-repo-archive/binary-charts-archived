@@ -1,6 +1,6 @@
 export const buttons = [{
     type: 'second',
-    count: 15,
+    count: 30,
     text: 'TICK',
 }, {
     type: 'minute',
