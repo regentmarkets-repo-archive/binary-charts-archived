@@ -189,7 +189,7 @@ const commonTheme = {
         },
     },
     lang: {
-        noData: 'Chart data not available for this asset',
+        noData: 'Data not available',
     },
 };
 
