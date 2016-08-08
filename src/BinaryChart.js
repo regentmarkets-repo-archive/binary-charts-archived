@@ -79,9 +79,11 @@ export default class BinaryChart extends Component {
     createChart(newProps) {
         const props = newProps || this.props;
         const config = initChart(props);
-        config.chart.renderTo = this.chartDiv;
-        this.chart = new Highcharts.StockChart(config);
-
+        this.chart = new Highcharts.StockChart(this.chartDiv, config, chart => {
+            if (!props.noData) {
+                chart.showLoading();
+            }
+        });
         if (props.type === 'candlestick') {
             this.chart.xAxis[0].update({
                 minRange: 10 * 60 * 1000,
@@ -96,10 +98,6 @@ export default class BinaryChart extends Component {
             return { type: e.type, handler };
         });
         this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
-
-        if (!props.noData) {
-            this.chart.showLoading();
-        }
     }
 
     destroyChart() {

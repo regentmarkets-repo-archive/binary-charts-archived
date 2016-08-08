@@ -2,12 +2,13 @@ import { wrap, Chart } from 'highcharts/highstock';
 
 export default () => {
     wrap(Chart.prototype, 'showLoading', function showLoading(proceed, ...args) {
-        this.isLoading = true;
+        if (Object.keys(this).length === 0) return;
         proceed.apply(this, args);
+        this.isLoading = true;
     });
 
     wrap(Chart.prototype, 'hideLoading', function hideLoading(proceed, ...args) {
-        this.isLoading = false;
         proceed.apply(this, args);
+        this.isLoading = false;
     });
 };
