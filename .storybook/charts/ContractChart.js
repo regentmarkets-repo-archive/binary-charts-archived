@@ -52,8 +52,8 @@ export default class ContractChart extends React.Component {
                 this.setState({ contract: c });
                 return c;
             }), 1, 'all')
-        ).then(ticks => {
-            this.setState({ ticks });
+        ).then(r => {
+            this.setState({ ticks: r.ticks });
         });
     }
 
@@ -63,11 +63,11 @@ export default class ContractChart extends React.Component {
         const getDataWhenChange = (count, type) =>
             api
                 .getDataForContract(() => getContract(contractId), count, type)
-                .then(newTicks => {
+                .then(r => {
                     if (contract) {
-                        this.setState({ ticks: newTicks, contract });
+                        this.setState({ ticks: r.ticks, contract });
                     } else {
-                        this.setState({ ticks: newTicks });
+                        this.setState({ ticks: r.ticks });
                     }
                 });
 

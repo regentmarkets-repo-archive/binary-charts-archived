@@ -22,17 +22,17 @@ export default class SymbolSwitchableChart extends React.Component {
         const { symbol } = this.state;
         api.authorize(token).then(() =>
             api.getDataForSymbol(symbol, 1, 'all')
-        ).then(ticks => {
-            this.setState({ ticks });
+        ).then(r => {
+            this.setState({ ticks: r.ticks });
         });
     }
 
     render() {
         const { ticks, symbol } = this.state;
         const getDataFor50 = (count, type) =>
-            api.getDataForSymbol('R_50', count, type).then(newTicks => this.setState({ ticks: newTicks }));
+            api.getDataForSymbol('R_50', count, type).then(r => this.setState({ ticks: r.ticks }));
         const getDataFor100 = (count, type) =>
-            api.getDataForSymbol('R_100', count, type).then(newTicks => this.setState({ ticks: newTicks }));
+            api.getDataForSymbol('R_100', count, type).then(r => this.setState({ ticks: r.ticks }));
 
         // console.log('s', symbol);
         return (
