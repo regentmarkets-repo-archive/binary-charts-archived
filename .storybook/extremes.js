@@ -8,6 +8,7 @@ storiesOf('Extremes', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 entry_tick_time: 3,
                 exit_tick_time: 10,
             }}

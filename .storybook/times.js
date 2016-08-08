@@ -9,6 +9,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 date_start: 1,
                 entry_tick_time: 2,
                 exit_tick_time: 4,
@@ -20,6 +21,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 purchase_time: 1,
                 date_start: 2,
                 entry_tick_time: 3,
@@ -34,6 +36,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 date_start: 1,
                 purchase_time: 1,
                 entry_tick_time: 2,
@@ -47,6 +50,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 purchase_time: 2,
                 entry_tick_time: 2,
             }}
@@ -57,6 +61,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 date_settlement: 3,
                 date_expiry: 3,
             }}
@@ -67,6 +72,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 sell_time: 2,
                 expiry_time: 4,
             }}
@@ -76,6 +82,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 date_start: 1,
                 entry_tick_time: 2,
                 date_settlement: 4,
@@ -89,6 +96,7 @@ storiesOf('Times', module)
         <BinaryChart
             ticks={ticks}
             contract={{
+                contract_type: 'CALL',
                 entry_tick_time: 3,
             }}
         />

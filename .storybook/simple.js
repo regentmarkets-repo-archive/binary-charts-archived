@@ -5,13 +5,13 @@ import DynamicChart from './charts/DynamicChart';
 import ticks, { massiveTicks } from './ticks';
 
 const realTrade = {
-    "tradeCategory": "risefall",
-    "duration": 5,
-    "amount": 50,
-    "duration_unit": "t",
-    "symbol": "R_100",
-    "contract_type": "CALL",
-    "basis": "stake"
+    tradeCategory: 'risefall',
+    duration: 5,
+    amount: 50,
+    duration_unit: 't',
+    symbol: 'R_100',
+    contract_type: 'CALL',
+    basis: 'stake',
 };
 
 storiesOf('Basic', module)
@@ -50,6 +50,7 @@ storiesOf('Basic', module)
             <BinaryChart
                 ticks={ticks}
                 contract={{
+                    contract_type: 'DIGITMATCH',
                     purchase_time: 1,
                     date_start: 2,
                     entry_tick_time: 3,
@@ -154,6 +155,7 @@ storiesOf('Basic', module)
     .add('Dynamic with plot lines', () =>
         <DynamicChart
             contract={{
+                contract_type: 'CALL',
                 date_start: (new Date().getTime() + 2),
                 sell_time: (new Date().getTime() + 5),
             }}
