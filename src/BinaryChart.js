@@ -80,7 +80,7 @@ export default class BinaryChart extends Component {
         const props = newProps || this.props;
         const config = initChart(props);
         this.chart = new Highcharts.StockChart(this.chartDiv, config, chart => {
-            if (!props.noData) {
+            if (!props.noData && props.ticks.length === 0) {
                 chart.showLoading();
             }
         });

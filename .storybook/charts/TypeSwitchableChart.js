@@ -19,8 +19,8 @@ export default class TypeSwitchChart extends React.Component {
     componentDidMount() {
         api.authorize(token).then(() =>
             api.getDataForContract(() => getContract(contractId), 1, 'all')
-        ).then(ticks => {
-            this.setState({ type: 'area', ticks });
+        ).then(r => {
+            this.setState({ type: 'area', ticks: r.ticks });
         });
     }
 
@@ -29,14 +29,14 @@ export default class TypeSwitchChart extends React.Component {
             case 'area':
                 return api.authorize(token).then(() =>
                     api.getDataForContract(() => getContract(contractId), 1, 'all')
-                ).then(ticks => {
-                    this.setState({ type, ticks });
+                ).then(r => {
+                    this.setState({ type, ticks: r.ticks });
                 });
             case 'candlestick':
                 return api.authorize(token).then(() =>
                     api.getDataForContract(() => getContract(contractId), 1, 'all', 'candles')
-                ).then(ticks => {
-                    this.setState({ type, ticks });
+                ).then(r => {
+                    this.setState({ type, ticks: r.ticks });
                 });
             default: return;
         }
