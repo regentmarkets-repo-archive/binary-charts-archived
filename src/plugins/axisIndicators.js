@@ -29,7 +29,7 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
         .add();
 
     indicator.line = renderer
-        .rect(0, y - 1, x + 5, 2)
+        .rect(0, y - 1, x + 5, 1)
         .attr({ fill: background, opacity: 0.75 })
         .add(indicator.group);
 
