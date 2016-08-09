@@ -2,6 +2,7 @@ import { configure } from '@kadira/storybook';
 
 configure(() => {
     require('./simple');
+    require('./multiple-charts');
     require('./contract-types');
     require('./times');
     require('./dynamic-fetching');

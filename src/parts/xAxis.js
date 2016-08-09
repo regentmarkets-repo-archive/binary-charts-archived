@@ -36,13 +36,12 @@ export default ({ rangeChange = () => ({}) }) => ({
 
             const { contract } = chart.userOptions.binary;
             let toRedraw = false;
-            if (contract) {
-                updateExtremesYAxis(chart, contract);
-                toRedraw = true;
-            }
 
             if (triggerByRangeSelector) {
                 updateExtremes(chart, contract, e.rangeSelectorButton);
+                toRedraw = true;
+            } else if (contract) {
+                updateExtremesYAxis(chart, contract);
                 toRedraw = true;
             }
 

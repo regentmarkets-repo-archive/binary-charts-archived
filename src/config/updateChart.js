@@ -86,6 +86,5 @@ export default (chart, prevProps, nextProps) => {
     }
 
     updateTypeChange(chart, prevProps.typeChange, nextProps.typeChange);
-
     chart.redraw();
 };
