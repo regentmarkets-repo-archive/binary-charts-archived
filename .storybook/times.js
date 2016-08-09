@@ -7,6 +7,7 @@ import ticks from './ticks';
 storiesOf('Times', module)
     .add('Standard', () =>
         <BinaryChart
+            id="time"
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',
@@ -19,6 +20,7 @@ storiesOf('Times', module)
     )
     .add('All', () =>
         <BinaryChart
+            id="all-time"
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',
@@ -34,6 +36,7 @@ storiesOf('Times', module)
     )
     .add('Real example', () =>
         <BinaryChart
+            id="real-example"
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',

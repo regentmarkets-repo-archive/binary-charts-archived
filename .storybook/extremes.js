@@ -6,6 +6,7 @@ import ticks from './ticks';
 storiesOf('Extremes', module)
     .add('Ends In Future', () =>
         <BinaryChart
+            id="endslater"
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',
@@ -16,6 +17,7 @@ storiesOf('Extremes', module)
     )
     .add('Barrier outside of ticks', () =>
         <BinaryChart
+            id="barrier-out-of-ticks"
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',

@@ -44,8 +44,8 @@ export default class TwoDynamicChart extends Component {
 
         return (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <BinaryChart ticks={ticks} {...this.props} />
-                <BinaryChart ticks={ticks} {...this.props} />
+                <BinaryChart id="c1" ticks={ticks} {...this.props} />
+                <BinaryChart id="c2" ticks={ticks} {...this.props} />
             </div>
         );
     }
@@ -56,6 +56,7 @@ storiesOf('Multiple', module)
     .add('two identical static chart', () =>
         <div>
             <BinaryChart
+                id="c1"
                 symbol="symbol"
                 ticks={[
                     { epoch: 0, quote: 50.021 },
@@ -66,6 +67,7 @@ storiesOf('Multiple', module)
                 pipSize={2}
             />
             <BinaryChart
+                id="c2"
                 symbol="symbol"
                 ticks={[
                     { epoch: 0, quote: 50.021 },

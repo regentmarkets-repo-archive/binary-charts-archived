@@ -38,6 +38,7 @@ export default class SymbolSwitchableChart extends React.Component {
         return (
             <div>
                 <BinaryChart
+                    id="switch-symbol"
                     ticks={ticks}
                     symbol={symbol}
                     rangeChange={symbol === 'R_50' ? getDataFor50 : getDataFor100}

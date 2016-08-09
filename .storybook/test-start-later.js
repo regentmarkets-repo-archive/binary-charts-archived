@@ -19,7 +19,7 @@ class TestChart extends Component {
         };
 
         return (
-            <BinaryChart trade={fakeTrade} />
+            <BinaryChart id="start-later" trade={fakeTrade} />
         )
     }
 }

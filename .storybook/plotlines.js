@@ -103,6 +103,7 @@ class DynamicPlotLinesChart extends React.Component {
         const { dynamicContract } = this.state;
         return (
             <BinaryChart
+                id="dynamic-plot"
                 ticks={sampleTicks}
                 pipSize={3}
                 contract={dynamicContract}
@@ -117,6 +118,7 @@ const getRandomArbitrary = (min, max) =>
 storiesOf('Plot lines', module)
     .add('Static plot lines', () =>
         <BinaryChart
+            id="static-plot"
             ticks={sampleTicks}
             pipSize={3}
             contract={sampleContract}

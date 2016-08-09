@@ -21,7 +21,7 @@ class RemoveTypeChange extends React.Component {
         const { fn, nodata } = this.state;
         return (
             <div>
-                <BinaryChart typeChange={fn} noData={nodata}/>
+                <BinaryChart id="rm-type-chg" typeChange={fn} noData={nodata}/>
                 <button onClick={this.removeTypeChange}>Remove type change button</button>
                 <button onClick={this.toggleNoData}>Toggle no data</button>
             </div>
