@@ -8,12 +8,8 @@ import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
 import { lightTheme, darkTheme } from '../themes';
 
-export default (
-        {
-            pipSize = 0, type = 'area', rangeChange, typeChange,
-            defaultRange, showAllRangeSelector, noData, height, width, theme,
-        }
-    ) =>
+export default ({ pipSize = 0, type = 'area', rangeChange, typeChange,
+            defaultRange, showAllRangeSelector, noData, height, width, theme }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {} },
         ...reset({ height, width, noData }),

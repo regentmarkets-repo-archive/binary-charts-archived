@@ -1,8 +1,4 @@
 export const buttons = [{
-    type: 'second',
-    count: 30,
-    text: 'TICK',
-}, {
     type: 'minute',
     count: 1,
     text: '1M',
@@ -28,7 +24,7 @@ export const buttons = [{
     text: 'MAX',
 }];
 
-export default (defaultRange = 0, showAllRangeSelector = true) => ({
+export default (defaultRange, showAllRangeSelector = true) => ({
     buttons,
     allButtonsEnabled: showAllRangeSelector,
     selected: defaultRange,
