@@ -15,7 +15,7 @@ export default (
         }
     ) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
-        binary: { pipSize, theme },
+        binary: { pipSize, theme, lastYExtremes: {} },
         ...reset({ height, width, noData }),
         plotOptions: plotOptions(),
         rangeSelector: rangeSelector(defaultRange, showAllRangeSelector),

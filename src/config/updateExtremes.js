@@ -78,7 +78,6 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     }
 };
 
-const lastExtremesY = {};
 export const updateExtremesYAxis = (chart, contract = {}) => {
     const xAxis = chart.xAxis[0];
 
@@ -134,21 +133,17 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
 
     const yAxis = chart.yAxis[0];
 
-    // console.groupCollapsed();
-    // console.log('t', ticks);
-    // console.log('xax', xAxis);
-    // console.log('xmin', xMin);
-    // console.log('xmax', xMax);
-    // console.log('z', zoomedTicks);
-    // console.log('b', boundaries);
-    // console.log('Ex Min', nextMin);
-    // console.log('Ex Max', nextMax);
-    // console.groupEnd();
-
-    if (lastExtremesY.min !== nextMin || lastExtremesY.max !== nextMax) {
+    // if (chart.renderTo.id === 'trade-chart1') {
+    //     console.groupCollapsed();
+    //     console.log('xmin', xMin);
+    //     console.log('xmax', xMax);
+    //     console.log('b', boundaries);
+    //     console.groupEnd();
+    // }
+    if (chart.options.binary.lastYExtremes.min !== nextMin || chart.options.binary.lastYExtremes.max !== nextMax) {
         yAxis.setExtremes(nextMin, nextMax, false);
-        lastExtremesY.min = nextMin;
-        lastExtremesY.max = nextMax;
+        chart.options.binary.lastYExtremes.min = nextMin;
+        chart.options.binary.lastYExtremes.max = nextMax;
     }
 };
 

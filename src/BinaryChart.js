@@ -30,7 +30,7 @@ export default class BinaryChart extends Component {
         showAllRangeSelector: PropTypes.bool,
         events: BinaryTypes.events,
         height: PropTypes.number,
-        id: PropTypes.string,
+        id: PropTypes.string.isRequired,
         noData: PropTypes.bool,
         pipSize: PropTypes.number,
         rangeChange: PropTypes.func,
