@@ -38,7 +38,7 @@ export default class DynamicChart extends Component {
          const { ticks } = this.state;
 
          return (
-             <BinaryChart id="dynamic-tick" ticks={ticks} {...this.props} />
+             <BinaryChart ticks={ticks} {...this.props} />
          );
      }
  }

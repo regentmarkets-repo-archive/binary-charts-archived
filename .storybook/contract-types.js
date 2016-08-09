@@ -93,7 +93,6 @@ const createStories = (category, contracts) =>
         storiesOf(category, module)
             .add(key, () =>
                 <BinaryChart
-                    id={key}
                     ticks={ticks}
                     trade={contracts[key]}
                 />

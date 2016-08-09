@@ -45,7 +45,7 @@ export default class TypeSwitchChart extends React.Component {
     render() {
         const { ticks, type } = this.state;
         return (
-            <BinaryChart id="switch-type" type={type} ticks={ticks} typeChange={t => this.changeType(t)} pipSize={2} />
+            <BinaryChart type={type} ticks={ticks} typeChange={t => this.changeType(t)} pipSize={2} />
         );
     }
 }

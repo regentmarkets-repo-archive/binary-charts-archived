@@ -30,7 +30,7 @@ export default class DynamicOHLCChart extends React.Component {
     render() {
         const { ticks } = this.state;
         return (
-            <BinaryChart id="dynamic-ohlc" type="candlestick" ticks={ticks} />
+            <BinaryChart type="candlestick" ticks={ticks} />
         );
     }
 }

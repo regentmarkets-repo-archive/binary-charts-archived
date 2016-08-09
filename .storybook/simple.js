@@ -16,11 +16,10 @@ const realTrade = {
 
 storiesOf('Basic', module)
     .add('Empty', () =>
-        <BinaryChart id="empty"/>
+        <BinaryChart />
     )
     .add('Simple', () =>
         <BinaryChart
-            id="simple"
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
@@ -31,7 +30,6 @@ storiesOf('Basic', module)
     .add('Dark Theme', () =>
         <div style={{ background: '#1d1d24', padding: 10 }}>
             <BinaryChart
-                id="dark"
                 ticks={[
                     { epoch: 0, quote: 50 },
                     { epoch: 1, quote: 40 },
@@ -50,7 +48,6 @@ storiesOf('Basic', module)
     .add('Dark Theme 2', () =>
         <div style={{ background: '#1d1d24', padding: 10 }}>
             <BinaryChart
-                id="dark2"
                 ticks={ticks}
                 contract={{
                     contract_type: 'DIGITMATCH',
@@ -68,7 +65,6 @@ storiesOf('Basic', module)
     )
     .add('Fixed Size', () =>
         <BinaryChart
-            id="fixedsize"
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
@@ -81,7 +77,6 @@ storiesOf('Basic', module)
     .add('Resizable', () =>
         <div style={{ display: 'flex' }}>
             <BinaryChart
-                id="resizable"
                 style={{ flex: 1 }}
                 ticks={[
                     { epoch: 0, quote: 50 },
@@ -94,7 +89,6 @@ storiesOf('Basic', module)
     )
     .add('Missing data (nulls)', () =>
         <BinaryChart
-            id="missing-data"
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
@@ -108,7 +102,6 @@ storiesOf('Basic', module)
     )
     .add('Missing data (no entries)', () =>
         <BinaryChart
-            id="missing-entry"
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
@@ -119,7 +112,6 @@ storiesOf('Basic', module)
     )
     .add('Pip size of 3', () =>
         <BinaryChart
-            id="pip3"
             ticks={[
                 { epoch: 0, quote: 50.021 },
                 { epoch: 1, quote: 40.222 },
@@ -131,7 +123,6 @@ storiesOf('Basic', module)
     )
     .add('Pip size of 2, different symbol', () =>
         <BinaryChart
-            id="pip2"
             symbol="symbol"
             ticks={[
                 { epoch: 0, quote: 50.021 },
@@ -144,7 +135,6 @@ storiesOf('Basic', module)
     )
     .add('Pip size larger than ticks', () =>
         <BinaryChart
-            id="pip4"
             ticks={[
                 { epoch: 0, quote: 20 },
                 { epoch: 1, quote: 21 },
@@ -173,7 +163,6 @@ storiesOf('Basic', module)
     )
     .add('Massive ticks debug', () =>
         <BinaryChart
-            id="debug"
             ticks={massiveTicks}
             trade={realTrade}
             pipSize={2}
