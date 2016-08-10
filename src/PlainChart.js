@@ -2,14 +2,30 @@ import Highcharts from 'highcharts/highstock';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
-export default (renderTo, params) => {
+const createChart = (renderTo, params) => {
     const config = initChart(params);
-    config.chart.renderTo = renderTo;
-    const chart = new Highcharts.StockChart(config);
+    const chart = new Highcharts.StockChart(renderTo, config);
+    if (params.type === 'candlestick') {
+        chart.xAxis[0].update({
+            minRange: 10 * 60 * 1000,
+        });
+    }
+
+    return chart;
+};
+
+export default (renderTo, params) => {
+    let chart = createChart(renderTo, params);
     updateChart(chart, { ticks: [] }, params);
 
     let currentParams = params;
     const imperativeUpdate = newParams => {
+        if (currentParams.symbol !== newParams.symbol ||
+            currentParams.type !== newParams.type ||
+            currentParams.noData !== newParams.noData) {
+            chart.destroy();
+            chart = createChart(renderTo, newParams);
+        }
         updateChart(chart, currentParams, newParams);
         currentParams = newParams;
     };
