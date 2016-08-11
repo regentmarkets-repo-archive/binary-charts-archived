@@ -4,10 +4,11 @@ import { doTicksDifferJustOneEntry, doCandlesDifferJustOneEntry,
 export default (chart, prevProps, nextProps) => {
     const chartType = chart.series[0].type;
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
+    const dataInChart = chart.series[0].options.data;
     let newDataMax = dataMax;
     switch (chartType) {
         case 'area': {
-            const oneTickDiff = doTicksDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
+            const oneTickDiff = doTicksDifferJustOneEntry(dataInChart, nextProps.ticks);
             if (oneTickDiff) {
                 const newTick = getLastTick(nextProps.ticks);
                 const dataPoint = tickToData(newTick);
@@ -19,7 +20,7 @@ export default (chart, prevProps, nextProps) => {
 
                 const isCloseToMostRecent = (dataMax - max) <= 2000;
                 if (isCloseToMostRecent) {
-                    const hasNullData = chart.series[0].options.data.some(d => !d[1] && d[1] !== 0);
+                    const hasNullData = dataInChart.some(d => !d[1] && d[1] !== 0);
                     if (!hasNullData) {
                         const newMin = min + (newDataMax - dataMax);
                         chart.xAxis[0].setExtremes(newMin, newDataMax);
@@ -37,7 +38,7 @@ export default (chart, prevProps, nextProps) => {
             break;
         }
         case 'candlestick': {
-            const oneTickDiff = doCandlesDifferJustOneEntry(prevProps.ticks, nextProps.ticks);
+            const oneTickDiff = doCandlesDifferJustOneEntry(dataInChart, nextProps.ticks);
             if (oneTickDiff) {
                 const lastTick = getLastTick(nextProps.ticks);
                 const dataPoint = ohlcToData(lastTick);
@@ -48,7 +49,7 @@ export default (chart, prevProps, nextProps) => {
 
                 const newDataIsWithinInterval = (dataPoint[0] - last2Epoch) <= timeInterval;
                 if (newDataIsWithinInterval) {
-                    chart.series[0].options.data[xData.length - 1] = dataPoint;
+                    dataInChart[xData.length - 1] = dataPoint;
                 } else {
                     chart.series[0].addPoint(dataPoint, false);
                 }
