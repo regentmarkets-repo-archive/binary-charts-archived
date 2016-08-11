@@ -5,13 +5,13 @@
     <title>Non React Test</title>
     <!-- <script> React = { PropTypes: { oneOfType: function() {}, oneOf: function() {}, shape: function() {}, arrayOf: function() {}, string: {}, number: {} } };</script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.min.js"></script>
-    <script src="https://npmcdn.com/binary-charts@5.5.11/lib/binary-charts.js"></script>
+    <script src="https://npmcdn.com/binary-charts/lib/binary-charts.js"></script>
 </head>
 <body>
     <div id="chart"></div>
     <script>
         const PlainChart = window['binary-charts'].PlainChart;
-        const chart = PlainChart('chart', { ticks: [], pipSize: 2 });
+        const chart = PlainChart('chart', { type: 'area', ticks: [], pipSize: 2 });
 
         const random = () =>
             Math.random() * (20 - 10) + 10;
@@ -23,7 +23,7 @@
         window.setInterval(() => {
             const newTick = { epoch: nowEpoch(), quote: random() };
             ticks = ticks.concat(newTick);
-            chart.updateChart({ ticks: ticks, pipSize: 4 });
+            chart.updateChart({ type: 'area', ticks: ticks, pipSize: 4 });
         }, 1000);
     </script>
 </body>

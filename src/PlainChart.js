@@ -14,8 +14,10 @@ export default (renderTo, params) => {
         currentParams = newParams;
     };
 
+    const destroyChart = () => chart.destroy();
+
     return {
-        chart,
         updateChart: imperativeUpdate,
+        destroy: destroyChart,
     };
 };
