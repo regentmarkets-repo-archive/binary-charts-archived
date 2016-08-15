@@ -3,8 +3,8 @@ import vertPlotLine from './vertPlotLine';
 import timePlotLines from './timePlotLines';
 
 const shoudShowPurchaseTime = contract =>
-    contract.purchase_time !== contract.entry_tick_time &&
-        contract.purchase_time !== contract.date_start;
+    +contract.purchase_time !== +contract.entry_tick_time &&
+        +contract.purchase_time !== +contract.date_start;
 
 // const shouldShowExitSpot = contract =>
 //     contract.exit_tick_time !== contract.date_expiry;
@@ -13,7 +13,7 @@ const shoudShowPurchaseTime = contract =>
 const shouldShowExpiry = contract => !contract.tick_count;
 
 const shouldShowSettlement = contract =>
-    contract.date_settlement !== contract.date_expiry;
+    +contract.date_settlement !== +contract.date_expiry;
 
 export default (contract, theme) => {
     if (!contract) {
