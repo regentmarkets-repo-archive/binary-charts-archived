@@ -71,10 +71,10 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
 export const updateExtremesYAxis = (chart, contract = {}) => {
     const xAxis = chart.xAxis[0];
 
-    const { min, dataMin } = xAxis.getExtremes();
+    const { min, dataMin, max } = xAxis.getExtremes();
 
     const xMin = Math.max(min, dataMin);
-    const xMax = xAxis.getExtremes().max;
+    const xMax = max;
 
     const zoomedTicks = chart.series[0].options.data
         .filter(t => {
