@@ -1,6 +1,6 @@
 import { tickToData, ohlcToData, getLastTick, doArrayDifferJustOneEntry } from 'binary-utils';
 
-export default (chart, prevProps, nextProps) => {
+export default (chart, nextProps) => {
     const chartType = chart.series[0].type;
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
     const dataInChart = chart.series[0].options.data;

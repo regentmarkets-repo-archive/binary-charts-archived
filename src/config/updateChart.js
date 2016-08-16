@@ -54,7 +54,7 @@ export default (chart, prevProps, nextProps) => {
     }
 
     if (ticksDiffer) {
-        updateTicks(chart, prevProps, nextProps);
+        updateTicks(chart, nextProps);
         chart.redraw();
         if (ticks.length > 0) {
             chart.hideLoading();
