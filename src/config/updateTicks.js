@@ -1,6 +1,30 @@
 import { tickToData, ohlcToData, getLastTick, doArrayDifferJustOneEntry } from 'binary-utils';
 
-export default (chart, nextProps) => {
+export const patchNullDataForStartLaterContract = (chart, contract, newData) => {
+    const xAxis = chart.xAxis[0];
+    const { min, max } = xAxis.getExtremes();
+    const dataInChart = chart.series[0].options.data;
+    const visiblePointCount = dataInChart.filter(d => d[0] > min && d[0] < max).length;
+    const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
+
+    const lastTick = getLastTick(newData);
+    const lastTickMillis = lastTick && lastTick[0];
+    const startTime = contract && contract.date_start;
+    if (!startTime) return newData;
+
+    const startTimeMillis = startTime && startTime * 1000;
+    const blankWindowSize = startTimeMillis - lastTickMillis;
+    const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
+
+    const newSeries = newData;
+    for (let i = 1; i <= emptyDataCount; i++) {
+        const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
+        newSeries.push(futurePoint);
+    }
+    return newSeries;
+};
+
+export default (chart, nextProps, contract) => {
     const chartType = chart.series[0].type;
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
     const dataInChart = chart.series[0].options.data;
@@ -37,6 +61,9 @@ export default (chart, nextProps) => {
                         chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
                     }
                 }
+            } else if (contract && contract.date_start) {
+                const dataWithNull = patchNullDataForStartLaterContract(chart, contract, newDataInChartFormat);
+                chart.series[0].setData(dataWithNull, false);
             } else {
                 chart.series[0].setData(newDataInChartFormat, false);
             }
