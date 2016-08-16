@@ -105,7 +105,7 @@ const renderAxisIndicator = chart => {
 
     if (chart.series[0].yData.length === 0) return;
 
-    const exitSpot = contract.exit_tick || contract.sell_spot;
+    const exitSpot = contract && (contract.exit_tick || contract.sell_spot);
     if (exitSpot) {
         renderIndicator({ chart, indicator: 'spot', value: +exitSpot,
             x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
