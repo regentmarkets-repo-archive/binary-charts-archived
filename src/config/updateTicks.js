@@ -1,5 +1,5 @@
-import { doTicksDifferJustOneEntry, doCandlesDifferJustOneEntry,
-    tickToData, ohlcToData, getLastTick } from 'binary-utils';
+import { doCandlesDifferJustOneEntry, tickToData, ohlcToData,
+    getLastTick, doArrayDifferJustOneEntry } from 'binary-utils';
 
 export default (chart, prevProps, nextProps) => {
     const chartType = chart.series[0].type;
@@ -8,13 +8,21 @@ export default (chart, prevProps, nextProps) => {
     let newDataMax = dataMax;
     switch (chartType) {
         case 'area': {
-            const oneTickDiff = doTicksDifferJustOneEntry(dataInChart, nextProps.ticks);
+            const newDataInChartFormat = nextProps.ticks.map(tickToData);
+
+            const oneTickDiff = doArrayDifferJustOneEntry(
+                dataInChart,
+                newDataInChartFormat,
+                (a, b) => a === b || (a[0] === b[0] && a[1] === b[1])
+            );
+
             if (oneTickDiff) {
                 const newTick = getLastTick(nextProps.ticks);
                 const dataPoint = tickToData(newTick);
                 if (!dataPoint) {
                     return;
                 }
+
                 chart.series[0].addPoint(dataPoint, false);
                 newDataMax = dataPoint[0];
 
@@ -32,8 +40,7 @@ export default (chart, prevProps, nextProps) => {
                     }
                 }
             } else {
-                const dataList = nextProps.ticks.map(tickToData);
-                chart.series[0].setData(dataList, false);
+                chart.series[0].setData(newDataInChartFormat, false);
             }
             break;
         }
