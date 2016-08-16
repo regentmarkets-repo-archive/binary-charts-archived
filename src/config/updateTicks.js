@@ -1,5 +1,4 @@
-import { doCandlesDifferJustOneEntry, tickToData, ohlcToData,
-    getLastTick, doArrayDifferJustOneEntry } from 'binary-utils';
+import { tickToData, ohlcToData, getLastTick, doArrayDifferJustOneEntry } from 'binary-utils';
 
 export default (chart, prevProps, nextProps) => {
     const chartType = chart.series[0].type;
@@ -13,7 +12,7 @@ export default (chart, prevProps, nextProps) => {
             const oneTickDiff = doArrayDifferJustOneEntry(
                 dataInChart,
                 newDataInChartFormat,
-                (a, b) => a === b || (a[0] === b[0] && a[1] === b[1])
+                (a, b) => a === b || a[0] === b[0]
             );
 
             if (oneTickDiff) {
@@ -33,8 +32,7 @@ export default (chart, prevProps, nextProps) => {
                         const newMin = min + (newDataMax - dataMax);
                         chart.xAxis[0].setExtremes(newMin, newDataMax);
                     } else {
-                        const lastTick = getLastTick(prevProps.ticks);
-                        const lastDataPoint = tickToData(lastTick);
+                        const lastDataPoint = getLastTick(dataInChart);
                         const xAxisDiff = newDataMax - lastDataPoint[0];
                         chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
                     }
@@ -45,10 +43,14 @@ export default (chart, prevProps, nextProps) => {
             break;
         }
         case 'candlestick': {
-            const oneTickDiff = doCandlesDifferJustOneEntry(dataInChart, nextProps.ticks);
+            const newDataInChartFormat = nextProps.ticks.map(ohlcToData);
+            const oneTickDiff = doArrayDifferJustOneEntry(
+                dataInChart,
+                newDataInChartFormat,
+                (a, b) => a === b || a[0] === b[0]
+            );
             if (oneTickDiff) {
-                const lastTick = getLastTick(nextProps.ticks);
-                const dataPoint = ohlcToData(lastTick);
+                const dataPoint = getLastTick(newDataInChartFormat);
                 const xData = chart.series[0].xData;
                 const last2Epoch = xData[xData.length - 2];
                 const last3Epoch = xData[xData.length - 3];
@@ -61,8 +63,7 @@ export default (chart, prevProps, nextProps) => {
                     chart.series[0].addPoint(dataPoint, false);
                 }
             } else {
-                const dataList = nextProps.ticks.map(ohlcToData);
-                chart.series[0].setData(dataList, false);
+                chart.series[0].setData(newDataInChartFormat, false);
             }
             break;
         }
