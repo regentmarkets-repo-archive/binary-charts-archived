@@ -21,6 +21,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
     const startTime = contract && contract.date_start;
     const startTimeMillis = startTime && startTime * 1000;
+    const xAxis = chart.xAxis[0];
 
     function removeSeriesNullData() {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
@@ -29,20 +30,19 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
         }
     }
 
-    // Special case, data not loaded or contract not loaded
-    if (!lastTickMillis || !startTime) {
+    // Special case, data not loaded
+    if (!lastTickMillis) {
         removeSeriesNullData();
         return;
     }
 
-    const startTimeDataPoint = dataFromChart.find(d => {
-        const dataOlderThanStartTime = d[0] > startTimeMillis;
-        return dataOlderThanStartTime;
-    });
-    const startInFuture = !startTimeDataPoint || !startTimeDataPoint[1];
-    const xAxis = chart.xAxis[0];
+    // start in future
+    if (startTime) {
+        const startTimeDataPoint = dataFromChart.find(d => {
+            const dataOlderThanStartTime = d[0] > startTimeMillis;
+            return dataOlderThanStartTime;
+        });
 
-    if (startInFuture) {
         const hasFutureData = !!startTimeDataPoint;
         if (!hasFutureData) {
             const dataWithNull = patchNullDataForStartLaterContract(chart, contract, dataFromChart);
@@ -51,20 +51,23 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
             const newMax = getLastTick(dataWithNull)[0];
             series.setData(dataWithNull, false);
             window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);
-        } else if (rangeButton) {
-            const { count, type } = rangeButton;
-            const durationInSecs = durationToSecs(count, hcUnitConverter(type));
-            const validMax = dataFromChart.reduce((a, b) => {
-                if (b[1]) {
-                    return Math.max(a, b[0]);
-                }
-                return a;
-            }, 0);
-            const { dataMax } = xAxis.getExtremes();
-            window.setTimeout(() => xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax), 100);
+            return;
         }
     } else {
         removeSeriesNullData();
+    }
+
+    if (rangeButton) {
+        const { count, type } = rangeButton;
+        const durationInSecs = durationToSecs(count, hcUnitConverter(type));
+        const validMax = dataFromChart.reduce((a, b) => {
+            if (b[1]) {
+                return Math.max(a, b[0]);
+            }
+            return a;
+        }, 0);
+        const { dataMax } = xAxis.getExtremes();
+        window.setTimeout(() => xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax), 100);
     }
 };
 
