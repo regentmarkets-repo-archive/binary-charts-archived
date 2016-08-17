@@ -114,7 +114,8 @@ const renderAxisIndicator = chart => {
 
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
-            if (contract && contract[b] && contract[b] !== currentSpot) {
+            if (contract && contract[b] && contract[b] !== currentSpot &&
+                !contract.contract_type.includes('DIGIT')) {            // ignore digit trade
                 renderIndicator({
                     chart,
                     indicator: b,
