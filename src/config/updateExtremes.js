@@ -1,4 +1,5 @@
-import { arrayMin, arrayMax, durationToSecs } from 'binary-utils';
+import { arrayMin, arrayMax, durationToSecs, getLastTick } from 'binary-utils';
+import { patchNullDataForStartLaterContract } from './updateTicks';
 
 const hcUnitConverter = type => {
     switch (type) {
@@ -44,22 +45,11 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     if (startInFuture) {
         const hasFutureData = !!startTimeDataPoint;
         if (!hasFutureData) {
-            const { min, max } = xAxis.getExtremes();
+            const dataWithNull = patchNullDataForStartLaterContract(chart, contract, dataFromChart);
+            const { min } = xAxis.getExtremes();
 
-            const visiblePointCount = dataFromChart.filter(d => d[0] > min && d[0] < max).length;
-            const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
-
-            const blankWindowSize = startTimeMillis - lastTickMillis;
-            const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
-
-            const newSeries = dataFromChart;
-            let newMax = startTimeMillis;
-            for (let i = 1; i <= emptyDataCount; i++) {
-                const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
-                newSeries.push(futurePoint);
-                newMax = futurePoint[0];
-            }
-            series.setData(newSeries, false);
+            const newMax = getLastTick(dataWithNull)[0];
+            series.setData(dataWithNull, false);
             window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);
         } else if (rangeButton) {
             const { count, type } = rangeButton;
@@ -81,10 +71,10 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
 export const updateExtremesYAxis = (chart, contract = {}) => {
     const xAxis = chart.xAxis[0];
 
-    const { min, dataMin } = xAxis.getExtremes();
+    const { min, dataMin, max } = xAxis.getExtremes();
 
     const xMin = Math.max(min, dataMin);
-    const xMax = xAxis.getExtremes().max;
+    const xMax = max;
 
     const zoomedTicks = chart.series[0].options.data
         .filter(t => {

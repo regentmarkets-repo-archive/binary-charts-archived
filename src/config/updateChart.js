@@ -53,15 +53,16 @@ export default (chart, prevProps, nextProps) => {
         }
     }
 
+    const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
+
     if (ticksDiffer) {
-        updateTicks(chart, prevProps, nextProps);
+        updateTicks(chart, nextProps, mergedContract);
         chart.redraw();
         if (ticks.length > 0) {
             chart.hideLoading();
         }
     }
 
-    const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
 
     chart.userOptions.binary = {
         contract: mergedContract,

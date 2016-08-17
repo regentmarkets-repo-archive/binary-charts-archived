@@ -105,6 +105,13 @@ const renderAxisIndicator = chart => {
 
     if (chart.series[0].yData.length === 0) return;
 
+    const exitSpot = contract && (contract.exit_tick || contract.sell_spot);
+    if (exitSpot) {
+        renderIndicator({ chart, indicator: 'spot', value: +exitSpot,
+            x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
+        return;
+    }
+
     ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
         .forEach(b => {
             if (contract && contract[b] && contract[b] !== currentSpot) {
