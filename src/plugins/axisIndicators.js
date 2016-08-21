@@ -14,7 +14,7 @@ const lastPriceFromSeries = series =>
         lastPriceFromCandles(series) :
         lastPriceFromTicks(series);
 
-const polyPath = (x, y) => [
+const polyPath = (x: number, y: number) => [
     'M', x - 10, y,
     'L',
     x, y - 7,
@@ -51,7 +51,7 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
         .add(indicator.group);
 };
 
-const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
+const update = ({ pipSize: number, value: number, x: number, y: number, indicator, yAxis: number }) => {
     indicator.label.attr({
         text: (+value).toFixed(pipSize),
     });

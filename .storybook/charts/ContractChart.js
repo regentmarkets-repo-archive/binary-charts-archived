@@ -1,15 +1,16 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
 
 const token = 'qdJ86Avvrsh0Le4';
 
-const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);
+const getContract = contractID =>
+    api.getContractInfo(contractID).then(r => r.proposal_open_contract);
 
 const callTrade = {
     barrier: '30000',
     barrierType: 'absolute',
-    contract_type: 'CALL'
+    contract_type: 'CALL',
 };
 
 const digitTrade = {
@@ -22,7 +23,7 @@ const endsoutsideTrade = {
     barrier: '+70',
     barrier2: '-70',
     barrierType: 'relative',
-    contract_type: 'EXPIRYMISS'
+    contract_type: 'EXPIRYMISS',
 };
 
 const tickTrade = {
@@ -30,13 +31,13 @@ const tickTrade = {
     barrier: 8,
     contract_type: 'DIGITMATCH',
     tick_count: 10,
-}
+};
 
 export default class ContractChart extends React.Component {
 
-    static propTypes = {
-        contractId: PropTypes.string,
-    };
+    props: {
+        contractId: string,
+    }
 
     constructor(props) {
         super(props);

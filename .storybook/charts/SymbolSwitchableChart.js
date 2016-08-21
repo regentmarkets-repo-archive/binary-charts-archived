@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
 
@@ -6,9 +6,9 @@ const token = 'qdJ86Avvrsh0Le4';
 
 export default class SymbolSwitchableChart extends React.Component {
 
-    static propTypes = {
-        symbol: PropTypes.string,
-    };
+    props: {
+        symbol: string,
+    }
 
     constructor(props) {
         super(props);

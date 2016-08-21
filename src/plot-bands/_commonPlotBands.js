@@ -1,4 +1,12 @@
-export const winPlotBand = (id, from, to) => ({
+type PlotBand = {
+    id: string,
+    from: number,
+    to: nnumber,
+    color: string,
+    label: Object,
+}
+
+export const winPlotBand = (id: string, from: number, to: number): PlotBand => ({
     id,
     from,
     to,
@@ -13,7 +21,7 @@ export const winPlotBand = (id, from, to) => ({
     },
 });
 
-export const lossPlotBand = (id, from, to) => ({
+export const lossPlotBand = (id: string, from: number, to: number): PlotBand => ({
     id,
     from,
     to,

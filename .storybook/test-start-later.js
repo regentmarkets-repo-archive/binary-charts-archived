@@ -1,11 +1,10 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import BinaryChart from '../src/BinaryChart';
-import api from './ApiSingleton';
 
 class TestChart extends Component {
 
     componentWillMount() {
-        
+
     }
 
     render() {
@@ -15,11 +14,11 @@ class TestChart extends Component {
             amount: 50,
             duration_unit: 'm',
             contract_type: 'CALL',
-            basis: 'stake'
+            basis: 'stake',
         };
 
         return (
             <BinaryChart trade={fakeTrade} />
-        )
+        );
     }
 }

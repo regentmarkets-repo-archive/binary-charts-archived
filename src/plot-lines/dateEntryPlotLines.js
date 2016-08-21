@@ -2,36 +2,38 @@ import { contractCodeToText } from 'binary-utils';
 import vertPlotLine from './vertPlotLine';
 import timePlotLines from './timePlotLines';
 
-const shoudShowPurchaseTime = contract =>
+type TimePlotLine = {
+    id: string,
+    position: 'left' | 'right',
+}
+
+const shoudShowPurchaseTime = (contract: Contract): boolean =>
     +contract.purchase_time !== +contract.entry_tick_time &&
         +contract.purchase_time !== +contract.date_start;
 
-// const shouldShowExitSpot = contract =>
-//     contract.exit_tick_time !== contract.date_expiry;
-
 // Tick trade does not have to show expiry
-const shouldShowExpiry = contract => !contract.tick_count;
+const shouldShowExpiry = (contract: Contract): boolean =>
+    !contract.tick_count;
 
-const shouldShowSettlement = contract =>
+const shouldShowSettlement = (contract: Contract): boolean =>
     +contract.date_settlement !== +contract.date_expiry;
 
-export default (contract, theme) => {
+export default (contract: Contract, theme: Theme) => {
     if (!contract) {
         return [];
     }
 
     return timePlotLines
-        .filter(param => contract[param.id])
-        .filter(param => param.id !== 'purchase_time' || shoudShowPurchaseTime(contract))
-        // .filter(param => param.id !== 'exit_tick_time' || shouldShowExitSpot(contract))
-        .filter(param => param.id !== 'date_expiry' || shouldShowExpiry(contract))
-        .filter(param => param.id !== 'date_settlement' || shouldShowSettlement(contract))
-        .filter(param => param.id !== 'sell_time')
-        .map(param => vertPlotLine({
-            id: param.id,
-            epoch: contract[param.id],
-            text: contractCodeToText(param.id),
-            position: param.position,
+        .filter((x: TimePlotLine) => contract[x.id])
+        .filter((x: TimePlotLine) => x.id !== 'purchase_time' || shoudShowPurchaseTime(contract))
+        .filter((x: TimePlotLine) => x.id !== 'date_expiry' || shouldShowExpiry(contract))
+        .filter((x: TimePlotLine) => x.id !== 'date_settlement' || shouldShowSettlement(contract))
+        .filter((x: TimePlotLine) => x.id !== 'sell_time')
+        .map((x: TimePlotLine) => vertPlotLine({
+            id: x.id,
+            epoch: contract[x.id],
+            text: contractCodeToText(x.id),
+            position: x.position,
             theme,
         }));
 };

@@ -1,4 +1,5 @@
-const sum = (arr, valFunc) => arr.reduce((acc, v) => acc + valFunc(v), 0);
+const sum = (arr: number[], valFunc) =>
+    arr.reduce((acc, v) => acc + valFunc(v), 0);
 
 export default data => {
     const n = data.length;

@@ -23,6 +23,7 @@
     "prefer-template": 0,
     "no-confusing-arrow": 0,
     "no-param-reassign": 0,
+    "react/sort-comp": 0,
     "react/jsx-indent": [0, "tab"],
     "react/prefer-stateless-function": 0,
     "react/jsx-indent-props": [0, "tab"],
@@ -41,10 +42,6 @@
     "flowtype/space-before-type-colon": [
       1,
       "never"
-    ],
-    "flowtype/type-id-match": [
-      1,
-      "^([A-Z][a-z0-9]+)+Type$"
     ],
     "flowtype/use-flow-type": 1,
     "flowtype/valid-syntax": 1

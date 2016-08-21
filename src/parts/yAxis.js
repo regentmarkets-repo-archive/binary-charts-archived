@@ -1,6 +1,6 @@
 import { digitsToPips } from 'binary-utils';
 
-export default ({ pipSize }) => ({
+export default ({ pipSize: number }) => ({
     opposite: true,
     labels: {
         align: 'left',

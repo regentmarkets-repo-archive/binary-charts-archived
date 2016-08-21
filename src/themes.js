@@ -1,21 +1,23 @@
 import Highcharts from 'highcharts/highstock';
 
-function merge(a, b) {
+function merge(a: Object, b: Object) {
     if (process.env.NODE_ENV !== 'production') {
         return a;
     }
     return Highcharts.merge(a, b);
 }
 
-export const colorBg = (theme, percentage) =>
+type Theme = 'light' | 'dark';
+
+export const colorBg = (theme: Theme, percentage: number): string =>
     theme === 'light' ?
         `rgba(42, 48, 82, ${percentage})` :
         `rgba(242, 244, 255, ${percentage})`;
 
-export const colorText = (theme, percentage) =>
+export const colorText = (theme: Theme, percentage: number): string =>
     colorBg(theme === 'light' ? 'dark' : 'light', percentage);
 
-const themeColors = theme => ({
+const themeColors = (theme: Theme): Object => ({
     colors: [colorBg(theme, 1), '#f45b5b', '#8085e9', '#8d4654'],
     series: {
         fillColor: 'red',
@@ -87,22 +89,22 @@ const themeColors = theme => ({
             theme: {
                 states: {
                     hover: {
-                        fill: colorBg(0.1),
-                        stroke: colorBg(0.1),
+                        fill: colorBg(theme, 0.1),
+                        stroke: colorBg(theme, 0.1),
                     },
                 },
             },
         },
     },
     tooltip: {
-        borderColor: colorBg(0.25),
+        borderColor: colorBg(theme, 0.25),
         style: {
-            color: colorBg(1),
+            color: colorBg(theme, 1),
         },
     },
     noData: {
         style: {
-            color: colorBg(0.5),
+            color: colorBg(theme, 0.5),
         },
     },
 });

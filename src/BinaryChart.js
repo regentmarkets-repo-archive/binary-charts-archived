@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Highcharts from 'highcharts/highstock';
 import exporting from 'highcharts/modules/exporting';
 import noDataToDisplay from 'highcharts/modules/no-data-to-display.js';
@@ -21,28 +21,30 @@ if (Object.keys(Highcharts).length > 0) {
 //    tradeMarker();
 }
 
+type Props = {
+    className?: string,
+    contract: BinaryTypes.contractOrTrade,
+    defaultRange: number,
+    showAllRangeSelector: boolean,
+    events: BinaryTypes.events,
+    height: number,
+    id: string,
+    noData: boolean,
+    pipSize: number,
+    rangeChange: () => void,
+    symbol: string,
+    ticks: Tick[],
+    theme: string,
+    trade: contractOrTrade,
+    tradingTimes: tradingTimes,
+    type: 'area' | 'candlestick',
+    typeChange: () => void,
+    width: number,
+};
+
 export default class BinaryChart extends Component {
 
-    static propTypes = {
-        className: PropTypes.string,
-        contract: BinaryTypes.contractOrTrade,
-        defaultRange: PropTypes.number.isRequired,
-        showAllRangeSelector: PropTypes.bool,
-        events: BinaryTypes.events,
-        height: PropTypes.number,
-        id: PropTypes.string,
-        noData: PropTypes.bool,
-        pipSize: PropTypes.number,
-        rangeChange: PropTypes.func,
-        symbol: PropTypes.string,
-        ticks: BinaryTypes.tickArray,
-        theme: PropTypes.string,
-        trade: BinaryTypes.contractOrTrade,
-        tradingTimes: BinaryTypes.tradingTimes,
-        type: PropTypes.oneOf(['area', 'candlestick']),
-        typeChange: PropTypes.func,
-        width: PropTypes.number,
-    };
+    props: Props;
 
     static defaultProps = {
         defaultRange: 5,
@@ -59,7 +61,7 @@ export default class BinaryChart extends Component {
         updateChart(this.chart, { ticks: [] }, this.props);
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: Props) {
         if (this.props.symbol !== nextProps.symbol ||
                 this.props.type !== nextProps.type ||
                 this.props.noData !== nextProps.noData) {
@@ -76,7 +78,7 @@ export default class BinaryChart extends Component {
         this.destroyChart();
     }
 
-    createChart(newProps) {
+    createChart(newProps: Props) {
         const props = newProps || this.props;
         const config = initChart(props);
         this.chart = new Highcharts.StockChart(this.chartDiv, config, chart => {

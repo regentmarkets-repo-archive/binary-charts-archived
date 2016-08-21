@@ -1,38 +1,34 @@
-import { PropTypes } from 'react';
+export type stringOrNumber = string | number;
 
-export const stringOrNumber = PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-]);
+export type Epoch = number;
 
-export const contractOrTrade = PropTypes.shape({
-    barrier: stringOrNumber,
-    barrier2: stringOrNumber,
-    barrierType: PropTypes.oneOf(['absolute', 'relative', 'digit']),
-    contract_type: PropTypes.string.isRequired,
-    date_expiry: PropTypes.number,
-    date_settlement: PropTypes.number,
-    date_start: PropTypes.number,
-    entry_spot: PropTypes.number,
-    entry_tick_time: PropTypes.number,
-    exit_tick_time: PropTypes.number,
-    expiry_time: PropTypes.number,
-    purchase_time: PropTypes.number,
-    sell_spot_time: PropTypes.number,
-});
+export type contractOrTrade = {
+    barrier: mumber,
+    barrier2: number,
+    barrierType: 'absolute' | 'relative' | 'digit',
+    contract_type: string,
+    date_expiry: Epoch,
+    date_settlement: number,
+    date_start: Epoch,
+    entry_spot: number,
+    entry_tick_time: Epoch,
+    exit_tick_time: Epoch,
+    expiry_time: Epoch,
+    purchase_time: Epoch,
+    sell_spot_time: Epoch,
+};
 
-export const tickArray = PropTypes.arrayOf(PropTypes.shape({
-    epoch: PropTypes.number.isRequired,
-    quote: PropTypes.number,
-}));
+export type tickArray = Tick[];
 
-export const tradingTimes = PropTypes.shape({
-    open: PropTypes.arrayOf(PropTypes.string),
-    close: PropTypes.arrayOf(PropTypes.string),
-    settlement: PropTypes.string.isRequired,
-});
+export type tradingTimes = {
+    open: string[],
+    close: string[],
+    settlement: string,
+};
 
-export const events = PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    handler: PropTypes.func.isRequired,
-}));
+export type ChartEvent = {
+    type: string,
+    handler: () => void,
+}
+
+export type events = ChartEvents[];
