@@ -1,11 +1,19 @@
 {
   "parser": "babel-eslint",
-  "extends": "eslint-config-airbnb",
+  "extends": [
+    "eslint-config-airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
   "env": {
     "browser": true,
     "es6": true,
     "mocha": true
   },
+  "plugins": [
+    "react",
+    "flowtype"
+  ],
   "rules": {
     "indent": [0, 4],
     "camelcase": 0,
@@ -25,5 +33,25 @@
     "import/default": 0,
     "import/namespace": 0,
     "import/prefer-default-export": 0,
+    "flowtype/define-flow-type": 1,
+    "flowtype/space-after-type-colon": [
+      1,
+      "always"
+    ],
+    "flowtype/space-before-type-colon": [
+      1,
+      "never"
+    ],
+    "flowtype/type-id-match": [
+      1,
+      "^([A-Z][a-z0-9]+)+Type$"
+    ],
+    "flowtype/use-flow-type": 1,
+    "flowtype/valid-syntax": 1
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": false
+    }
   }
 }

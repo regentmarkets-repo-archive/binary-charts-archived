@@ -1,0 +1,16 @@
+[ignore]
+.*/Gulpfile.js
+.*/wallaby.conf.js
+.*/webpack.config.js
+.*/node_modules/*
+.*/coverage
+.*/dist
+.*/lib
+.*/__tests__
+.*/.storybook
+
+[include]
+
+[libs]
+
+[options]
