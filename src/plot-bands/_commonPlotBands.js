@@ -1,12 +1,4 @@
-type PlotBand = {
-    id: string,
-    from: number,
-    to: nnumber,
-    color: string,
-    label: Object,
-}
-
-export const winPlotBand = (id: string, from: number, to: number): PlotBand => ({
+export const winPlotBand = (id: string, from: number, to: number): Binary.PlotBand => ({
     id,
     from,
     to,

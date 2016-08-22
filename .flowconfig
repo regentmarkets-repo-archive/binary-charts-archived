@@ -9,6 +9,9 @@
 .*/__tests__
 .*/.storybook
 
+.*/linearTrendline
+.*/WinLossIndicator
+
 [include]
 
 [libs]

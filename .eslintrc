@@ -34,17 +34,6 @@
     "import/default": 0,
     "import/namespace": 0,
     "import/prefer-default-export": 0,
-    "flowtype/define-flow-type": 1,
-    "flowtype/space-after-type-colon": [
-      1,
-      "always"
-    ],
-    "flowtype/space-before-type-colon": [
-      1,
-      "never"
-    ],
-    "flowtype/use-flow-type": 1,
-    "flowtype/valid-syntax": 1
   },
   "settings": {
     "flowtype": {
