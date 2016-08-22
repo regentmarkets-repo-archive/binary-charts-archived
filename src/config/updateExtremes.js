@@ -1,4 +1,4 @@
-import { arrayMin, arrayMax, durationToSecs, getLastTick } from 'binary-utils';
+import { arrayMin, arrayMax, durationToSecs, getLastTick, nowAsEpoch } from 'binary-utils';
 import { patchNullDataForStartLaterContract } from './updateTicks';
 
 const hcUnitConverter = type => {
@@ -19,8 +19,8 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
 
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
-    const startTime = contract && contract.date_start;
-    const startTimeMillis = startTime && startTime * 1000;
+    const startTimeEpoch = (contract && contract.is_forward_starting) && contract.date_start;
+    const startTimeMillis = startTimeEpoch && startTimeEpoch * 1000;
     const xAxis = chart.xAxis[0];
 
     function removeSeriesNullData() {
@@ -31,13 +31,13 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     }
 
     // Special case, data not loaded
-    if (!lastTickMillis) {
+    if (!lastTickMillis || startTimeEpoch <= nowAsEpoch()) {
         removeSeriesNullData();
         return;
     }
 
     // start in future
-    if (startTime) {
+    if (startTimeEpoch) {
         const startTimeDataPoint = dataFromChart.find(d => {
             const dataOlderThanStartTime = d[0] > startTimeMillis;
             return dataOlderThanStartTime;
