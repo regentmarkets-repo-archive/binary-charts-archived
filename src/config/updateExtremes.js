@@ -1,4 +1,4 @@
-import { arrayMin, arrayMax, durationToSecs } from 'binary-utils';
+import { arrayMin, arrayMax, durationToSecs, nowAsEpoch } from 'binary-utils';
 
 const hcUnitConverter = type => {
     switch (type) {
@@ -18,8 +18,8 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
 
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
-    const startTime = contract && contract.date_start;
-    const startTimeMillis = startTime && startTime * 1000;
+    const startTimeEpoch = (contract && contract.is_forward_starting === 1) && contract.date_start;
+    const startTimeMillis = startTimeEpoch && startTimeEpoch * 1000;
 
     function removeSeriesNullData() {
         const removeNull = series.options.data.filter(d => !!d[1] || d[1] === 0);
@@ -29,7 +29,11 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     }
 
     // Special case, data not loaded or contract not loaded
-    if (!lastTickMillis || !startTime) {
+    if (
+        !lastTickMillis                         // no data from chart
+        || !startTimeEpoch                      // contract is not forward starting
+        || startTimeEpoch < nowAsEpoch()        // contract already started
+    ) {
         removeSeriesNullData();
         return;
     }
