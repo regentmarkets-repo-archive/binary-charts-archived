@@ -1,5 +1,5 @@
 export default ({ height, width, noData }) => ({
-    animation: true,
+    animation: false,
     scrollbar: { enabled: false },
     credits: { enabled: false },
     legend: { enabled: false },

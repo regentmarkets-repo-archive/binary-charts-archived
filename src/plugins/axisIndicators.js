@@ -56,14 +56,14 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
         text: (+value).toFixed(pipSize),
     });
 
-    indicator.line.animate({ y: y - 1, width: x + 5 });
+    indicator.line.attr({ y: y - 1, width: x + 5 });
 
-    indicator.label.animate({
+    indicator.label.attr({
         x: x - 4 + yAxis.chart.marginRight,
         y: y - 9,
     });
 
-    indicator.poly.animate({
+    indicator.poly.attr({
         d: polyPath(x + 10, y),
     });
 
