@@ -1,6 +1,6 @@
 import { colorBg } from '../themes';
 
-export default ({ id: string, epoch: number, text: string, position: string, theme: Theme }) => ({
+export default ({ id, epoch, text, position, theme }) => ({
     id,
     value: epoch * 1000,
     color: colorBg(theme, 0.5),

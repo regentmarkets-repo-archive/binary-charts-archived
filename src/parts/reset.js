@@ -1,4 +1,4 @@
-export default ({ height: number, width: number, noData: boolean }) => ({
+export default ({ height, width, noData }) => ({
     animation: true,
     scrollbar: { enabled: false },
     credits: { enabled: false },

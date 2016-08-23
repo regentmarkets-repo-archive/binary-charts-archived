@@ -1,0 +1,128 @@
+declare module 'binary-utils' {
+    declare function arrayEqual(a: any[], b: any[]): boolean;
+    declare function arrayMax(arr: any[]): number;
+    declare function arrayMin(arr: any[]): number;
+    declare function arrayToObject(arr: any[]): Object;
+    declare function mergeSortedArrays(arr1: any[], arr2: any[], getter1: (x: any) => any, getter2: (x: any) => any): any[];
+    declare function sequence(n: number): number[];
+
+    declare function barrier2FromContract(contract: ExtendedContract, lastTickQuote: number): number;
+    declare function barrierFromContract(contract: ExtendedContract, lastTickQuote: number): number;
+    declare function callPutBarrier(contract: ExtendedContract, lastTickQuote: number): number;
+    declare function commonRelativeBarrier(barrier: ?number, entrySpot: ?number, lastTickQuote: number): number;
+    declare function extractBarrier(contractsGroupedByExpiry: any): any;
+    declare function getAbsoluteBarrierFromContract(contract: ExtendedContract, lastTickQuote: number, barrierEntryName: string): number;
+    declare function relativeBarrier(contract: ExtendedContract, lastTickQuote: number): number;
+    declare function relativeBarrier2(contract: ExtendedContract, lastTickQuote: number): number;
+
+    declare function dateAsLocalISOString(date: Date): string;
+    declare function dateToDateString(date: Date): string;
+    declare function dateToEpoch(date: Date): number;
+    declare function dateToGMTString(date: Date): string;
+    declare function dateToTimeString(date: Date): string;
+    declare function dateToUTCTimeString(date: Date): string;
+    declare function epochToDate(epoch: number): Date;
+    declare function epochToDateString(epoch: number): string;
+    declare function epochToDateTimeString(epoch: number): string;
+    declare function epochToTimeString(epoch: number): string;
+    declare function epochToUTCDateString(epoch: number): string;
+    declare function epochToUTCTimeString(epoch: number): string;
+    declare function getLastXMonthEpoch(x: number): number;
+    declare function isDateValid(date: Date): boolean;
+    declare function last30DaysEpoch(): number;
+    declare function last7DaysEpoch(): number;
+    declare function nextXDay(x: number): Date;
+    declare function nowAsEpoch(): number;
+    declare function oneYearAfterStr(): string;
+    declare function secondsToTimeString(secs: number): string;
+    declare function splitSecsToUnits(sec: number): number[];
+    declare function timeStringBigger(a: string, b: string): boolean;
+    declare function timeStringIsBetween(start: string, end: string, target: string): boolean;
+    declare function timeStringSmaller(a: string, b: string): boolean;
+    declare function timeStringToSeconds(timeString: string): number;
+    declare function todayEpoch(): number;
+    declare function todayLocaleString(): string;
+    declare function todayUTCString(): string;
+    declare function xDayEpoch(x: number): number;
+    declare function xMonthsAfter(m: number): Date;
+    declare function yesterdayEpoch(): number;
+    declare function yesterdayString(): string;
+    declare function yesterdayUTCString(): string;
+    declare function returnValidDate(inputValue: string, bridge: string): string;
+    declare function returnValidTime(inputValue: string, bridge: string): string;
+    declare function isValidTime(time: string): boolean;
+    declare function timeLeftToNextRealityCheck(loginTime: number, interval: number): number;
+
+    declare function durationSecHelper(duration: string): number;
+    declare function durationText(unit: DurationUnit): string;
+    declare function durationToSecs(duration: number, unit: string): number;
+    declare function extractDuration(contracts: ExtendedContract[], type: ContractType): ExtendedContract[];
+    declare function extractDurationHelper(contracts: ExtendedContract[], type: ContractType): ExtendedContract[];
+    declare function extractForwardStartingDuration(contracts: Contract[], type: ContractType): ExtendedContract[];
+    declare function extractMinMaxInUnits(minArg: number, maxArg: number, unit: DurationUnit): boolean;
+    declare function isDurationLessThan2Mins(duration: number, durationUnit: DurationUnit): boolean;
+    declare function isDurationTick(duration: string): boolean;
+    declare function isDurationWithinRange(duration: number, durationUnit: DurationUnit, ranges: Range[]): boolean;
+
+    declare function calculateLastDigitStats(ticks: Tick[], pips: number): number[];
+    declare function digitsToPips(digits: number): number;
+    declare function getLastDigit(value: number, pips: number): number;
+    declare function noOfDecimals(n: number): number;
+    declare function numberToSignedString(n: number): string;
+    declare function pipSizeToStepSize(pipSize: number): string;
+    declare function pipsToDigits(pips: number): number;
+    declare function toMoney(value: number): string;
+
+    declare function filterDeep(obj: any, predicate: (value: any) => boolean): any;
+    declare function findDeep(obj: any, predicate: (child: any, k: any) => boolean): any;
+    declare function groupByKey(arr: any[], key: string): any;
+    declare function immutableChildrenToJS(obj: any): any;
+
+    declare function areArraysEqual(arr1: any[], arr2: any[]): boolean;
+    declare function areCandleArrayEqual(ohlc1: Candle[], ohlc2: Candle[]): boolean;
+    declare function areTickArraysEqual(ticks1: Tick[], ticks2: Tick[]): boolean;
+    declare function doCandleEqual(ohlc1: Candle, ohlc2: Candle): boolean;
+    declare function doCandlesDifferJustOneEntry(candles1: Candle[], candles2: Candle[]): boolean;
+    declare function doTicksDifferJustOneEntry(ticks1: Tick[], ticks2: Tick[]): boolean;
+    declare function doTicksEqual(tick1: Tick, tick2: Tick): boolean;
+    declare function getLastOHLCTick(candles: Candle[]): ?number;
+    declare function getLastTick(ticks: Tick[]): ?Tick;
+    declare function getLastTickQuote(ticks: Tick[]): ?number;
+    declare function historyToTicks(history: any): Tick[];
+    declare function ohlcToData(candle: Candle): ChartCandle;
+    declare function ohlcToTicks(candles: Candle[]): Tick[];
+    declare function tickToData(tick: Tick): ChartTick;
+
+    declare function askPriceFromProposal(proposal: Proposal): number;
+    declare function contractCategoryToText(category: string): string;
+    declare function contractCodeToText(code: string): string;
+    declare function extractSpreadInfo(contracts: SpreadContract[]): PrettySpreadContract;
+    declare function isIntraday(duration: number, unit: DurationUnit): boolean;
+    declare function normalizedContractFor(contracts: Contract[]): Object;
+    declare function tradeToFriendlyType(code: ContractType, barrier: number): string;
+    declare function tradeTypeCodeToText(code: ContractType): string;
+    declare function tradeTypeTextToCode(text: string): ContractType;
+    declare function typeHasBarrier(type: ContractType): boolean;
+
+    declare function brandColor(percentage: number): string;
+    declare function directionClassName(value: number): string;
+    declare function errorToString(text: string): string;
+    declare function getUniqueId(): number;
+    declare function isMobile(): boolean;
+    declare function isValidEmail(email: string): boolean;
+    declare function isValidPassword(password: string): boolean;
+
+    declare function addFullscreenEventListener(handler: (e: Event) => void): void;
+    declare function exitFullscreen(): void;
+    declare function removeFullscreenEventListener(handler: (e: Event) => void): void;
+    declare function requestFullscreen(elem: HTMLElement): void;
+    declare function showInfo(): void;
+    declare function showError(): void;
+    declare function windowResizeEvent(): void;
+}
+
+declare module Analytics {
+    declare function trackUserId(userId: string, ga: any): void;
+    declare function trackRoute(route: string, ga: any): void;
+    declare function trackEvent(category: string, action: string, label: string, ga: any): void;
+}

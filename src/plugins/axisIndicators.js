@@ -51,7 +51,7 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
         .add(indicator.group);
 };
 
-const update = ({ pipSize: number, value: number, x: number, y: number, indicator, yAxis: number }) => {
+const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
     indicator.label.attr({
         text: (+value).toFixed(pipSize),
     });

@@ -1,59 +1,59 @@
 declare type Barriers = number[];
+declare type ChartTick = [number, number];
+declare type ChartCandle = number[];
 
-export type ChartTick = number[];
-
-export type Candle = {
+declare interface Candle {
     open: number,
     high: number,
     low: number,
     close: number,
     epoch: number,
-};
+}
 
-export type ChartCandle = number[];
-
-export type Contract = {
+declare interface Contract {
     contract_type: string,
     forward_starting_options?: [],
     barrier?: number,
     barrier2?: number,
     entry_spot?: number,
-};
+}
 
-export type SpreadContract = Contract & {
+declare interface SpreadContract extends Contract {
     amount_per_point: number,
     stop_type: 'dollar' | 'point',
     stop_profit: number,
     stop_loss: number,
-};
+}
 
-export type PrettySpreadContract = {
+
+declare interface PrettySpreadContract {
     amountPerPoint: number,
     stopType: 'dollar' | 'point',
     stopProfit: number,
     stopLoss: number,
-};
+}
 
-export type ExtendedContract = Contract & {
+declare interface ExtendedContract extends Contract {
     contract_type: string,
     barrierType: number,
     min_contract_duration: string,
-};
+    [key: string]: any; // to allow contract[something]
+}
 
-export type ContractType = 'CALL' | 'PUT' | 'HIGHER' | 'LOWER' |
+declare type ContractType = 'CALL' | 'PUT' | 'HIGHER' | 'LOWER' |
     'DIGITMATCH' | 'DIGITDIFF' | 'DIGITOVER' | 'DIGITUNDER' | 'DIGITEVEN' | 'DIGITODD' |
     'ASIANU' | 'ASIAND' | 'EXPIRYRANGE' | 'EXPIRYMISS' | 'RANGE' | 'UPORDOWN' |
     'ONETOUCH' | 'NOTOUCH' | 'SPREADU' | 'SPREADD';
 
-export type DurationUnit = 't' | 'm' | 's' | 'h' | 'd';
+declare type DurationUnit = 't' | 'm' | 's' | 'h' | 'd';
 
-export type Range = {
+declare interface Range {
     unit: DurationUnit,
     min: number,
     max: number,
-};
+}
 
-export type OpenContract = {
+declare interface OpenContract {
     contract_id: number,
     transaction_id: number,
     purchase_time: number,
@@ -66,13 +66,13 @@ export type OpenContract = {
     currency: string,
     longcode: string,
     app_id?: number,
-};
+}
 
-export type Proposal = {
+declare interface Proposal {
     ask_price: number,
-};
+}
 
-export type Tick = {
+declare interface Tick {
     quote: number,
     epoch: number,
-};
+}
