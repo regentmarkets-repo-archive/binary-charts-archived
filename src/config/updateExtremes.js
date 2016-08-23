@@ -1,4 +1,4 @@
-import { arrayMin, arrayMax, durationToSecs, getLastTick, nowAsEpoch } from 'binary-utils';
+import { arrayMin, arrayMax, durationToSecs, getLast, nowAsEpoch } from 'binary-utils';
 import { patchNullDataForStartLaterContract } from './updateTicks';
 
 const hcUnitConverter = type => {
@@ -48,7 +48,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
             const dataWithNull = patchNullDataForStartLaterContract(chart, contract, dataFromChart);
             const { min } = xAxis.getExtremes();
 
-            const newMax = getLastTick(dataWithNull)[0];
+            const newMax = getLast(dataWithNull)[0];
             series.setData(dataWithNull, false);
             window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);
             return;
