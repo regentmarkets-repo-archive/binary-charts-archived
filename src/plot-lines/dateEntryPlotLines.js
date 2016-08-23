@@ -15,6 +15,8 @@ const shouldShowExpiry = contract => !contract.tick_count;
 const shouldShowSettlement = contract =>
     +contract.date_settlement !== +contract.date_expiry;
 
+const shouldShowSellTime = contract => !contract.exit_tick_time && contract.sell_time;
+
 export default (contract, theme) => {
     if (!contract) {
         return [];
@@ -26,11 +28,14 @@ export default (contract, theme) => {
         // .filter(param => param.id !== 'exit_tick_time' || shouldShowExitSpot(contract))
         .filter(param => param.id !== 'date_expiry' || shouldShowExpiry(contract))
         .filter(param => param.id !== 'date_settlement' || shouldShowSettlement(contract))
-        .filter(param => param.id !== 'sell_time')
+        .filter(param => param.id !== 'sell_time' || shouldShowSellTime(contract))
         .map(param => vertPlotLine({
             id: param.id,
             epoch: contract[param.id],
-            text: contractCodeToText(param.id),
+
+            // workaround: sell_time is exit_tick_time when contract is sold and there is not exit_tick_time
+            // api is broken, JY says keep it ...
+            text: contractCodeToText(param.id === 'sell_time' ? 'exit_tick_time' : param.id),
             position: param.position,
             theme,
         }));
