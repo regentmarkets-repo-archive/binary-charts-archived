@@ -1,4 +1,4 @@
-import Highcharts from 'highcharts/highstock';
+import Highcharts from '../highcharts/highstock';
 import { lightTheme, darkTheme } from '../themes';
 
 export default theme => {

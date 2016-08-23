@@ -1,4 +1,4 @@
-import { merge } from 'highcharts/highstock';
+import { merge } from '../highcharts/highstock';
 import reset from '../parts/reset';
 import exporting from '../parts/exporting';
 import plotOptions from '../parts/plotOptions';

@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "7.18.2",
+  "version": "7.20.1",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -43,8 +43,7 @@
   "license": "MIT",
   "dependencies": {
     "binary-utils": "*",
-    "fbjs": "^0.8.4",
-    "highcharts": "^4.2.6"
+    "fbjs": "^0.8.4"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.3.0",

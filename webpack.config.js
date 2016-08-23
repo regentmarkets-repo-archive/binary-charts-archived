@@ -14,7 +14,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.js?$/, exclude: /node_modules/, loader: 'babel', query: { compact: true } },
-            { test: /\.js$/, exclude: /node_modules/, loader: 'eslint' },
+            { test: /\.js$/, exclude: [/node_modules/, /highcharts/], loader: 'eslint' },
         ],
     },
     plugins: env === 'production' ? [

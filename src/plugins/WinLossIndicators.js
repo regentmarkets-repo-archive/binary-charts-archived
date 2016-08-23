@@ -1,4 +1,4 @@
-import { wrap, Chart } from 'highcharts/highstock';
+import { wrap, Chart } from '../highcharts/highstock';
 
 const initBand = ({ renderer, barrier, width, height }) =>
     renderer

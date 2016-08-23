@@ -1,4 +1,4 @@
-import Highcharts from 'highcharts/highstock';
+import Highcharts from './highcharts/highstock';
 
 function merge(a: Object, b: Object) {
     if (process.env.NODE_ENV !== 'production') {

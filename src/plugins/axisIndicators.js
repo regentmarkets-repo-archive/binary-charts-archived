@@ -1,4 +1,4 @@
-import { wrap, Chart } from 'highcharts/highstock';
+import { wrap, Chart } from '../highcharts/highstock';
 import { colorBg, colorText } from '../themes';
 
 const lastPriceFromCandles = series =>

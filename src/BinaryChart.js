@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts/highstock';
-import exporting from 'highcharts/modules/exporting';
-import noDataToDisplay from 'highcharts/modules/no-data-to-display.js';
+import Highcharts from './highcharts/highstock';
+import exporting from './highcharts/modules/exporting';
+import noDataToDisplay from './highcharts/modules/no-data-to-display';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';

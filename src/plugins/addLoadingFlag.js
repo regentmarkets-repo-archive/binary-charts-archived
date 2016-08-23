@@ -1,4 +1,4 @@
-import { wrap, Chart } from 'highcharts/highstock';
+import { wrap, Chart } from '../highcharts/highstock';
 
 export default () => {
     wrap(Chart.prototype, 'showLoading', function showLoading(proceed, ...args) {
