@@ -1,4 +1,4 @@
-import { tickToData, ohlcToData, getLastTick, doArrayDifferJustOneEntry } from 'binary-utils';
+import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry } from 'binary-utils';
 
 export const patchNullDataForStartLaterContract = (chart, contract, newData) => {
     const xAxis = chart.xAxis[0];
@@ -7,7 +7,7 @@ export const patchNullDataForStartLaterContract = (chart, contract, newData) => 
     const visiblePointCount = dataInChart.filter(d => d[0] > min && d[0] < max).length;
     const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
 
-    const lastTick = getLastTick(newData);
+    const lastTick = getLast(newData);
     const lastTickMillis = lastTick && lastTick[0];
     const startTime = contract && contract.date_start;
     if (!startTime) return newData;
@@ -40,7 +40,7 @@ export default (chart, nextProps, contract) => {
             );
 
             if (oneTickDiff) {
-                const newTick = getLastTick(nextProps.ticks);
+                const newTick = getLast(nextProps.ticks);
                 const dataPoint = tickToData(newTick);
                 if (!dataPoint) {
                     return;
@@ -56,7 +56,7 @@ export default (chart, nextProps, contract) => {
                         const newMin = min + (newDataMax - dataMax);
                         chart.xAxis[0].setExtremes(newMin, newDataMax);
                     } else {
-                        const lastDataPoint = getLastTick(dataInChart);
+                        const lastDataPoint = getLast(dataInChart);
                         const xAxisDiff = newDataMax - lastDataPoint[0];
                         chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
                     }
@@ -77,7 +77,7 @@ export default (chart, nextProps, contract) => {
                 (a, b) => a === b || a[0] === b[0]
             );
             if (oneTickDiff) {
-                const dataPoint = getLastTick(newDataInChartFormat);
+                const dataPoint = getLast(newDataInChartFormat);
                 const xData = chart.series[0].xData;
                 const last2Epoch = xData[xData.length - 2];
                 const last3Epoch = xData[xData.length - 3];
