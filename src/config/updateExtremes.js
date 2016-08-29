@@ -30,27 +30,22 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
         }
     }
 
-    // Special case, data not loaded
-    if (!lastTickMillis || startTimeEpoch <= nowAsEpoch()) {
-        removeSeriesNullData();
+    // data not loaded
+    if (!lastTickMillis) {
         return;
     }
 
     // start in future
-    if (startTimeEpoch) {
-        const startTimeDataPoint = dataFromChart.find(d => {
-            const dataOlderThanStartTime = d[0] > startTimeMillis;
-            return dataOlderThanStartTime;
-        });
+    if (startTimeEpoch >= nowAsEpoch()) {
+        const startTimeDataPoint = dataFromChart.find(d => d[0] > startTimeMillis);
 
-        const hasFutureData = !!startTimeDataPoint;
-        if (!hasFutureData) {
+        if (!startTimeDataPoint) {
             const dataWithNull = patchNullDataForStartLaterContract(chart, contract, dataFromChart);
             const { min } = xAxis.getExtremes();
 
             const newMax = getLast(dataWithNull)[0];
             series.setData(dataWithNull, false);
-            window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);
+            window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);   // delay so that setData took place
             return;
         }
     } else {
@@ -67,7 +62,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
             return a;
         }, 0);
         const { dataMax } = xAxis.getExtremes();
-        window.setTimeout(() => xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax), 100);
+        xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax);
     }
 };
 
