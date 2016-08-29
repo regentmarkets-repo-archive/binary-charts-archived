@@ -1,7 +1,6 @@
 import React from 'react';
 import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
-import { convertEpochToMS } from '../ohlc';
 
 const token = 'qdJ86Avvrsh0Le4';
 const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);

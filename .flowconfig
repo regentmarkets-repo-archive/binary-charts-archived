@@ -17,5 +17,7 @@
 
 [libs]
 flow-typed/
+./node_modules/binary-utils/flow-typed/binary.js.flow
+./node_modules/binary-utils/flow-typed/binary-utils.js.flow
 
 [options]
