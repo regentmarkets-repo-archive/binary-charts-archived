@@ -8,6 +8,7 @@
 .*/lib
 .*/__tests__
 .*/.storybook
+.*/highcharts/*
 
 .*highcharts/*
 .*/linearTrendline
