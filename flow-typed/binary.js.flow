@@ -1,21 +1,37 @@
+declare type Epoch = number;
 declare type Barriers = number[];
 declare type ChartTick = [number, number];
 declare type ChartCandle = number[];
+declare type ContractType = 'CALL' | 'PUT' | 'HIGHER' | 'LOWER' |
+    'DIGITMATCH' | 'DIGITDIFF' | 'DIGITOVER' | 'DIGITUNDER' | 'DIGITEVEN' | 'DIGITODD' |
+    'ASIANU' | 'ASIAND' | 'EXPIRYRANGE' | 'EXPIRYMISS' | 'RANGE' | 'UPORDOWN' |
+    'ONETOUCH' | 'NOTOUCH' | 'SPREADU' | 'SPREADD';
 
 declare interface Candle {
     open: number,
     high: number,
     low: number,
     close: number,
-    epoch: number,
+    epoch: Epoch,
 }
 
 declare interface Contract {
-    contract_type: string,
+    contract_type: ContractType,
     forward_starting_options?: [],
     barrier?: number,
     barrier2?: number,
     entry_spot?: number,
+    purchase_time?: Epoch,
+    date_start?: Epoch,
+    entry_tick_time?: Epoch,
+    exit_tick_time?: Epoch,
+    date_expiry?: Epoch,
+    date_settlement?: Epoch,
+    sell_time?: Epoch,
+}
+
+declare interface TickTradeContract extends Contract {
+    tick_count: number,
 }
 
 declare interface SpreadContract extends Contract {
@@ -25,7 +41,6 @@ declare interface SpreadContract extends Contract {
     stop_loss: number,
 }
 
-
 declare interface PrettySpreadContract {
     amountPerPoint: number,
     stopType: 'dollar' | 'point',
@@ -34,16 +49,10 @@ declare interface PrettySpreadContract {
 }
 
 declare interface ExtendedContract extends Contract {
-    contract_type: string,
     barrierType: number,
     min_contract_duration: string,
     [key: string]: any; // to allow contract[something]
 }
-
-declare type ContractType = 'CALL' | 'PUT' | 'HIGHER' | 'LOWER' |
-    'DIGITMATCH' | 'DIGITDIFF' | 'DIGITOVER' | 'DIGITUNDER' | 'DIGITEVEN' | 'DIGITODD' |
-    'ASIANU' | 'ASIAND' | 'EXPIRYRANGE' | 'EXPIRYMISS' | 'RANGE' | 'UPORDOWN' |
-    'ONETOUCH' | 'NOTOUCH' | 'SPREADU' | 'SPREADD';
 
 declare type DurationUnit = 't' | 'm' | 's' | 'h' | 'd';
 

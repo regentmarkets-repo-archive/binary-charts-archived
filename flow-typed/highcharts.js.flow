@@ -17,3 +17,7 @@ declare module 'highcharts/highstock' {
 declare module 'highcharts/modules/exporting' {
     declare function exporting(highcharts: any): void;
 }
+
+declare module 'highcharts/modules/no-data-to-display' {
+    declare function noDataToDisplay(highcharts: any): void;
+}

@@ -5,3 +5,5 @@ declare interface PlotBand {
     color: string,
     label: Object,
 }
+
+declare type Theme = 'light' | 'dark';

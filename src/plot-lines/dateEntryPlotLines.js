@@ -12,7 +12,7 @@ const shoudShowPurchaseTime = (contract: Contract): boolean =>
         +contract.purchase_time !== +contract.date_start;
 
 // Tick trade does not have to show expiry
-const shouldShowExpiry = (contract: Contract): boolean =>
+const shouldShowExpiry = (contract: TickTradeContract): boolean =>
     !contract.tick_count;
 
 const shouldShowSettlement = (contract: Contract): boolean =>
@@ -20,7 +20,7 @@ const shouldShowSettlement = (contract: Contract): boolean =>
 
 const shouldShowSellTime = contract => !contract.exit_tick_time && contract.sell_time;
 
-export default (contract: Contract, theme: Theme) => {
+export default (contract: Contract, theme: Theme): TimePlotLine[] => {
     if (!contract) {
         return [];
     }

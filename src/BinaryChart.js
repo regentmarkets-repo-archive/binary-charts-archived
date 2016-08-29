@@ -23,7 +23,7 @@ if (Object.keys(Highcharts).length > 0) {
 
 type Props = {
     className?: string,
-    contract: BinaryTypes.contractOrTrade,
+    contract: Contract,
     defaultRange: number,
     showAllRangeSelector: boolean,
     events: BinaryTypes.events,

@@ -7,8 +7,6 @@ function merge(a: Object, b: Object) {
     return Highcharts.merge(a, b);
 }
 
-type Theme = 'light' | 'dark';
-
 export const colorBg = (theme: Theme, percentage: number): string =>
     theme === 'light' ?
         `rgba(42, 48, 82, ${percentage})` :

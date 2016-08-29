@@ -1,4 +1,4 @@
-export const winPlotBand = (id: string, from: number, to: number): Binary.PlotBand => ({
+export const winPlotBand = (id: string, from: number, to: number): PlotBand => ({
     id,
     from,
     to,
