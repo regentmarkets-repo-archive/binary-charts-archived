@@ -11,7 +11,7 @@
 
 (function (root, factory) {
     if (typeof module === 'object' && module.exports) {
-        module.exports = root.document ?
+        module.exports = root && root.document ?
             factory(root) : 
             factory;
     } else {
