@@ -19,7 +19,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
 
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
-    const startTimeEpoch = (contract && contract.is_forward_starting) && contract.date_start;
+    const startTimeEpoch = (contract && contract.date_start > nowAsEpoch()) && contract.date_start;
     const startTimeMillis = startTimeEpoch && startTimeEpoch * 1000;
     const xAxis = chart.xAxis[0];
 
