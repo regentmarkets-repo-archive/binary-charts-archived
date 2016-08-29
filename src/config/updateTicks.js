@@ -61,7 +61,7 @@ export default (chart, nextProps, contract) => {
                         chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
                     }
                 }
-            } else if (contract && contract.is_forward_starting && contract.date_start > nowAsEpoch()) {
+            } else if (contract && contract.date_start > nowAsEpoch()) {
                 const dataWithNull = patchNullDataForStartLaterContract(chart, contract, newDataInChartFormat);
                 chart.series[0].setData(dataWithNull, false);
             } else {
