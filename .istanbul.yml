@@ -2,6 +2,8 @@ instrumentation:
   root: src
   include-all-sources: true
   verbose: true
-  excludes: ["**/__tests__/**"]
+  excludes:
+    - __tests__/*.js
+    - highcharts/*.js
 reporting:
   dir: "coverage"
