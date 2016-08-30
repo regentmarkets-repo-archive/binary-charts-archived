@@ -10,7 +10,7 @@
 .*/.storybook
 .*/highcharts/*
 
-.*highcharts/*
+.*/vertPlotLine
 .*/linearTrendline
 .*/WinLossIndicator
 
