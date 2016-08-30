@@ -8,7 +8,7 @@ const outsideStyle = {
     dashStyle: 'solid',
 };
 
-export default (chart, newPlotLines) => {
+export default (chart: Chart, newPlotLines: PlotObject[]) => {
     const entryLine = newPlotLines.find(x => x.id === 'entry_tick_time');
     const exitLine = newPlotLines.find(x => x.id === 'exit_tick_time');
     const zones = [];

@@ -8,9 +8,10 @@
 .*/lib
 .*/__tests__
 .*/.storybook
-.*/highcharts/*
+.*/highcharts/
+.*/index.js
 
-.*/vertPlotLine
+.*/mergeTradeWithContract
 .*/linearTrendline
 .*/WinLossIndicator
 
@@ -21,4 +22,7 @@ flow-typed/
 ./node_modules/binary-utils/flow-typed/binary.js.flow
 ./node_modules/binary-utils/flow-typed/binary-utils.js.flow
 
+
 [options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+esproposal.class_static_fields=enable

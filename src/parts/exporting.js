@@ -1,4 +1,4 @@
-export default ({ typeChange }) => {
+export default (typeChange: Function) => {
     if (!typeChange) return { enabled: false };
 
     return {

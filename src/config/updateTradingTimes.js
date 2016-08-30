@@ -10,21 +10,21 @@ const strToSeconds = timeStr => {
  * @param day   [Date]
  * @param time  [String] -- "hh:mm:ss"
  */
-export const strTimePlusDayAsEpoch = (day, time) =>
+export const strTimePlusDayAsEpoch = (day: Date, time: string) =>
     dateToEpoch(day) + strToSeconds(time);
 
-export const tradingTimesToEpochs = (day, times) => !times ? [] : [
+export const tradingTimesToEpochs = (day: Date, times: TradingTimes) => !times ? [] : [
     ...times.open,
     ...times.close,
     times.settlement,
 ].map(x => strTimePlusDayAsEpoch(day, x));
 
-const plotLinesBandsForTradingTimes = tradingTimes =>
+const plotLinesBandsForTradingTimes = (tradingTimes: TradingTimes) =>
     tradingTimesToEpochs(new Date(), tradingTimes).map(x =>
-        vertPlotLine('trading-times-line', x, 'red', 'TT', 'left')
+        vertPlotLine('trading-times-line', x, 'TT', 'left', 'light')
     );
 
-export default ({ chart, tradingTimes }) => {
+export default (chart: Chart, tradingTimes: TradingTimes) => {
     const axis = chart.xAxis[0];
     axis.removePlotLine('trading-times-line');
     const newPlotLines = plotLinesBandsForTradingTimes(tradingTimes);

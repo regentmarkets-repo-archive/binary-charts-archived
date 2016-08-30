@@ -1,4 +1,4 @@
-export default (chart, params) => {
+export default (chart: Chart, params: any) => {
     const { type } = params;
 
     chart.series[0].update({

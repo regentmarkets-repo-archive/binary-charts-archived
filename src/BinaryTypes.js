@@ -3,7 +3,7 @@ export type stringOrNumber = string | number;
 export type Epoch = number;
 
 export type contractOrTrade = {
-    barrier: mumber,
+    barrier: number,
     barrier2: number,
     barrierType: 'absolute' | 'relative' | 'digit',
     contract_type: string,
@@ -31,4 +31,4 @@ export type ChartEvent = {
     handler: () => void,
 }
 
-export type events = ChartEvents[];
+export type events = ChartEvent[];

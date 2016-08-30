@@ -1,6 +1,6 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry, nowAsEpoch } from 'binary-utils';
 
-export const patchNullDataForStartLaterContract = (chart, contract, newData) => {
+export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contract, newData: ChartTick[]) => {
     const xAxis = chart.xAxis[0];
     const { min, max } = xAxis.getExtremes();
     const dataInChart = chart.series[0].options.data;
@@ -24,7 +24,7 @@ export const patchNullDataForStartLaterContract = (chart, contract, newData) => 
     return newSeries;
 };
 
-export default (chart, nextProps, contract) => {
+export default (chart: Chart, nextProps: any, contract: Contract) => {
     const chartType = chart.series[0].type;
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
     const dataInChart = chart.series[0].options.data;

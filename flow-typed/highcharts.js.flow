@@ -1,6 +1,6 @@
 declare module 'highcharts/highstock' {
     declare class Chart {
-
+        options: Object
     }
 
     declare function StockChart(renderTo: string | Node, options: any, callback: (chart: Chart) => void): Chart;

@@ -1,3 +1,4 @@
+// $FlowFixMe
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import { areTickArraysEqual, areCandleArrayEqual,
     getLastTickQuote, getLastOHLCTick } from 'binary-utils';
@@ -5,6 +6,7 @@ import updateTicks from './updateTicks';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
+// $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
 
 import updateTypeChange from './updateTypeChangeFunc';
@@ -30,7 +32,7 @@ const restAreEqual = (prevProps, nextProps) =>
     nextProps.pipSize === prevProps.pipSize;
 
 
-export default (chart, prevProps, nextProps) => {
+export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
     const { contract, pipSize, theme, trade, ticks, type } = nextProps;
@@ -53,7 +55,7 @@ export default (chart, prevProps, nextProps) => {
         }
     }
 
-    const mergedContract = mergeTradeWithContract({ trade, contract, lastTick });
+    const mergedContract = mergeTradeWithContract(trade, contract, lastTick);
 
     if (ticksDiffer) {
         updateTicks(chart, nextProps, mergedContract);
@@ -72,13 +74,13 @@ export default (chart, prevProps, nextProps) => {
     };
 
     if (contractsDiffer || ticksDiffer) {
-        updateContract({ chart, contract: mergedContract, theme });
+        updateContract(chart, mergedContract, theme);
     }
 
     const tradingTimesDiffer = !tradingTimesAreEqual(prevProps, nextProps);
     if (tradingTimesDiffer) {
         const { tradingTimes } = nextProps;
-        updateTradingTimes({ chart, tradingTimes });
+        updateTradingTimes(chart, tradingTimes);
     }
 
     const restDiffer = !restAreEqual(prevProps, nextProps);

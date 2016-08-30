@@ -7,3 +7,53 @@ declare interface PlotBand {
 }
 
 declare type Theme = 'light' | 'dark';
+
+declare type TimePlotLine = {
+    id: string,
+    position: 'left' | 'right',
+}
+
+declare type TradingTimes = {
+    close: string[],
+    open: string[],
+    settlement: string
+}
+
+declare type RangeButton = {
+    count: number,
+    type: string,
+}
+
+declare class SetExtremesEvent {
+    rangeSelectorButton: any,
+    trigger: string
+}
+
+declare class Chart {
+    series: any[],
+    options: Object,
+    destroy: Function,
+    exportSVGElements: any,
+    hideLoading: Function,
+    redraw: Function,
+    userOptions: Object,
+    xAxis: any[],
+    yAxis: any[]
+}
+declare type ChartType = 'area' | 'candle';
+declare type Renderer = {}
+
+declare interface PlotObject {
+    id: string,
+    position?: string,
+    to?: number,
+    from?: number,
+    value?: number,
+    color?: string,
+    width?: number,
+    label?: Object
+}
+
+declare interface TradeParam {
+
+}
