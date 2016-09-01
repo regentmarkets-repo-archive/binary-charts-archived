@@ -10,7 +10,7 @@ import seriesLine from '../parts/seriesLine';
 import { lightTheme, darkTheme } from '../themes';
 
 // $FlowFixMe
-export default ({pipSize = 0,
+export default ({ pipSize = 0,
                 type = 'area',
                 rangeChange,
                 typeChange,
@@ -19,7 +19,7 @@ export default ({pipSize = 0,
                 noData,
                 height,
                 width,
-                theme}) =>
+                theme }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {} },
         ...reset(height, width, noData),

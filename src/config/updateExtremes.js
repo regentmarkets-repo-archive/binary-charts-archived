@@ -11,7 +11,7 @@ const hcUnitConverter = type => {
     }
 };
 
-export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = {}, rangeButton?: RangeButton) => {
+export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = {}, rangeButton: ?RangeButton) => {
     const series = chart.series[0];
     const chartType = series.type;
 
@@ -136,7 +136,7 @@ export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = 
     }
 };
 
-const updateExtremes = (chart: Chart, contract: Contract, rangeButton?: RangeButton) => {
+const updateExtremes = (chart: Chart, contract: Contract, rangeButton: ?RangeButton) => {
     updateExtremesXAxis(chart, contract, rangeButton);
     updateExtremesYAxis(chart, contract);
 };

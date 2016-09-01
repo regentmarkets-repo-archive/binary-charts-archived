@@ -8,7 +8,7 @@ describe('mergeTradeWithContract', () => {
             barrier: 100,
         };
 
-        const actual = mergeTradeWithContract({ contract });
+        const actual = mergeTradeWithContract(undefined, contract);
         expect(actual).to.be.deep.equal(contract);
     });
 
@@ -19,7 +19,7 @@ describe('mergeTradeWithContract', () => {
 
         const lastTick = 1000;
 
-        const actual = mergeTradeWithContract({ contract, lastTick });
+        const actual = mergeTradeWithContract(undefined, contract, lastTick);
         expect(actual).to.be.deep.equal({ barrier_count: 1, barrier: 1000 });
     });
 
@@ -36,7 +36,7 @@ describe('mergeTradeWithContract', () => {
 
         const lastTick = 1000;
 
-        const actual = mergeTradeWithContract({ contract, trade, lastTick});
+        const actual = mergeTradeWithContract(trade, contract, lastTick);
         expect(actual).to.be.deep.equal({ low_barrier: 100, high_barrier: 1000, entry_tick: lastTick });
     });
 
@@ -49,7 +49,7 @@ describe('mergeTradeWithContract', () => {
 
         const lastTick = 1000;
 
-        const actual = mergeTradeWithContract({ trade, lastTick});
+        const actual = mergeTradeWithContract(trade, undefined, lastTick);
         expect(actual).to.be.deep.equal({ low_barrier: 1100, high_barrier: 2000, entry_tick: lastTick });
     });
 });
