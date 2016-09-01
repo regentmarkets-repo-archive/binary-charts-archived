@@ -19,12 +19,12 @@ export const strTimePlusDayAsEpoch = (day: Date, time: string) =>
 export const flattenTradingTimes = (day: Date, times: TradingTimes) => {
     if (!times) return [];
 
-    const open = times.open.map(x => ({ name: 'open', epoch: strTimePlusDayAsEpoch(new Date, x) }));
-    const close = times.close.map(x => ({ name: 'close', epoch: strTimePlusDayAsEpoch(new Date, x) }));
+    const open = times.open.map(x => ({ name: 'open', epoch: strTimePlusDayAsEpoch(new Date(), x) }));
+    const close = times.close.map(x => ({ name: 'close', epoch: strTimePlusDayAsEpoch(new Date(), x) }));
     const settlement = times.settlement;
 
     const result = open.concat(close);
-    result.push({ name: 'settlement', epoch: strTimePlusDayAsEpoch(new Date, settlement) });
+    result.push({ name: 'settlement', epoch: strTimePlusDayAsEpoch(new Date(), settlement) });
     return result;
 };
 
