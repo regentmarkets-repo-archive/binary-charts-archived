@@ -1,3 +1,4 @@
+// $FlowFixMe
 import Highcharts from './highcharts/highstock';
 
 function merge(a: Object, b: Object) {

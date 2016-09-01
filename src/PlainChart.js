@@ -1,3 +1,4 @@
+// $FlowFixMe
 import Highcharts from './highcharts/highstock';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
@@ -14,7 +15,7 @@ const createChart = (renderTo, params) => {
     return chart;
 };
 
-export default (renderTo, params) => {
+export default (renderTo: string, params: Object): Object => {
     let chart = createChart(renderTo, params);
     updateChart(chart, { ticks: [] }, params);
 

@@ -1,4 +1,4 @@
-export default ({ data, pipSize, type }) => [{
+export default (data: (ChartTick | ChartCandle)[], pipSize: number, type: ChartType) => [{
     name: 'Spot',
     type,
     data,

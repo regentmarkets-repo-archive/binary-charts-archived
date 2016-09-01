@@ -1,7 +1,9 @@
 // TODO: improve this into an adapter that transform messy server data into cleaner data for internal use
-export default ({ trade, contract, lastTick }) => {
+// $FlowFixMe
+export default (trade: TradeParam, contract: Contract, lastTick: number): Contract => {
     if (contract) {
-        const cloned = Object.assign({ }, contract);
+        // $FlowFixMe -> https://github.com/facebook/flow/issues/1596
+        const cloned = Object.assign({}, contract);
         const { barrier_count, barrier, low_barrier, high_barrier } = contract;
 
         switch (barrier_count) {

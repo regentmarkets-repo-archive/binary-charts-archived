@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+// $FlowFixMe
 import Highcharts from './highcharts/highstock';
+// $FlowFixMe
 import exporting from './highcharts/modules/exporting';
+// $FlowFixMe
 import noDataToDisplay from './highcharts/modules/no-data-to-display';
 import * as BinaryTypes from './BinaryTypes';
 import initChart from './config/initChart';
@@ -35,8 +38,8 @@ type Props = {
     symbol: string,
     ticks: Tick[],
     theme: string,
-    trade: contractOrTrade,
-    tradingTimes: tradingTimes,
+    trade: TradeParam,
+    tradingTimes: TradingTimes,
     type: 'area' | 'candlestick',
     typeChange: () => void,
     width: number,
@@ -45,6 +48,9 @@ type Props = {
 export default class BinaryChart extends Component {
 
     props: Props;
+    chartDiv: any;
+    chart: Chart;
+    eventListeners: Object[];
 
     static defaultProps = {
         defaultRange: 5,
@@ -78,7 +84,7 @@ export default class BinaryChart extends Component {
         this.destroyChart();
     }
 
-    createChart(newProps: Props) {
+    createChart(newProps?: Props) {
         const props = newProps || this.props;
         const config = initChart(props);
         this.chart = new Highcharts.StockChart(this.chartDiv, config, chart => {

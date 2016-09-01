@@ -4,7 +4,7 @@ import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
 import updateExtremes from './updateExtremes';
 
-const replacePlotObj = (axis, allPlotObjs, newPlotObjs, addFuncName, removeFuncName) => {
+const replacePlotObj = (axis, allPlotObjs: PlotObject[], newPlotObjs: PlotObject[], addFuncName, removeFuncName) => {
     allPlotObjs.forEach(plotObj => {
         const newObj = newPlotObjs.find(x => x.id === plotObj.id);
         if (!newObj) {
@@ -36,13 +36,13 @@ const replacePlotLines = (axis, newPlotLines) => {
     replacePlotObj(axis, timePlotLines, newPlotLines, 'addPlotLine', 'removePlotLine');
 };
 
-export const updatePlotBands = ({ chart, contract }) => {
+export const updatePlotBands = (chart: Chart, contract: Contract) => {
     const newPlotBands = plotBandForContract(contract);
     replacePlotBands(chart.yAxis[0], newPlotBands);
 };
 
-export default ({ chart, contract, theme }) => {
-    updatePlotBands({ chart, contract });
+export default (chart: Chart, contract: Contract, theme: Theme) => {
+    updatePlotBands(chart, contract);
 
     const newPlotLines = dateEntryPlotLines(contract, theme);
     replacePlotLines(chart.xAxis[0], newPlotLines);

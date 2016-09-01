@@ -1,6 +1,6 @@
 import updateExtremes, { updateExtremesYAxis } from '../config/updateExtremes';
 
-export default ({ rangeChange = () => ({}) }) => ({
+export default (rangeChange: Function = () => ({})) => ({
     type: 'datetime',
     ordinal: true,
     tickWidth: 0,
@@ -8,7 +8,7 @@ export default ({ rangeChange = () => ({}) }) => ({
     minRange: 1000,
     endOnTick: false,
     events: {
-        setExtremes: function setExtremesHandler(e) {          // eslint-disable-line object-shorthand
+        setExtremes: function setExtremesHandler(e: SetExtremesEvent) {          // eslint-disable-line object-shorthand
             if (e.rangeSelectorButton) {
                 const chart = this.chart;
 
@@ -29,7 +29,7 @@ export default ({ rangeChange = () => ({}) }) => ({
                 }
             }
         },
-        afterSetExtremes: function afterSetExtremesHandler(e) { // eslint-disable-line object-shorthand
+        afterSetExtremes: function afterSetExtremesHandler(e: SetExtremesEvent) { // eslint-disable-line object-shorthand
             const chart = this.chart;
 
             const triggerByRangeSelector = e.trigger === 'rangeSelectorButton';

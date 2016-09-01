@@ -1,3 +1,4 @@
+// $FlowFixMe
 import { wrap, Chart } from '../highcharts/highstock';
 import { colorBg, colorText } from '../themes';
 

@@ -11,7 +11,7 @@ const hcUnitConverter = type => {
     }
 };
 
-export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
+export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = {}, rangeButton: ?RangeButton) => {
     const series = chart.series[0];
     const chartType = series.type;
 
@@ -36,6 +36,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     }
 
     // start in future
+    // $FlowFixMe
     if (startTimeEpoch >= nowAsEpoch()) {
         const startTimeDataPoint = dataFromChart.find(d => d[0] > startTimeMillis);
 
@@ -66,7 +67,7 @@ export const updateExtremesXAxis = (chart, contract = {}, rangeButton) => {
     }
 };
 
-export const updateExtremesYAxis = (chart, contract = {}) => {
+export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = {}) => {
     const xAxis = chart.xAxis[0];
 
     const { min, dataMin, max } = xAxis.getExtremes();
@@ -135,7 +136,7 @@ export const updateExtremesYAxis = (chart, contract = {}) => {
     }
 };
 
-const updateExtremes = (chart, contract, rangeButton) => {
+const updateExtremes = (chart: Chart, contract: Contract, rangeButton: ?RangeButton) => {
     updateExtremesXAxis(chart, contract, rangeButton);
     updateExtremesYAxis(chart, contract);
 };

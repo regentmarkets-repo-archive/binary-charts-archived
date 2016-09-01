@@ -1,3 +1,4 @@
+// $FlowFixMe
 import * as confs from '../plot-bands/';
 
 /**
@@ -5,7 +6,7 @@ import * as confs from '../plot-bands/';
  * ({ barrier, low_barrier, high_barrier }) => plotbands
  * */
 
-export const plotBandForContract = contract => {
+export const plotBandForContract = (contract: Contract) => {
     if (!contract) return [];
     const type = contract.contract_type;
     if (!type) return [];
