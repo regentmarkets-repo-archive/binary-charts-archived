@@ -13,15 +13,24 @@ const strToSeconds = timeStr => {
 export const strTimePlusDayAsEpoch = (day: Date, time: string) =>
     dateToEpoch(day) + strToSeconds(time);
 
-export const tradingTimesToEpochs = (day: Date, times: TradingTimes) => !times ? [] : [
-    ...times.open,
-    ...times.close,
-    times.settlement,
-].map(x => strTimePlusDayAsEpoch(day, x));
+
+// flatten trading times into array of { name, epoch }
+// where name is open/close/settlement
+export const flattenTradingTimes = (day: Date, times: TradingTimes) => {
+    if (!times) return [];
+
+    const open = times.open.map(x => ({ name: 'open', epoch: strTimePlusDayAsEpoch(new Date, x) }));
+    const close = times.close.map(x => ({ name: 'close', epoch: strTimePlusDayAsEpoch(new Date, x) }));
+    const settlement = times.settlement;
+
+    const result = open.concat(close);
+    result.push({ name: 'settlement', epoch: strTimePlusDayAsEpoch(new Date, settlement) });
+    return result;
+};
 
 const plotLinesBandsForTradingTimes = (tradingTimes: TradingTimes) =>
-    tradingTimesToEpochs(new Date(), tradingTimes).map(x =>
-        vertPlotLine('trading-times-line', x, 'TT', 'left', 'light')
+    flattenTradingTimes(new Date(), tradingTimes).map(x =>
+        vertPlotLine('trading-times-line', x.epoch, x.name, 'left', 'light')
     );
 
 export default (chart: Chart, tradingTimes: TradingTimes) => {

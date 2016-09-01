@@ -1,3 +1,5 @@
+import { nowAsEpoch } from 'binary-utils';
+
 export default [
     { epoch: 0, quote: 50 },
     { epoch: 1, quote: 40 },
@@ -8,7 +10,10 @@ export default [
     { epoch: 6, quote: 60 },
     { epoch: 7, quote: 30 },
     { epoch: 8, quote: 40 },
-];
+].map((x, i) => {
+    x.epoch = nowAsEpoch() + (i * 10800);
+    return x;
+});
 
 export const massiveTicks = [
     {
