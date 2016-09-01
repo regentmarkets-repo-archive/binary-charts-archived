@@ -2,7 +2,7 @@ import { colorBg } from '../themes';
 
 export default (id: string, epoch: number, text: string, position: 'left' | 'right', theme: Theme): PlotObject => ({
     id,
-    value: epoch * 1000,
+    value: (epoch * 1000),
     color: colorBg(theme, 0.5),
 //    dashStyle: 'longdash',
     width: 1,
