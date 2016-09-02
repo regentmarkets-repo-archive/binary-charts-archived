@@ -57,3 +57,11 @@ declare interface PlotObject {
 declare interface TradeParam {
 
 }
+
+// arbritary interface used to create plotband
+declare interface PlotBandParam {
+    barrier: number,
+    low_barrier: number,
+    high_barrier: number,
+    entry_tick: number
+}
