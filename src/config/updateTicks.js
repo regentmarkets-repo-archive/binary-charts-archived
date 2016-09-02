@@ -54,7 +54,8 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                     const hasNullData = dataInChart.some(d => !d[1] && d[1] !== 0);
                     if (!hasNullData) {
                         const newMin = min + (newDataMax - dataMax);
-                        chart.xAxis[0].setExtremes(newMin, newDataMax);
+                        const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
+                        chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax);
                     } else {
                         const lastDataPoint = getLast(dataInChart);
                         const xAxisDiff = newDataMax - lastDataPoint[0];
