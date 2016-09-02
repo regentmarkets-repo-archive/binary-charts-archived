@@ -129,10 +129,10 @@ export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = 
     //     console.log('b', boundaries);
     //     console.groupEnd();
     // }
-    if (chart.options.binary.lastYExtremes.min !== nextMin || chart.options.binary.lastYExtremes.max !== nextMax) {
+    if (chart.userOptions.binary.lastYExtremes.min !== nextMin || chart.userOptions.binary.lastYExtremes.max !== nextMax) {
         yAxis.setExtremes(nextMin, nextMax, false);
-        chart.options.binary.lastYExtremes.min = nextMin;
-        chart.options.binary.lastYExtremes.max = nextMax;
+        chart.userOptions.binary.lastYExtremes.min = nextMin;
+        chart.userOptions.binary.lastYExtremes.max = nextMax;
     }
 };
 

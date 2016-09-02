@@ -36,6 +36,7 @@ type Props = {
     pipSize: number,
     rangeChange: () => void,
     symbol: string,
+    shiftMode: 'fixed' | 'dynamic',                  // switch to decide how chart move when data added
     ticks: Tick[],
     theme: string,
     trade: TradeParam,
@@ -53,13 +54,11 @@ export default class BinaryChart extends Component {
     eventListeners: Object[];
 
     static defaultProps = {
-        defaultRange: 5,
         events: [],
         theme: 'light',
         ticks: [],
         pipSize: 0,
         type: 'area',
-        noData: false,
     };
 
     componentDidMount() {
@@ -105,6 +104,7 @@ export default class BinaryChart extends Component {
             }
             return { type: e.type, handler };
         });
+
         this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
     }
 

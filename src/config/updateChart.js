@@ -35,7 +35,7 @@ const restAreEqual = (prevProps, nextProps) =>
 export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
-    const { contract, pipSize, theme, trade, ticks, type } = nextProps;
+    const { contract, pipSize, theme, trade, ticks, type, shiftMode } = nextProps;
 
     let lastTick = {};
     let ticksDiffer = true;
@@ -65,13 +65,13 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         }
     }
 
-
-    chart.userOptions.binary = {
+    chart.userOptions.binary = Object.assign(chart.userOptions.binary, {
         contract: mergedContract,
         ticks,
         pipSize,
         theme,
-    };
+        shiftMode: shiftMode || chart.userOptions.binary.shiftMode,            // use old shiftMode if no new shiftMode
+    });
 
     if (contractsDiffer || ticksDiffer) {
         updateContract(chart, mergedContract, theme);

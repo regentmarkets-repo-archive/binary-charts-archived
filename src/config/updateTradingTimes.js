@@ -18,20 +18,26 @@ export const strTimePlusDayAsEpoch = (day: Date, time: string) =>
 // where name is open/close/settlement
 export const flattenTradingTimes = (day: Date, times: TradingTimes) => {
     if (!times) return [];
-
-    const open = times.open.map(x => ({ name: 'open', epoch: strTimePlusDayAsEpoch(new Date(), x) }));
-    const close = times.close.map(x => ({ name: 'close', epoch: strTimePlusDayAsEpoch(new Date(), x) }));
+    const todayZero = new Date();
+    todayZero.setUTCHours(0, 0, 0, 0);
+    const open = times.open.map(x => ({ name: 'open', epoch: strTimePlusDayAsEpoch(todayZero, x) }));
+    const close = times.close.map(x => ({ name: 'close', epoch: strTimePlusDayAsEpoch(todayZero, x) }));
     const settlement = times.settlement;
 
     const result = open.concat(close);
-    result.push({ name: 'settlement', epoch: strTimePlusDayAsEpoch(new Date(), settlement) });
+    result.push({ name: 'settlement', epoch: strTimePlusDayAsEpoch(todayZero, settlement) });
     return result;
 };
 
-const plotLinesBandsForTradingTimes = (tradingTimes: TradingTimes) =>
-    flattenTradingTimes(new Date(), tradingTimes).map(x =>
+const plotLinesBandsForTradingTimes = (tradingTimes: TradingTimes) => {
+    const todayZero = new Date();
+    todayZero.setUTCHours(0, 0, 0, 0);
+
+    return flattenTradingTimes(todayZero, tradingTimes).map(x =>
         vertPlotLine('trading-times-line', x.epoch, x.name, 'left', 'light')
     );
+};
+
 
 export default (chart: Chart, tradingTimes: TradingTimes) => {
     const axis = chart.xAxis[0];

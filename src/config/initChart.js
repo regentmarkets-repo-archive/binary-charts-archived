@@ -12,17 +12,18 @@ import { lightTheme, darkTheme } from '../themes';
 // $FlowFixMe
 export default ({ pipSize = 0,
                 type = 'area',
-                rangeChange,
+                rangeChange = () => ({}),
                 typeChange,
-                defaultRange,
-                showAllRangeSelector,
-                noData,
+                defaultRange = 5,
+                showAllRangeSelector = true,
+                noData = false,
                 height,
                 width,
-                theme }) =>
+                theme = 'light',
+                shiftMode = 'fixed' }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
-        binary: { pipSize, theme, lastYExtremes: {} },
-        ...reset(height, width, noData),
+        binary: { pipSize, theme, lastYExtremes: {}, shiftMode },
+        ...reset(height, width, noData, { pipSize, theme, lastYExtremes: {}, shiftMode }),
         plotOptions: plotOptions(),
         rangeSelector: rangeSelector(defaultRange, showAllRangeSelector),
         xAxis: xAxis(rangeChange),
