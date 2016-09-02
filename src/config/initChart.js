@@ -12,7 +12,7 @@ import { lightTheme, darkTheme } from '../themes';
 // $FlowFixMe
 export default ({ pipSize = 0,
                 type = 'area',
-                rangeChange,
+                rangeChange = () => ({}),
                 typeChange,
                 defaultRange = 5,
                 showAllRangeSelector = true,

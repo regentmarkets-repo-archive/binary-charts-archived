@@ -1,6 +1,6 @@
 import updateExtremes, { updateExtremesYAxis } from '../config/updateExtremes';
 
-export default (rangeChange: Function = () => ({})) => ({
+export default (rangeChange: Function) => ({
     type: 'datetime',
     ordinal: true,
     tickWidth: 0,
