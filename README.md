@@ -74,12 +74,19 @@ var ticks = [
 ## API
 | Props | Default | Description |
  -------|---------|-------------
- symbol | N/A     | string represent symbol of data, eg. 'R_100'
- ticks  | [ ]      | data for charts, can be in ticks structure or ohlc structure, check below for data shape
  contract | N/A   | description of a bought contract, check response of https://developers.binary.com/api/#proposal_open_contract
- rangeChange | N/A | function with signature `(count, type) => undefined`, called when user clicked one of the range selector buttons, useful when library client want to load more data when user click those buttons
+ defaultRange | 5 | amount of data to show on init, for details of what each number means, check [rangeSelector](src/parts/rangeSelector.js#L1), value correspond to index number
+ id     | N/A     | id of dom element
+ noData | false   | if true, indicate no data for chart, message 'Data not available` will be shown
+ pipSize | 0      | decimal places of data to be shown, if zero, 9.02 will be shown as 9
+ rangeChange | N/A | function with signature `(count, type) => void`, called when user clicked one of the range selector buttons, useful when library client want to load more data when user click those buttons
+ showAllRangeSelector | true | enable all rangeSelector button if true, disable out of range button if false, eg. If all your data is within 1 hour, the 1D button will be disabled
+ symbol | N/A     | string represent symbol of data, eg. 'R_100'
+ shiftMode | 'fixed' | only allowed `fixed` or `dynamic`, if `fixed`, no of data shown will be fix when new data is added, if `dynamic`, the scroller will expand when new data added
+ ticks  | [ ]      | data for charts, can be in ticks structure or ohlc structure, check below for data shape
+ theme | 'light'   | `light` or 'dark'
  type | 'area' | can be either `area` or `candlestick`, defines chart type
- typeChange | N/A | function with signature `(type) => undefined`, called when user change chart type **WIP**
+ typeChange | N/A | function with signature `(type) => void`, called when user change chart type **WIP**
  trade | N/A | an object describe proposal that user might want to buy, check request of https://developers.binary.com/api/#proposal
  trading times | N/A | trading times of symbol, check https://developers.binary.com/api/#trading_times
 
