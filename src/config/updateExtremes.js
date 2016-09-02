@@ -44,7 +44,8 @@ export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = 
             const dataWithNull = patchNullDataForStartLaterContract(chart, contract, dataFromChart);
             const { min } = xAxis.getExtremes();
 
-            const newMax = getLast(dataWithNull)[0];
+            const lastFromNull: any = getLast(dataWithNull);
+            const newMax = lastFromNull[0];
             series.setData(dataWithNull, false);
             window.setTimeout(() => xAxis.setExtremes(min, newMax), 100);   // delay so that setData took place
             return;

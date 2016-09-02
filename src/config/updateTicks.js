@@ -7,7 +7,7 @@ export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contr
     const visiblePointCount = dataInChart.filter(d => d[0] > min && d[0] < max).length;
     const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
 
-    const lastTick = getLast(newData);
+    const lastTick: any = getLast(newData);
     const lastTickMillis = lastTick && lastTick[0];
     const startTime = contract && contract.date_start;
     if (!startTime) return newData;
@@ -40,7 +40,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
             );
 
             if (oneTickDiff) {
-                const newTick = getLast(nextProps.ticks);
+                const newTick: any = getLast(nextProps.ticks);
                 const dataPoint = tickToData(newTick);
                 if (!dataPoint) {
                     return;
@@ -57,7 +57,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                         const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
                         chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax);
                     } else {
-                        const lastDataPoint = getLast(dataInChart);
+                        const lastDataPoint: any = getLast(dataInChart);
                         const xAxisDiff = newDataMax - lastDataPoint[0];
                         chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
                     }
@@ -78,7 +78,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 (a, b) => a === b || a[0] === b[0]
             );
             if (oneTickDiff) {
-                const dataPoint = getLast(newDataInChartFormat);
+                const dataPoint: any = getLast(newDataInChartFormat);
                 const xData = chart.series[0].xData;
                 const last2Epoch = xData[xData.length - 2];
                 const last3Epoch = xData[xData.length - 3];
