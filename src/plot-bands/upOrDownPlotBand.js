@@ -1,6 +1,6 @@
 import { winPlotBand, lossPlotBand } from './_commonPlotBands';
 
-export default (low_barrier: number, high_barrier: number): PlotBand[] => [
+export default ({ low_barrier, high_barrier }: PlotBandParam): PlotBand[] => [
     winPlotBand('win1', 0, low_barrier),
     lossPlotBand(
         'loss1',
