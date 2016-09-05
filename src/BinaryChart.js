@@ -5,7 +5,9 @@ import Highcharts from './highcharts/highstock';
 import exporting from './highcharts/modules/exporting';
 // $FlowFixMe
 import noDataToDisplay from './highcharts/modules/no-data-to-display';
-import * as BinaryTypes from './BinaryTypes';
+
+import Toolbar from './toolbar/Toolbar';
+
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
@@ -24,12 +26,17 @@ if (Object.keys(Highcharts).length > 0) {
 //    tradeMarker();
 }
 
+export type ChartEvent = {
+    type: string,
+    handler: () => void,
+}
+
 type Props = {
     className?: string,
     contract: Contract,
     defaultRange: number,
     showAllRangeSelector: boolean,
-    events: BinaryTypes.events,
+    events: ChartEvent[],
     height: number,
     id: string,
     noData: boolean,
@@ -41,6 +48,7 @@ type Props = {
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
+    toolbar: boolean,
     type: 'area' | 'candlestick',
     typeChange: () => void,
     width: number,
@@ -59,6 +67,7 @@ export default class BinaryChart extends Component {
         ticks: [],
         pipSize: 0,
         type: 'area',
+        toolbar: true,
     };
 
     componentDidMount() {
@@ -116,9 +125,12 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className } = this.props;
+        const { id, className, toolbar } = this.props;
         return (
-            <div ref={x => { this.chartDiv = x; }} id={id} className={className} />
+            <div className={className}>
+                {toolbar && <Toolbar />}
+                <div ref={x => { this.chartDiv = x; }} id={id} />
+            </div>
         );
     }
 }
