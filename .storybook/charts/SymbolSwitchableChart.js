@@ -40,7 +40,7 @@ export default class SymbolSwitchableChart extends React.Component {
                 <BinaryChart
                     ticks={ticks}
                     symbol={symbol}
-                    rangeChange={symbol === 'R_50' ? getDataFor50 : getDataFor100}
+                    onRangeChange={symbol === 'R_50' ? getDataFor50 : getDataFor100}
                 />
                 <input type="radio" name="symbol" onChange={() => this.setState({ symbol: 'R_50' })} /> R_50
                 <input type="radio" name="symbol" onChange={() => this.setState({ symbol: 'R_100' })} /> R_100

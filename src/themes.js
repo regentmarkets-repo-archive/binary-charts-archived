@@ -153,7 +153,7 @@ const commonTheme = {
         series: {
             type: 'area',
         },
-        height: 30,
+        height: 20,
         margin: 5,
         xAxis: {
             labels: {

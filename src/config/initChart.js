@@ -12,8 +12,8 @@ import { lightTheme, darkTheme } from '../themes';
 // $FlowFixMe
 export default ({ pipSize = 0,
                 type = 'area',
-                rangeChange = () => ({}),
-                typeChange,
+                onRangeChange = () => ({}),
+                onTypeChange,
                 defaultRange = 5,
                 showAllRangeSelector = true,
                 noData = false,
@@ -26,7 +26,7 @@ export default ({ pipSize = 0,
         ...reset(height, width, noData, { pipSize, theme, lastYExtremes: {}, shiftMode }),
         plotOptions: plotOptions(),
         rangeSelector: rangeSelector(defaultRange, showAllRangeSelector),
-        xAxis: xAxis(rangeChange),
+        xAxis: xAxis(onRangeChange),
         yAxis: {
             ...yAxis(pipSize),
             indicators: {
@@ -40,5 +40,5 @@ export default ({ pipSize = 0,
                 color: '#333333',
             },
         },
-        exporting: exporting(typeChange),
+        exporting: exporting(onTypeChange),
     });

@@ -85,11 +85,11 @@ export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = 
 
     let ticksMin = 0;
     let ticksMax = 0;
-    if (chart.series[0].type === 'area') {
+    if (chart.series[0].type === 'area' || chart.series[0].type === 'line') {
         const quotes = zoomedTicks.map(t => +(t[1]));
         ticksMax = arrayMax(quotes);
         ticksMin = arrayMin(quotes);
-    } else if (chart.series[0].type === 'candlestick') {
+    } else if (chart.series[0].type === 'candlestick' || chart.series[0].type === 'ohlc') {
         const highLow = zoomedTicks.map(t => [+(t[1]), +(t[2])]).reduce((a, b) => a.concat(b), []);
         ticksMax = arrayMax(highLow);
         ticksMin = arrayMin(highLow);

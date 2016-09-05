@@ -40,11 +40,13 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     let lastTick = {};
     let ticksDiffer = true;
     switch (type) {
+        case 'line':
         case 'area': {
             lastTick = getLastTickQuote(ticks);
             ticksDiffer = !ticksAreEqual(prevProps, nextProps);
             break;
         }
+        case 'ohlc':
         case 'candlestick': {
             lastTick = getLastOHLCTick(ticks);
             ticksDiffer = !ohlcAreEqual(prevProps, nextProps);
@@ -88,6 +90,6 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         updateRest(chart, nextProps);
     }
 
-    updateTypeChange(chart, prevProps.typeChange, nextProps.typeChange);
+    updateTypeChange(chart, prevProps.onTypeChange, nextProps.onTypeChange);
     chart.redraw();
 };

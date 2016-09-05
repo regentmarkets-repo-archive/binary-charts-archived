@@ -23,28 +23,23 @@ export default class TypeSwitchChart extends React.Component {
         });
     }
 
-    changeType(type) {
-        switch (type) {
-            case 'area':
-                return api.authorize(token).then(() =>
-                    api.getDataForContract(() => getContract(contractId), 1, 'all')
-                ).then(r => {
-                    this.setState({ type, ticks: r.ticks });
-                });
-            case 'candlestick':
-                return api.authorize(token).then(() =>
-                    api.getDataForContract(() => getContract(contractId), 1, 'all', 'candles')
-                ).then(r => {
-                    this.setState({ type, ticks: r.ticks });
-                });
-            default: return;
-        }
+    changeType(type: string): Promise<*> {
+        const candles = type === 'candlestick' || type === 'ohlc' ? 'candles' : undefined;
+        return api.authorize(token).then(() =>
+            api.getDataForContract(() => getContract(contractId), 1, 'all', candles)
+        ).then(r => {
+            this.setState({ type, ticks: r.ticks });
+        });
     }
 
     render() {
         const { ticks, type } = this.state;
         return (
-            <BinaryChart type={type} ticks={ticks} typeChange={t => this.changeType(t)} pipSize={2} />
+            <BinaryChart
+                type={type}
+                ticks={ticks}
+                onTypeChange={t => this.changeType(t)} pipSize={2}
+            />
         );
     }
 }

@@ -1,6 +1,6 @@
 import updateExtremes, { updateExtremesYAxis } from '../config/updateExtremes';
 
-export default (rangeChange: Function) => ({
+export default (onRangeChange: Function) => ({
     type: 'datetime',
     ordinal: true,
     tickWidth: 0,
@@ -16,10 +16,10 @@ export default (rangeChange: Function) => ({
                 if (chart.isLoading) {
                     return;
                 }
-                const asyncResult = rangeChange(count, type);
+                const asyncResult = onRangeChange(count, type);
 
                 // a hack so that we can set x-extremes correctly after data is loaded
-                // works best if rangechange is only fire when needed.
+                // works best if onRangeChange is only fire when needed.
                 if (asyncResult.then) {
                     chart.showLoading();
                     asyncResult.then(() => {

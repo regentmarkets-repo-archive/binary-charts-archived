@@ -4,7 +4,7 @@ export const winPlotBand = (id: string, from: number, to: number): PlotBand => (
     to,
     color: 'rgba(46, 136, 54, 0.2)',
     label: {
-        text: 'WIN',
+        // text: 'WIN',
         style: {
             fontSize: '25px',
             fontWeight: 'bold',
@@ -19,7 +19,7 @@ export const lossPlotBand = (id: string, from: number, to: number): PlotBand => 
     to,
     color: 'rgba(204, 0, 51, 0.1)',
     label: {
-        text: 'LOSS',
+        // text: 'LOSS',
         style: {
             fontSize: '25px',
             fontWeight: 'bold',

@@ -21,13 +21,13 @@ class RemoveTypeChange extends React.Component {
         const { fn, nodata } = this.state;
         return (
             <div>
-                <BinaryChart typeChange={fn} noData={nodata}/>
+                <BinaryChart onTypeChange={fn} noData={nodata} />
                 <button onClick={this.removeTypeChange}>Remove type change button</button>
                 <button onClick={this.toggleNoData}>Toggle no data</button>
             </div>
-        )
+        );
     }
 }
 
 storiesOf('Disable type change at run time', module)
-    .add('', () => <RemoveTypeChange />)
+    .add('', () => <RemoveTypeChange />);

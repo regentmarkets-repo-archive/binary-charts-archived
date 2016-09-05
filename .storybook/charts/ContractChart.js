@@ -73,11 +73,10 @@ export default class ContractChart extends React.Component {
                 });
         return (
             <BinaryChart
-                id="halo"
                 ticks={ticks}
                 contract={contract}
-                rangeChange={getDataWhenChange}
                 pipSize={2}
+                onRangeChange={getDataWhenChange}
             />
         );
     }

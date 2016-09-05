@@ -30,6 +30,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
     const dataInChart = chart.series[0].options.data;
     let newDataMax = dataMax;
     switch (chartType) {
+        case 'line':
         case 'area': {
             const newDataInChartFormat = nextProps.ticks.map(tickToData);
 
@@ -70,6 +71,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
             }
             break;
         }
+        case 'ohlc':
         case 'candlestick': {
             const newDataInChartFormat = nextProps.ticks.map(ohlcToData);
             const oneTickDiff = doArrayDifferJustOneEntry(

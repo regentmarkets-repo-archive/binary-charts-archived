@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 
 type Props = {
+    onChange: (chartType: string) => void,
+    value: 'line' | 'area' | 'candlestick' | 'ohlc',
 };
 
 export default class ChartTypePicker extends PureComponent {
@@ -10,13 +12,18 @@ export default class ChartTypePicker extends PureComponent {
     static defaultProps = {
     };
 
+    onChange = (e: Proxy) =>
+        this.props.onChange(e.target.value);
+
     render() {
+        const { value } = this.props;
+
         return (
-            <select>
-                <option>Area</option>
-                <option>Line</option>
-                <option>Candlesticks</option>
-                <option>Bars</option>
+            <select onChange={this.onChange} value={value}>
+                <option value="area">Area</option>
+                <option value="line">Line</option>
+                <option value="candlestick">Candlesticks</option>
+                <option value="ohlc">Bars</option>
             </select>
         );
     }

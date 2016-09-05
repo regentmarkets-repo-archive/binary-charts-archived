@@ -12,8 +12,8 @@ import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
 import axisIndicators from './plugins/axisIndicators';
-// import winLossIndicators from './plugins/winLossIndicators';
 import addLoadingFlag from './plugins/addLoadingFlag';
+// import winLossIndicators from './plugins/winLossIndicators';
 // import tradeMarker from './plugins/tradeMarker';
 
 // workaround for tests to work
@@ -21,8 +21,8 @@ if (Object.keys(Highcharts).length > 0) {
     exporting(Highcharts);
     noDataToDisplay(Highcharts);
     axisIndicators();
-//    winLossIndicators();
     addLoadingFlag();
+//    winLossIndicators();
 //    tradeMarker();
 }
 
@@ -30,6 +30,8 @@ export type ChartEvent = {
     type: string,
     handler: () => void,
 }
+
+type ChartType = 'area' | 'line' | 'candlestick' | 'ohlc';
 
 type Props = {
     className?: string,
@@ -41,17 +43,17 @@ type Props = {
     id: string,
     noData: boolean,
     pipSize: number,
-    rangeChange: () => void,
     symbol: string,
-    shiftMode: 'fixed' | 'dynamic',                  // switch to decide how chart move when data added
+    shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
     ticks: Tick[],
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
     toolbar: boolean,
-    type: 'area' | 'candlestick',
-    typeChange: () => void,
+    type: ChartType,
     width: number,
+    onTypeChange: (chartType: string) => void,
+    onRangeChange: () => void,
 };
 
 export default class BinaryChart extends Component {
@@ -67,7 +69,7 @@ export default class BinaryChart extends Component {
         ticks: [],
         pipSize: 0,
         type: 'area',
-        toolbar: false,
+        toolbar: true,
     };
 
     componentDidMount() {
@@ -100,7 +102,7 @@ export default class BinaryChart extends Component {
                 chart.showLoading();
             }
         });
-        if (props.type === 'candlestick') {
+        if (props.type === 'candlestick' || props.type === 'ohlc') {
             this.chart.xAxis[0].update({
                 minRange: 10 * 60 * 1000,
             });
@@ -124,11 +126,27 @@ export default class BinaryChart extends Component {
         this.chart.destroy();
     }
 
+
+    onTypeChange = (newType: string) => {
+        const { onTypeChange } = this.props;
+
+        if (this.chart.isLoading) {
+            return;
+        }
+
+        const result = onTypeChange(newType);
+        if (result && result.then) {    // show loading msg if typechange function return promise
+            this.chart.showLoading();
+            result.then(() => this.chart.hideLoading());
+        }
+    }
+
     render() {
         const { id, className, toolbar } = this.props;
+
         return (
             <div className={className}>
-                {toolbar && <Toolbar />}
+                {toolbar && <Toolbar chart={this.chart} onTypeChange={this.onTypeChange} />}
                 <div ref={x => { this.chartDiv = x; }} id={id} />
             </div>
         );
