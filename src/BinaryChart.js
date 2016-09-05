@@ -67,7 +67,7 @@ export default class BinaryChart extends Component {
         ticks: [],
         pipSize: 0,
         type: 'area',
-        toolbar: true,
+        toolbar: false,
     };
 
     componentDidMount() {
