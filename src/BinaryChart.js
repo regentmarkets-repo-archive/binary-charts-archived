@@ -126,6 +126,7 @@ export default class BinaryChart extends Component {
         this.chart.destroy();
     }
 
+    onIntervalChange = () => {}; // TODO
 
     onTypeChange = (newType: string) => {
         const { onTypeChange } = this.props;
@@ -146,7 +147,12 @@ export default class BinaryChart extends Component {
 
         return (
             <div className={className}>
-                {toolbar && <Toolbar chart={this.chart} onTypeChange={this.onTypeChange} />}
+                {toolbar &&
+                    <Toolbar
+                        chart={this.chart}
+                        onIntervalChange={this.onIntervalChange}
+                        onTypeChange={this.onTypeChange}
+                    />}
                 <div ref={x => { this.chartDiv = x; }} id={id} />
             </div>
         );

@@ -9,6 +9,7 @@ type Props = {
     type: string,
     crosshair?: boolean,
     chart: HighstockChart,
+    onIntervalChange: (interval: string) => void,
     onTypeChange: (chartType: string) => void,
 };
 
@@ -21,11 +22,11 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { onTypeChange } = this.props;
+        const { onIntervalChange, onTypeChange } = this.props;
 
         return (
             <div className="binary-chart-toolbar">
-                <IntervalPicker />
+                <IntervalPicker onChange={onIntervalChange} />
                 <ChartTypePicker onChange={onTypeChange} />
                 {/* <IndicatorsPicker /> */}
                 {/* [crosshair switcher] */}
