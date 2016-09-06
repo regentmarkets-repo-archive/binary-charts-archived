@@ -133,7 +133,6 @@ const commonTheme = {
             lineWidth: 2,
             upColor: '#2E8836',
             upLineColor: '#2E8836',
-            pointPadding: 0.2,
         },
     },
     xAxis: {
