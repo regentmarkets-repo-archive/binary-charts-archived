@@ -6,5 +6,7 @@ export default (type: ChartType) => {
         case 'ohlc':
         case 'candlestick':
             return 'ohlc';
+        default:
+            throw new Error(`Unknown chart type: ${type}`);
     }
 };

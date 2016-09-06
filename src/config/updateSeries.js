@@ -35,14 +35,14 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
     const mainOhlcSeries = chart.get('main-ohlc');
     switch (dataType) {
         case 'tick':
-            mainOhlcSeries && mainOhlcSeries.hide();
+            if (mainOhlcSeries) mainOhlcSeries.hide();
             if (mainTickSeries) {
                 mainTickSeries.show();
                 mainTickSeries.update({ type: chartType });
             }
             break;
         case 'ohlc':
-            mainTickSeries && mainTickSeries.hide();
+            if (mainTickSeries) mainTickSeries.hide();
             if (mainOhlcSeries) {
                 mainOhlcSeries.show();
                 mainOhlcSeries.update({ type: chartType });
@@ -107,12 +107,10 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 } else {
                     addNewseries(dataWithNull);
                 }
+            } else if (tickSeries) {
+                tickSeries.setData(newDataInChartFormat, false);
             } else {
-                if (tickSeries) {
-                    tickSeries.setData(newDataInChartFormat, false);
-                } else {
-                    addNewseries(newDataInChartFormat);
-                }
+                addNewseries(newDataInChartFormat);
             }
             break;
         }
@@ -136,20 +134,15 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 const newDataIsWithinInterval = (dataPoint[0] - last2Epoch) <= timeInterval;
                 if (newDataIsWithinInterval) {
                     dataInChart[xData.length - 1] = dataPoint;
+                } else if (ohlcSeries) {
+                    ohlcSeries.addPoint(dataPoint, false);
                 } else {
-                    if (ohlcSeries) {
-                        ohlcSeries.addPoint(dataPoint, false);
-                    } else {
-                        addNewseries([dataPoint]);
-                    }
+                    addNewseries([dataPoint]);
                 }
+            } else if (ohlcSeries) {
+                ohlcSeries.setData(newDataInChartFormat, false);
             } else {
-                if (ohlcSeries) {
-                    ohlcSeries.setData(newDataInChartFormat, false);
-                } else {
-                    console.log('should add');
-                    addNewseries(newDataInChartFormat);
-                }
+                addNewseries(newDataInChartFormat);
             }
             break;
         }
