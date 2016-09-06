@@ -1,9 +1,6 @@
 // $FlowFixMe
 import { merge } from '../highcharts/highstock';
 import reset from '../parts/reset';
-import exporting from '../parts/exporting';
-import plotOptions from '../parts/plotOptions';
-import rangeSelector from '../parts/rangeSelector';
 import yAxis from '../parts/yAxis';
 import xAxis from '../parts/xAxis';
 import seriesLine from '../parts/seriesLine';
@@ -23,7 +20,6 @@ export default ({ pipSize = 0,
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         ...reset(height, width, noData),
-        plotOptions: plotOptions(),
         rangeSelector: {
             enabled: false,
         },
@@ -32,12 +28,4 @@ export default ({ pipSize = 0,
             ...yAxis(pipSize),
         },
         series: seriesLine([], pipSize, type),
-        tooltip: {
-            style: {
-                color: '#333333',
-            },
-        },
-        exporting: {
-            enabled: false,
-        },
     });

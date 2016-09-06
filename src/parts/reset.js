@@ -20,4 +20,16 @@ export default (height: number, width: number, noData: boolean) => ({
             },
         },
     },
+    plotOptions: {
+        series: {
+            connectNulls: true,
+            marker: {
+                enabled: false,
+            },
+            turboThreshold: 3000,
+        },
+    },
+    exporting: {
+        enabled: false,
+    },
 });

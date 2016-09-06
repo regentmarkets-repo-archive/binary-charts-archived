@@ -3,12 +3,15 @@ import IntervalPicker from './IntervalPicker';
 import ChartTypePicker from './ChartTypePicker';
 // import IndicatorsPicker from './IndicatorsPicker';
 import SharePicker from './SharePicker';
+import ZoomControls from './ZoomControls';
 
 type Props = {
     interval: string,
     type: string,
     crosshair?: boolean,
     chart: HighstockChart,
+    getXAxis: () => any,
+    getYAxis: () => any,
     onIntervalChange: (interval: string) => void,
     onTypeChange: (chartType: string) => void,
 };
@@ -22,7 +25,7 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { onIntervalChange, onTypeChange } = this.props;
+        const { getXAxis, onIntervalChange, onTypeChange } = this.props;
 
         return (
             <div className="binary-chart-toolbar">
@@ -30,8 +33,7 @@ export default class Toolbar extends PureComponent {
                 <ChartTypePicker onChange={onTypeChange} />
                 {/* <IndicatorsPicker /> */}
                 {/* [crosshair switcher] */}
-                <button>+</button>
-                <button>-</button>
+                <ZoomControls getXAxis={getXAxis} />
                 <SharePicker />
             </div>
         );
