@@ -2,7 +2,7 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import { areTickArraysEqual, areCandleArrayEqual,
     getLastTickQuote, getLastOHLCTick } from 'binary-utils';
-import updateTicks from './updateSeries';
+import updateSeries from './updateSeries';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
@@ -58,7 +58,7 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     const mergedContract = mergeTradeWithContract(trade, contract, lastTick);
 
     if (ticksDiffer) {
-        updateTicks(chart, nextProps, mergedContract);
+        updateSeries(chart, nextProps, mergedContract);
         chart.redraw();
         if (ticks.length > 0) {
             chart.hideLoading();
