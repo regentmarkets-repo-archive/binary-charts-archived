@@ -38,6 +38,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
     const dataType = chartTypeToDataType(chartType);
     const mainTickSeries = getSeriesByType(chart, 'line');
     const mainOhlcSeries = getSeriesByType(chart, 'ohlc');
+
     switch (dataType) {
         case 'tick':
             if (mainOhlcSeries) mainOhlcSeries.hide();

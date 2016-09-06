@@ -28,7 +28,8 @@ export default class TypeSwitchChart extends React.Component {
         return api.authorize(token).then(() =>
             api.getDataForContract(() => getContract(contractId), 1, 'all', style)
         ).then(r => {
-            this.setState({ type, ticks: r[style] });
+            const update = { type, ticks: r[style] };
+            this.setState(update);
         });
     }
 
