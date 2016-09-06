@@ -22,7 +22,7 @@ export default ({ pipSize = 0,
                 theme = 'light',
                 shiftMode = 'fixed' }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
-        binary: { pipSize, theme, lastYExtremes: {}, shiftMode },
+        binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         ...reset(height, width, noData, { pipSize, theme, lastYExtremes: {}, shiftMode }),
         plotOptions: plotOptions(),
         rangeSelector: rangeSelector(defaultRange, showAllRangeSelector),

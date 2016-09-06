@@ -73,6 +73,7 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         pipSize,
         theme,
         shiftMode: shiftMode || chart.userOptions.binary.shiftMode,            // use old shiftMode if no new shiftMode
+        type,
     });
 
     if (contractsDiffer || ticksDiffer) {
