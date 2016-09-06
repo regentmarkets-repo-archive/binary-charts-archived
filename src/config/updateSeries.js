@@ -34,6 +34,7 @@ export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contr
 export default (chart: Chart, nextProps: any, contract: Contract) => {
     const chartType = nextProps.type;
     const dataType = chartTypeToDataType(chartType);
+
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
     const dataInChart = chart.get(`main-${dataType}`) ? chart.get(`main-${dataType}`).options.data : [];
     let newDataMax = dataMax;
