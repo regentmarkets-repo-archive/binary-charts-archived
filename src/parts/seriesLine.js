@@ -1,13 +1,4 @@
-const chartTypeToDataType = (type: ChartType) => {
-    switch (type) {
-        case 'area':
-        case 'line':
-            return 'tick';
-        case 'ohlc':
-        case 'candlestick':
-            return 'ohlc';
-    }
-};
+import chartTypeToDataType from '../utils/chartTypeToDataType';
 
 export default (data: (ChartTick | ChartCandle)[], pipSize: number, type: ChartType) => [{
     name: 'Spot',

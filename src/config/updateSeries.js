@@ -1,4 +1,6 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry, nowAsEpoch } from 'binary-utils';
+import seriesLine from '../parts/seriesLine';
+import chartTypeToDataType from '../utils/chartTypeToDataType';
 
 export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contract, newData: ChartTick[]) => {
     const xAxis = chart.xAxis[0];
@@ -25,10 +27,39 @@ export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contr
 };
 
 export default (chart: Chart, nextProps: any, contract: Contract) => {
-    const chartType = chart.series[0].type;
+    const chartType = nextProps.type;
+
+    // by hiding series, we remove the need of chart creation
+    const dataType = chartTypeToDataType(chartType);
+    const mainTickSeries = chart.get('main-tick');
+    const mainOhlcSeries = chart.get('main-ohlc');
+    switch (dataType) {
+        case 'tick':
+            mainOhlcSeries && mainOhlcSeries.hide();
+            if (mainTickSeries) {
+                mainTickSeries.show();
+                mainTickSeries.update({ type: chartType });
+            }
+            break;
+        case 'ohlc':
+            mainTickSeries && mainTickSeries.hide();
+            if (mainOhlcSeries) {
+                mainOhlcSeries.show();
+                mainOhlcSeries.update({ type: chartType });
+            }
+            break;
+        default: throw new Error(`Unknown data type: ${dataType}`);
+    }
+
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
-    const dataInChart = chart.series[0].options.data;
+    const dataInChart = chart.get(`main-${dataType}`) ? chart.get(`main-${dataType}`).options.data : [];
     let newDataMax = dataMax;
+    const pipSize = chart.userOptions.binary.pipSize;
+
+    const addNewseries = data => {
+        chart.addSeries(seriesLine(data, pipSize, chartType)[0]);
+    };
+
     switch (chartType) {
         case 'line':
         case 'area': {
@@ -39,6 +70,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 newDataInChartFormat,
                 (a, b) => a === b || a[0] === b[0]
             );
+            const tickSeries = mainTickSeries;
 
             if (oneTickDiff) {
                 const newTick: any = getLast(nextProps.ticks);
@@ -47,7 +79,12 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                     return;
                 }
 
-                chart.series[0].addPoint(dataPoint, false);
+                if (tickSeries) {
+                    tickSeries.addPoint(dataPoint, false);
+                } else {
+                    addNewseries([dataPoint]);
+                }
+
                 newDataMax = dataPoint[0];
 
                 const isCloseToMostRecent = (dataMax - max) <= 2000;
@@ -65,9 +102,17 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 }
             } else if (contract && contract.date_start > nowAsEpoch()) {
                 const dataWithNull = patchNullDataForStartLaterContract(chart, contract, newDataInChartFormat);
-                chart.series[0].setData(dataWithNull, false);
+                if (tickSeries) {
+                    tickSeries.setData(dataWithNull, false);
+                } else {
+                    addNewseries(dataWithNull);
+                }
             } else {
-                chart.series[0].setData(newDataInChartFormat, false);
+                if (tickSeries) {
+                    tickSeries.setData(newDataInChartFormat, false);
+                } else {
+                    addNewseries(newDataInChartFormat);
+                }
             }
             break;
         }
@@ -79,9 +124,11 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 newDataInChartFormat,
                 (a, b) => a === b || a[0] === b[0]
             );
+
+            const ohlcSeries = mainOhlcSeries;
             if (oneTickDiff) {
                 const dataPoint: any = getLast(newDataInChartFormat);
-                const xData = chart.series[0].xData;
+                const xData = ohlcSeries.xData;
                 const last2Epoch = xData[xData.length - 2];
                 const last3Epoch = xData[xData.length - 3];
                 const timeInterval = last2Epoch - last3Epoch;
@@ -90,10 +137,19 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 if (newDataIsWithinInterval) {
                     dataInChart[xData.length - 1] = dataPoint;
                 } else {
-                    chart.series[0].addPoint(dataPoint, false);
+                    if (ohlcSeries) {
+                        ohlcSeries.addPoint(dataPoint, false);
+                    } else {
+                        addNewseries([dataPoint]);
+                    }
                 }
             } else {
-                chart.series[0].setData(newDataInChartFormat, false);
+                if (ohlcSeries) {
+                    ohlcSeries.setData(newDataInChartFormat, false);
+                } else {
+                    console.log('should add');
+                    addNewseries(newDataInChartFormat);
+                }
             }
             break;
         }
