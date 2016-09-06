@@ -33,29 +33,7 @@ export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contr
 
 export default (chart: Chart, nextProps: any, contract: Contract) => {
     const chartType = nextProps.type;
-
-    // by hiding series, we remove the need of chart creation
     const dataType = chartTypeToDataType(chartType);
-    const mainTickSeries = getSeriesByType(chart, 'line');
-    const mainOhlcSeries = getSeriesByType(chart, 'ohlc');
-    switch (dataType) {
-        case 'tick':
-            if (mainOhlcSeries) mainOhlcSeries.hide();
-            if (mainTickSeries) {
-                mainTickSeries.show();
-                mainTickSeries.update({ type: chartType });
-            }
-            break;
-        case 'ohlc':
-            if (mainTickSeries) mainTickSeries.hide();
-            if (mainOhlcSeries) {
-                mainOhlcSeries.show();
-                mainOhlcSeries.update({ type: chartType });
-            }
-            break;
-        default: throw new Error(`Unknown data type: ${dataType}`);
-    }
-
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
     const dataInChart = chart.get(`main-${dataType}`) ? chart.get(`main-${dataType}`).options.data : [];
     let newDataMax = dataMax;
@@ -75,7 +53,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 newDataInChartFormat,
                 (a, b) => a === b || a[0] === b[0]
             );
-            const tickSeries = mainTickSeries;
+            const tickSeries = getSeriesByType(chart, 'line');
 
             if (oneTickDiff) {
                 const newTick: any = getLast(nextProps.ticks);
@@ -128,7 +106,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 (a, b) => a === b || a[0] === b[0]
             );
 
-            const ohlcSeries = mainOhlcSeries;
+            const ohlcSeries = getSeriesByType(chart, 'ohlc');
             if (oneTickDiff) {
                 const dataPoint: any = getLast(newDataInChartFormat);
                 const xData = ohlcSeries.xData;

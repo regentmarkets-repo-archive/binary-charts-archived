@@ -5,6 +5,7 @@ import { areTickArraysEqual, areCandleArrayEqual,
 import updateTicks from './updateSeries';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
+import updateChartType from './updateChartType';
 import updateRest from './updateRest';
 // $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
@@ -30,6 +31,7 @@ const restAreEqual = (prevProps, nextProps) =>
     nextProps.pipSize === prevProps.pipSize;
 
 
+// order of execution matters, as some function depends on chart.userOptions.binary which is mutable shared state!!!
 export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
@@ -56,6 +58,10 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     }
 
     const mergedContract = mergeTradeWithContract(trade, contract, lastTick);
+
+    if (type !== chart.userOptions.binary.type) {
+        updateChartType(chart, type);
+    }
 
     if (ticksDiffer) {
         updateTicks(chart, nextProps, mergedContract);
