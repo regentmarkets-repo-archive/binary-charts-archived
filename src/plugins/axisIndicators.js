@@ -1,6 +1,7 @@
 // $FlowFixMe
 import { wrap, Chart } from '../highcharts/highstock';
 import { colorBg, colorText } from '../themes';
+import getMainSeries from '../utils/getMainSeries';
 
 const lastPriceFromCandles = series =>
     series.yData.length && series.yData[series.yData.length - 1][3];
@@ -101,10 +102,12 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, backgroun
 const renderAxisIndicator = chart => {
     const { contract, pipSize, theme } = chart.userOptions.binary;
     const yAxis = chart.yAxis[0];
-    const currentSpot = lastPriceFromSeries(chart.series[0]);
+    const mainSeries = getMainSeries(chart);
+
+    const currentSpot = lastPriceFromSeries(mainSeries);
     const x = yAxis.width;
 
-    if (chart.series[0].yData.length === 0) return;
+    if (mainSeries.yData.length === 0) return;
 
     const exitSpot = contract && (contract.exit_tick || contract.sell_spot);
     if (exitSpot) {

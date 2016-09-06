@@ -1,7 +1,9 @@
+import getMainSeries from '../utils/getMainSeries';
+
 export default (chart: Chart, params: any) => {
     const { type } = params;
-
-    chart.series[0].update({
+    const mainSeries = getMainSeries(chart);
+    mainSeries.update({
         type,
     }, false);
 };

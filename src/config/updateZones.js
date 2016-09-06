@@ -1,3 +1,5 @@
+import getMainSeries from '../utils/getMainSeries';
+
 const insideStyle = {
     color: 'lightgrey',
     fillColor: 'none',
@@ -28,5 +30,6 @@ export default (chart: Chart, newPlotLines: PlotObject[]) => {
         zones.push(insideStyle);
     }
 
-    chart.series[0].update({ zones }, false);
+    const mainSeries = getMainSeries(chart);
+    mainSeries.update({ zones }, false);
 };

@@ -2,11 +2,15 @@ import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry, nowAsEpoch 
 import seriesLine from '../parts/seriesLine';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
 import getSeriesByType from '../utils/getSeriesByType';
+import getMainSeries from '../utils/getMainSeries';
 
 export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contract, newData: ChartTick[]) => {
     const xAxis = chart.xAxis[0];
     const { min, max } = xAxis.getExtremes();
-    const dataInChart = chart.series[0].options.data;
+
+    const mainSeries = getMainSeries(chart);
+
+    const dataInChart = mainSeries.options.data;
     const visiblePointCount = dataInChart.filter(d => d[0] > min && d[0] < max).length;
     const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
 
