@@ -150,7 +150,7 @@ const commonTheme = {
         },
     },
     navigator: {
-        enabled: false,
+        // enabled: false,
 		outlineColor: 'none',
         series: {
             type: 'area',

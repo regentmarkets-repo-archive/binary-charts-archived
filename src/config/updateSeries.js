@@ -12,7 +12,7 @@ export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contr
 
     const dataInChart = mainSeries.options.data;
     const visiblePointCount = dataInChart.filter(d => d[0] > min && d[0] < max).length;
-    const emptyDataCount = visiblePointCount * 0.1;         // keep 10% space for empty data
+    const emptyDataCount = visiblePointCount * 0.1; // keep 10% space for empty data
 
     const lastTick: any = getLast(newData);
     const lastTickMillis = lastTick && lastTick[0];

@@ -12,10 +12,8 @@ const hcUnitConverter = type => {
     }
 };
 
-export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = {}, rangeButton: ?RangeButton) => {
+export const updateExtremesXAxisOld = (chart: Chart, contract: Contract | Object = {}) => {
     const series = getMainSeries(chart);
-
-    if (series.type !== 'area') return;
 
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
@@ -53,19 +51,19 @@ export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = 
     } else {
         removeSeriesNullData();
     }
-
-    if (rangeButton) {
-        const { count, type } = rangeButton;
-        const durationInSecs = durationToSecs(count, hcUnitConverter(type));
-        const validMax = dataFromChart.reduce((a, b) => {
-            if (b[1]) {
-                return Math.max(a, b[0]);
-            }
-            return a;
-        }, 0);
-        const { dataMax } = xAxis.getExtremes();
-        xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax);
-    }
+    //
+    // if (rangeButton) {
+    //     const { count, type } = rangeButton;
+    //     const durationInSecs = durationToSecs(count, hcUnitConverter(type));
+    //     const validMax = dataFromChart.reduce((a, b) => {
+    //         if (b[1]) {
+    //             return Math.max(a, b[0]);
+    //         }
+    //         return a;
+    //     }, 0);
+    //     const { dataMax } = xAxis.getExtremes();
+    //     xAxis.setExtremes(validMax - (durationInSecs * 1000), dataMax);
+    // }
 };
 
 export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = {}) => {
@@ -141,8 +139,11 @@ export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = 
     }
 };
 
-const updateExtremes = (chart: Chart, contract: Contract, rangeButton: ?RangeButton) => {
-    updateExtremesXAxis(chart, contract, rangeButton);
+export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = {}) => {
+};
+
+const updateExtremes = (chart: Chart, contract: Contract) => {
+    updateExtremesXAxis(chart, contract);
     updateExtremesYAxis(chart, contract);
 };
 

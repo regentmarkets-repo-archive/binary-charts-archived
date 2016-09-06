@@ -75,7 +75,6 @@ var ticks = [
 | Props | Default | Description |
  -------|---------|-------------
  contract | N/A   | description of a bought contract, check response of https://developers.binary.com/api/#proposal_open_contract
- defaultRange | 5 | amount of data to show on init, for details of what each number means, check [rangeSelector](src/parts/rangeSelector.js#L1), value correspond to index number
  id     | N/A     | id of dom element
  noData | false   | if true, indicate no data for chart, message 'Data not available` will be shown
  pipSize | 0      | decimal places of data to be shown, if zero, 9.02 will be shown as 9

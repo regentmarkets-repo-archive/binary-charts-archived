@@ -37,7 +37,6 @@ type ChartType = 'area' | 'line' | 'candlestick' | 'ohlc';
 type Props = {
     className?: string,
     contract: Contract,
-    defaultRange: number,
     showAllRangeSelector: boolean,
     events: ChartEvent[],
     height: number,
@@ -57,9 +56,15 @@ type Props = {
     onRangeChange: () => void,
 };
 
+type State = {
+    range: { from: Date, to: Date },
+}
+
 export default class BinaryChart extends Component {
 
     props: Props;
+    state: State;
+
     chartDiv: any;
     chart: Chart;
     eventListeners: Object[];
@@ -73,6 +78,13 @@ export default class BinaryChart extends Component {
         toolbar: true,
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            range: {},
+        };
+    }
+
     componentDidMount() {
         this.createChart();
         updateChart(this.chart, { ticks: [] }, this.props);
@@ -80,7 +92,6 @@ export default class BinaryChart extends Component {
 
     shouldComponentUpdate(nextProps: Props) {
         if (this.props.symbol !== nextProps.symbol ||
-                // this.props.type !== nextProps.type ||
                 this.props.noData !== nextProps.noData) {
             this.destroyChart();
             this.createChart(nextProps);
@@ -127,6 +138,10 @@ export default class BinaryChart extends Component {
         this.chart.destroy();
     }
 
+    onRangeChange = (from: Date, to: Date) => {
+        this.setState({ range: { from, to } });
+    };
+
     onIntervalChange = () => {}; // TODO
 
     onTypeChange = (newType: string) => {
@@ -155,7 +170,7 @@ export default class BinaryChart extends Component {
                         onTypeChange={this.onTypeChange}
                     />}
                 <div ref={x => { this.chartDiv = x; }} id={id} />
-                <TimeFramePicker />
+                <TimeFramePicker getAxis={() => this.chart.xAxis[0]} />
             </div>
         );
     }
