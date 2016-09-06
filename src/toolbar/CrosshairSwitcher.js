@@ -21,8 +21,10 @@ export default class ZoomControls extends PureComponent {
         const { getXAxis, getYAxis } = this.props;
         getYAxis().update({
             crosshair: {
+                snap: false,
                 label: {
                     enabled: true,
+                    padding: 5,
                     format: '{value:.2f}',
                 },
             },
@@ -30,6 +32,7 @@ export default class ZoomControls extends PureComponent {
         getXAxis().update({
             crosshair: {
                 label: {
+                    padding: 5,
                     enabled: true,
                 },
             },

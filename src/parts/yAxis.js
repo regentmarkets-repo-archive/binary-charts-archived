@@ -9,6 +9,7 @@ export default (pipSize: number) => ({
             return this.value.toFixed(updatedPipSize);
         },
     },
+    crosshair: false,
     tickWidth: 0,
     title: { text: null },
     floor: 0,

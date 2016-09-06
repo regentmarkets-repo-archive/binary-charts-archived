@@ -20,7 +20,7 @@ export default class TimeFramePicker extends PureComponent {
 
     render() {
         return (
-            <div>
+            <div className="binary-chart-time-frame-picker">
                 <button onClick={() => this.setRange(5 * 60)}>5min</button>
                 <button onClick={() => this.setRange(15 * 60)}>15min</button>
                 <button onClick={() => this.setRange(60 * 60)}>1hr</button>

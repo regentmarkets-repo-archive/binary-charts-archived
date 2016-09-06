@@ -7,6 +7,7 @@ export default (onRangeChange: Function) => ({
     startOnTick: false,
     minRange: 1000,
     endOnTick: false,
+    crosshair: false,
     events: {
         setExtremes: function setExtremesHandler(e: SetExtremesEvent) {          // eslint-disable-line object-shorthand
             if (e.rangeSelectorButton) {

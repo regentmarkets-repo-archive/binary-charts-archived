@@ -170,9 +170,12 @@ export default class BinaryChart extends Component {
                         getYAxis={() => this.chart.yAxis[0]}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
-                    />}
+                    />
+                }
                 <div ref={x => { this.chartDiv = x; }} id={id} />
-                <TimeFramePicker getXAxis={() => this.chart.xAxis[0]} />
+                {toolbar &&
+                    <TimeFramePicker getXAxis={() => this.chart.xAxis[0]} />
+                }
             </div>
         );
     }
