@@ -2,14 +2,12 @@
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import { areTickArraysEqual, areCandleArrayEqual,
     getLastTickQuote, getLastOHLCTick } from 'binary-utils';
-import updateTicks from './updateTicks';
+import updateTicks from './updateSeries';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
 // $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
-
-import updateTypeChange from './updateTypeChangeFunc';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -73,6 +71,7 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         pipSize,
         theme,
         shiftMode: shiftMode || chart.userOptions.binary.shiftMode,            // use old shiftMode if no new shiftMode
+        type,
     });
 
     if (contractsDiffer || ticksDiffer) {
@@ -90,6 +89,5 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         updateRest(chart, nextProps);
     }
 
-    updateTypeChange(chart, prevProps.onTypeChange, nextProps.onTypeChange);
     chart.redraw();
 };

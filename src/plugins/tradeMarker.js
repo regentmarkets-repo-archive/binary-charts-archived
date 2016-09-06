@@ -1,5 +1,6 @@
 // $FlowFixMe
 import { wrap, Chart } from '../highcharts/highstock';
+import getMainSeries from '../utils/getMainSeries';
 
 export default () => {
     function renderTradeMarker(chart) {
@@ -7,7 +8,7 @@ export default () => {
             (chart.tradeMarker.element).remove();
         }
 
-        const series = chart.series[0];
+        const series = getMainSeries(chart);
         const len = series.data.length - 1;
         const lastPoint = series.data[len];
 

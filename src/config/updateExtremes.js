@@ -1,5 +1,6 @@
 import { arrayMin, arrayMax, durationToSecs, getLast, nowAsEpoch } from 'binary-utils';
-import { patchNullDataForStartLaterContract } from './updateTicks';
+import { patchNullDataForStartLaterContract } from './updateSeries';
+import getMainSeries from '../utils/getMainSeries';
 
 const hcUnitConverter = type => {
     switch (type) {
@@ -12,10 +13,9 @@ const hcUnitConverter = type => {
 };
 
 export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = {}, rangeButton: ?RangeButton) => {
-    const series = chart.series[0];
-    const chartType = series.type;
+    const series = getMainSeries(chart);
 
-    if (chartType !== 'area') return;
+    if (series.type !== 'area') return;
 
     const dataFromChart = series.options.data;
     const lastTickMillis = dataFromChart[dataFromChart.length - 1] && dataFromChart[dataFromChart.length - 1][0];
@@ -76,7 +76,10 @@ export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = 
     const xMin = Math.max(min, dataMin);
     const xMax = max;
 
-    const zoomedTicks = chart.series[0].options.data
+    const mainSeries = getMainSeries(chart);
+    const chartType = mainSeries.type;
+
+    const zoomedTicks = mainSeries.options.data
         .filter(t => {
             const valueValid = !!t[1] || t[1] === 0;
             const withinRange = t[0] >= xMin && t[0] <= xMax;
@@ -85,11 +88,12 @@ export const updateExtremesYAxis = (chart: Chart, contract: Contract | Object = 
 
     let ticksMin = 0;
     let ticksMax = 0;
-    if (chart.series[0].type === 'area' || chart.series[0].type === 'line') {
+
+    if (chartType === 'area' || chartType === 'line') {
         const quotes = zoomedTicks.map(t => +(t[1]));
         ticksMax = arrayMax(quotes);
         ticksMin = arrayMin(quotes);
-    } else if (chart.series[0].type === 'candlestick' || chart.series[0].type === 'ohlc') {
+    } else if (chartType === 'candlestick' || chartType === 'ohlc') {
         const highLow = zoomedTicks.map(t => [+(t[1]), +(t[2])]).reduce((a, b) => a.concat(b), []);
         ticksMax = arrayMax(highLow);
         ticksMin = arrayMin(highLow);
