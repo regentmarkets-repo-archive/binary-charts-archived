@@ -24,11 +24,11 @@ export default class TypeSwitchChart extends React.Component {
     }
 
     changeType(type: string): Promise<*> {
-        const candles = type === 'candlestick' || type === 'ohlc' ? 'candles' : undefined;
+        const style = (type === 'candlestick' || type === 'ohlc') ? 'candles' : 'ticks';
         return api.authorize(token).then(() =>
-            api.getDataForContract(() => getContract(contractId), 1, 'all', candles)
+            api.getDataForContract(() => getContract(contractId), 1, 'all', style)
         ).then(r => {
-            this.setState({ type, ticks: r.ticks });
+            this.setState({ type, ticks: r[style] });
         });
     }
 
@@ -38,7 +38,8 @@ export default class TypeSwitchChart extends React.Component {
             <BinaryChart
                 type={type}
                 ticks={ticks}
-                onTypeChange={t => this.changeType(t)} pipSize={2}
+                onTypeChange={t => this.changeType(t)}
+                pipSize={2}
             />
         );
     }
