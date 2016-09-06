@@ -1,9 +1,15 @@
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, params: any) => {
-    const { type } = params;
+    const { pipSize } = params;
     const mainSeries = getMainSeries(chart);
     mainSeries.update({
-        type,
+        tooltip: {
+            valueDecimals: pipSize,
+        },
+    }, false);
+
+    chart.yAxis[0].update({
+        minTickInterval: pipSize,
     }, false);
 };

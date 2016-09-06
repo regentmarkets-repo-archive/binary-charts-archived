@@ -23,16 +23,12 @@ export default ({ pipSize = 0,
                 shiftMode = 'fixed' }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
-        ...reset(height, width, noData, { pipSize, theme, lastYExtremes: {}, shiftMode }),
+        ...reset(height, width, noData),
         plotOptions: plotOptions(),
         rangeSelector: rangeSelector(defaultRange, showAllRangeSelector),
         xAxis: xAxis(onRangeChange),
         yAxis: {
             ...yAxis(pipSize),
-            indicators: {
-                enabled: true,
-                pipSize,
-            },
         },
         series: seriesLine([], pipSize, type),
         tooltip: {

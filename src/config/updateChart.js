@@ -9,8 +9,6 @@ import updateRest from './updateRest';
 // $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
 
-import updateTypeChange from './updateTypeChangeFunc';
-
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
     prevProps.type === nextProps.type &&
@@ -91,6 +89,5 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         updateRest(chart, nextProps);
     }
 
-    updateTypeChange(chart, prevProps.onTypeChange, nextProps.onTypeChange);
     chart.redraw();
 };
