@@ -1,5 +1,5 @@
 import { arrayMin, arrayMax, durationToSecs, getLast, nowAsEpoch } from 'binary-utils';
-import { patchNullDataForStartLaterContract } from './updateTicks';
+import { patchNullDataForStartLaterContract } from './updateSeries';
 
 const hcUnitConverter = type => {
     switch (type) {
