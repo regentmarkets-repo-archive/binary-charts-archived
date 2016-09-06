@@ -1,10 +1,10 @@
-import chartTypeToDataType from '../utils/chartTypeToDataType';
+import seriesId from '../utils/seriesIdByType';
 
 export default (data: (ChartTick | ChartCandle)[], pipSize: number, type: ChartType) => [{
     name: 'Spot',
     type,
     data,
-    id: `main-${chartTypeToDataType(type)}`,
+    id: seriesId(type),
     tooltip: {
         valueDecimals: pipSize,
         zIndex: 120,

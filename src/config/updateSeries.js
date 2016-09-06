@@ -1,6 +1,7 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry, nowAsEpoch } from 'binary-utils';
 import seriesLine from '../parts/seriesLine';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
+import getSeriesByType from '../utils/getSeriesByType';
 
 export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contract, newData: ChartTick[]) => {
     const xAxis = chart.xAxis[0];
@@ -31,8 +32,8 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
 
     // by hiding series, we remove the need of chart creation
     const dataType = chartTypeToDataType(chartType);
-    const mainTickSeries = chart.get('main-tick');
-    const mainOhlcSeries = chart.get('main-ohlc');
+    const mainTickSeries = getSeriesByType(chart, 'line');
+    const mainOhlcSeries = getSeriesByType(chart, 'ohlc');
     switch (dataType) {
         case 'tick':
             if (mainOhlcSeries) mainOhlcSeries.hide();
