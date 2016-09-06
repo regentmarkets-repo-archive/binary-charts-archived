@@ -17,6 +17,7 @@ export const colorText = (theme: Theme, percentage: number): string =>
     colorBg(theme === 'light' ? 'dark' : 'light', percentage);
 
 const themeColors = (theme: Theme): Object => ({
+    spacing: [100, 10, 15, 10],
     colors: [colorBg(theme, 1), '#f45b5b', '#8085e9', '#8d4654'],
     series: {
         fillColor: 'red',
@@ -149,6 +150,7 @@ const commonTheme = {
         },
     },
     navigator: {
+        enabled: false,
 		outlineColor: 'none',
         series: {
             type: 'area',
@@ -203,56 +205,3 @@ export const darkTheme = merge(
     commonTheme,
     themeColors('dark'),
 );
-
-// const dark = {
-// 	plotOptions: {
-// 		series: {
-// 			dataLabels: {
-// 				color: '#B0B0B3',
-// 			},
-// 			marker: {
-// 				lineColor: '#333',
-// 			}
-// 		},
-// 		boxplot: {
-// 			fillColor: '#505053',
-// 		},
-// 		candlestick: {
-// 			lineColor: 'white',
-// 		},
-// 		errorbar: {
-// 			color: 'white',
-// 		}
-// 	},
-// 	labels: {
-// 		style: {
-// 			color: '#707073',
-// 		}
-// 	},
-//
-// 	drilldown: {
-// 		activeAxisLabelStyle: {
-// 			color: '#F0F0F3',
-// 		},
-// 		activeDataLabelStyle: {
-// 			color: '#F0F0F3',
-// 		},
-// 	},
-//
-//     navigation: {
-//         buttonOptions: {
-//             symbolStroke: '#DDDDDD',
-//             theme: {
-//                 fill: '#505053',
-//             },
-//         },
-//     },
-//
-//
-// 	// special colors for some of the
-// 	background2: '#505053',
-// 	dataLabelsColor: '#B0B0B3',
-// 	textColor: '#C0C0C0',
-// 	contrastTextColor: '#F0F0F3',
-// 	maskColor: 'rgba(255,255,255,0.3)',
-// };

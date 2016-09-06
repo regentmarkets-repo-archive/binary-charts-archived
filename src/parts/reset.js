@@ -9,9 +9,9 @@ export default (height: number, width: number, noData: boolean) => ({
     },
     chart: {
         spacingBottom: 0,
-        spacingTop: 0,
+        spacingTop: -30,
         spacingLeft: 0,
-        spacingRight: 3,
+        spacingRight: 0,
         height,
         width,
         events: {

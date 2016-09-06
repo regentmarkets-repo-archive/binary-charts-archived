@@ -25,7 +25,9 @@ export default ({ pipSize = 0,
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         ...reset(height, width, noData),
         plotOptions: plotOptions(),
-        rangeSelector: rangeSelector(defaultRange, showAllRangeSelector),
+        rangeSelector: {
+            enabled: false,
+        },
         xAxis: xAxis(onRangeChange),
         yAxis: {
             ...yAxis(pipSize),
@@ -36,5 +38,7 @@ export default ({ pipSize = 0,
                 color: '#333333',
             },
         },
-        exporting: exporting(onTypeChange),
+        exporting: {
+            enabled: false,
+        },
     });

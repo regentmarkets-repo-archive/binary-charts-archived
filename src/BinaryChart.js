@@ -7,6 +7,7 @@ import exporting from './highcharts/modules/exporting';
 import noDataToDisplay from './highcharts/modules/no-data-to-display';
 
 import Toolbar from './toolbar/Toolbar';
+import TimeFramePicker from './toolbar/TimeFramePicker';
 
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
@@ -154,6 +155,7 @@ export default class BinaryChart extends Component {
                         onTypeChange={this.onTypeChange}
                     />}
                 <div ref={x => { this.chartDiv = x; }} id={id} />
+                <TimeFramePicker />
             </div>
         );
     }

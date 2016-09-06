@@ -30,6 +30,8 @@ export default class Toolbar extends PureComponent {
                 <ChartTypePicker onChange={onTypeChange} />
                 {/* <IndicatorsPicker /> */}
                 {/* [crosshair switcher] */}
+                <button>+</button>
+                <button>-</button>
                 <SharePicker />
             </div>
         );
