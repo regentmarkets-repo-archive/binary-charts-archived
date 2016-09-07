@@ -5,6 +5,7 @@ import noDataToDisplay from 'highcharts/modules/no-data-to-display';
 
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
+import ZoomControls from './toolbar/ZoomControls';
 
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
@@ -131,7 +132,7 @@ export default class BinaryChart extends Component {
     }
 
     destroyChart() {
-        console.log(this, this.eventListeners);
+        // console.log(this, this.eventListeners);
         this.eventListeners.forEach(e => {
             this.chartDiv.removeEventListener(e.type, e.handler);
         });
@@ -169,6 +170,10 @@ export default class BinaryChart extends Component {
         }
     }
 
+    getXAxis = () => this.chart.xAxis[0];
+
+    getYAxis = () => this.chart.yAxis[0];
+
     render() {
         const { id, className, toolbar, type } = this.props;
 
@@ -178,15 +183,16 @@ export default class BinaryChart extends Component {
                     <Toolbar
                         chart={this.chart}
                         hasInterval={chartTypeToDataType(type) === 'ohlc'}
-                        getXAxis={() => this.chart.xAxis[0]}
-                        getYAxis={() => this.chart.yAxis[0]}
+                        getXAxis={this.getXAxis}
+                        getYAxis={this.getYAxis}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
                     />
                 }
                 <div ref={x => { this.chartDiv = x; }} id={id} />
+                <ZoomControls getXAxis={this.getXAxis} />
                 {toolbar &&
-                    <TimeFramePicker getXAxis={() => this.chart.xAxis[0]} />
+                    <TimeFramePicker getXAxis={this.getXAxis} />
                 }
             </div>
         );

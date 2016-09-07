@@ -1,5 +1,6 @@
 // $FlowFixMe
 import Highcharts from 'highcharts/highstock';
+import { colorBg } from './styles';
 
 function merge(a: Object, b: Object) {
     if (process.env.NODE_ENV !== 'production') {
@@ -7,14 +8,6 @@ function merge(a: Object, b: Object) {
     }
     return Highcharts.merge(a, b);
 }
-
-export const colorBg = (theme: Theme, percentage: number): string =>
-    theme === 'light' ?
-        `rgba(42, 48, 82, ${percentage})` :
-        `rgba(242, 244, 255, ${percentage})`;
-
-export const colorText = (theme: Theme, percentage: number): string =>
-    colorBg(theme === 'light' ? 'dark' : 'light', percentage);
 
 const themeColors = (theme: Theme): Object => ({
     spacing: [100, 10, 15, 10],

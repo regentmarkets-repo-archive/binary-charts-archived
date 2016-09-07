@@ -1,4 +1,14 @@
 import React, { PureComponent } from 'react';
+import styles from '../styles';
+
+const options = [
+    { text: '5min', seconds: 5 * 60 },
+    { text: '15min', seconds: 15 * 60 },
+    { text: '1hr', seconds: 60 * 60 },
+    { text: '4hr', seconds: 4 * 60 * 60 },
+    { text: '1day', seconds: 24 * 60 * 60 },
+    { text: '5day', seconds: 5 * 25 * 60 * 60 },
+];
 
 export default class TimeFramePicker extends PureComponent {
 
@@ -21,14 +31,17 @@ export default class TimeFramePicker extends PureComponent {
 
     render() {
         return (
-            <div className="binary-chart-time-frame-picker">
-                <button onClick={() => this.setRange(5 * 60)}>5min</button>
-                <button onClick={() => this.setRange(15 * 60)}>15min</button>
-                <button onClick={() => this.setRange(60 * 60)}>1hr</button>
-                <button onClick={() => this.setRange(4 * 60 * 60)}>4hr</button>
-                <button onClick={() => this.setRange(24 * 60 * 60)}>1day</button>
-                <button onClick={() => this.setRange(5 * 25 * 60 * 60)}>5days</button>
-                <button onClick={this.setRangeToMax}>Max</button>
+            <div style={styles.timeFramePicker} className="binary-chart-time-frame-picker">
+                {options.map(x =>
+                    <button
+                        key={x.text}
+                        style={styles.timeFrameButton}
+                        onClick={() => this.setRange(x.seconds)}
+                    >
+                        {x.text}
+                    </button>
+                )}
+                <button style={styles.timeFrameButton} onClick={this.setRangeToMax}>Max</button>
             </div>
         );
     }

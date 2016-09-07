@@ -3,7 +3,6 @@ import IntervalPicker from './IntervalPicker';
 import ChartTypePicker from './ChartTypePicker';
 // import IndicatorsPicker from './IndicatorsPicker';
 import SharePicker from './SharePicker';
-import ZoomControls from './ZoomControls';
 import CrosshairSwitcher from './CrosshairSwitcher';
 
 type Props = {
@@ -37,7 +36,6 @@ export default class Toolbar extends PureComponent {
                 <CrosshairSwitcher getXAxis={getXAxis} getYAxis={getYAxis} />
                 {/* <IndicatorsPicker /> */}
                 {/* [crosshair switcher] */}
-                <ZoomControls getXAxis={getXAxis} />
                 <SharePicker />
             </div>
         );

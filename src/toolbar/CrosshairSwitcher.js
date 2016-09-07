@@ -9,6 +9,7 @@ export default class ZoomControls extends PureComponent {
 
     crosshairOff = () => {
         const { getXAxis, getYAxis } = this.props;
+
         getYAxis().update({
             crosshair: false,
         });
@@ -19,6 +20,7 @@ export default class ZoomControls extends PureComponent {
 
     crosshairOn = () => {
         const { getXAxis, getYAxis } = this.props;
+
         getYAxis().update({
             crosshair: {
                 snap: false,

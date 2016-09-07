@@ -1,6 +1,6 @@
 // $FlowFixMe
 import { wrap, Chart } from 'highcharts/highstock';
-import { colorBg, colorText } from '../themes';
+import { colorBg, colorText } from '../styles';
 import getMainSeries from '../utils/getMainSeries';
 import lastPriceFromSeries from '../utils/lastPriceFromSeries';
 import barrierIds from '../utils/barriersId';

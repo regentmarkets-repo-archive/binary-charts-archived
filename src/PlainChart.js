@@ -1,4 +1,3 @@
-// $FlowFixMe
 import Highcharts from 'highcharts/highstock';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
