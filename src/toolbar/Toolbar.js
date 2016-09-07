@@ -11,6 +11,7 @@ type Props = {
     type: string,
     crosshair?: boolean,
     chart: HighstockChart,
+    hasInterval: boolean,
     getXAxis: () => any,
     getYAxis: () => any,
     onIntervalChange: (interval: string) => void,
@@ -23,15 +24,16 @@ export default class Toolbar extends PureComponent {
 
     static defaultProps = {
         type: 'line',
+        hasInterval: false,
     };
 
     render() {
-        const { getXAxis, getYAxis, onIntervalChange, onTypeChange } = this.props;
+        const { hasInterval, getXAxis, getYAxis, onIntervalChange, onTypeChange } = this.props;
 
         return (
             <div className="binary-chart-toolbar">
-                <IntervalPicker onChange={onIntervalChange} />
                 <ChartTypePicker onChange={onTypeChange} />
+                {hasInterval && <IntervalPicker onChange={onIntervalChange} />}
                 <CrosshairSwitcher getXAxis={getXAxis} getYAxis={getYAxis} />
                 {/* <IndicatorsPicker /> */}
                 {/* [crosshair switcher] */}
