@@ -7,6 +7,15 @@ export const colorText = (theme: Theme, percentage: number): string =>
     colorBg(theme === 'light' ? 'dark' : 'light', percentage);
 
 export default {
+    toolbar: {
+        display: 'flex',
+    },
+    pickerButton: {
+        cursor: 'pointer',
+    },
+    pickerItem: {
+        cursor: 'pointer',
+    },
     timeFramePicker: {
         display: 'flex',
     },

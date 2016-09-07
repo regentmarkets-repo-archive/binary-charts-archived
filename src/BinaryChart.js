@@ -170,6 +170,8 @@ export default class BinaryChart extends Component {
         }
     }
 
+    getChart = () => this.chart;
+
     getXAxis = () => this.chart.xAxis[0];
 
     getYAxis = () => this.chart.yAxis[0];
@@ -181,8 +183,8 @@ export default class BinaryChart extends Component {
             <div className={className}>
                 {toolbar &&
                     <Toolbar
-                        chart={this.chart}
                         hasInterval={chartTypeToDataType(type) === 'ohlc'}
+                        getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
                         onIntervalChange={this.onIntervalChange}

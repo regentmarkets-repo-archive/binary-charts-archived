@@ -1,22 +1,37 @@
 import React, { PureComponent } from 'react';
-
-type Props = {
-};
+import Picker from './Picker';
 
 export default class SharePicker extends PureComponent {
 
-    props: Props;
+    props: {
+        getChart: () => any,
+    };
 
     static defaultProps = {
     };
 
+    download = (type: string) => {
+        const chart = this.props.getChart();
+        chart.exportChart({
+            type,
+            filename: 'chart',
+        });
+    };
+
+    downloadPng = () =>
+        this.download('image/png');
+
+    downloadPdf = () =>
+        this.download('application/pdf');
+
     render() {
         return (
-            <select>
-                <option>Share</option>
-                <option>PDF</option>
-                <option>Download Image</option>
-            </select>
+            <Picker
+                items={[
+                    { text: 'Download Image', onPick: this.downloadPng },
+                    { text: 'Download PDF', onPick: this.downloadPdf },
+                ]}
+            />
         );
     }
 }

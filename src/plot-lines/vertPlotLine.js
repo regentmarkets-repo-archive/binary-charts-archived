@@ -1,4 +1,4 @@
-import { colorBg } from '../themes';
+import { colorBg } from '../styles';
 
 export default (id: string, epoch: number, text: string, position: 'left' | 'right', theme: Theme): PlotObject => ({
     id,

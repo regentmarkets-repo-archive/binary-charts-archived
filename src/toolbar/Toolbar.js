@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import styles from '../styles';
 import IntervalPicker from './IntervalPicker';
 import ChartTypePicker from './ChartTypePicker';
 // import IndicatorsPicker from './IndicatorsPicker';
@@ -11,6 +12,7 @@ type Props = {
     crosshair?: boolean,
     chart: HighstockChart,
     hasInterval: boolean,
+    getChart: () => any,
     getXAxis: () => any,
     getYAxis: () => any,
     onIntervalChange: (interval: string) => void,
@@ -27,16 +29,15 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { hasInterval, getXAxis, getYAxis, onIntervalChange, onTypeChange } = this.props;
+        const { hasInterval, getXAxis, getYAxis, getChart, onIntervalChange, onTypeChange } = this.props;
 
         return (
-            <div className="binary-chart-toolbar">
+            <div style={styles.toolbar} className="binary-chart-toolbar">
                 <ChartTypePicker onChange={onTypeChange} />
                 {hasInterval && <IntervalPicker onChange={onIntervalChange} />}
                 <CrosshairSwitcher getXAxis={getXAxis} getYAxis={getYAxis} />
                 {/* <IndicatorsPicker /> */}
-                {/* [crosshair switcher] */}
-                <SharePicker />
+                <SharePicker getChart={getChart} />
             </div>
         );
     }
