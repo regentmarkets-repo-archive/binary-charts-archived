@@ -15,7 +15,8 @@ export default class TimeFramePicker extends PureComponent {
 
     setRangeToMax = () => {
         const xAxis = this.props.getXAxis();
-        xAxis.setExtremes(xAxis.dataMin, xAxis.dataMax, true, false);
+        const { dataMin, dataMax } = xAxis.getExtremes();
+        xAxis.setExtremes(dataMin, dataMax, true, false);
     }
 
     render() {

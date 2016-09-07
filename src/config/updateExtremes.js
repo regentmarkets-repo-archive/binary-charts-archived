@@ -144,7 +144,7 @@ export const updateExtremesXAxis = (chart: Chart, contract: Contract | Object = 
 
 const updateExtremes = (chart: Chart, contract: Contract) => {
     updateExtremesXAxis(chart, contract);
-    updateExtremesYAxis(chart, contract);
+    // updateExtremesYAxis(chart, contract);
 };
 
 export default updateExtremes;

@@ -21,9 +21,7 @@ export default ({ pipSize = 0,
         rangeSelector: {
             enabled: false,
         },
-        xAxis: xAxis(onRangeChange),
-        yAxis: {
-            ...yAxis(pipSize),
-        },
+        xAxis: xAxis(),
+        yAxis: yAxis(pipSize),
         series: seriesLine([], pipSize, type),
     });

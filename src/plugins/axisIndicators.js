@@ -2,19 +2,8 @@
 import { wrap, Chart } from '../highcharts/highstock';
 import { colorBg, colorText } from '../themes';
 import getMainSeries from '../utils/getMainSeries';
-
-const lastPriceFromCandles = series =>
-    series.yData.length && series.yData[series.yData.length - 1][3];
-
-const lastPriceFromTicks = series => {
-    const nonNullSeries = series.yData.length && series.yData.filter(d => !!d || d === 0);
-    return nonNullSeries && nonNullSeries[nonNullSeries.length - 1];
-};
-
-const lastPriceFromSeries = series =>
-    (series.type === 'candlestick') ?
-        lastPriceFromCandles(series) :
-        lastPriceFromTicks(series);
+import lastPriceFromSeries from '../utils/lastPriceFromSeries';
+import barrierIds from '../utils/barriersId';
 
 const polyPath = (x: number, y: number) => [
     'M', x - 10, y,
@@ -113,31 +102,18 @@ const renderAxisIndicator = chart => {
     if (exitSpot) {
         renderIndicator({ chart, indicator: 'spot', value: +exitSpot,
             x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
-        return;
+    } else {
+        renderIndicator({ chart, indicator: 'spot', value: currentSpot,
+            x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
     }
 
-    ['barrier', 'barrier2', 'low_barrier', 'high_barrier']
-        .forEach(b => {
-            if (contract && contract[b] && contract[b] !== currentSpot &&
-                !contract.contract_type.includes('DIGIT')) {            // ignore digit trade
-                renderIndicator({
-                    chart,
-                    indicator: b,
-                    value: contract[b],
-                    x,
-                    pipSize,
-                    yAxis,
-                    background: colorBg(theme, 1),
-                    text: colorText(theme, 1),
-                    zIndex: 10,
-                });
-            } else if (yAxis[b] && yAxis[b].group) {
-                yAxis[b].group.hide();
-            }
-        });
-
-    renderIndicator({ chart, indicator: 'spot', value: currentSpot,
-        x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
+    barrierIds.forEach(b => {
+        const barrierSeries = chart.get(b);
+        if (barrierSeries) {
+            renderIndicator({ chart, indicator: b, value: barrierSeries.data[0].y,
+                x, pipSize, yAxis, background: colorBg(theme, 1), text: colorText(theme, 1), zIndex: 10 });
+        }
+    });
 };
 
 export default () => {
