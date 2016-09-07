@@ -2,7 +2,7 @@ import { plotBandForContract } from './plotBandsForContract';
 import dateEntryPlotLines from '../plot-lines/dateEntryPlotLines';
 import timePlotLines from '../plot-lines/timePlotLines';
 import updateZones from './updateZones';
-import updateExtremes from './updateExtremes';
+import updateBarriers from './updateBarriers';
 
 const replacePlotObj = (axis, allPlotObjs: PlotObject[], newPlotObjs: PlotObject[], addFuncName, removeFuncName) => {
     allPlotObjs.forEach(plotObj => {
@@ -44,10 +44,10 @@ export const updatePlotBands = (chart: Chart, contract: Contract) => {
 export default (chart: Chart, contract: Contract, theme: Theme) => {
     updatePlotBands(chart, contract);
 
+    updateBarriers(chart, contract);
+
     const newPlotLines = dateEntryPlotLines(contract, theme);
     replacePlotLines(chart.xAxis[0], newPlotLines);
 
     updateZones(chart, newPlotLines);
-
-    updateExtremes(chart, contract);
 };
