@@ -14,6 +14,8 @@ import updateChart from './config/updateChart';
 
 import axisIndicators from './plugins/axisIndicators';
 import addLoadingFlag from './plugins/addLoadingFlag';
+
+import chartTypeToDataType from './utils/chartTypeToDataType';
 // import winLossIndicators from './plugins/winLossIndicators';
 // import tradeMarker from './plugins/tradeMarker';
 
@@ -35,6 +37,7 @@ export type ChartEvent = {
 type ChartType = 'area' | 'line' | 'candlestick' | 'ohlc';
 
 type Props = {
+    api: LiveApi,
     className?: string,
     contract: Contract,
     showAllRangeSelector: boolean,
@@ -42,6 +45,9 @@ type Props = {
     height: number,
     id: string,
     noData: boolean,
+    onTypeChange: (chartType: string) => void,
+    onRangeChange: () => void,
+    onIntervalChange: (interval: ChartInterval) => void,
     pipSize: number,
     symbol: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
@@ -52,8 +58,6 @@ type Props = {
     toolbar: boolean,
     type: ChartType,
     width: number,
-    onTypeChange: (chartType: string) => void,
-    onRangeChange: () => void,
 };
 
 type State = {
@@ -99,7 +103,7 @@ export default class BinaryChart extends Component {
 
         updateChart(this.chart, this.props, nextProps);
 
-        return false;
+        return true;
     }
 
     componentWillUnmount() {
@@ -142,7 +146,18 @@ export default class BinaryChart extends Component {
         this.setState({ range: { from, to } });
     };
 
-    onIntervalChange = () => {}; // TODO
+    onIntervalChange = (interval: number) => {
+        const { onIntervalChange } = this.props;
+        const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
+        if (onIntervalChange) onIntervalChange(interval, dataMax - dataMin);
+
+        this.chart.get('main-ohlc').update({
+            pointRange: interval * 1000,
+            dataGrouping: {
+                enabled: false,
+            },
+        }, true);
+    };
 
     onTypeChange = (newType: string) => {
         const { onTypeChange } = this.props;
@@ -159,13 +174,14 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className, toolbar } = this.props;
+        const { id, className, toolbar, type } = this.props;
 
         return (
             <div className={className}>
                 {toolbar &&
                     <Toolbar
                         chart={this.chart}
+                        hasInterval={chartTypeToDataType(type) === 'ohlc'}
                         getXAxis={() => this.chart.xAxis[0]}
                         getYAxis={() => this.chart.yAxis[0]}
                         onIntervalChange={this.onIntervalChange}

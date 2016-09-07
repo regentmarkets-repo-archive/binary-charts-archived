@@ -65,3 +65,5 @@ declare interface PlotBandParam {
     high_barrier: number,
     entry_tick: number
 }
+
+declare type ChartInterval = 'ticks' | '1m' | '5m' | '15m' | '1h' | '4h' | '1d';

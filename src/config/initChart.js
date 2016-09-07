@@ -10,8 +10,6 @@ import { lightTheme, darkTheme } from '../themes';
 export default ({ pipSize = 0,
                 type = 'area',
                 onRangeChange = () => ({}),
-                onTypeChange,
-                showAllRangeSelector = true,
                 noData = false,
                 height,
                 width,
