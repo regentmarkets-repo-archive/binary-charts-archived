@@ -15,7 +15,7 @@ npm install binary-charts --save
 Or by including the file via CDN and a script tag:
 
 ```
-<script src="https://npmcdn.com/binary-charts@3.16.0/lib/binary-charts.js"></script>
+<script src="https://unpkg.com/binary-charts@3.16.0/lib/binary-charts.js"></script>
 ```
 
 ## See Demos
