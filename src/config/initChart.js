@@ -1,5 +1,5 @@
 // $FlowFixMe
-import { merge } from '../highcharts/highstock';
+import { merge } from 'highcharts/highstock';
 import reset from '../parts/reset';
 import yAxis from '../parts/yAxis';
 import xAxis from '../parts/xAxis';

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-// $FlowFixMe
-import Highcharts from './highcharts/highstock';
-// $FlowFixMe
-import exporting from './highcharts/modules/exporting';
-// $FlowFixMe
-import noDataToDisplay from './highcharts/modules/no-data-to-display';
+import Highcharts from 'highcharts/highstock';
+import exporting from 'highcharts/modules/exporting';
+import noDataToDisplay from 'highcharts/modules/no-data-to-display';
 
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
@@ -82,7 +79,7 @@ export default class BinaryChart extends Component {
         toolbar: true,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             range: {},
@@ -124,18 +121,17 @@ export default class BinaryChart extends Component {
             });
         }
 
-        const self = this.chart;
-        this.eventListeners = props.events.map(e => {
-            function handler(ev) {
-                e.handler(ev, self);
-            }
-            return { type: e.type, handler };
-        });
+        this.eventListeners = props.events.map(e => ({
+            type: e.type,
+            handler: (ev) =>
+                e.handler(ev, this.chart),
+        }));
 
         this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
     }
 
     destroyChart() {
+        console.log(this, this.eventListeners);
         this.eventListeners.forEach(e => {
             this.chartDiv.removeEventListener(e.type, e.handler);
         });

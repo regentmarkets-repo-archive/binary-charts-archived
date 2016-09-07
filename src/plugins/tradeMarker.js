@@ -1,5 +1,5 @@
 // $FlowFixMe
-import { wrap, Chart } from '../highcharts/highstock';
+import { wrap, Chart } from 'highcharts/highstock';
 import getMainSeries from '../utils/getMainSeries';
 
 export default () => {
