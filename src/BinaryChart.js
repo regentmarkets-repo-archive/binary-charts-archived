@@ -76,6 +76,8 @@ export default class BinaryChart extends Component {
     static defaultProps = {
         events: [],
         getData: () => ({}),
+        onTypeChange: () => ({}),
+        onIntervalChange: () => ({}),
         theme: 'light',
         ticks: [],
         pipSize: 0,
@@ -153,7 +155,7 @@ export default class BinaryChart extends Component {
     onIntervalChange = (interval: number) => {
         const { onIntervalChange } = this.props;
         const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
-        if (onIntervalChange) onIntervalChange(interval, dataMax - dataMin);
+        onIntervalChange(interval, dataMax - dataMin);
         this.interval = interval;
         this.chart.xAxis[0].update({
             minRange: 10 * interval * 1000,

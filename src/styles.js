@@ -12,6 +12,7 @@ export default {
     },
     pickerButton: {
         cursor: 'pointer',
+        width: '1.5em',
     },
     pickerItem: {
         cursor: 'pointer',
