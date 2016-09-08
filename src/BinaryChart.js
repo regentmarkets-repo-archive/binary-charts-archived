@@ -43,7 +43,7 @@ type Props = {
     events: ChartEvent[],
     height: number,
     id: string,
-    getData?: (duration: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => void,
+    getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => any,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -75,6 +75,7 @@ export default class BinaryChart extends Component {
 
     static defaultProps = {
         events: [],
+        getData: () => ({}),
         theme: 'light',
         ticks: [],
         pipSize: 0,
@@ -182,14 +183,14 @@ export default class BinaryChart extends Component {
 
     getYAxis = () => this.chart.yAxis[0];
 
-    getDataForTimeFrame = duration => {
+    getDataForTimeFrame = (start, end) => {
         const type = chartTypeToDataType(this.props.type);
         const interval = this.interval;
 
         if (type === 'candles') {
-            this.props.getData(duration, type, interval);
+            return this.props.getData(start, end, type, interval);
         } else {
-            this.props.getData(duration, type);
+            return this.props.getData(start, end, type);
         }
     }
 

@@ -13,7 +13,7 @@ const options = [
 export default class TimeFramePicker extends PureComponent {
 
     props: {
-        getData?: (duration: Epoch) => void,
+        getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
     };
@@ -28,7 +28,10 @@ export default class TimeFramePicker extends PureComponent {
         const dataDiff = from - firstDataX;
 
         if (dataDiff < 0) {
-
+            const result = this.props.getData(from, firstDataX);
+            if (result.then) {
+                result.then(() => xAxis.setExtremes(from, to, true, false));
+            }
         }
 
         xAxis.setExtremes(from, to, true, false);
