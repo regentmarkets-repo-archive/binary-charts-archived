@@ -9,6 +9,7 @@ const extractBarrierLine = (chart, contract) => {
     const currentSpot = lastPriceFromSeries(mainSeries);
 
     const { dataMax } = chart.xAxis[0].getExtremes();
+    const minData = mainSeries.xData[0];
 
     return barrierIds.map(b => {
         const hasBarrier = contract && contract[b] &&
@@ -20,7 +21,7 @@ const extractBarrierLine = (chart, contract) => {
         }
 
         const yVal = +contract[b];
-        const data = [[dataMax, yVal]];
+        const data = [[minData, yVal], [dataMax, yVal]];
 
         return seriesLine(data, pipSize, 'line', b);
     });
