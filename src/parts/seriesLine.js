@@ -1,6 +1,6 @@
 import seriesId from '../utils/seriesIdByType';
 
-export default (data: (ChartTick | ChartCandle)[], pipSize: number, type: ChartType, id?: string) => [{
+export default (data: (ChartTick | ChartCandle)[], pipSize: number, type: ChartType, id: string) => [{
     name: 'Spot',
     type,
     data,

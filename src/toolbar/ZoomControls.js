@@ -7,12 +7,14 @@ export default class ZoomControls extends PureComponent {
         getXAxis: () => any,
     };
 
+    // decrease visible data by half
     zoomIn = () => {
         const xAxis = this.props.getXAxis();
         const halfDiff = (xAxis.max - xAxis.min) / 2;
         xAxis.setExtremes(xAxis.min + halfDiff, xAxis.max, true);
     }
 
+    // increase visible data to it's double
     zoomOut = () => {
         const xAxis = this.props.getXAxis();
         const diff = xAxis.max - xAxis.min;
