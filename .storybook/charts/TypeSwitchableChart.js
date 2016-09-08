@@ -17,7 +17,7 @@ export default class TypeSwitchChart extends React.Component {
 
     componentDidMount() {
         api.authorize(token).then(() =>
-            api.getDataForContract(() => getContract(contractId), 1, 'all')
+            api.getDataForContract(() => getContract(contractId), undefined)
         ).then(r => {
             this.setState({ type: 'area', ticks: r.ticks });
         });
@@ -26,7 +26,7 @@ export default class TypeSwitchChart extends React.Component {
     changeType(type: string): Promise<*> {
         const style = (type === 'candlestick' || type === 'ohlc') ? 'candles' : 'ticks';
         return api.authorize(token).then(() =>
-            api.getDataForContract(() => getContract(contractId), 1, 'all', style)
+            api.getDataForContract(() => getContract(contractId), undefined, style)
         ).then(r => {
             const update = { type, ticks: r[style] };
             this.setState(update);
