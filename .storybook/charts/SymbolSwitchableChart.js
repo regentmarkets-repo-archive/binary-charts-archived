@@ -21,7 +21,7 @@ export default class SymbolSwitchableChart extends React.Component {
     componentDidMount() {
         const { symbol } = this.state;
         api.authorize(token).then(() =>
-            api.getDataForSymbol(symbol, 1, 'all')
+            api.getDataForSymbol(symbol, 10 * 60)
         ).then(r => {
             this.setState({ ticks: r.ticks });
         });
@@ -29,18 +29,18 @@ export default class SymbolSwitchableChart extends React.Component {
 
     render() {
         const { ticks, symbol } = this.state;
-        const getDataFor50 = (count, type) =>
-            api.getDataForSymbol('R_50', count, type).then(r => this.setState({ ticks: r.ticks }));
-        const getDataFor100 = (count, type) =>
-            api.getDataForSymbol('R_100', count, type).then(r => this.setState({ ticks: r.ticks }));
-
+        const getData = (symbol) => (start, end) => {
+            const duration = Math.round((end - start) / 1000);
+            console.log('d', duration);
+            return api.getDataForSymbol(symbol, duration).then(r => this.setState({ ticks: r.ticks.concat(ticks) }));
+        };
         // console.log('s', symbol);
         return (
             <div>
                 <BinaryChart
                     ticks={ticks}
                     symbol={symbol}
-                    onRangeChange={symbol === 'R_50' ? getDataFor50 : getDataFor100}
+                    getData={getData(symbol)}
                 />
                 <input type="radio" name="symbol" onChange={() => this.setState({ symbol: 'R_50' })} /> R_50
                 <input type="radio" name="symbol" onChange={() => this.setState({ symbol: 'R_100' })} /> R_100

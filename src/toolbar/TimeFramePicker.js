@@ -28,7 +28,7 @@ export default class TimeFramePicker extends PureComponent {
         const dataDiff = from - firstDataX;
 
         if (dataDiff < 0) {
-            const result = this.props.getData(from, firstDataX);
+            const result = this.props.getData(Math.round(from), Math.round(firstDataX));
             if (result.then) {
                 result.then(() => xAxis.setExtremes(from, to, true, false));
             }
