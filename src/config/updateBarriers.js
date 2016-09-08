@@ -32,7 +32,7 @@ export default (chart, contract) => {
     barrierIds.forEach(i => {
         const line = chart.get(i);
         if (line) {
-            line.remove();
+            line.remove(false);
         }
     });
     newLines.forEach(l => {

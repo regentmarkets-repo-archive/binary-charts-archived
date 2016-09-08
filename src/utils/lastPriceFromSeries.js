@@ -11,6 +11,6 @@ const lastPriceFromTicks = series => {
 };
 
 export default series =>
-    (series.type === 'candlestick') ?
+    (series.type === 'candlestick' || series.type === 'ohlc') ?
         lastPriceFromCandles(series) :
         lastPriceFromTicks(series);
