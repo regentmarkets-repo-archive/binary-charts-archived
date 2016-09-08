@@ -132,11 +132,15 @@ export default class BinaryChart extends Component {
     }
 
     destroyChart() {
-        // console.log(this, this.eventListeners);
-        this.eventListeners.forEach(e => {
-            this.chartDiv.removeEventListener(e.type, e.handler);
-        });
-        this.chart.destroy();
+        if (this.eventListeners) {
+            this.eventListeners.forEach(e => {
+                this.chartDiv.removeEventListener(e.type, e.handler);
+            });
+        }
+
+        if (this.chart) {
+            this.chart.destroy();
+        }
     }
 
     onRangeChange = (from: Date, to: Date) => {
