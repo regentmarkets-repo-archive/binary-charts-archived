@@ -157,7 +157,7 @@ export default class BinaryChart extends Component {
         this.interval = interval;
         this.chart.xAxis[0].update({
             minRange: 10 * interval * 1000,
-        })
+        });
     };
 
     onTypeChange = (newType: string) => {
@@ -189,9 +189,8 @@ export default class BinaryChart extends Component {
 
         if (type === 'candles') {
             return this.props.getData(start, end, type, interval);
-        } else {
-            return this.props.getData(start, end, type);
         }
+        return this.props.getData(start, end, type);
     }
 
     render() {
