@@ -99,18 +99,19 @@ const renderAxisIndicator = chart => {
     if (mainSeries.yData.length === 0) return;
 
     const exitSpot = contract && (contract.exit_tick || contract.sell_spot);
+
     if (exitSpot) {
         renderIndicator({ chart, indicator: 'spot', value: +exitSpot,
             x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
     } else {
-        renderIndicator({ chart, indicator: 'spot', value: currentSpot,
+        renderIndicator({ chart, indicator: 'spot', value: +currentSpot,
             x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
     }
 
     barrierIds.forEach(b => {
         const barrierSeries = chart.get(b);
         if (barrierSeries) {
-            renderIndicator({ chart, indicator: b, value: barrierSeries.dataMin,
+            renderIndicator({ chart, indicator: b, value: +barrierSeries.dataMin,
                 x, pipSize, yAxis, background: colorBg(theme, 1), text: colorText(theme, 1), zIndex: 10 });
         }
     });
