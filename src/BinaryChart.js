@@ -99,6 +99,15 @@ export default class BinaryChart extends Component {
             this.createChart(nextProps);
         }
 
+        if (
+            this.props.type !== nextProps.type &&
+            nextProps.type === 'candlestick' || nextProps.type === 'ohlc'
+        ) {
+            this.chart.xAxis[0].update({
+                minRange: 10 * 60 * 1000,
+            });
+        }
+
         updateChart(this.chart, this.props, nextProps);
 
         return true;
@@ -116,11 +125,6 @@ export default class BinaryChart extends Component {
                 chart.showLoading();
             }
         });
-        if (props.type === 'candlestick' || props.type === 'ohlc') {
-            this.chart.xAxis[0].update({
-                minRange: 10 * 60 * 1000,
-            });
-        }
 
         this.eventListeners = props.events.map(e => ({
             type: e.type,
@@ -152,12 +156,9 @@ export default class BinaryChart extends Component {
         const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
         if (onIntervalChange) onIntervalChange(interval, dataMax - dataMin);
 
-        this.chart.get('main-ohlc').update({
-            pointRange: interval * 1000,
-            dataGrouping: {
-                enabled: false,
-            },
-        }, true);
+        this.chart.xAxis[0].update({
+            minRange: 10 * interval * 1000,
+        })
     };
 
     onTypeChange = (newType: string) => {
