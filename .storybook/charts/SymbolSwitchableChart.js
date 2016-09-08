@@ -31,8 +31,17 @@ export default class SymbolSwitchableChart extends React.Component {
         const { ticks, symbol } = this.state;
         const getData = (symbol) => (start, end) => {
             const duration = Math.round((end - start) / 1000);
-            console.log('d', duration);
-            return api.getDataForSymbol(symbol, duration).then(r => this.setState({ ticks: r.ticks.concat(ticks) }));
+            return api.getTickHistory(symbol, {
+                start,
+                end,
+            }).then(r => {
+                const { times, prices } = r.history;
+                const result = times.map((t, idx) => ({
+                    epoch: +t,
+                    quote: +prices[idx],
+                }));
+                this.setState({ ticks: result.concat(ticks) })
+            });
         };
         // console.log('s', symbol);
         return (
