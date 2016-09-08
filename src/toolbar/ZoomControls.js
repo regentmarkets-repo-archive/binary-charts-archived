@@ -4,7 +4,9 @@ import styles from '../styles';
 export default class ZoomControls extends PureComponent {
 
     props: {
+        getData?: (duration: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => void,
         getXAxis: () => any,
+        getSeries: () => any,
     };
 
     // decrease visible data by half

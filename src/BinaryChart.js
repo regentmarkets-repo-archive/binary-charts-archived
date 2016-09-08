@@ -14,6 +14,7 @@ import axisIndicators from './plugins/axisIndicators';
 import addLoadingFlag from './plugins/addLoadingFlag';
 
 import chartTypeToDataType from './utils/chartTypeToDataType';
+import getMainSeries from './utils/getMainSeries';
 // import winLossIndicators from './plugins/winLossIndicators';
 // import tradeMarker from './plugins/tradeMarker';
 
@@ -42,6 +43,7 @@ type Props = {
     events: ChartEvent[],
     height: number,
     id: string,
+    getData?: (duration: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => void,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -147,15 +149,11 @@ export default class BinaryChart extends Component {
         }
     }
 
-    onRangeChange = (from: Date, to: Date) => {
-        this.setState({ range: { from, to } });
-    };
-
     onIntervalChange = (interval: number) => {
         const { onIntervalChange } = this.props;
         const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
         if (onIntervalChange) onIntervalChange(interval, dataMax - dataMin);
-
+        this.interval = interval;
         this.chart.xAxis[0].update({
             minRange: 10 * interval * 1000,
         })
@@ -164,31 +162,45 @@ export default class BinaryChart extends Component {
     onTypeChange = (newType: string) => {
         const { onTypeChange } = this.props;
 
-        if (this.chart.isLoading) {
+        if (this.chart.isLoading) {                 // Should not let user change type when loading
             return;
         }
 
         const result = onTypeChange(newType);
         if (result && result.then) {    // show loading msg if typechange function return promise
             this.chart.showLoading();
+            this.interval = 60;         // default back to 60 secs / 1 min
             result.then(() => this.chart.hideLoading());
         }
     }
 
     getChart = () => this.chart;
 
+    getSeries = () => getMainSeries(this.chart);
+
     getXAxis = () => this.chart.xAxis[0];
 
     getYAxis = () => this.chart.yAxis[0];
 
+    getDataForTimeFrame = duration => {
+        const type = chartTypeToDataType(this.props.type);
+        const interval = this.interval;
+
+        if (type === 'candles') {
+            this.props.getData(duration, type, interval);
+        } else {
+            this.props.getData(duration, type);
+        }
+    }
+
     render() {
-        const { id, className, toolbar, type } = this.props;
+        const { id, className, getData, toolbar, type } = this.props;
 
         return (
             <div className={className}>
                 {toolbar &&
                     <Toolbar
-                        hasInterval={chartTypeToDataType(type) === 'ohlc'}
+                        hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
@@ -197,9 +209,17 @@ export default class BinaryChart extends Component {
                     />
                 }
                 <div ref={x => { this.chartDiv = x; }} id={id} />
-                <ZoomControls getXAxis={this.getXAxis} />
+                <ZoomControls
+                    getXAxis={this.getXAxis}
+                    getData={getData}
+                    getSeries={this.getSeries}
+                />
                 {toolbar &&
-                    <TimeFramePicker getXAxis={this.getXAxis} />
+                    <TimeFramePicker
+                        getXAxis={this.getXAxis}
+                        getData={this.getDataForTimeFrame}
+                        getSeries={this.getSeries}
+                    />
                 }
             </div>
         );

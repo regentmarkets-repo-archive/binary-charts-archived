@@ -2,10 +2,10 @@ export default (type: ChartType) => {
     switch (type) {
         case 'area':
         case 'line':
-            return 'tick';
+            return 'ticks';
         case 'ohlc':
         case 'candlestick':
-            return 'ohlc';
+            return 'candles';
         default:
             throw new Error(`Unknown chart type: ${type}`);
     }
