@@ -40,14 +40,14 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
     const mainOhlcSeries = getSeriesByType(chart, 'ohlc');
 
     switch (dataType) {
-        case 'tick':
+        case 'ticks':
             if (mainOhlcSeries) mainOhlcSeries.hide();
             if (mainTickSeries) {
                 mainTickSeries.show();
                 mainTickSeries.update({ type: chartType });
             }
             break;
-        case 'ohlc':
+        case 'candles':
             if (mainTickSeries) mainTickSeries.hide();
             if (mainOhlcSeries) {
                 mainOhlcSeries.show();

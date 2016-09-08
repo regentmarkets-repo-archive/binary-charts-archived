@@ -13,13 +13,27 @@ const options = [
 export default class TimeFramePicker extends PureComponent {
 
     props: {
+        getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
+        getSeries: () => any,
     };
 
     setRange = (fromDistance: seconds) => {
+        const series = this.props.getSeries();
         const xAxis = this.props.getXAxis();
         const to = xAxis.max;
         const from = xAxis.max - fromDistance * 1000;
+
+        const firstDataX = series.options.data[0][0];
+        const dataDiff = from - firstDataX;
+
+        if (dataDiff < 0) {
+            const result = this.props.getData(Math.round(from), Math.round(firstDataX));
+            if (result.then) {
+                result.then(() => xAxis.setExtremes(from, to, true, false));
+            }
+        }
+
         xAxis.setExtremes(from, to, true, false);
     };
 

@@ -110,7 +110,7 @@ const renderAxisIndicator = chart => {
     barrierIds.forEach(b => {
         const barrierSeries = chart.get(b);
         if (barrierSeries) {
-            renderIndicator({ chart, indicator: b, value: barrierSeries.data[0].y,
+            renderIndicator({ chart, indicator: b, value: barrierSeries.dataMin,
                 x, pipSize, yAxis, background: colorBg(theme, 1), text: colorText(theme, 1), zIndex: 10 });
         }
     });

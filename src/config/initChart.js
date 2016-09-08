@@ -8,7 +8,6 @@ import { lightTheme, darkTheme } from '../themes';
 // $FlowFixMe
 export default ({ pipSize = 0,
                 type = 'area',
-                onRangeChange = () => ({}),
                 noData = false,
                 height,
                 width,
