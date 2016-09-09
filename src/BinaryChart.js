@@ -152,10 +152,17 @@ export default class BinaryChart extends Component {
         }
     }
 
-    onIntervalChange = (interval: number) => {
-        const { onIntervalChange } = this.props;
+    getCurrentStartEnd = () => {
         const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
-        onIntervalChange(interval, dataMax - dataMin);
+        const start = Math.round(dataMin / 1000);
+        const end = Math.round(dataMax / 1000);
+        return { start, end };
+    }
+
+    onIntervalChange = (interval: Epoch) => {
+        const { getData } = this.props;
+        const { start, end } = this.getCurrentStartEnd();
+        getData(start, end, 'candles', interval);
         this.interval = interval;
         this.chart.xAxis[0].update({
             minRange: 10 * interval * 1000,
@@ -163,19 +170,20 @@ export default class BinaryChart extends Component {
     };
 
     onTypeChange = (newType: string) => {
-        const { onTypeChange } = this.props;
+        const { getData, onTypeChange } = this.props;
+        const { start, end } = this.getCurrentStartEnd();
 
-        if (this.chart.isLoading) {                 // Should not let user change type when loading
+        if (this.chart.isLoading) {                 // TODO: should disable change type control
             return;
         }
 
-        const result = onTypeChange(newType);
+        const result = getData(start, end, chartTypeToDataType(newType), this.interval);
+        onTypeChange(newType);
         if (result && result.then) {    // show loading msg if typechange function return promise
             this.chart.showLoading();
-            this.interval = 60;         // default back to 60 secs / 1 min
             result.then(() => this.chart.hideLoading());
         }
-    }
+    };
 
     getChart = () => this.chart;
 
