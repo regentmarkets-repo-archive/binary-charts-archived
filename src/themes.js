@@ -9,12 +9,23 @@ function merge(a: Object, b: Object) {
     return Highcharts.merge(a, b);
 }
 
+const downColor = '#c03';
+const upColor = '#2E8836';
+
 const themeColors = (theme: Theme): Object => ({
     spacing: [100, 10, 15, 10],
-    colors: [colorBg(theme, 1), '#f45b5b', '#8085e9', '#8d4654'],
-    series: {
-        fillColor: 'red',
+    plotOptions: {
+        line: {
+            color: colorBg(theme, 1),
+        },
+        area: {
+            color: colorBg(theme, 1),
+        },
     },
+    // colors: [colorBg(theme, 1), '#f45b5b', '#8085e9', '#8d4654'],
+    // series: {
+    //     fillColor: 'red',
+    // },
     xAxis: {
 		gridLineColor: colorBg(theme, 0.25),
         labels: {
@@ -43,52 +54,6 @@ const themeColors = (theme: Theme): Object => ({
 			},
 		},
 	},
-    navigator: {
-		handles: {
-			backgroundColor: colorBg(theme, 0.25),
-			borderColor: colorBg(theme, 0.5),
-		},
-		maskFill: colorBg(theme, 0.1),
-		series: {
-			color: colorBg(theme, 0.25),
-			lineColor: colorBg(theme, 0.25),
-		},
-		xAxis: {
-			gridLineColor: colorBg(theme, 0.1),
-            labels: {
-                style: {
-                    color: colorBg(theme, 0.75),
-                },
-            },
-		},
-	},
-    rangeSelector: {
-		buttonTheme: {
-			style: {
-				color: colorBg(theme, 0.75),
-			},
-			states: {
-				select: {
-                    fill: colorBg(theme, 0.1),
-					style: {
-                        color: colorBg(theme, 0.75),
-					},
-				},
-			},
-		},
-	},
-    navigation: {
-        buttonOptions: {
-            theme: {
-                states: {
-                    hover: {
-                        fill: colorBg(theme, 0.1),
-                        stroke: colorBg(theme, 0.1),
-                    },
-                },
-            },
-        },
-    },
     tooltip: {
         borderColor: colorBg(theme, 0.25),
         style: {
@@ -111,6 +76,9 @@ const commonTheme = {
 	},
     plotOptions: {
         series: {
+            // color: colorBg(theme, 1),
+            // color: downColor,
+            // upColor,
             states: {
                 hover: {
                     lineWidth: 1.5,
@@ -120,12 +88,17 @@ const commonTheme = {
         area: {
             lineWidth: 1.5,
         },
-        candlestick: {
-            color: '#c03',
-            lineColor: '#c03',
+        ohlc: {
+            color: downColor,
+            upColor,
             lineWidth: 2,
-            upColor: '#2E8836',
-            upLineColor: '#2E8836',
+        },
+        candlestick: {
+            color: 'rgba(204, 0, 51, 0.75)',
+            lineColor: downColor,
+            lineWidth: 2,
+            upColor: 'rgba(46, 136, 54, 0.75)',
+            upLineColor: upColor,
         },
     },
     xAxis: {
@@ -143,31 +116,6 @@ const commonTheme = {
     },
     navigator: {
         enabled: false,
-		outlineColor: 'none',
-        series: {
-            type: 'area',
-        },
-        height: 20,
-        margin: 5,
-        xAxis: {
-            labels: {
-                step: 1,
-            },
-        },
-	},
-    rangeSelector: {
-		buttonTheme: {
-			fill: 'none',
-            width: null,
-            padding: 2,
-            r: 2,
-            borderRadius: 5,
-			states: {
-                hover: {
-                    fill: 'none',
-                },
-			},
-		},
 	},
     tooltip: {
         shadow: false,

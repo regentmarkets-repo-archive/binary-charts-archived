@@ -113,6 +113,8 @@ const renderAxisIndicator = chart => {
         if (barrierSeries) {
             renderIndicator({ chart, indicator: b, value: +barrierSeries.dataMin,
                 x, pipSize, yAxis, background: colorBg(theme, 1), text: colorText(theme, 1), zIndex: 10 });
+        } else if (yAxis[b]) {
+            yAxis[b].group.hide();
         }
     });
 };

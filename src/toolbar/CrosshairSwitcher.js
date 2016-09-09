@@ -44,8 +44,10 @@ export default class ZoomControls extends PureComponent {
     render() {
         return (
             <span>
-                <button onClick={this.crosshairOff}>X Off</button>
-                <button onClick={this.crosshairOn}>X On</button>
+                <button onClick={this.crosshairOff}>|\</button>
+                <button onClick={this.crosshairOn}>
+                    <img src="https://webtrader.binary.com/v2.1.11/images/crosshair.svg" alt="Crosshair" />
+                </button>
             </span>
         );
     }

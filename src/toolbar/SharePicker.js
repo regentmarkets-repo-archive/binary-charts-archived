@@ -27,6 +27,7 @@ export default class SharePicker extends PureComponent {
     render() {
         return (
             <Picker
+                img="https://webtrader.binary.com/v2.1.11/images/share.svg"
                 items={[
                     { text: 'Download Image', onPick: this.downloadPng },
                     { text: 'Download PDF', onPick: this.downloadPdf },

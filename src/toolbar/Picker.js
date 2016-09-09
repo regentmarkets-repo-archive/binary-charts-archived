@@ -7,6 +7,8 @@ type PickerItem = {
 }
 
 type Props = {
+    text?: string,
+    img?: string,
     items: PickerItem[],
 };
 
@@ -35,12 +37,14 @@ export default class Picker extends PureComponent {
         this.setState({ expanded: !this.state.expanded });
 
     render() {
-        const { items } = this.props;
+        const { text, img, items } = this.props;
         const { expanded } = this.state;
 
         return (
             <div className="binary-chart-picker">
-                <div style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>MENU</div>
+                <div style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>
+                {img && <img src={img} alt={text} />}{text}
+                </div>
                 {expanded &&
                     <div>
                         {items.map(x =>
