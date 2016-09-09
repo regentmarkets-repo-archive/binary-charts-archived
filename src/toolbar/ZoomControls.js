@@ -53,7 +53,7 @@ export default class ZoomControls extends PureComponent {
                 <button style={styles.zoomButton} onClick={this.reset}>0</button>
                 <button style={styles.zoomButton} onClick={this.zoomIn}>+</button>
                 <button style={styles.zoomButton} onClick={this.moveRight}>&gt;</button>
-                <button style={styles.zoomButton} onClick={this.moveToEnd}>E</button>
+                <button style={styles.zoomButton} onClick={this.moveToEnd}>&gt;&gt;</button>
             </span>
         );
     }
