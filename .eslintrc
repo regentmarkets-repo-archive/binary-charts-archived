@@ -17,6 +17,7 @@
   "rules": {
     "indent": [0, 4],
     "camelcase": 0,
+    "no-tabs": 0,
     "no-mixed-operators": 0,
     "object-property-newline": 0,
     "max-len": [1, 150, 4],
@@ -28,6 +29,7 @@
     "react/prefer-stateless-function": 0,
     "react/jsx-indent-props": [0, "tab"],
     "react/jsx-filename-extension": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
     "no-unused-vars": 1,
     "no-trailing-spaces": 1,
     "import/named": 0,
@@ -36,14 +38,6 @@
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
     "flowtype/define-flow-type": 1,
-    # "flowtype/require-parameter-type": 1,
-    # "flowtype/require-return-type": [
-    #   1,
-    #   "always",
-    #   {
-    #     "annotateUndefined": "never"
-    #   }
-    # ],
     "flowtype/space-after-type-colon": [
       1,
       "always"
@@ -53,7 +47,11 @@
       "never"
     ],
     "flowtype/use-flow-type": 1,
-    "flowtype/valid-syntax": 1
+    "flowtype/valid-syntax": 1,
+
+
+
+    "react/no-unused-prop-types": 0
   },
   "settings": {
     "flowtype": {

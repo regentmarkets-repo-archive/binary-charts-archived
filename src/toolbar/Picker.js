@@ -42,20 +42,20 @@ export default class Picker extends PureComponent {
 
         return (
             <div className="binary-chart-picker">
-                <div style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>
-                {img && <img src={img} alt={text} />}{text}
-                </div>
+                <a style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>
+                    {img && <img src={img} alt={text} />}{text}
+                </a>
                 {expanded &&
                     <div>
                         {items.map(x =>
-                            <div
+                            <a
                                 key={x.text}
                                 style={styles.pickerItem}
                                 className="binary-chart-picker-item"
                                 onClick={x.onPick}
                             >
                                 {x.text}
-                            </div>
+                            </a>
                         )}
                     </div>
                 }

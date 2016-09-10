@@ -24,7 +24,7 @@ export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contr
     const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
 
     const newSeries = newData;
-    for (let i = 1; i <= emptyDataCount; i++) {
+    for (let i = 1; i <= emptyDataCount; i += 1) {
         const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
         newSeries.push(futurePoint);
     }

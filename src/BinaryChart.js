@@ -36,12 +36,9 @@ export type ChartEvent = {
 type ChartType = 'area' | 'line' | 'candlestick' | 'ohlc';
 
 type Props = {
-    api: LiveApi,
     className?: string,
     contract: Contract,
-    showAllRangeSelector: boolean,
     events: ChartEvent[],
-    height: number,
     id: string,
     getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => any,
     noData: boolean,
@@ -57,7 +54,6 @@ type Props = {
     tradingTimes: TradingTimes,
     toolbar: boolean,
     type: ChartType,
-    width: number,
 };
 
 type State = {

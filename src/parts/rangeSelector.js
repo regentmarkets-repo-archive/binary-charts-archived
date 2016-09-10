@@ -24,9 +24,8 @@ export const buttons = [{
     text: 'MAX',
 }];
 
-export default (defaultRange: number, showAllRangeSelector: boolean) => ({
+export default (defaultRange: number) => ({
     buttons,
-    allButtonsEnabled: showAllRangeSelector,
     selected: defaultRange,
     inputEnabled: false,
     labelStyle: { display: 'none' },

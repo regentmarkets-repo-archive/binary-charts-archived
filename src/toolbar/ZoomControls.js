@@ -1,4 +1,10 @@
 import React, { PureComponent } from 'react';
+import ZoomIn from 'react-material-design-icons/icons/ZoomIn';
+import ZoomOut from 'react-material-design-icons/icons/ZoomOut';
+import ChevronLeft from 'react-material-design-icons/icons/ChevronLeft';
+import ChevronRight from 'react-material-design-icons/icons/ChevronRight';
+import LastPage from 'react-material-design-icons/icons/LastPage';
+import Refresh from 'react-material-design-icons/icons/Refresh';
 import styles from '../styles';
 
 export default class ZoomControls extends PureComponent {
@@ -48,12 +54,24 @@ export default class ZoomControls extends PureComponent {
     render() {
         return (
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
-                <button style={styles.zoomButton} onClick={this.moveLeft}>&lt;</button>
-                <button style={styles.zoomButton} onClick={this.zoomOut}>-</button>
-                <button style={styles.zoomButton} onClick={this.reset}>0</button>
-                <button style={styles.zoomButton} onClick={this.zoomIn}>+</button>
-                <button style={styles.zoomButton} onClick={this.moveRight}>&gt;</button>
-                <button style={styles.zoomButton} onClick={this.moveToEnd}>&gt;&gt;</button>
+                <div style={styles.zoomButton} onClick={this.moveLeft}>
+                    <ChevronLeft />
+                </div>
+                <div style={styles.zoomButton} onClick={this.zoomOut}>
+                    <ZoomOut />
+                </div>
+                <div style={styles.zoomButton} onClick={this.reset}>
+                    <Refresh />
+                </div>
+                <div style={styles.zoomButton} onClick={this.zoomIn}>
+                    <ZoomIn />
+                </div>
+                <div style={styles.zoomButton} onClick={this.moveRight}>
+                    <ChevronRight />
+                </div>
+                <div style={styles.zoomButton} onClick={this.moveToEnd}>
+                    <LastPage />
+                </div>
             </span>
         );
     }
