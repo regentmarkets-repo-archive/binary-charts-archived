@@ -3,7 +3,9 @@ import Share from 'react-material-design-icons/icons/Share';
 import Picker from './Picker';
 
 type Props = {
+    expanded: boolean,
     getChart: () => any,
+    onExpand: () => void,
 };
 
 export default class SharePicker extends PureComponent {
@@ -36,13 +38,17 @@ export default class SharePicker extends PureComponent {
         this.download('application/pdf');
 
     render() {
+        const { expanded, onExpand } = this.props;
+
         return (
             <Picker
+                expanded={expanded}
                 img={<Share />}
                 items={[
                     { text: 'Download Image', onPick: this.downloadPng },
                     { text: 'Download PDF', onPick: this.downloadPdf },
                 ]}
+                onExpand={onExpand}
             />
         );
     }

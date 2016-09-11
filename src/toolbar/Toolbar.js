@@ -13,9 +13,11 @@ type Props = {
     crosshair?: boolean,
     chart: HighstockChart,
     hasInterval: boolean,
+    pickerShown: string,
     getChart: () => any,
     getXAxis: () => any,
     getYAxis: () => any,
+    onShowPicker: (picker: any) => void,
     onIntervalChange: (interval: string) => void,
     onTypeChange: (chartType: string) => void,
 };
@@ -30,15 +32,33 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { getXAxis, getYAxis, getChart, onIntervalChange, onTypeChange } = this.props;
+        const { getXAxis, getYAxis, getChart, pickerShown, onShowPicker, onIntervalChange, onTypeChange } = this.props;
 
         return (
             <div style={styles.toolbar} className="binary-chart-toolbar">
-                <TypePicker onChange={onTypeChange} />
-                <IntervalPicker onChange={onIntervalChange} />
-                <CrosshairSwitcher getXAxis={getXAxis} getYAxis={getYAxis} />
-                <IndicatorsPicker />
-                <SharePicker getChart={getChart} />
+                <TypePicker
+                    expanded={pickerShown === 'type'}
+                    onExpand={() => onShowPicker('type')}
+                    onChange={onTypeChange}
+                />
+                <IntervalPicker
+                    expanded={pickerShown === 'interval'}
+                    onExpand={() => onShowPicker('interval')}
+                    onChange={onIntervalChange}
+                />
+                <CrosshairSwitcher
+                    getXAxis={getXAxis}
+                    getYAxis={getYAxis}
+                />
+                <IndicatorsPicker
+                    expanded={pickerShown === 'indicators'}
+                    onExpand={() => onShowPicker('indicators')}
+                />
+                <SharePicker
+                    expanded={pickerShown === 'share'}
+                    onExpand={() => onShowPicker('share')}
+                    getChart={getChart}
+                />
                 <SettingsPicker />
             </div>
         );

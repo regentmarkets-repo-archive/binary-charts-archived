@@ -5,9 +5,10 @@ const options = [
     { text: '5m', seconds: 5 * 60 },
     { text: '15m', seconds: 15 * 60 },
     { text: '1h', seconds: 60 * 60 },
-    { text: '4h', seconds: 4 * 60 * 60 },
+    { text: '3h', seconds: 3 * 60 * 60 },
+    { text: '12h', seconds: 12 * 60 * 60 },
     { text: '1d', seconds: 24 * 60 * 60 },
-    { text: '5d', seconds: 5 * 25 * 60 * 60 },
+    { text: '1w', seconds: 7 * 25 * 60 * 60 },
     { text: '30d', seconds: 30 * 25 * 60 * 60 },
 ];
 

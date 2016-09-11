@@ -3,33 +3,32 @@ import Equalizer from 'react-material-design-icons/icons/Equalizer';
 import Picker from './Picker';
 
 type Props = {
+    expanded: boolean,
+    value: ChartType,
+    onExpand: () => void,
     onChange: (chartType: string) => void,
-    value: 'line' | 'area' | 'candlestick' | 'ohlc',
 };
 
 export default class TypePicker extends PureComponent {
 
     props: Props;
 
-    static defaultProps = {
-    };
-
-    onChange = (e: Proxy) =>
-        this.props.onChange(e.target.value);
-
     render() {
-        const { value } = this.props;
+        const { expanded, value, onExpand, onChange } = this.props;
 
         return (
             <Picker
+                expanded={expanded}
                 img={<Equalizer />}
                 text={value}
                 items={[
-                    { text: 'Area', onPick: this.onChange },
-                    { text: 'Line', onPick: this.onChange },
-                    { text: 'Candlesticks', onPick: this.onChange },
-                    { text: 'Bars', onPick: this.onChange },
+                    { text: 'Area', value: 'area', onPick: this.onChange },
+                    { text: 'Line', value: 'line', onPick: this.onChange },
+                    { text: 'Candlestick', value: 'candlestick', onPick: this.onChange },
+                    { text: 'Bars', value: 'ohlc', onPick: this.onChange },
                 ]}
+                onExpand={onExpand}
+                onChange={onChange}
             />
         );
     }

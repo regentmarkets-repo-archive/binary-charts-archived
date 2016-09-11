@@ -57,6 +57,7 @@ type Props = {
 };
 
 type State = {
+    pickerShown: any,
     range: { from: Date, to: Date },
 }
 
@@ -100,10 +101,8 @@ export default class BinaryChart extends Component {
             this.createChart(nextProps);
         }
 
-        if (
-            this.props.type !== nextProps.type &&
-            nextProps.type === 'candlestick' || nextProps.type === 'ohlc'
-        ) {
+        if (this.props.type !== nextProps.type &&
+            nextProps.type === 'candlestick' || nextProps.type === 'ohlc') {
             this.chart.xAxis[0].update({
                 minRange: 10 * 60 * 1000,
             });
@@ -199,19 +198,30 @@ export default class BinaryChart extends Component {
         return this.props.getData(start, end, type);
     }
 
+    onShowPicker = (picker: any) => {
+        if (picker === this.state.pickerShown) {
+            this.setState({ pickerShown: undefined });
+        } else {
+            this.setState({ pickerShown: picker });
+        }
+    }
+
     render() {
         const { id, className, getData, toolbar, type } = this.props;
+        const { pickerShown } = this.state;
 
         return (
-            <div className={className} onClick={() => console.log('click')}>
+            <div className={className} onClick={() => this.onShowPicker()}>
                 {toolbar &&
                     <Toolbar
+                        pickerShown={pickerShown}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
+                        onShowPicker={this.onShowPicker}
                     />
                 }
                 <div ref={x => { this.chartDiv = x; }} id={id} />

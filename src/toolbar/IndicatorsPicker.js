@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import Picker from './Picker';
 
 type Props = {
+    expanded: boolean,
+    onExpand: () => void,
 };
 
 export default class IndicatorsPicker extends PureComponent {
@@ -14,8 +16,11 @@ export default class IndicatorsPicker extends PureComponent {
     onChange = () => {};
 
     render() {
+        const { expanded, onExpand } = this.props;
+
         return (
             <Picker
+                expanded={expanded}
                 text="Indicators"
                 items={[
                     { text: 'Simple Moving Average (SMA)', onPick: this.onChange },
@@ -24,6 +29,7 @@ export default class IndicatorsPicker extends PureComponent {
                     { text: 'Relative Strength Index (RSI)', onPick: this.onChange },
                     { text: 'Moving Average Convergence Divergence (MACD)', onPick: this.onChange },
                 ]}
+                onExpand={onExpand}
             />
         );
     }

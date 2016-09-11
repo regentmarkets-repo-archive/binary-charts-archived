@@ -4,13 +4,12 @@ import styles from '../styles';
 
 type Props = {
     text?: string,
+    expanded: boolean,
     img?: ReactComponent,
     items: PickerItem[],
+    onExpand: () => void,
+    onChange: (value: any) => void,
 };
-
-type State = {
-    expanded: boolean,
-}
 
 export default class Picker extends PureComponent {
 
@@ -29,22 +28,27 @@ export default class Picker extends PureComponent {
         };
     }
 
-    showMenu = () =>
-        this.setState({ expanded: !this.state.expanded });
+    expand = (e: SyntheticEvent) => {
+        this.props.onExpand(e);
+        e.stopPropagation();
+    }
 
     render() {
-        const { text, img, items } = this.props;
-        const { expanded } = this.state;
+        const { expanded, text, img, items, onChange } = this.props;
 
         return (
             <div className="binary-chart-picker">
-                <button style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>
+                <button
+                    style={styles.pickerButton}
+                    className="binary-chart-button"
+                    onClick={this.expand}
+                >
                     {img}{text}
                 </button>
                 {expanded &&
                     <div style={styles.submenu} className="binary-chart-submenu">
                         {items.map((x, i) =>
-                            <PickerItem key={i} {...x} />
+                            <PickerItem key={i} {...x} onClick={onChange} />
                         )}
                     </div>
                 }

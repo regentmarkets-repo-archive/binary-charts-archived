@@ -6,18 +6,24 @@ export default class PickerItem extends PureComponent {
     props: {
         text?: string,
         img?: string,
-        onClick: (e: SyntheticEvent) => void,
+        value: any,
+        onClick: (value: any) => void,
     };
 
+    onClick = () => {
+        const { value, onClick } = this.props;
+        onClick(value);
+    }
+
     render() {
-        const { text, img, onClick } = this.props;
+        const { text, img } = this.props;
 
         return (
             <button
                 key={text}
                 style={styles.pickerItem}
                 className="binary-chart-picker-item"
-                onClick={onClick}
+                onClick={this.onClick}
             >
                 {img}{text}
             </button>

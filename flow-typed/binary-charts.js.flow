@@ -40,7 +40,9 @@ declare class Chart {
     xAxis: any[],
     yAxis: any[]
 }
-declare type ChartType = 'area' | 'candle';
+
+declare type ChartType = 'line' | 'area' | 'candlestick' | 'ohlc';
+
 declare type Renderer = {}
 
 declare interface PlotObject {
