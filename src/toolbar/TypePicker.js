@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Share from 'react-material-design-icons/icons/Share';
+import Equalizer from 'react-material-design-icons/icons/Equalizer';
 import Picker from './Picker';
 
 type Props = {
@@ -18,23 +18,17 @@ export default class TypePicker extends PureComponent {
         this.props.onChange(e.target.value);
 
     render() {
-        const { value, onChange } = this.props;
+        const { value } = this.props;
 
         return (
-            // <select onChange={this.onChange} value={value}>
-            //     <option value="area">Area</option>
-            //     <option value="line">Line</option>
-            //     <option value="candlestick">Candlesticks</option>
-            //     <option value="ohlc">Bars</option>
-            // </select>
             <Picker
-                img={<Share />}
+                img={<Equalizer />}
                 text={value}
                 items={[
-                    { text: 'Area', onPick: onChange },
-                    { text: 'Line', onPick: onChange },
-                    { text: 'Candlesticks', onPick: onChange },
-                    { text: 'OHLC Bars', onPick: onChange },
+                    { text: 'Area', onPick: this.onChange },
+                    { text: 'Line', onPick: this.onChange },
+                    { text: 'Candlesticks', onPick: this.onChange },
+                    { text: 'Bars', onPick: this.onChange },
                 ]}
             />
         );

@@ -1,4 +1,4 @@
-import seriesLine from '../parts/seriesLine';
+import seriesLine from './seriesLine';
 import getMainSeries from '../utils/getMainSeries';
 import lastPriceFromSeries from '../utils/lastPriceFromSeries';
 import barrierIds from '../utils/barriersId';

@@ -1,5 +1,5 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry, nowAsEpoch } from 'binary-utils';
-import seriesLine from '../parts/seriesLine';
+import seriesLine from './seriesLine';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
 import getSeriesByType from '../utils/getSeriesByType';
 import getMainSeries from '../utils/getMainSeries';

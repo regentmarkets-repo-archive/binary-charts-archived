@@ -1,11 +1,8 @@
 import { merge } from 'highcharts/highstock';
-import reset from '../parts/reset';
-import yAxis from '../parts/yAxis';
-import xAxis from '../parts/xAxis';
-import seriesLine from '../parts/seriesLine';
+import { digitsToPips } from 'binary-utils';
 import { lightTheme, darkTheme } from '../themes';
+import seriesLine from './seriesLine';
 
-// $FlowFixMe
 export default ({ pipSize = 0,
                 type = 'area',
                 noData = false,
@@ -15,11 +12,62 @@ export default ({ pipSize = 0,
                 shiftMode = 'fixed' }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
-        ...reset(height, width, noData),
-        rangeSelector: {
-            enabled: false,
+        animation: false,
+        scrollbar: { enabled: false },
+        credits: { enabled: false },
+        legend: { enabled: false },
+        rangeSelector: { enabled: false },
+        exporting: { enabled: false },
+        title: { text: null },
+        noData: {
+            style: noData ? {} : { display: 'none' },
         },
-        xAxis: xAxis(),
-        yAxis: yAxis(pipSize),
+        chart: {
+            spacingBottom: 0,
+            spacingTop: 0,
+            spacingLeft: 0,
+            spacingRight: 0,
+            height,
+            width,
+            events: {
+                load: function onLoad() { // eslint-disable-line object-shorthand
+                    this.xAxis[0].chart = this;
+                },
+            },
+        },
+        plotOptions: {
+            series: {
+                connectNulls: true,
+                marker: {
+                    enabled: false,
+                },
+                turboThreshold: 3000,
+            },
+        },
+        xAxis: {
+            type: 'datetime',
+            tickWidth: 0,
+            startOnTick: false,
+            minRange: 1000,
+            endOnTick: false,
+            crosshair: false,
+            ordinal: false,
+        },
+        yAxis: {
+            opposite: true,
+            labels: {
+                align: 'left',
+                formatter() {
+                    const updatedPipSize = this.chart.userOptions.binary.pipSize;
+                    return this.value.toFixed(updatedPipSize);
+                },
+            },
+            crosshair: false,
+            tickWidth: 0,
+            title: { text: null },
+            floor: 0,
+            minTickInterval: digitsToPips(pipSize),
+        },
         series: seriesLine([], pipSize, type),
-    });
+    }
+);

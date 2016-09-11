@@ -12,6 +12,7 @@ export default {
     },
     pickerButton: {
         cursor: 'pointer',
+        height: 30,
     },
     pickerItem: {
         cursor: 'pointer',
@@ -38,7 +39,7 @@ export default {
         borderRadius: '50px',
         background: colorBg('light', 0.25),
         padding: 8,
-        margin: 2,
+        margin: '0 2px',
         height: 40,
         width: 40,
     },

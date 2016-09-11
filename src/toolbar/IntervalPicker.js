@@ -15,6 +15,7 @@ export default class IntervalPicker extends PureComponent {
             <Picker
                 text="Interval"
                 items={[
+                    { text: 'Ticks', onPick: onChange },
                     { text: '1 minute', onPick: onChange },
                     { text: '5 minutes', onPick: onChange },
                     { text: '15 minutes', onPick: onChange },

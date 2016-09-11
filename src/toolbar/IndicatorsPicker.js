@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Picker from './Picker';
 
 type Props = {
 };
@@ -10,17 +11,20 @@ export default class IndicatorsPicker extends PureComponent {
     static defaultProps = {
     };
 
+    onChange = () => {};
+
     render() {
         return (
-            <select>
-                <option>Indicators</option>
-                <option>Simple Moving Average (SMA)</option>
-                <option>Exponenital Moving Average (EMA)</option>
-                <option>Bollinger Band (BB)</option>
-                <option>Alligator</option>
-                <option>Relative Strength Index (RSI)</option>
-                <option>Moving Average Convergence Divergence (MACD)</option>
-            </select>
+            <Picker
+                text="Indicators"
+                items={[
+                    { text: 'Simple Moving Average (SMA)', onPick: this.onChange },
+                    { text: 'Exponenital Moving Average (EMA)', onPick: this.onChange },
+                    { text: 'Bollinger Band (BB)', onPick: this.onChange },
+                    { text: 'Relative Strength Index (RSI)', onPick: this.onChange },
+                    { text: 'Moving Average Convergence Divergence (MACD)', onPick: this.onChange },
+                ]}
+            />
         );
     }
 }

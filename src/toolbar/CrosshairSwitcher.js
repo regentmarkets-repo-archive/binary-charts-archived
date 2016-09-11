@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Games from 'react-material-design-icons/icons/Games';
+import styles from '../styles';
 
 export default class ZoomControls extends PureComponent {
 
@@ -40,6 +41,9 @@ export default class ZoomControls extends PureComponent {
                     enabled: true,
                     padding: 5,
                     format: '{value:.2f}',
+                    style: {
+                        fontSize: '12px',
+                    },
                 },
             },
         });
@@ -48,6 +52,9 @@ export default class ZoomControls extends PureComponent {
                 label: {
                     enabled: true,
                     padding: 5,
+                    style: {
+                        fontSize: '12px',
+                    },
                 },
             },
         });
@@ -67,10 +74,10 @@ export default class ZoomControls extends PureComponent {
 
     render() {
         const { crosshairOn } = this.state;
-        const className = 'binary-chart-crosshair-switcher' + (crosshairOn ? ' pressed' : '');
+        const className = 'binary-chart-button' + (crosshairOn ? ' pressed' : '');
 
         return (
-            <button className={className} onClick={this.toggleCrosshair}>
+            <button className={className} style={styles.pickerButton} onClick={this.toggleCrosshair}>
                 <Games />
             </button>
         );

@@ -203,7 +203,7 @@ export default class BinaryChart extends Component {
         const { id, className, getData, toolbar, type } = this.props;
 
         return (
-            <div className={className}>
+            <div className={className} onClick={() => console.log('click')}>
                 {toolbar &&
                     <Toolbar
                         hasInterval={chartTypeToDataType(type) === 'candles'}

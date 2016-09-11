@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import styles from '../styles';
 import IntervalPicker from './IntervalPicker';
 import TypePicker from './TypePicker';
-// import IndicatorsPicker from './IndicatorsPicker';
+import IndicatorsPicker from './IndicatorsPicker';
 import SharePicker from './SharePicker';
 import CrosshairSwitcher from './CrosshairSwitcher';
+import SettingsPicker from './SettingsPicker';
 
 type Props = {
     interval: string,
@@ -36,8 +37,9 @@ export default class Toolbar extends PureComponent {
                 <TypePicker onChange={onTypeChange} />
                 <IntervalPicker onChange={onIntervalChange} />
                 <CrosshairSwitcher getXAxis={getXAxis} getYAxis={getYAxis} />
-                {/* <IndicatorsPicker /> */}
+                <IndicatorsPicker />
                 <SharePicker getChart={getChart} />
+                <SettingsPicker />
             </div>
         );
     }
