@@ -13,7 +13,7 @@ export default class IntervalPicker extends PureComponent {
         const { onChange } = this.props;
         return (
             <Picker
-                img="https://webtrader.binary.com/v2.1.11/images/share.svg"
+                text="Interval"
                 items={[
                     { text: '1 minute', onPick: onChange },
                     { text: '5 minutes', onPick: onChange },

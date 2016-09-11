@@ -1,14 +1,25 @@
 import React, { PureComponent } from 'react';
+import Share from 'react-material-design-icons/icons/Share';
 import Picker from './Picker';
+
+type Props = {
+    getChart: () => any,
+};
 
 export default class SharePicker extends PureComponent {
 
-    props: {
-        getChart: () => any,
-    };
+    props: Props;
 
-    static defaultProps = {
-    };
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            expanded: false,
+        };
+    }
+
+    showMenu = () =>
+        this.setState({ expanded: !this.state.expanded });
 
     download = (type: string) => {
         const chart = this.props.getChart();
@@ -27,7 +38,7 @@ export default class SharePicker extends PureComponent {
     render() {
         return (
             <Picker
-                img="https://webtrader.binary.com/v2.1.11/images/share.svg"
+                img={<Share />}
                 items={[
                     { text: 'Download Image', onPick: this.downloadPng },
                     { text: 'Download PDF', onPick: this.downloadPdf },

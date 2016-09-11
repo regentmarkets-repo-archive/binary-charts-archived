@@ -2,12 +2,13 @@ import React, { PureComponent } from 'react';
 import styles from '../styles';
 
 const options = [
-    { text: '5min', seconds: 5 * 60 },
-    { text: '15min', seconds: 15 * 60 },
-    { text: '1hr', seconds: 60 * 60 },
-    { text: '4hr', seconds: 4 * 60 * 60 },
-    { text: '1day', seconds: 24 * 60 * 60 },
-    { text: '5day', seconds: 5 * 25 * 60 * 60 },
+    { text: '5m', seconds: 5 * 60 },
+    { text: '15m', seconds: 15 * 60 },
+    { text: '1h', seconds: 60 * 60 },
+    { text: '4h', seconds: 4 * 60 * 60 },
+    { text: '1d', seconds: 24 * 60 * 60 },
+    { text: '5d', seconds: 5 * 25 * 60 * 60 },
+    { text: '30d', seconds: 30 * 25 * 60 * 60 },
 ];
 
 export default class TimeFramePicker extends PureComponent {

@@ -1,14 +1,10 @@
 import React, { PureComponent } from 'react';
+import PickerItem from './PickerItem';
 import styles from '../styles';
-
-type PickerItem = {
-    img?: string,
-    text: string,
-}
 
 type Props = {
     text?: string,
-    img?: string,
+    img?: ReactComponent,
     items: PickerItem[],
 };
 
@@ -42,20 +38,13 @@ export default class Picker extends PureComponent {
 
         return (
             <div className="binary-chart-picker">
-                <a style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>
-                    {img && <img src={img} alt={text} />}{text}
-                </a>
+                <button style={styles.pickerButton} className="binary-chart-button" onClick={this.showMenu}>
+                    {img}{text}
+                </button>
                 {expanded &&
-                    <div>
-                        {items.map(x =>
-                            <a
-                                key={x.text}
-                                style={styles.pickerItem}
-                                className="binary-chart-picker-item"
-                                onClick={x.onPick}
-                            >
-                                {x.text}
-                            </a>
+                    <div style={styles.submenu} className="binary-chart-submenu">
+                        {items.map((x, i) =>
+                            <PickerItem key={i} {...x} />
                         )}
                     </div>
                 }

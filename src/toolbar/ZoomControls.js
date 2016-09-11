@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import ZoomIn from 'react-material-design-icons/icons/ZoomIn';
-import ZoomOut from 'react-material-design-icons/icons/ZoomOut';
+import Add from 'react-material-design-icons/icons/Add';
+import Remove from 'react-material-design-icons/icons/Remove';
 import ChevronLeft from 'react-material-design-icons/icons/ChevronLeft';
 import ChevronRight from 'react-material-design-icons/icons/ChevronRight';
 import LastPage from 'react-material-design-icons/icons/LastPage';
@@ -54,23 +54,26 @@ export default class ZoomControls extends PureComponent {
     render() {
         return (
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
-                <div style={styles.zoomButton} onClick={this.moveLeft}>
+                <div style={styles.zoomSpacer} />
+                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveLeft}>
                     <ChevronLeft />
-                </div>
-                <div style={styles.zoomButton} onClick={this.zoomOut}>
-                    <ZoomOut />
-                </div>
-                <div style={styles.zoomButton} onClick={this.reset}>
+                </a>
+                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomOut}>
+                    <Remove />
+                </a>
+                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.reset}>
                     <Refresh />
-                </div>
-                <div style={styles.zoomButton} onClick={this.zoomIn}>
-                    <ZoomIn />
-                </div>
-                <div style={styles.zoomButton} onClick={this.moveRight}>
+                </a>
+                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomIn}>
+                    <Add />
+                </a>
+                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveRight}>
                     <ChevronRight />
-                </div>
-                <div style={styles.zoomButton} onClick={this.moveToEnd}>
-                    <LastPage />
+                </a>
+                <div style={styles.zoomSpacer}>
+                    <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveToEnd}>
+                        <LastPage />
+                    </a>
                 </div>
             </span>
         );

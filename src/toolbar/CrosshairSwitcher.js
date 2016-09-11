@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Games from 'react-material-design-icons/icons/Games';
 
 export default class ZoomControls extends PureComponent {
 
@@ -7,7 +8,18 @@ export default class ZoomControls extends PureComponent {
         getYAxis: () => any,
     };
 
-    crosshairOff = () => {
+    state: {
+        crosshairOn: boolean,
+    }
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            crosshairOn: false,
+        };
+    }
+
+    turnCrosshairOff = () => {
         const { getXAxis, getYAxis } = this.props;
 
         getYAxis().update({
@@ -18,7 +30,7 @@ export default class ZoomControls extends PureComponent {
         });
     }
 
-    crosshairOn = () => {
+    turnCrosshairOn = () => {
         const { getXAxis, getYAxis } = this.props;
 
         getYAxis().update({
@@ -34,21 +46,33 @@ export default class ZoomControls extends PureComponent {
         getXAxis().update({
             crosshair: {
                 label: {
-                    padding: 5,
                     enabled: true,
+                    padding: 5,
                 },
             },
         });
     }
 
+    toggleCrosshair = () => {
+        const { crosshairOn } = this.state;
+        this.setState({
+            crosshairOn: !crosshairOn,
+        });
+        if (!crosshairOn) {
+            this.turnCrosshairOn();
+        } else {
+            this.turnCrosshairOff();
+        }
+    }
+
     render() {
+        const { crosshairOn } = this.state;
+        const className = 'binary-chart-crosshair-switcher' + (crosshairOn ? ' pressed' : '');
+
         return (
-            <span>
-                <button onClick={this.crosshairOff}>|\</button>
-                <button onClick={this.crosshairOn}>
-                    <img src="https://webtrader.binary.com/v2.1.11/images/crosshair.svg" alt="Crosshair" />
-                </button>
-            </span>
+            <button className={className} onClick={this.toggleCrosshair}>
+                <Games />
+            </button>
         );
     }
 }

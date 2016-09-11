@@ -12,7 +12,6 @@ export default {
     },
     pickerButton: {
         cursor: 'pointer',
-        width: '1.5em',
     },
     pickerItem: {
         cursor: 'pointer',
@@ -28,18 +27,30 @@ export default {
         display: 'flex',
         justifyContent: 'center',
         position: 'relative',
-        marginTop: -72,
-        marginBottom: 36,
+        marginTop: -70,
+        marginBottom: 40,
         width: '100%',
         textAlign: 'center',
     },
     zoomButton: {
         cursor: 'pointer',
+        boxSizing: 'border-box',
         borderRadius: '50px',
         background: colorBg('light', 0.25),
         padding: 8,
         margin: 2,
-        height: 24,
-        width: 24,
+        height: 40,
+        width: 40,
+    },
+    zoomSpacer: {
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
+    submenu: {
+        position: 'absolute',
+        zIndex: 100,
+        display: 'flex',
+        flexDirection: 'column',
     },
 };
