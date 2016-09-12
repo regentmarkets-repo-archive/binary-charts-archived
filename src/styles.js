@@ -9,6 +9,7 @@ export const colorText = (theme: Theme, percentage: number): string =>
 export default {
     toolbar: {
         display: 'flex',
+        marginBottom: 4,
     },
     pickerButton: {
         cursor: 'pointer',

@@ -10,7 +10,7 @@ const randomNum = () => {
 };
 
 const testData = () =>
-    [6,5,4,3,2,1].map(i => {
+    [6, 5, 4, 3, 2, 1].map(i => {
         const epoch = (new Date().getTime() / 1000) - i;
         return { epoch, quote: randomNum() };
     });
@@ -53,7 +53,7 @@ export default class TwoDynamicChart extends Component {
 
 
 storiesOf('Multiple', module)
-    .add('two identical static chart', () =>
+    .add('Two static charts', () =>
         <div>
             <BinaryChart
                 symbol="symbol"
@@ -77,6 +77,6 @@ storiesOf('Multiple', module)
             />
         </div>
     )
-    .add('two identical dynamic chart', () =>
+    .add('Two dynamic charts', () =>
         <TwoDynamicChart />
     );

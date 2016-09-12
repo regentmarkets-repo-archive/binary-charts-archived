@@ -52,30 +52,6 @@ storiesOf('Basic', module)
             />
         </div>
     )
-    .add('Fixed Size', () =>
-        <BinaryChart
-            ticks={[
-                { epoch: 0, quote: 50 },
-                { epoch: 1, quote: 40 },
-                { epoch: 2, quote: 60 },
-            ]}
-            height={300}
-            width={400}
-        />
-    )
-    .add('Resizable', () =>
-        <div style={{ display: 'flex' }}>
-            <BinaryChart
-                style={{ flex: 1 }}
-                ticks={[
-                    { epoch: 0, quote: 50 },
-                    { epoch: 1, quote: 40 },
-                    { epoch: 2, quote: 60 },
-                ]}
-            />
-            <div style={{ flex: 1, background: '#eee' }} />
-        </div>
-    )
     .add('Compact Toolbar', () =>
         <BinaryChart
             compactToolbar

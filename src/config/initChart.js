@@ -3,13 +3,7 @@ import { digitsToPips } from 'binary-utils';
 import { lightTheme, darkTheme } from '../themes';
 import seriesLine from './seriesLine';
 
-export default ({ pipSize = 0,
-                type = 'area',
-                noData = false,
-                height,
-                width,
-                theme = 'light',
-                shiftMode = 'fixed' }) =>
+export default ({ pipSize = 0, type = 'area', noData = false, theme = 'light', shiftMode = 'fixed' }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         animation: false,
@@ -23,12 +17,10 @@ export default ({ pipSize = 0,
             style: noData ? {} : { display: 'none' },
         },
         chart: {
-            spacingBottom: 0,
+            spacingBottom: 10,
             spacingTop: 0,
             spacingLeft: 0,
             spacingRight: 0,
-            height,
-            width,
             events: {
                 load: function onLoad() { // eslint-disable-line object-shorthand
                     this.xAxis[0].chart = this;

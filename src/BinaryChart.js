@@ -1,39 +1,16 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts/highstock';
-import exporting from 'highcharts/modules/exporting';
-import noDataToDisplay from 'highcharts/modules/no-data-to-display';
-
+import ChartCore from './ChartCore';
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
 import ZoomControls from './toolbar/ZoomControls';
 
-import initChart from './config/initChart';
-import updateChart from './config/updateChart';
-
-import axisIndicators from './plugins/axisIndicators';
-import addLoadingFlag from './plugins/addLoadingFlag';
-
 import chartTypeToDataType from './utils/chartTypeToDataType';
 import getMainSeries from './utils/getMainSeries';
-// import winLossIndicators from './plugins/winLossIndicators';
-// import tradeMarker from './plugins/tradeMarker';
-
-// workaround for tests to work
-if (Object.keys(Highcharts).length > 0) {
-    exporting(Highcharts);
-    noDataToDisplay(Highcharts);
-    axisIndicators();
-    addLoadingFlag();
-//    winLossIndicators();
-//    tradeMarker();
-}
 
 export type ChartEvent = {
     type: string,
     handler: () => void,
 }
-
-type ChartType = 'area' | 'line' | 'candlestick' | 'ohlc';
 
 type Props = {
     className?: string,
@@ -97,54 +74,6 @@ export default class BinaryChart extends Component {
         };
     }
 
-    componentDidMount() {
-        this.createChart();
-        updateChart(this.chart, { ticks: [] }, this.props);
-    }
-
-    shouldComponentUpdate(nextProps: Props) {
-        if (this.props.symbol !== nextProps.symbol ||
-                this.props.noData !== nextProps.noData) {
-            this.destroyChart();
-            this.createChart(nextProps);
-        }
-
-        updateChart(this.chart, this.props, nextProps);
-
-        return true;
-    }
-
-    componentWillUnmount() {
-        this.destroyChart();
-    }
-
-    createChart(newProps?: Props) {
-        const props = newProps || this.props;
-        const config = initChart(props);
-        this.chart = new Highcharts.StockChart(this.chartDiv, config, (chart) => {
-            if (!props.noData && props.ticks.length === 0) {
-                chart.showLoading();
-            }
-        });
-
-        this.eventListeners = props.events.map(e => ({
-            type: e.type,
-            handler: ev => e.handler(ev, this.chart),
-        }));
-
-        this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
-    }
-
-    destroyChart() {
-        if (this.eventListeners) {
-            this.eventListeners.forEach(e => this.chartDiv.removeEventListener(e.type, e.handler));
-        }
-
-        if (this.chart) {
-            this.chart.destroy();
-        }
-    }
-
     getCurrentStartEnd = () => {
         const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
         const start = Math.round(dataMin / 1000);
@@ -166,7 +95,7 @@ export default class BinaryChart extends Component {
         const { getData, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
-        if (this.chart.isLoading) {                 // TODO: should disable change type control
+        if (this.chart.isLoading) { // TODO: should disable change type control
             return;
         }
 
@@ -205,7 +134,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className, showAllTimeFrame, ticks, type,
+        const { className, showAllTimeFrame, ticks, type,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls, compactToolbar } = this.props;
         const { pickerShown } = this.state;
 
@@ -224,7 +153,7 @@ export default class BinaryChart extends Component {
                         onShowPicker={this.onShowPicker}
                     />
                 }
-                <div ref={x => { this.chartDiv = x; }} id={id} />
+                <ChartCore parent={this} {...this.props} />
                 {!hiddenZoomControls &&
                     <ZoomControls
                         getXAxis={this.getXAxis}
