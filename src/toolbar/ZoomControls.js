@@ -17,8 +17,13 @@ export default class ZoomControls extends PureComponent {
 
     moveOffset = (direction: number): void => {
         const xAxis = this.props.getXAxis();
-        const step = (xAxis.max - xAxis.min) / 10 * direction;
-        xAxis.setExtremes(xAxis.min + step, xAxis.max + step, true);
+        const { min, max, dataMin, dataMax } = xAxis;
+        const step = (max - min) / 10 * direction;
+
+        const start = Math.max(dataMin, min + step);
+        const end = Math.min(dataMax, max + step);
+
+        xAxis.setExtremes(start, end, true);
     }
 
     moveLeft = () => this.moveOffset(-1);
@@ -28,8 +33,10 @@ export default class ZoomControls extends PureComponent {
     // decrease visible data by half
     zoomIn = () => {
         const xAxis = this.props.getXAxis();
-        const halfDiff = (xAxis.max - xAxis.min) / 2;
-        xAxis.setExtremes(xAxis.min + halfDiff, xAxis.max, true);
+        const { min, max } = xAxis;
+        const halfDiff = (max - min) / 2;
+
+        xAxis.setExtremes(min + halfDiff, max, true);
     }
 
     reset = () => {
@@ -40,15 +47,17 @@ export default class ZoomControls extends PureComponent {
     // increase visible data to it's double
     zoomOut = () => {
         const xAxis = this.props.getXAxis();
-        const diff = xAxis.max - xAxis.min;
-        const newMin = xAxis.min - diff;
-        xAxis.setExtremes(newMin < xAxis.dataMin ? xAxis.dataMin : newMin, xAxis.max, true);
+        const { dataMin, min, max } = xAxis;
+        const diff = max - min;
+        const newMin = Math.max(dataMin, min - diff);
+        xAxis.setExtremes(start, max, true);
     }
 
     moveToEnd = () => {
         const xAxis = this.props.getXAxis();
-        const diff = xAxis.max - xAxis.min;
-        xAxis.setExtremes(xAxis.dataMax - diff, xAxis.dataMax, true);
+        const { dataMax, min, max } = xAxis;
+        const diff = max - min;
+        xAxis.setExtremes(dataMax - diff, dataMax, true);
     }
 
     render() {
