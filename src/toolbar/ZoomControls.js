@@ -50,7 +50,7 @@ export default class ZoomControls extends PureComponent {
         const { dataMin, min, max } = xAxis;
         const diff = max - min;
         const newMin = Math.max(dataMin, min - diff);
-        xAxis.setExtremes(start, max, true);
+        xAxis.setExtremes(newMin, max, true);
     }
 
     moveToEnd = () => {
