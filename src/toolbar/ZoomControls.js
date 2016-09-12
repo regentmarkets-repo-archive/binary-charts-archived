@@ -31,7 +31,11 @@ export default class ZoomControls extends PureComponent {
         if (newMin < dataMin) {
             const startEpoch = Math.round(newMin / 1000);
             const endEpoch = Math.round(dataMin / 1000);
-            getData(startEpoch, endEpoch).then(() => xAxis.setExtremes(newMin, end, true));
+            getData(startEpoch, endEpoch).then((data) => {
+                const smallestDataInMillis = (data[0].epoch) * 1000;
+                const closestToStart = smallestDataInMillis < newMin ? newMin : smallestDataInMillis;
+                xAxis.setExtremes(closestToStart, end, true);
+            });
         }
     }
 
