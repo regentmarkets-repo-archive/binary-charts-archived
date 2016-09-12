@@ -6,6 +6,7 @@ import updateSeries from './updateSeries';
 import updateContract from './updateContract';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
+import updateMinRange from './updateMinRange';
 // $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
 
@@ -88,6 +89,8 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     if (restDiffer) {
         updateRest(chart, nextProps);
     }
+
+    updateMinRange(chart);
 
     chart.redraw();
 };
