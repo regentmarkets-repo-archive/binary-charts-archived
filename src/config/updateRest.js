@@ -1,3 +1,4 @@
+import { digitsToPips } from 'binary-utils';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, params: any) => {
@@ -10,6 +11,6 @@ export default (chart: Chart, params: any) => {
     }, false);
 
     chart.yAxis[0].update({
-        minTickInterval: pipSize,
+        minTickInterval: digitsToPips(pipSize),
     }, false);
 };

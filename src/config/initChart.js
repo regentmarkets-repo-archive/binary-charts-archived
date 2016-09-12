@@ -37,11 +37,10 @@ export default ({ pipSize = 0,
         },
         plotOptions: {
             series: {
-                connectNulls: true,
+                connectNulls: false,
                 marker: {
                     enabled: false,
                 },
-                turboThreshold: 3000,
             },
         },
         xAxis: {
