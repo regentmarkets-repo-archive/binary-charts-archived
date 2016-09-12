@@ -104,13 +104,6 @@ export default class BinaryChart extends Component {
             this.createChart(nextProps);
         }
 
-        if (this.props.type !== nextProps.type &&
-            nextProps.type === 'candlestick' || nextProps.type === 'ohlc') {
-            this.chart.xAxis[0].update({
-                minRange: 10 * 60 * 1000,
-            });
-        }
-
         updateChart(this.chart, this.props, nextProps);
 
         return true;
