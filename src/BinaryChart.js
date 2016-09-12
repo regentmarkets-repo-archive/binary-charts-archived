@@ -120,7 +120,7 @@ export default class BinaryChart extends Component {
     createChart(newProps?: Props) {
         const props = newProps || this.props;
         const config = initChart(props);
-        this.chart = new Highcharts.StockChart(this.chartDiv, config, chart => {
+        this.chart = new Highcharts.StockChart(this.chartDiv, config, (chart) => {
             if (!props.noData && props.ticks.length === 0) {
                 chart.showLoading();
             }
@@ -128,8 +128,7 @@ export default class BinaryChart extends Component {
 
         this.eventListeners = props.events.map(e => ({
             type: e.type,
-            handler: (ev) =>
-                e.handler(ev, this.chart),
+            handler: ev => e.handler(ev, this.chart),
         }));
 
         this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
@@ -137,9 +136,7 @@ export default class BinaryChart extends Component {
 
     destroyChart() {
         if (this.eventListeners) {
-            this.eventListeners.forEach(e => {
-                this.chartDiv.removeEventListener(e.type, e.handler);
-            });
+            this.eventListeners.forEach(e => this.chartDiv.removeEventListener(e.type, e.handler));
         }
 
         if (this.chart) {
