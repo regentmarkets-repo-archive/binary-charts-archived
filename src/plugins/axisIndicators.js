@@ -88,7 +88,7 @@ const renderIndicator = ({ chart, indicator, value, x, pipSize, yAxis, backgroun
     });
 };
 
-const renderAxisIndicator = chart => {
+const renderAxisIndicator = (chart) => {
     const { contract, pipSize, theme } = chart.userOptions.binary;
     const yAxis = chart.yAxis[0];
     const mainSeries = getMainSeries(chart);
@@ -108,7 +108,7 @@ const renderAxisIndicator = chart => {
             x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
     }
 
-    barrierIds.forEach(b => {
+    barrierIds.forEach((b) => {
         const barrierSeries = chart.get(b);
         if (barrierSeries) {
             renderIndicator({ chart, indicator: b, value: +barrierSeries.dataMin,

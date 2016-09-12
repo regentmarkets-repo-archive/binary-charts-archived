@@ -10,15 +10,33 @@ import styles from '../styles';
 export default class ZoomControls extends PureComponent {
 
     props: {
-        getData?: (duration: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => void,
+        getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
     };
 
     moveOffset = (direction: number): void => {
+        const getData = this.props.getData;
         const xAxis = this.props.getXAxis();
-        const step = (xAxis.max - xAxis.min) / 10 * direction;
-        xAxis.setExtremes(xAxis.min + step, xAxis.max + step, true);
+        const { min, max, dataMin, dataMax } = xAxis;
+        const step = (max - min) / 10 * direction;
+
+        const newMin = min + step;
+
+        const start = Math.max(dataMin, newMin);
+        const end = Math.min(dataMax, max + step);
+
+        xAxis.setExtremes(start, end, true);
+
+        if (newMin < dataMin) {
+            const startEpoch = Math.round(newMin / 1000);
+            const endEpoch = Math.round(dataMin / 1000);
+            getData(startEpoch, endEpoch).then((data) => {
+                const smallestDataInMillis = (data[0].epoch) * 1000;
+                const closestToStart = smallestDataInMillis < newMin ? newMin : smallestDataInMillis;
+                xAxis.setExtremes(closestToStart, end, true);
+            });
+        }
     }
 
     moveLeft = () => this.moveOffset(-1);
@@ -28,27 +46,31 @@ export default class ZoomControls extends PureComponent {
     // decrease visible data by half
     zoomIn = () => {
         const xAxis = this.props.getXAxis();
-        const halfDiff = (xAxis.max - xAxis.min) / 2;
-        xAxis.setExtremes(xAxis.min + halfDiff, xAxis.max, true);
+        const { min, max } = xAxis;
+        const halfDiff = (max - min) / 2;
+
+        xAxis.setExtremes(min + halfDiff, max, true);
     }
 
     reset = () => {
         const xAxis = this.props.getXAxis();
-        xAxis.setExtremes(xAxis.dataMin, xAxis.DataMax, true);
+        xAxis.setExtremes(xAxis.dataMin, xAxis.dataMax, true);
     }
 
     // increase visible data to it's double
     zoomOut = () => {
         const xAxis = this.props.getXAxis();
-        const diff = xAxis.max - xAxis.min;
-        const newMin = xAxis.min - diff;
-        xAxis.setExtremes(newMin < xAxis.dataMin ? xAxis.DataMin : newMin, xAxis.max, true);
+        const { dataMin, min, max } = xAxis;
+        const diff = max - min;
+        const newMin = Math.max(dataMin, min - diff);
+        xAxis.setExtremes(newMin, max, true);
     }
 
     moveToEnd = () => {
         const xAxis = this.props.getXAxis();
-        const diff = xAxis.max - xAxis.min;
-        xAxis.setExtremes(xAxis.dataMax - diff, xAxis.dataMax, true);
+        const { dataMax, min, max } = xAxis;
+        const diff = max - min;
+        xAxis.setExtremes(dataMax - diff, dataMax, true);
     }
 
     render() {

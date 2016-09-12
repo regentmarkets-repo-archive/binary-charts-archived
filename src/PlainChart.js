@@ -19,7 +19,7 @@ export default (renderTo: string, params: Object): Object => {
     updateChart(chart, { ticks: [] }, params);
 
     let currentParams = params;
-    const imperativeUpdate = newParams => {
+    const imperativeUpdate = (newParams) => {
         if (currentParams.symbol !== newParams.symbol ||
             currentParams.type !== newParams.type ||
             currentParams.noData !== newParams.noData) {

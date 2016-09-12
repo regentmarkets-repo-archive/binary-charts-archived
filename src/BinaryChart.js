@@ -46,7 +46,9 @@ type Props = {
     onRangeChange: () => void,
     onIntervalChange: (interval: ChartInterval) => void,
     pipSize: number,
+    showAllTimeFrame: boolean,
     symbol: string,
+    symbolName: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
     ticks: Tick[],
     theme: string,
@@ -72,9 +74,10 @@ export default class BinaryChart extends Component {
 
     static defaultProps = {
         events: [],
-        getData: () => ({}),
+        getData: () => Promise.resolve(),
         onTypeChange: () => ({}),
         onIntervalChange: () => ({}),
+        showAllTimeFrame: true,
         theme: 'light',
         ticks: [],
         pipSize: 0,
@@ -120,7 +123,7 @@ export default class BinaryChart extends Component {
     createChart(newProps?: Props) {
         const props = newProps || this.props;
         const config = initChart(props);
-        this.chart = new Highcharts.StockChart(this.chartDiv, config, chart => {
+        this.chart = new Highcharts.StockChart(this.chartDiv, config, (chart) => {
             if (!props.noData && props.ticks.length === 0) {
                 chart.showLoading();
             }
@@ -128,8 +131,7 @@ export default class BinaryChart extends Component {
 
         this.eventListeners = props.events.map(e => ({
             type: e.type,
-            handler: (ev) =>
-                e.handler(ev, this.chart),
+            handler: ev => e.handler(ev, this.chart),
         }));
 
         this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
@@ -137,9 +139,7 @@ export default class BinaryChart extends Component {
 
     destroyChart() {
         if (this.eventListeners) {
-            this.eventListeners.forEach(e => {
-                this.chartDiv.removeEventListener(e.type, e.handler);
-            });
+            this.eventListeners.forEach(e => this.chartDiv.removeEventListener(e.type, e.handler));
         }
 
         if (this.chart) {
@@ -174,7 +174,7 @@ export default class BinaryChart extends Component {
 
         const result = getData(start, end, chartTypeToDataType(newType), this.interval);
         onTypeChange(newType);
-        if (result && result.then) {    // show loading msg if typechange function return promise
+        if (result && result.then) {    // show loading msg if fetch data function return promise
             this.chart.showLoading();
             result.then(() => this.chart.hideLoading());
         }
@@ -188,7 +188,7 @@ export default class BinaryChart extends Component {
 
     getYAxis = () => this.chart.yAxis[0];
 
-    getDataForTimeFrame = (start, end) => {
+    getDataByStartEnd = (start, end) => {
         const type = chartTypeToDataType(this.props.type);
         const interval = this.interval;
 
@@ -207,7 +207,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className, getData, toolbar, type } = this.props;
+        const { id, className, showAllTimeFrame, toolbar, ticks, type } = this.props;
         const { pickerShown } = this.state;
 
         return (
@@ -227,13 +227,15 @@ export default class BinaryChart extends Component {
                 <div ref={x => { this.chartDiv = x; }} id={id} />
                 <ZoomControls
                     getXAxis={this.getXAxis}
-                    getData={getData}
+                    getData={this.getDataByStartEnd}
                     getSeries={this.getSeries}
                 />
                 {toolbar &&
                     <TimeFramePicker
+                        showAllTimeFrame={showAllTimeFrame}
+                        data={ticks}
                         getXAxis={this.getXAxis}
-                        getData={this.getDataForTimeFrame}
+                        getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
                     />
                 }

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { getLast } from 'binary-utils';
 import styles from '../styles';
 
 const options = [
@@ -15,28 +16,34 @@ const options = [
 export default class TimeFramePicker extends PureComponent {
 
     props: {
+        data: Tick[],
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
+        showAllTimeFrame: boolean,
     };
 
     setRange = (fromDistance: seconds) => {
         const series = this.props.getSeries();
         const xAxis = this.props.getXAxis();
-        const to = xAxis.max;
-        const from = xAxis.max - fromDistance * 1000;
+        const end = xAxis.max;
+        const start = xAxis.max - fromDistance * 1000;
 
         const firstDataX = series.options.data[0][0];
-        const dataDiff = from - firstDataX;
+        const dataDiff = start - firstDataX;
 
         if (dataDiff < 0) {
-            const result = this.props.getData(Math.round(from / 1000), Math.round(firstDataX / 1000));
+            const result = this.props.getData(Math.round(start / 1000), Math.round(firstDataX / 1000));
             if (result.then) {
-                result.then(() => xAxis.setExtremes(from, to, true, false));
+                result.then((data) => {
+                    const smallestDataInMillis = (data[0].epoch) * 1000;
+                    const closestToStart = smallestDataInMillis < start ? start : smallestDataInMillis;
+                    xAxis.setExtremes(closestToStart, end, true, false);
+                });
             }
+        } else {
+            xAxis.setExtremes(start, end, true, false);
         }
-
-        xAxis.setExtremes(from, to, true, false);
     };
 
     setRangeToMax = () => {
@@ -46,9 +53,18 @@ export default class TimeFramePicker extends PureComponent {
     }
 
     render() {
+        const { data, showAllTimeFrame } = this.props;
+
+        let opt = options;
+        if (!showAllTimeFrame && data.length > 0) {
+            const max = getLast(data).epoch;
+            const min = data[0].epoch;
+            opt = options.filter(o => o.seconds <= max - min);
+        }
+
         return (
             <div style={styles.timeFramePicker} className="binary-chart-time-frame-picker">
-                {options.map(x =>
+                {opt.map(x =>
                     <button
                         key={x.text}
                         style={styles.timeFrameButton}
