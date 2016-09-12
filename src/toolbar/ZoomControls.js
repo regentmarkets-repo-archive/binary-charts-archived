@@ -34,7 +34,7 @@ export default class ZoomControls extends PureComponent {
 
     reset = () => {
         const xAxis = this.props.getXAxis();
-        xAxis.setExtremes(xAxis.dataMin, xAxis.DataMax, true);
+        xAxis.setExtremes(xAxis.dataMin, xAxis.dataMax, true);
     }
 
     // increase visible data to it's double
@@ -42,7 +42,7 @@ export default class ZoomControls extends PureComponent {
         const xAxis = this.props.getXAxis();
         const diff = xAxis.max - xAxis.min;
         const newMin = xAxis.min - diff;
-        xAxis.setExtremes(newMin < xAxis.dataMin ? xAxis.DataMin : newMin, xAxis.max, true);
+        xAxis.setExtremes(newMin < xAxis.dataMin ? xAxis.dataMin : newMin, xAxis.max, true);
     }
 
     moveToEnd = () => {
