@@ -10,6 +10,7 @@ import SettingsPicker from './SettingsPicker';
 type Props = {
     interval: string,
     type: string,
+    compact: boolean,
     crosshair?: boolean,
     chart: HighstockChart,
     hasInterval: boolean,
@@ -28,11 +29,13 @@ export default class Toolbar extends PureComponent {
 
     static defaultProps = {
         type: 'line',
+        compact: false,
         hasInterval: false,
     };
 
     render() {
-        const { getXAxis, getYAxis, getChart, pickerShown, onShowPicker, onIntervalChange, onTypeChange } = this.props;
+        const { compact, getXAxis, getYAxis, getChart, pickerShown,
+            onShowPicker, onIntervalChange, onTypeChange } = this.props;
 
         return (
             <div style={styles.toolbar} className="binary-chart-toolbar">
@@ -41,25 +44,29 @@ export default class Toolbar extends PureComponent {
                     onExpand={() => onShowPicker('type')}
                     onChange={onTypeChange}
                 />
-                <IntervalPicker
-                    expanded={pickerShown === 'interval'}
-                    onExpand={() => onShowPicker('interval')}
-                    onChange={onIntervalChange}
-                />
+                {!compact &&
+                    <IntervalPicker
+                        expanded={pickerShown === 'interval'}
+                        onExpand={() => onShowPicker('interval')}
+                        onChange={onIntervalChange}
+                    />
+                }
                 <CrosshairSwitcher
                     getXAxis={getXAxis}
                     getYAxis={getYAxis}
                 />
-                <IndicatorsPicker
-                    expanded={pickerShown === 'indicators'}
-                    onExpand={() => onShowPicker('indicators')}
-                />
+                {!compact &&
+                    <IndicatorsPicker
+                        expanded={pickerShown === 'indicators'}
+                        onExpand={() => onShowPicker('indicators')}
+                    />
+                }
                 <SharePicker
                     expanded={pickerShown === 'share'}
                     onExpand={() => onShowPicker('share')}
                     getChart={getChart}
                 />
-                <SettingsPicker />
+                {!compact && <SettingsPicker />}
             </div>
         );
     }

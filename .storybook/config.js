@@ -1,7 +1,8 @@
 import { configure } from '@kadira/storybook';
 
 configure(() => {
-    require('./simple');
+    require('./basic');
+    require('./data');
     require('./multiple-charts');
     require('./contract-types');
     require('./times');

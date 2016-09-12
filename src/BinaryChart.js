@@ -54,7 +54,10 @@ type Props = {
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
-    toolbar: boolean,
+    hiddenTimeFrame: boolean,
+    hiddenToolbar: boolean,
+    compactToolbar: boolean,
+    hiddenZoomControls: boolean,
     type: ChartType,
 };
 
@@ -82,7 +85,9 @@ export default class BinaryChart extends Component {
         ticks: [],
         pipSize: 0,
         type: 'area',
-        toolbar: true,
+        hideTimeFrame: false,
+        hideToolbar: false,
+        hideZoomControls: false,
     };
 
     constructor(props: Props) {
@@ -200,14 +205,16 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className, showAllTimeFrame, toolbar, ticks, type } = this.props;
+        const { id, className, showAllTimeFrame, ticks, type,
+            hiddenTimeFrame, hiddenToolbar, hiddenZoomControls, compactToolbar } = this.props;
         const { pickerShown } = this.state;
 
         return (
             <div className={className} onClick={() => this.onShowPicker()}>
-                {toolbar &&
+                {!hiddenToolbar &&
                     <Toolbar
                         pickerShown={pickerShown}
+                        compact={compactToolbar}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
@@ -218,12 +225,14 @@ export default class BinaryChart extends Component {
                     />
                 }
                 <div ref={x => { this.chartDiv = x; }} id={id} />
-                <ZoomControls
-                    getXAxis={this.getXAxis}
-                    getData={this.getDataByStartEnd}
-                    getSeries={this.getSeries}
-                />
-                {toolbar &&
+                {!hiddenZoomControls &&
+                    <ZoomControls
+                        getXAxis={this.getXAxis}
+                        getData={this.getDataByStartEnd}
+                        getSeries={this.getSeries}
+                    />
+                }
+                {!hiddenTimeFrame &&
                     <TimeFramePicker
                         showAllTimeFrame={showAllTimeFrame}
                         data={ticks}

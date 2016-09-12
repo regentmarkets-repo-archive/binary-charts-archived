@@ -29,6 +29,7 @@ export default {
         justifyContent: 'center',
         position: 'relative',
         marginTop: -70,
+        height: 30,
         marginBottom: 40,
         width: '100%',
         textAlign: 'center',
