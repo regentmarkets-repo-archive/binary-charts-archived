@@ -10,20 +10,27 @@ import styles from '../styles';
 export default class ZoomControls extends PureComponent {
 
     props: {
-        getData?: (duration: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => void,
+        getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
     };
 
     moveOffset = (direction: number): void => {
+        const getData = this.props.getData;
         const xAxis = this.props.getXAxis();
         const { min, max, dataMin, dataMax } = xAxis;
         const step = (max - min) / 10 * direction;
 
-        const start = Math.max(dataMin, min + step);
+        const newMin = min + step;
+
+        const start = Math.max(dataMin, newMin);
         const end = Math.min(dataMax, max + step);
 
         xAxis.setExtremes(start, end, true);
+
+        if (newMin < dataMin) {
+            getData(newMin, dataMin).then(() => xAxis.setExtremes(newMin, end, true));
+        }
     }
 
     moveLeft = () => this.moveOffset(-1);

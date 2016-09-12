@@ -73,7 +73,7 @@ export default class BinaryChart extends Component {
 
     static defaultProps = {
         events: [],
-        getData: () => ({}),
+        getData: () => Promise.resolve(),
         onTypeChange: () => ({}),
         onIntervalChange: () => ({}),
         showAllTimeFrame: true,
@@ -173,7 +173,7 @@ export default class BinaryChart extends Component {
 
         const result = getData(start, end, chartTypeToDataType(newType), this.interval);
         onTypeChange(newType);
-        if (result && result.then) {    // show loading msg if typechange function return promise
+        if (result && result.then) {    // show loading msg if fetch data function return promise
             this.chart.showLoading();
             result.then(() => this.chart.hideLoading());
         }
@@ -187,7 +187,7 @@ export default class BinaryChart extends Component {
 
     getYAxis = () => this.chart.yAxis[0];
 
-    getDataForTimeFrame = (start, end) => {
+    getDataByStartEnd = (start, end) => {
         const type = chartTypeToDataType(this.props.type);
         const interval = this.interval;
 
@@ -226,7 +226,7 @@ export default class BinaryChart extends Component {
                 <div ref={x => { this.chartDiv = x; }} id={id} />
                 <ZoomControls
                     getXAxis={this.getXAxis}
-                    getData={getData}
+                    getData={this.getDataByStartEnd}
                     getSeries={this.getSeries}
                 />
                 {toolbar &&
@@ -234,7 +234,7 @@ export default class BinaryChart extends Component {
                         showAllTimeFrame={showAllTimeFrame}
                         data={ticks}
                         getXAxis={this.getXAxis}
-                        getData={this.getDataForTimeFrame}
+                        getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
                     />
                 }
