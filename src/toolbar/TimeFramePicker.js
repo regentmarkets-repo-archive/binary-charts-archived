@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { getLast } from 'binary-utils';
 import styles from '../styles';
 
 const options = [
@@ -15,9 +16,11 @@ const options = [
 export default class TimeFramePicker extends PureComponent {
 
     props: {
+        data: Tick[]
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
+        showAllTimeFrame: boolean,
     };
 
     setRange = (fromDistance: seconds) => {
@@ -50,9 +53,18 @@ export default class TimeFramePicker extends PureComponent {
     }
 
     render() {
+        const { data, showAllTimeFrame } = this.props;
+
+        let opt = options;
+        if (!showAllTimeFrame && data.length > 0) {
+            const max = getLast(data).epoch;
+            const min = data[0].epoch;
+            opt = options.filter(o => o.seconds <= max - min);
+        }
+
         return (
             <div style={styles.timeFramePicker} className="binary-chart-time-frame-picker">
-                {options.map(x =>
+                {opt.map(x =>
                     <button
                         key={x.text}
                         style={styles.timeFrameButton}

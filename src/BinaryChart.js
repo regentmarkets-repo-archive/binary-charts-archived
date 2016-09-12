@@ -46,6 +46,7 @@ type Props = {
     onRangeChange: () => void,
     onIntervalChange: (interval: ChartInterval) => void,
     pipSize: number,
+    showAllTimeFrame: boolean,
     symbol: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
     ticks: Tick[],
@@ -75,6 +76,7 @@ export default class BinaryChart extends Component {
         getData: () => ({}),
         onTypeChange: () => ({}),
         onIntervalChange: () => ({}),
+        showAllTimeFrame: true,
         theme: 'light',
         ticks: [],
         pipSize: 0,
@@ -204,7 +206,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className, getData, toolbar, type } = this.props;
+        const { id, className, getData, showAllTimeFrame, toolbar, ticks, type } = this.props;
         const { pickerShown } = this.state;
 
         return (
@@ -229,6 +231,8 @@ export default class BinaryChart extends Component {
                 />
                 {toolbar &&
                     <TimeFramePicker
+                        showAllTimeFrame={showAllTimeFrame}
+                        data={ticks}
                         getXAxis={this.getXAxis}
                         getData={this.getDataForTimeFrame}
                         getSeries={this.getSeries}
