@@ -13,6 +13,8 @@ export default ({ pipSize = 0, type = 'area', noData = false, theme = 'light', s
         rangeSelector: { enabled: false },
         exporting: { enabled: false },
         title: { text: null },
+        navigator: { enabled: false },
+
         noData: {
             style: noData ? {} : { display: 'none' },
         },

@@ -22,10 +22,6 @@ const themeColors = (theme: Theme): Object => ({
             color: colorBg(theme, 1),
         },
     },
-    // colors: [colorBg(theme, 1), '#f45b5b', '#8085e9', '#8d4654'],
-    // series: {
-    //     fillColor: 'red',
-    // },
     xAxis: {
 		gridLineColor: colorBg(theme, 0.25),
         labels: {
@@ -76,9 +72,6 @@ const commonTheme = {
 	},
     plotOptions: {
         series: {
-            // color: colorBg(theme, 1),
-            // color: downColor,
-            // upColor,
             states: {
                 hover: {
                     lineWidth: 1.5,
@@ -91,12 +84,12 @@ const commonTheme = {
         ohlc: {
             color: downColor,
             upColor,
-            lineWidth: 2,
+            lineWidth: 1.5,
         },
         candlestick: {
             color: 'rgba(204, 0, 51, 0.75)',
             lineColor: downColor,
-            lineWidth: 2,
+            lineWidth: 1.5,
             upColor: 'rgba(46, 136, 54, 0.75)',
             upLineColor: upColor,
         },
@@ -108,14 +101,6 @@ const commonTheme = {
     },
 	yAxis: {
 		tickWidth: 1,
-	},
-    labels: {
-        style: {
-            color: 'red',
-        },
-    },
-    navigator: {
-        enabled: false,
 	},
     tooltip: {
         shadow: false,

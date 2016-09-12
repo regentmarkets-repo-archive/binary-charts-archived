@@ -40,10 +40,10 @@ export default {
         boxSizing: 'border-box',
         borderRadius: '50px',
         background: colorBg('light', 0.25),
-        padding: 8,
+        padding: 4,
         margin: '0 2px',
-        height: 40,
-        width: 40,
+        height: 32,
+        width: 32,
     },
     zoomSpacer: {
         flex: 1,
