@@ -23,13 +23,14 @@ export default class IndicatorsPicker extends PureComponent {
                 expanded={expanded}
                 text="Indicators"
                 items={[
-                    { text: 'Simple Moving Average (SMA)', onPick: this.onChange },
-                    { text: 'Exponenital Moving Average (EMA)', onPick: this.onChange },
-                    { text: 'Bollinger Band (BB)', onPick: this.onChange },
-                    { text: 'Relative Strength Index (RSI)', onPick: this.onChange },
-                    { text: 'Moving Average Convergence Divergence (MACD)', onPick: this.onChange },
+                    { text: 'Simple Moving Average (SMA)' },
+                    { text: 'Exponenital Moving Average (EMA)' },
+                    { text: 'Bollinger Band (BB)' },
+                    { text: 'Relative Strength Index (RSI)' },
+                    { text: 'Moving Average Convergence Divergence (MACD)' },
                 ]}
                 onExpand={onExpand}
+                onChange={this.onChange}
             />
         );
     }

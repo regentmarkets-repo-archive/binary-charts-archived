@@ -3,6 +3,7 @@ import Share from 'react-material-design-icons/icons/Share';
 import Picker from './Picker';
 
 type Props = {
+    symbolName: string,
     expanded: boolean,
     getChart: () => any,
     onExpand: () => void,
@@ -11,6 +12,10 @@ type Props = {
 export default class SharePicker extends PureComponent {
 
     props: Props;
+
+    static defaultProps = {
+        symbolName: 'Chart',
+    };
 
     constructor(props: Props) {
         super(props);
@@ -27,15 +32,17 @@ export default class SharePicker extends PureComponent {
         const chart = this.props.getChart();
         chart.exportChart({
             type,
-            filename: 'chart',
+            filename: this.props.symbolName,
         });
     };
 
-    downloadPng = () =>
-        this.download('image/png');
+    downloadPng = () => this.download('image/png');
 
-    downloadPdf = () =>
-        this.download('application/pdf');
+    downloadSvg = () => this.download('image/svg+xml');
+
+    downloadPdf = () => this.download('application/pdf');
+
+    onDownload = downloadFunc => downloadFunc();
 
     render() {
         const { expanded, onExpand } = this.props;
@@ -45,10 +52,12 @@ export default class SharePicker extends PureComponent {
                 expanded={expanded}
                 img={<Share />}
                 items={[
-                    { text: 'Download Image', onPick: this.downloadPng },
-                    { text: 'Download PDF', onPick: this.downloadPdf },
+                    { text: 'Download PNG Image', value: this.downloadPng },
+                    { text: 'Download SVG Image', value: this.downloadSvg },
+                    { text: 'Download PDF Document', value: this.downloadPdf },
                 ]}
                 onExpand={onExpand}
+                onChange={this.onDownload}
             />
         );
     }

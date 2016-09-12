@@ -8,6 +8,7 @@ import CrosshairSwitcher from './CrosshairSwitcher';
 import SettingsPicker from './SettingsPicker';
 
 type Props = {
+    symbolName: string,
     interval: string,
     type: string,
     compact: boolean,
@@ -34,7 +35,7 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { compact, getXAxis, getYAxis, getChart, pickerShown,
+        const { compact, getXAxis, getYAxis, getChart, pickerShown, interval,
             onShowPicker, onIntervalChange, onTypeChange } = this.props;
 
         return (
@@ -46,6 +47,7 @@ export default class Toolbar extends PureComponent {
                 />
                 {!compact &&
                     <IntervalPicker
+                        value={interval}
                         expanded={pickerShown === 'interval'}
                         onExpand={() => onShowPicker('interval')}
                         onChange={onIntervalChange}

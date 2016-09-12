@@ -55,8 +55,8 @@ export default class BinaryChart extends Component {
     static defaultProps = {
         events: [],
         getData: () => Promise.resolve(),
-        onTypeChange: () => ({}),
-        onIntervalChange: () => ({}),
+        onTypeChange: () => undefined,
+        onIntervalChange: () => undefined,
         showAllTimeFrame: true,
         theme: 'light',
         ticks: [],
@@ -81,12 +81,12 @@ export default class BinaryChart extends Component {
         return { start, end };
     }
 
-    onIntervalChange = (interval: Epoch) => {
+    onIntervalChange = (interval: number) => {
         const { getData } = this.props;
         const { start, end } = this.getCurrentStartEnd();
         getData(start, end, 'candles', interval);
         this.interval = interval;
-        this.chart.xAxis[0].update({
+        this.getXAxis().update({
             minRange: 10 * interval * 1000,
         });
     };
@@ -134,7 +134,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { className, showAllTimeFrame, ticks, type,
+        const { className, showAllTimeFrame, symbolName, ticks, type,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls, compactToolbar } = this.props;
         const { pickerShown } = this.state;
 
@@ -142,8 +142,10 @@ export default class BinaryChart extends Component {
             <div className={className} onClick={() => this.onShowPicker()}>
                 {!hiddenToolbar &&
                     <Toolbar
+                        symbolName={symbolName}
                         pickerShown={pickerShown}
                         compact={compactToolbar}
+                        interval={this.interval}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
