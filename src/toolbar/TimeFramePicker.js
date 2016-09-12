@@ -16,7 +16,7 @@ const options = [
 export default class TimeFramePicker extends PureComponent {
 
     props: {
-        data: Tick[]
+        data: Tick[],
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
