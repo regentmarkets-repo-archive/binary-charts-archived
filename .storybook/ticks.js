@@ -10,8 +10,12 @@ export default [
     { epoch: 6, quote: 60 },
     { epoch: 7, quote: 30 },
     { epoch: 8, quote: 40 },
+    { epoch: 9, quote: 40 },
+    { epoch: 10, quote: 50 },
+    { epoch: 11, quote: 20 },
+    { epoch: 12, quote: 40 },
 ].map((x, i) => {
-    x.epoch = nowAsEpoch() + (i * 10800);
+    x.epoch = nowAsEpoch() - ((12 - i) * 60);
     return x;
 });
 
