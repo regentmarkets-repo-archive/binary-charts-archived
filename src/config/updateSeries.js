@@ -50,7 +50,7 @@ export default (chart: Chart, nextProps: any) => {
 
     // closures
     const addNewseries = data =>
-        chart.addSeries(createSeries('TODO', chartType, data, pipSize), false);
+        chart.addSeries(createSeries('TODO: add AssetName', chartType, data, pipSize), false);
     const shiftToRightWhenCloseEnough = (newDataMax: number, threshold: number) => {
         const futureSeries = chart.get('future');
         if (!futureSeries) {

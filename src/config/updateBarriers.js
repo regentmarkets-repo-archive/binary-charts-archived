@@ -7,36 +7,27 @@ const extractBarrierLine = (chart, contract) => {
     const mainSeries = getMainSeries(chart);
     const currentSpot = lastPriceFromSeries(mainSeries);
 
-    const { dataMax } = chart.xAxis[0].getExtremes();
-    const minData = mainSeries.xData[0];
+    const { dataMin, dataMax } = chart.xAxis[0].getExtremes();
+    // const dataMin = mainSeries.xData[0];
 
-    return barrierIds.map(b => {
-        const hasBarrier = contract && contract[b] &&
-            contract[b] !== currentSpot &&
-            !contract.contract_type.includes('DIGIT');
-
-        if (!hasBarrier) {
-            return undefined;
-        }
-
-        const yVal = +contract[b];
-        const data = [[minData, yVal], [dataMax, yVal]];
-
-        return createHiddenSeries(data, b);
-    });
+    return barrierIds
+        .filter(x =>
+            contract && contract[x] &&
+                contract[x] !== currentSpot &&
+                !contract.contract_type.includes('DIGIT')
+        )
+        .map(x =>
+            createHiddenSeries([[dataMin, +contract[x]], [dataMax, +contract[x]]], x)
+        );
 };
 
 export default (chart, contract) => {
     const newLines = extractBarrierLine(chart, contract);
-    barrierIds.forEach(i => {
-        const line = chart.get(i);
-        if (line) {
-            line.remove(false);
+    barrierIds.forEach(x => {
+        const series = chart.get(x);
+        if (series) {
+            series.remove(false);
         }
     });
-    newLines.forEach(l => {
-        if (l) {
-            chart.addSeries(l[0], false);
-        }
-    });
+    newLines.filter(x => x).forEach(x => chart.addSeries(x, false));
 };

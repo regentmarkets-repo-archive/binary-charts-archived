@@ -9,6 +9,7 @@ storiesOf('Basic', module)
     )
     .add('Simple', () =>
         <BinaryChart
+            assetName="Custom Symbol Name"
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },

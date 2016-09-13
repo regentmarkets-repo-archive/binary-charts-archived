@@ -29,9 +29,8 @@ export default class SymbolSwitchableChart extends React.Component {
 
     render() {
         const { ticks, symbol } = this.state;
-        const getData = (symbol) => (start, end) => {
-            const duration = Math.round((end - start) / 1000);
-            return api.getTickHistory(symbol, {
+        const getData = (symbol) => (start, end) =>
+            api.getTickHistory(symbol, {
                 start,
                 end,
             }).then(r => {
@@ -40,10 +39,9 @@ export default class SymbolSwitchableChart extends React.Component {
                     epoch: +t,
                     quote: +prices[idx],
                 }));
-                this.setState({ ticks: result.concat(ticks) })
+                this.setState({ ticks: result.concat(ticks) });
             });
-        };
-        // console.log('s', symbol);
+
         return (
             <div>
                 <BinaryChart

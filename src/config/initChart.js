@@ -9,7 +9,8 @@ export default ({
     noData = false,
     theme = 'light',
     shiftMode = 'fixed',
-    symbolName }) =>
+    assetName,
+}) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         animation: false,
@@ -66,6 +67,8 @@ export default ({
             floor: 0,
             minTickInterval: digitsToPips(pipSize),
         },
-        series: [createSeries(symbolName, type, [], pipSize)],
+        series: [
+            createSeries(assetName, type, [], pipSize),
+        ],
     }
 );

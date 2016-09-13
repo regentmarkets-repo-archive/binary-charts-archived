@@ -3,7 +3,7 @@ import Share from 'react-material-design-icons/icons/Share';
 import Picker from './Picker';
 
 type Props = {
-    symbolName: string,
+    assetName: string,
     expanded: boolean,
     getChart: () => any,
     onExpand: () => void,
@@ -14,7 +14,7 @@ export default class SharePicker extends PureComponent {
     props: Props;
 
     static defaultProps = {
-        symbolName: 'Chart',
+        assetName: 'Chart',
     };
 
     constructor(props: Props) {
@@ -32,7 +32,7 @@ export default class SharePicker extends PureComponent {
         const chart = this.props.getChart();
         chart.exportChart({
             type,
-            filename: this.props.symbolName,
+            filename: this.props.assetName,
         });
     };
 

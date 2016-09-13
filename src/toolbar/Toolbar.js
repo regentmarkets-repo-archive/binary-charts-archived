@@ -8,7 +8,6 @@ import CrosshairSwitcher from './CrosshairSwitcher';
 import SettingsPicker from './SettingsPicker';
 
 type Props = {
-    symbolName: string,
     interval: string,
     type: string,
     compact: boolean,

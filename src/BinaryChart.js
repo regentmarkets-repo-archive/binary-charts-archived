@@ -26,7 +26,7 @@ type Props = {
     pipSize: number,
     showAllTimeFrame: boolean,
     symbol: string,
-    symbolName: string,
+    assetName: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
     ticks: Tick[],
     theme: string,
@@ -162,7 +162,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { className, showAllTimeFrame, symbolName, ticks, type,
+        const { className, showAllTimeFrame, ticks, type,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls, compactToolbar } = this.props;
         const { pickerShown } = this.state;
 
@@ -170,7 +170,6 @@ export default class BinaryChart extends Component {
             <div className={className} onClick={this.onShowPicker}>
                 {!hiddenToolbar &&
                     <Toolbar
-                        symbolName={symbolName}
                         pickerShown={pickerShown}
                         compact={compactToolbar}
                         interval={this.interval}
