@@ -105,7 +105,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 if (contractStartLater && isStartLaterNewlyAdded) {
                     addStartLaterData(lastestNewData);
                     shiftToRightWhenCloseEnough(contract.date_start * 1000, (dataMax - max) < 2000);
-                } else if (!contractStartLater && hasFutureSeries){
+                } else if (!contractStartLater && hasFutureSeries) {
                     removeStartLaterData();
                     const mainSeriesMax = getLast(dataInChart)[0];
                     if (mainSeriesMax < max) {
@@ -174,7 +174,7 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 if (contractStartLater && isStartLaterNewlyAdded) {
                     addStartLaterData(lastestNewData);
                     chart.xAxis[0].setExtremes(newDataInChartFormat[0][0], contract.date_start * 1000);
-                } else if (!contractStartLater && hasFutureSeries){
+                } else if (!contractStartLater && hasFutureSeries) {
                     removeStartLaterData();
                 }
             }
