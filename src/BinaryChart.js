@@ -167,7 +167,7 @@ export default class BinaryChart extends Component {
         const { pickerShown } = this.state;
 
         return (
-            <div className={className} onClick={() => this.onShowPicker()}>
+            <div className={className} onClick={this.onShowPicker}>
                 {!hiddenToolbar &&
                     <Toolbar
                         symbolName={symbolName}

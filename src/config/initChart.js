@@ -1,9 +1,15 @@
 import { merge } from 'highcharts/highstock';
 import { digitsToPips } from 'binary-utils';
 import { lightTheme, darkTheme } from '../themes';
-import seriesLine from './seriesLine';
+import createSeries from './createSeries';
 
-export default ({ pipSize = 0, type = 'area', noData = false, theme = 'light', shiftMode = 'fixed' }) =>
+export default ({
+    pipSize = 0,
+    type = 'area',
+    noData = false,
+    theme = 'light',
+    shiftMode = 'fixed',
+    symbolName }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         animation: false,
@@ -60,6 +66,6 @@ export default ({ pipSize = 0, type = 'area', noData = false, theme = 'light', s
             floor: 0,
             minTickInterval: digitsToPips(pipSize),
         },
-        series: seriesLine([], pipSize, type),
+        series: [createSeries(symbolName, type, [], pipSize)],
     }
 );

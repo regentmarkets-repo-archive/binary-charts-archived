@@ -1,10 +1,9 @@
-import seriesLine from './seriesLine';
+import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 import lastPriceFromSeries from '../utils/lastPriceFromSeries';
 import barrierIds from '../utils/barriersId';
 
 const extractBarrierLine = (chart, contract) => {
-    const { pipSize } = chart.userOptions.binary;
     const mainSeries = getMainSeries(chart);
     const currentSpot = lastPriceFromSeries(mainSeries);
 
@@ -23,7 +22,7 @@ const extractBarrierLine = (chart, contract) => {
         const yVal = +contract[b];
         const data = [[minData, yVal], [dataMax, yVal]];
 
-        return seriesLine(data, pipSize, 'line', b, true);
+        return createHiddenSeries(data, b);
     });
 };
 

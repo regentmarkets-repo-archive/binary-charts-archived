@@ -1,5 +1,5 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry } from 'binary-utils';
-import seriesLine from './seriesLine';
+import createSeries from './createSeries';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
 import getSeriesByType from '../utils/getSeriesByType';
 import getMainSeries from '../utils/getMainSeries';
@@ -49,7 +49,8 @@ export default (chart: Chart, nextProps: any) => {
     }
 
     // closures
-    const addNewseries = data => chart.addSeries(seriesLine(data, pipSize, chartType)[0], false);
+    const addNewseries = data =>
+        chart.addSeries(createSeries('TODO', chartType, data, pipSize), false);
     const shiftToRightWhenCloseEnough = (newDataMax: number, threshold: number) => {
         const futureSeries = chart.get('future');
         if (!futureSeries) {

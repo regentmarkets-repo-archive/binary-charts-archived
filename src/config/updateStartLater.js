@@ -1,11 +1,9 @@
 import { getLast } from 'binary-utils';
-import seriesLine from './seriesLine';
+import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
-const createFutureSeries = (futureEpoch: number, lastTick: number) => {
-    const futureDataPoint = [futureEpoch * 1000, lastTick];
-    return seriesLine([futureDataPoint], 0, 'line', 'future', true)[0];
-};
+const createFutureSeries = (futureEpoch: number, lastTick: number) =>
+    createHiddenSeries([futureEpoch * 1000, lastTick], 'future');
 
 const futureSeriesId = 'future';
 
