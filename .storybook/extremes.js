@@ -4,7 +4,7 @@ import { nowAsEpoch } from 'binary-utils';
 import BinaryChart from '../src/BinaryChart';
 import ticks from './ticks';
 
-const future = nowAsEpoch() + 60;
+const future = nowAsEpoch() + 6000;
 
 storiesOf('Extremes', module)
     .add('Ends In Future', () =>
