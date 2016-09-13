@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { getLast } from 'binary-utils';
 import Add from 'react-material-design-icons/icons/Add';
 import Remove from 'react-material-design-icons/icons/Remove';
 import ChevronLeft from 'react-material-design-icons/icons/ChevronLeft';
@@ -10,16 +11,29 @@ import styles from '../styles';
 export default class ZoomControls extends PureComponent {
 
     props: {
+        getChart: () => Chart,
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
     };
 
     moveOffset = (direction: number): void => {
-        const getData = this.props.getData;
-        const xAxis = this.props.getXAxis();
-        const { min, max, dataMin, dataMax } = xAxis;
-        const step = (max - min) / 10 * direction;
+        const { getData, getXAxis, getSeries, getChart } = this.props;
+        const chart = getChart();
+        const xAxis = getXAxis();
+        const { min, max, dataMin, dataMax } = xAxis.getExtremes();
+        const futureSeries = chart.get('future');
+
+        let step = (max - min) / 10 * direction;
+
+        if (futureSeries) {
+            const futureX = futureSeries.options.data[0][0];
+            if (futureX <= max) {
+                const series = getSeries();
+                const lastDataX = getLast(series.options.data)[0];
+                step = (lastDataX - min) / 10 * direction;
+            }
+        }
 
         const newMin = min + step;
 
@@ -50,31 +64,59 @@ export default class ZoomControls extends PureComponent {
 
     // decrease visible data by half
     zoomIn = () => {
-        const xAxis = this.props.getXAxis();
-        const { min, max } = xAxis;
-        const halfDiff = (max - min) / 2;
+        const { getChart, getSeries, getXAxis } = this.props;
+        const chart = getChart();
+        const xAxis = getXAxis();
+        const { min, max } = xAxis.getExtremes();
+        const futureSeries = chart.get('future');
+
+        let halfDiff = (max - min) / 2;
+
+        if (futureSeries) {
+            const futureX = futureSeries.options.data[0][0];
+            if (futureX <= max) {
+                const series = getSeries();
+                const lastDataX = getLast(series.options.data)[0];
+                halfDiff = (lastDataX - min) / 2;
+            }
+        }
 
         xAxis.setExtremes(min + halfDiff, max, true);
     }
 
     reset = () => {
         const xAxis = this.props.getXAxis();
-        xAxis.setExtremes(xAxis.dataMin, xAxis.dataMax, true);
+        const { dataMin, dataMax } = xAxis.getExtremes();
+        xAxis.setExtremes(dataMin, dataMax, true);
     }
 
     // increase visible data to it's double
     zoomOut = () => {
         const xAxis = this.props.getXAxis();
-        const { dataMin, min, max } = xAxis;
+        const { dataMin, min, max } = xAxis.getExtremes();
         const diff = max - min;
         const newMin = Math.max(dataMin, min - diff);
         xAxis.setExtremes(newMin, max, true);
     }
 
     moveToEnd = () => {
-        const xAxis = this.props.getXAxis();
-        const { dataMax, min, max } = xAxis;
-        const diff = max - min;
+        const { getChart, getSeries, getXAxis } = this.props;
+        const chart = getChart();
+        const xAxis = getXAxis();
+        const { dataMax, min, max } = xAxis.getExtremes();
+        const futureSeries = chart.get('future');
+
+        let diff = max - min;
+
+        if (futureSeries) {
+            const futureX = futureSeries.options.data[0][0];
+            if (futureX <= max) {
+                const series = getSeries();
+                const lastDataX = getLast(series.options.data)[0];
+                diff = (lastDataX - min);
+            }
+        }
+
         xAxis.setExtremes(dataMax - diff, dataMax, true);
     }
 

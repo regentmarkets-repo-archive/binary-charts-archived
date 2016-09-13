@@ -17,6 +17,7 @@ export default class TimeFramePicker extends PureComponent {
 
     props: {
         data: Tick[],
+        getChart: () => Chart,
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
@@ -24,10 +25,22 @@ export default class TimeFramePicker extends PureComponent {
     };
 
     setRange = (fromDistance: seconds) => {
-        const series = this.props.getSeries();
-        const xAxis = this.props.getXAxis();
-        const end = xAxis.max;
-        const start = xAxis.max - fromDistance * 1000;
+        const { getSeries, getXAxis, getChart } = this.props;
+        const series = getSeries();
+        const xAxis = getXAxis();
+        const chart = getChart();
+        const { min, max } = xAxis.getExtremes();
+        const futureSeries = chart.get('future');
+
+        const end = max;
+        let start = max - (fromDistance * 1000);
+        if (futureSeries) {
+            const futureX = futureSeries.options.data[0][0];
+            if (futureX <= max) {
+                const lastDataX = getLast(series.options.data)[0];
+                start = lastDataX - (fromDistance * 1000);
+            }
+        }
 
         const firstDataX = series.options.data[0][0];
         const dataDiff = start - firstDataX;
@@ -37,7 +50,7 @@ export default class TimeFramePicker extends PureComponent {
             if (result.then) {
                 result.then((data) => {
                     if (!data || data.length === 0) {
-                        xAxis.setExtremes(xAxis.min, end, true, false);
+                        xAxis.setExtremes(min, end, true, false);
                         return;
                     }
 

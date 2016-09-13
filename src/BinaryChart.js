@@ -186,6 +186,7 @@ export default class BinaryChart extends Component {
                 <ChartCore parent={this} {...this.props} />
                 {!hiddenZoomControls &&
                     <ZoomControls
+                        getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
@@ -195,6 +196,7 @@ export default class BinaryChart extends Component {
                     <TimeFramePicker
                         showAllTimeFrame={showAllTimeFrame}
                         data={ticks}
+                        getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
