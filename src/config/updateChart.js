@@ -4,6 +4,7 @@ import { areTickArraysEqual, areCandleArrayEqual,
     getLastTickQuote, getLastOHLCTick } from 'binary-utils';
 import updateSeries from './updateSeries';
 import updateContract from './updateContract';
+import updateStartLater from './updateStartLater';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
 import updateMinRange from './updateMinRange';
@@ -58,14 +59,8 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
 
     const mergedContract = mergeTradeWithContract(trade, contract, lastTick);
 
-    if (ticksDiffer) {
-        updateSeries(chart, nextProps, mergedContract);
-        chart.redraw();
-        if (ticks.length > 0) {
-            chart.hideLoading();
-        }
-    }
-
+    // order of execution matters!
+    // other update func could potentially depends on chart.userOptions.binary
     chart.userOptions.binary = Object.assign(chart.userOptions.binary, {
         contract: mergedContract,
         ticks,
@@ -74,6 +69,18 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         shiftMode: shiftMode || chart.userOptions.binary.shiftMode,            // use old shiftMode if no new shiftMode
         type,
     });
+
+    if (ticksDiffer) {
+        updateSeries(chart, nextProps, mergedContract);
+        chart.redraw();
+        if (ticks.length > 0) {
+            chart.hideLoading();
+        }
+    }
+
+    if (mergedContract) {
+        updateStartLater(chart, mergedContract.date_start, lastTick);
+    }
 
     if (contractsDiffer || ticksDiffer) {
         updateContract(chart, mergedContract, theme);

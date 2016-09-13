@@ -5,6 +5,7 @@ export default (data: (ChartTick | ChartCandle)[], pipSize: number, type: ChartT
     type,
     data,
     id: id || seriesId(type),
+    lineWidth: hidden ? 0 : 2,
     tooltip: {
         valueDecimals: pipSize,
         zIndex: 120,

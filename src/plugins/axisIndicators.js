@@ -93,10 +93,10 @@ const renderAxisIndicator = (chart) => {
     const yAxis = chart.yAxis[0];
     const mainSeries = getMainSeries(chart);
 
+    if (!mainSeries || mainSeries.yData.length === 0) return;
+
     const currentSpot = lastPriceFromSeries(mainSeries);
     const x = yAxis.width;
-
-    if (mainSeries.yData.length === 0) return;
 
     const exitSpot = contract && (contract.exit_tick || contract.sell_spot);
 

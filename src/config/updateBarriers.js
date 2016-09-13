@@ -37,8 +37,7 @@ export default (chart, contract) => {
     });
     newLines.forEach(l => {
         if (l) {
-            const hidden = Object.assign({ lineWidth: 0 }, l[0]);
-            chart.addSeries(hidden, false);
+            chart.addSeries(l[0], false);
         }
     });
 };
