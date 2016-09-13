@@ -7,16 +7,16 @@ export default (chart: Chart, startLaterEpoch: number, lastTick: number) => {
     const { min, max } = xAxis.getExtremes();
 
     const oldSeries = chart.get('future');
+    const startLaterDate = (startLaterEpoch + 5) * 1000; // 5 secs space to the right
 
     if (startLaterEpoch && lastTick) {
         if (oldSeries) {
             const oldStartLater = Math.round(oldSeries.options.data[0][0] / 1000);
             if (oldStartLater !== startLaterEpoch) {
-                oldSeries.setData([startLaterEpoch * 1000, lastTick]);
-                xAxis.setExtremes(min, startLaterEpoch * 1000);
+                oldSeries.setData([startLaterDate, lastTick]);
+                xAxis.setExtremes(min, startLaterDate);
             }
         } else {
-            const startLaterDate = startLaterEpoch * 1000;
             chart.addSeries(createHiddenSeries([[startLaterDate, lastTick]], 'future'));
             xAxis.setExtremes(min, startLaterDate);
         }
