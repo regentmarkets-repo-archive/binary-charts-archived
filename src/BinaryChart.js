@@ -152,31 +152,42 @@ export default class BinaryChart extends Component {
         const start = Math.round(dataMin / 1000);
         const end = Math.round(dataMax / 1000);
         return { start, end };
-    }
-
-    onIntervalChange = (interval: Epoch) => {
-        const { getData } = this.props;
-        const { start, end } = this.getCurrentStartEnd();
-        getData(start, end, 'candles', interval);
-        this.interval = interval;
-        this.chart.xAxis[0].update({
-            minRange: 10 * interval * 1000,
-        });
     };
 
     onTypeChange = (newType: string) => {
         const { getData, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
-        if (this.chart.isLoading) {                 // TODO: should disable change type control
+        if (this.chart.isLoading) {
             return;
         }
 
-        const result = getData(start, end, chartTypeToDataType(newType), this.interval);
+        const result = getData(start, end, chartTypeToDataType(newType), this.interval || 60);
         onTypeChange(newType);
         if (result && result.then) {    // show loading msg if fetch data function return promise
             this.chart.showLoading();
             result.then(() => this.chart.hideLoading());
+        }
+    };
+
+    onIntervalChange = (interval: Epoch) => {
+        const { getData, type } = this.props;
+        const { start, end } = this.getCurrentStartEnd();
+
+        const dataType = chartTypeToDataType(type);
+
+        if (!interval) {
+            if (dataType !== 'ticks') {
+                getData(start, end, 'ticks');
+                this.onTypeChange('area');
+            }
+        } else {
+            getData(start, end, 'candles', interval);
+            this.onTypeChange('candlestick');
+            this.interval = interval;
+            this.chart.xAxis[0].update({
+                minRange: 10 * interval * 1000,
+            });
         }
     };
 
