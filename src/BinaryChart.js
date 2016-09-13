@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getLast } from 'binary-utils';
 import ChartCore from './ChartCore';
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
@@ -75,36 +76,65 @@ export default class BinaryChart extends Component {
     }
 
     getCurrentStartEnd = () => {
-        const { dataMin, dataMax } = this.chart.xAxis[0].getExtremes();
+        const { dataMin, dataMax } = this.getXAxis().getExtremes();
         const start = Math.round(dataMin / 1000);
         const end = Math.round(dataMax / 1000);
         return { start, end };
-    }
-
-    onIntervalChange = (interval: number) => {
-        const { getData } = this.props;
-        const { start, end } = this.getCurrentStartEnd();
-        getData(start, end, 'candles', interval);
-        this.interval = interval;
-        this.getXAxis().update({
-            minRange: 10 * interval * 1000,
-        });
     };
 
     onTypeChange = (newType: string) => {
         const { getData, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
-        if (this.chart.isLoading) { // TODO: should disable change type control
+        if (this.chart.isLoading) {
             return;
         }
 
-        const result = getData(start, end, chartTypeToDataType(newType), this.interval);
+        const dataType = chartTypeToDataType(newType);
+
+        if (dataType === 'ticks') {
+            this.interval = undefined;
+        } else {
+            this.interval = 60;
+        }
+
+        const result = getData(start, end, dataType, this.interval);
         onTypeChange(newType);
         if (result && result.then) {    // show loading msg if fetch data function return promise
             this.chart.showLoading();
-            result.then(() => this.chart.hideLoading());
+            result.then(data => {
+                this.chart.hideLoading();
+                if (!data || data.length === 0) {
+                    return;
+                }
+                const xAxis = this.getXAxis();
+                const { min, max } = xAxis.getExtremes();
+                const newMin = Math.max(min, data[0].epoch * 1000);
+                const newMax = Math.min(max, getLast(data).epoch * 1000);
+                xAxis.setExtremes(newMin, newMax, true, false);
+            });
         }
+    };
+
+    onIntervalChange = (interval: Epoch) => {
+        const { getData, type } = this.props;
+        const { start, end } = this.getCurrentStartEnd();
+
+        const dataType = chartTypeToDataType(type);
+
+        if (!interval) {
+            if (dataType !== 'ticks') {
+                getData(start, end, 'ticks');
+                this.onTypeChange('area');
+            }
+        } else {
+            getData(start, end, 'candles', interval);
+            this.onTypeChange('candlestick');
+            this.chart.xAxis[0].update({
+                minRange: 10 * interval * 1000,
+            });
+        }
+        this.interval = interval;
     };
 
     getChart = () => this.chart;

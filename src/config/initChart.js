@@ -35,6 +35,7 @@ export default ({ pipSize = 0, type = 'area', noData = false, theme = 'light', s
                 marker: {
                     enabled: false,
                 },
+                gapSize: 4 * 60 * 60 * 1000,
             },
         },
         xAxis: {
