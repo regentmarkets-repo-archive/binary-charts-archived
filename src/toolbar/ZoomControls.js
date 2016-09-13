@@ -34,6 +34,7 @@ export default class ZoomControls extends PureComponent {
             getData(startEpoch, endEpoch).then((data) => {
                 if (!data || data.length === 0) {
                     xAxis.setExtremes(min, end, true);
+                    return;
                 }
 
                 const smallestDataInMillis = (data[0].epoch) * 1000;
