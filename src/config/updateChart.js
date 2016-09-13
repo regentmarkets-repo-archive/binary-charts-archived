@@ -4,6 +4,7 @@ import { areTickArraysEqual, areCandleArrayEqual,
     getLastTickQuote, getLastOHLCTick } from 'binary-utils';
 import updateSeries from './updateSeries';
 import updateContract from './updateContract';
+import updateStartLater from './updateStartLater';
 import updateTradingTimes from './updateTradingTimes';
 import updateRest from './updateRest';
 import updateMinRange from './updateMinRange';
@@ -75,6 +76,10 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         if (ticks.length > 0) {
             chart.hideLoading();
         }
+    }
+
+    if (mergedContract) {
+        updateStartLater(chart, mergedContract.date_start, lastTick);
     }
 
     if (contractsDiffer || ticksDiffer) {

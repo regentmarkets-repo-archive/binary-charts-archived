@@ -44,7 +44,6 @@ export default ({ pipSize = 0, type = 'area', noData = false, theme = 'light', s
             startOnTick: false,
             endOnTick: false,
             crosshair: false,
-            ordinal: false,
         },
         yAxis: {
             opposite: true,
