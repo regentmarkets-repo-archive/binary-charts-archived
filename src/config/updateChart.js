@@ -58,14 +58,8 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
 
     const mergedContract = mergeTradeWithContract(trade, contract, lastTick);
 
-    if (ticksDiffer) {
-        updateSeries(chart, nextProps, mergedContract);
-        chart.redraw();
-        if (ticks.length > 0) {
-            chart.hideLoading();
-        }
-    }
-
+    // order of execution matters!
+    // other update func could potentially depends on chart.userOptions.binary
     chart.userOptions.binary = Object.assign(chart.userOptions.binary, {
         contract: mergedContract,
         ticks,
@@ -74,6 +68,14 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         shiftMode: shiftMode || chart.userOptions.binary.shiftMode,            // use old shiftMode if no new shiftMode
         type,
     });
+
+    if (ticksDiffer) {
+        updateSeries(chart, nextProps, mergedContract);
+        chart.redraw();
+        if (ticks.length > 0) {
+            chart.hideLoading();
+        }
+    }
 
     if (contractsDiffer || ticksDiffer) {
         updateContract(chart, mergedContract, theme);
