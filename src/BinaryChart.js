@@ -48,10 +48,8 @@ export default class BinaryChart extends Component {
 
     props: Props;
     state: State;
-
     chartDiv: any;
     chart: Chart;
-    eventListeners: Object[];
 
     static defaultProps = {
         events: [],
