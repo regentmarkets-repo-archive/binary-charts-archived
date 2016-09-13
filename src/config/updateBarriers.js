@@ -23,7 +23,7 @@ const extractBarrierLine = (chart, contract) => {
         const yVal = +contract[b];
         const data = [[minData, yVal], [dataMax, yVal]];
 
-        return seriesLine(data, pipSize, 'line', b);
+        return seriesLine(data, pipSize, 'line', b, true);
     });
 };
 
