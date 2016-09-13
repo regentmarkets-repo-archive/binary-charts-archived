@@ -4,31 +4,9 @@ import chartTypeToDataType from '../utils/chartTypeToDataType';
 import getSeriesByType from '../utils/getSeriesByType';
 import getMainSeries from '../utils/getMainSeries';
 
-export const patchNullDataForStartLaterContract = (chart: Chart, contract: Contract, newData: ChartTick[]) => {
-    const xAxis = chart.xAxis[0];
-    const { min, max } = xAxis.getExtremes();
-
-    const mainSeries = getMainSeries(chart);
-
-    const dataInChart = mainSeries.options.data;
-    const visiblePointCount = dataInChart.filter(d => d[0] > min && d[0] < max).length;
-    const emptyDataCount = visiblePointCount * 0.1; // keep 10% space for empty data
-
-    const lastTick: any = getLast(newData);
-    const lastTickMillis = lastTick && lastTick[0];
-    const startTime = contract && contract.date_start;
-    if (!startTime) return newData;
-
-    const startTimeMillis = startTime && startTime * 1000;
-    const blankWindowSize = startTimeMillis - lastTickMillis;
-    const blankWindowInterval = blankWindowSize / (emptyDataCount * 0.5);
-
-    const newSeries = newData;
-    for (let i = 1; i <= emptyDataCount; i += 1) {
-        const futurePoint = [lastTickMillis + (blankWindowInterval * i), null];
-        newSeries.push(futurePoint);
-    }
-    return newSeries;
+export const createFutureSeries = (futureEpoch: number, lastChartData) => {
+    const futureDataPoint = [futureEpoch * 1000, lastChartData[1]];
+    return seriesLine([futureDataPoint], 0, 'line', 'future', true)[0];
 };
 
 export default (chart: Chart, nextProps: any, contract: Contract) => {
@@ -58,10 +36,23 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
     }
 
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
-    const dataInChart = chart.get(`main-${dataType}`) ? chart.get(`main-${dataType}`).options.data : [];
+    const dataInChart = getMainSeries(chart) ? getMainSeries(chart).options.data : [];
     const pipSize = chart.userOptions.binary.pipSize;
+    const nowEpoch = nowAsEpoch();
 
-    const addNewseries = data => chart.addSeries(seriesLine(data, pipSize, chartType)[0]);
+    const addNewseries = data => chart.addSeries(seriesLine(data, pipSize, chartType)[0], false);
+
+    const addStartLaterData = (lastData) => {
+        const futureSeries = createFutureSeries(contract.date_start, lastData);
+        chart.addSeries(futureSeries, false);
+    };
+
+    const removeStartLaterData = () => {
+        const futureSeries = chart.get('future');
+        if (futureSeries) {
+            futureSeries.remove(false);
+        }
+    };
 
     const shiftToRightWhenCloseEnough = (newDataMax: number, isCloseEnough: Boolean) => {
         if (isCloseEnough) {
@@ -89,33 +80,54 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 (a, b) => a === b || a[0] === b[0]
             );
             const tickSeries = mainTickSeries;
+            const lastestNewData = getLast(newDataInChartFormat);
+
+            const contractStartLater = contract && contract.date_start > nowEpoch;
 
             if (oneTickDiff) {
-                const newTick: any = getLast(nextProps.ticks);
-                const dataPoint = tickToData(newTick);
-                if (!dataPoint) {
+                if (!lastestNewData) {
                     return;
                 }
 
+                // add new data to existing series
                 if (tickSeries) {
-                    tickSeries.addPoint(dataPoint, false);
+                    tickSeries.addPoint(lastestNewData, false);
                 } else {
-                    addNewseries([dataPoint]);
+                    addNewseries([lastestNewData]);
                 }
 
-                const newDataMax = dataPoint[0];
-                shiftToRightWhenCloseEnough(newDataMax, (dataMax - max) < 2000);
-            } else if (contract && contract.date_start > nowAsEpoch()) {
-                const dataWithNull = patchNullDataForStartLaterContract(chart, contract, newDataInChartFormat);
-                if (tickSeries) {
-                    tickSeries.setData(dataWithNull, false);
+                // handle future data
+                const newDataMax = lastestNewData[0];
+                if (contractStartLater) {
+                    addStartLaterData(lastestNewData);
+                    shiftToRightWhenCloseEnough(contract.date_start * 1000, (dataMax - max) < 2000);
+                } else if (chart.get('future')){
+                    // if not start in future but contains future series
+                    removeStartLaterData();
+                    const mainSeriesMax = getLast(dataInChart)[0];
+                    if (mainSeriesMax < max) {
+                        chart.xAxis[0].setExtremes(min, mainSeriesMax);
+                    } else {
+                        shiftToRightWhenCloseEnough(newDataMax, (dataMax - max) < 2000);
+                    }
                 } else {
-                    addNewseries(dataWithNull);
+                    // normal case, no future data
+                    shiftToRightWhenCloseEnough(newDataMax, (dataMax - max) < 2000);
                 }
-            } else if (tickSeries) {
-                tickSeries.setData(newDataInChartFormat, false);
             } else {
-                addNewseries(newDataInChartFormat);
+                if (tickSeries) {
+                    tickSeries.setData(newDataInChartFormat, false);
+                } else {
+                    addNewseries(newDataInChartFormat);
+                }
+
+                // handle future data
+                if (contractStartLater) {
+                    addStartLaterData(lastestNewData);
+                    chart.xAxis[0].setExtremes(newDataInChartFormat[0][0], contract.date_start * 1000);
+                } else {
+                    removeStartLaterData();
+                }
             }
             break;
         }
@@ -155,6 +167,9 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
             } else {
                 addNewseries(newDataInChartFormat);
             }
+
+            addStartLaterData(getLast(newDataInChartFormat));
+
             break;
         }
         default:
