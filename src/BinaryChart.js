@@ -89,7 +89,15 @@ export default class BinaryChart extends Component {
             return;
         }
 
-        const result = getData(start, end, chartTypeToDataType(newType), this.interval || 60);
+        const dataType = chartTypeToDataType(newType);
+
+        if (dataType === 'ticks') {
+            this.interval = undefined;
+        } else {
+            this.interval = 60;
+        }
+
+        const result = getData(start, end, dataType, this.interval);
         onTypeChange(newType);
         if (result && result.then) {    // show loading msg if fetch data function return promise
             this.chart.showLoading();
@@ -111,11 +119,11 @@ export default class BinaryChart extends Component {
         } else {
             getData(start, end, 'candles', interval);
             this.onTypeChange('candlestick');
-            this.interval = interval;
             this.chart.xAxis[0].update({
                 minRange: 10 * interval * 1000,
             });
         }
+        this.interval = interval;
     };
 
     getChart = () => this.chart;
