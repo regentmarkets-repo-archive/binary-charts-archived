@@ -14,7 +14,7 @@ const realTrade = {
     basis: 'stake',
 };
 
-storiesOf('Basic', module)
+storiesOf('Data', module)
     .add('Missing data (nulls)', () =>
         <BinaryChart
             ticks={[

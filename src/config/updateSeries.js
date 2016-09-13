@@ -49,7 +49,7 @@ export default (chart: Chart, nextProps: any) => {
     }
 
     // closures
-    const addNewseries = data =>
+    const addNewSeries = data =>
         chart.addSeries(createSeries('TODO: add AssetName', chartType, data, pipSize), false);
     const shiftToRightWhenCloseEnough = (newDataMax: number, threshold: number) => {
         const futureSeries = chart.get('future');
@@ -79,14 +79,14 @@ export default (chart: Chart, nextProps: any) => {
                 if (mainSeries) {
                     mainSeries.addPoint(lastestNewData, false);
                 } else {
-                    addNewseries([lastestNewData]);
+                    addNewSeries([lastestNewData]);
                 }
 
                 shiftToRightWhenCloseEnough(lastestNewData[0], 2000);
             } else if (mainSeries) {
                 mainSeries.setData(newDataInChartFormat, false);
             } else {
-                addNewseries(newDataInChartFormat);
+                addNewSeries(newDataInChartFormat);
             }
             break;
         }
@@ -103,14 +103,14 @@ export default (chart: Chart, nextProps: any) => {
                 } else if (mainSeries) {
                     mainSeries.addPoint(lastestNewData, false);
                 } else {
-                    addNewseries([lastestNewData]);
+                    addNewSeries([lastestNewData]);
                 }
 
                 shiftToRightWhenCloseEnough(lastestNewData[0], 100000);
             } else if (mainSeries) {
                 mainSeries.setData(newDataInChartFormat, false);
             } else {
-                addNewseries(newDataInChartFormat);
+                addNewSeries(newDataInChartFormat);
             }
             break;
         }

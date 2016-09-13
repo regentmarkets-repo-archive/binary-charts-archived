@@ -2,16 +2,11 @@ import { getLast } from 'binary-utils';
 import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
-const createFutureSeries = (futureEpoch: number, lastTick: number) =>
-    createHiddenSeries([futureEpoch * 1000, lastTick], 'future');
-
-const futureSeriesId = 'future';
-
 export default (chart: Chart, startLaterEpoch: number, lastTick: number) => {
     const xAxis = chart.xAxis[0];
     const { min, max } = xAxis.getExtremes();
 
-    const oldSeries = chart.get(futureSeriesId);
+    const oldSeries = chart.get('future');
 
     if (startLaterEpoch && lastTick) {
         if (oldSeries) {
@@ -21,9 +16,9 @@ export default (chart: Chart, startLaterEpoch: number, lastTick: number) => {
                 xAxis.setExtremes(min, startLaterEpoch * 1000);
             }
         } else {
-            const newSeries = createFutureSeries(startLaterEpoch, lastTick);
-            chart.addSeries(newSeries);
-            xAxis.setExtremes(min, startLaterEpoch * 1000);
+            const startLaterDate = startLaterEpoch * 1000;
+            chart.addSeries(createHiddenSeries([[startLaterDate, lastTick]], 'future'));
+            xAxis.setExtremes(min, startLaterDate);
         }
     }
 

@@ -5,7 +5,7 @@ import TypePicker from './TypePicker';
 import IndicatorsPicker from './IndicatorsPicker';
 import SharePicker from './SharePicker';
 import CrosshairSwitcher from './CrosshairSwitcher';
-import SettingsPicker from './SettingsPicker';
+// import SettingsPicker from './SettingsPicker';
 
 type Props = {
     interval: string,
@@ -67,7 +67,7 @@ export default class Toolbar extends PureComponent {
                     onExpand={() => onShowPicker('share')}
                     getChart={getChart}
                 />
-                {!compact && <SettingsPicker />}
+                {/* {!compact && <SettingsPicker />} */}
             </div>
         );
     }

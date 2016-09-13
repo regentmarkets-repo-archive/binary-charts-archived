@@ -7,8 +7,8 @@ const extractBarrierLine = (chart, contract) => {
     const mainSeries = getMainSeries(chart);
     const currentSpot = lastPriceFromSeries(mainSeries);
 
-    const { dataMin, dataMax } = chart.xAxis[0].getExtremes();
-    // const dataMin = mainSeries.xData[0];
+    const { dataMax } = chart.xAxis[0].getExtremes();
+    const dataMin = mainSeries.xData[0];
 
     return barrierIds
         .filter(x =>
@@ -21,13 +21,21 @@ const extractBarrierLine = (chart, contract) => {
         );
 };
 
-export default (chart, contract) => {
-    const newLines = extractBarrierLine(chart, contract);
+const removePreviousBarrierSeries = (chart) => {
     barrierIds.forEach(x => {
         const series = chart.get(x);
         if (series) {
             series.remove(false);
         }
     });
-    newLines.filter(x => x).forEach(x => chart.addSeries(x, false));
+};
+
+const addNewBarrierSeries = (chart, contract) => {
+    const newLines = extractBarrierLine(chart, contract);
+    newLines.filter(x => x).forEach(x => chart.addSeries(x[0], false));
+};
+
+export default (chart, contract) => {
+    removePreviousBarrierSeries(chart);
+    addNewBarrierSeries(chart, contract);
 };
