@@ -59,11 +59,23 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
 
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
     const dataInChart = chart.get(`main-${dataType}`) ? chart.get(`main-${dataType}`).options.data : [];
-    let newDataMax = dataMax;
     const pipSize = chart.userOptions.binary.pipSize;
 
-    const addNewseries = data => {
-        chart.addSeries(seriesLine(data, pipSize, chartType)[0]);
+    const addNewseries = data => chart.addSeries(seriesLine(data, pipSize, chartType)[0]);
+
+    const shiftToRightWhenCloseEnough = (newDataMax: number, isCloseEnough: Boolean) => {
+        if (isCloseEnough) {
+            const hasNullData = dataInChart.some(d => !d[1] && d[1] !== 0);
+            if (!hasNullData) {
+                const newMin = min + (newDataMax - dataMax);
+                const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
+                chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax);
+            } else {
+                const lastDataPoint: any = getLast(dataInChart);
+                const xAxisDiff = newDataMax - lastDataPoint[0];
+                chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
+            }
+        }
     };
 
     switch (chartType) {
@@ -91,21 +103,8 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                     addNewseries([dataPoint]);
                 }
 
-                newDataMax = dataPoint[0];
-
-                const isCloseToMostRecent = (dataMax - max) <= 2000;
-                if (isCloseToMostRecent) {
-                    const hasNullData = dataInChart.some(d => !d[1] && d[1] !== 0);
-                    if (!hasNullData) {
-                        const newMin = min + (newDataMax - dataMax);
-                        const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
-                        chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax);
-                    } else {
-                        const lastDataPoint: any = getLast(dataInChart);
-                        const xAxisDiff = newDataMax - lastDataPoint[0];
-                        chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax);
-                    }
-                }
+                const newDataMax = dataPoint[0];
+                shiftToRightWhenCloseEnough(newDataMax, (dataMax - max) < 2000);
             } else if (contract && contract.date_start > nowAsEpoch()) {
                 const dataWithNull = patchNullDataForStartLaterContract(chart, contract, newDataInChartFormat);
                 if (tickSeries) {
@@ -145,6 +144,12 @@ export default (chart: Chart, nextProps: any, contract: Contract) => {
                 } else {
                     addNewseries([dataPoint]);
                 }
+
+                const newDataMax = dataPoint[0];
+
+                // shift only happens when interval are small enough,
+                // assuming live data does not matter much when interval is huge
+                shiftToRightWhenCloseEnough(newDataMax, (dataMax - max) < 100000);
             } else if (ohlcSeries) {
                 ohlcSeries.setData(newDataInChartFormat, false);
             } else {
