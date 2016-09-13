@@ -9,6 +9,7 @@ export const colorText = (theme: Theme, percentage: number): string =>
 export default {
     toolbar: {
         display: 'flex',
+        marginBottom: 4,
     },
     pickerButton: {
         cursor: 'pointer',
@@ -29,6 +30,7 @@ export default {
         justifyContent: 'center',
         position: 'relative',
         marginTop: -70,
+        height: 30,
         marginBottom: 40,
         width: '100%',
         textAlign: 'center',
@@ -38,10 +40,10 @@ export default {
         boxSizing: 'border-box',
         borderRadius: '50px',
         background: colorBg('light', 0.25),
-        padding: 8,
+        padding: 4,
         margin: '0 2px',
-        height: 40,
-        width: 40,
+        height: 32,
+        width: 32,
     },
     zoomSpacer: {
         flex: 1,

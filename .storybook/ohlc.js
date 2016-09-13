@@ -79,8 +79,11 @@ const rawData = [
 export const convertEpochToMS = dataArr => dataArr.map(d => Object.assign(d, { epoch: d.epoch * 1000 }));
 
 storiesOf('OHLC', module)
-    .add('Simple OHLC chart', () =>
+    .add('Simple Candlestick chart', () =>
         <BinaryChart type="candlestick" ticks={convertEpochToMS(rawData)} />
+    )
+    .add('Simple OHLC chart', () =>
+        <BinaryChart type="ohlc" ticks={convertEpochToMS(rawData)} />
     )
     .add('Combine with live-api', () =>
         <TypeSwitchChart />

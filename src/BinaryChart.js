@@ -1,39 +1,16 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts/highstock';
-import exporting from 'highcharts/modules/exporting';
-import noDataToDisplay from 'highcharts/modules/no-data-to-display';
-
+import ChartCore from './ChartCore';
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
 import ZoomControls from './toolbar/ZoomControls';
 
-import initChart from './config/initChart';
-import updateChart from './config/updateChart';
-
-import axisIndicators from './plugins/axisIndicators';
-import addLoadingFlag from './plugins/addLoadingFlag';
-
 import chartTypeToDataType from './utils/chartTypeToDataType';
 import getMainSeries from './utils/getMainSeries';
-// import winLossIndicators from './plugins/winLossIndicators';
-// import tradeMarker from './plugins/tradeMarker';
-
-// workaround for tests to work
-if (Object.keys(Highcharts).length > 0) {
-    exporting(Highcharts);
-    noDataToDisplay(Highcharts);
-    axisIndicators();
-    addLoadingFlag();
-//    winLossIndicators();
-//    tradeMarker();
-}
 
 export type ChartEvent = {
     type: string,
     handler: () => void,
 }
-
-type ChartType = 'area' | 'line' | 'candlestick' | 'ohlc';
 
 type Props = {
     className?: string,
@@ -54,7 +31,10 @@ type Props = {
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
-    toolbar: boolean,
+    hiddenTimeFrame: boolean,
+    hiddenToolbar: boolean,
+    compactToolbar: boolean,
+    hiddenZoomControls: boolean,
     type: ChartType,
 };
 
@@ -75,14 +55,16 @@ export default class BinaryChart extends Component {
     static defaultProps = {
         events: [],
         getData: () => Promise.resolve(),
-        onTypeChange: () => ({}),
-        onIntervalChange: () => ({}),
+        onTypeChange: () => undefined,
+        onIntervalChange: () => undefined,
         showAllTimeFrame: true,
         theme: 'light',
         ticks: [],
         pipSize: 0,
         type: 'area',
-        toolbar: true,
+        hideTimeFrame: false,
+        hideToolbar: false,
+        hideZoomControls: false,
     };
 
     constructor(props: Props) {
@@ -90,61 +72,6 @@ export default class BinaryChart extends Component {
         this.state = {
             range: {},
         };
-    }
-
-    componentDidMount() {
-        this.createChart();
-        updateChart(this.chart, { ticks: [] }, this.props);
-    }
-
-    shouldComponentUpdate(nextProps: Props) {
-        if (this.props.symbol !== nextProps.symbol ||
-                this.props.noData !== nextProps.noData) {
-            this.destroyChart();
-            this.createChart(nextProps);
-        }
-
-        if (this.props.type !== nextProps.type &&
-            nextProps.type === 'candlestick' || nextProps.type === 'ohlc') {
-            this.chart.xAxis[0].update({
-                minRange: 10 * 60 * 1000,
-            });
-        }
-
-        updateChart(this.chart, this.props, nextProps);
-
-        return true;
-    }
-
-    componentWillUnmount() {
-        this.destroyChart();
-    }
-
-    createChart(newProps?: Props) {
-        const props = newProps || this.props;
-        const config = initChart(props);
-        this.chart = new Highcharts.StockChart(this.chartDiv, config, (chart) => {
-            if (!props.noData && props.ticks.length === 0) {
-                chart.showLoading();
-            }
-        });
-
-        this.eventListeners = props.events.map(e => ({
-            type: e.type,
-            handler: ev => e.handler(ev, this.chart),
-        }));
-
-        this.eventListeners.forEach(e => this.chartDiv.addEventListener(e.type, e.handler));
-    }
-
-    destroyChart() {
-        if (this.eventListeners) {
-            this.eventListeners.forEach(e => this.chartDiv.removeEventListener(e.type, e.handler));
-        }
-
-        if (this.chart) {
-            this.chart.destroy();
-        }
     }
 
     getCurrentStartEnd = () => {
@@ -218,14 +145,18 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { id, className, showAllTimeFrame, toolbar, ticks, type } = this.props;
+        const { className, showAllTimeFrame, symbolName, ticks, type,
+            hiddenTimeFrame, hiddenToolbar, hiddenZoomControls, compactToolbar } = this.props;
         const { pickerShown } = this.state;
 
         return (
             <div className={className} onClick={() => this.onShowPicker()}>
-                {toolbar &&
+                {!hiddenToolbar &&
                     <Toolbar
+                        symbolName={symbolName}
                         pickerShown={pickerShown}
+                        compact={compactToolbar}
+                        interval={this.interval}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
@@ -235,13 +166,15 @@ export default class BinaryChart extends Component {
                         onShowPicker={this.onShowPicker}
                     />
                 }
-                <div ref={x => { this.chartDiv = x; }} id={id} />
-                <ZoomControls
-                    getXAxis={this.getXAxis}
-                    getData={this.getDataByStartEnd}
-                    getSeries={this.getSeries}
-                />
-                {toolbar &&
+                <ChartCore parent={this} {...this.props} />
+                {!hiddenZoomControls &&
+                    <ZoomControls
+                        getXAxis={this.getXAxis}
+                        getData={this.getDataByStartEnd}
+                        getSeries={this.getSeries}
+                    />
+                }
+                {!hiddenTimeFrame &&
                     <TimeFramePicker
                         showAllTimeFrame={showAllTimeFrame}
                         data={ticks}
