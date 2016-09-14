@@ -1,37 +1,24 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry } from 'binary-utils';
 import createSeries from './createSeries';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
-import getSeriesByType from '../utils/getSeriesByType';
 import getMainSeries from '../utils/getMainSeries';
 
 const showSeriesByType = (chart, chartType) => {
-    const mainTickSeries = getSeriesByType(chart, 'line');
-    const mainOhlcSeries = getSeriesByType(chart, 'ohlc');
-    const dataType = chartTypeToDataType(chartType);
-    switch (dataType) {
-        case 'ticks':
-            if (mainOhlcSeries) mainOhlcSeries.hide();
-            if (mainTickSeries) {
-                mainTickSeries.show();
-                mainTickSeries.update({ type: chartType });
-            }
-            break;
-        case 'candles':
-            if (mainTickSeries) mainTickSeries.hide();
-            if (mainOhlcSeries) {
-                mainOhlcSeries.show();
-                mainOhlcSeries.update({ type: chartType });
-            }
-            break;
-        default: throw new Error(`Unknown data type: ${dataType}`);
+    const mainSeries = getMainSeries(chart);
+
+    if (mainSeries && mainSeries.options.type !== chartType) {
+        mainSeries.remove();
     }
 };
 
 export default (chart: Chart, nextProps: any) => {
     const chartType = nextProps.type;
-    const dataType = chartTypeToDataType(chartType);
 
+    showSeriesByType(chart, chartType);
+
+    const dataType = chartTypeToDataType(chartType);
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
+
     const mainSeries = getMainSeries(chart);
     const dataInChart = mainSeries ? mainSeries.options.data : [];
     const pipSize = chart.userOptions.binary.pipSize;
@@ -48,9 +35,12 @@ export default (chart: Chart, nextProps: any) => {
         return;
     }
 
+    const closeEnoughThreshold = dataType === 'ticks' ? 2000 : 100000;
+
     // closures
     const addNewSeries = data =>
         chart.addSeries(createSeries('TODO: add AssetName', chartType, data, pipSize), false);
+
     const shiftToRightWhenCloseEnough = (newDataMax: number, threshold: number) => {
         const futureSeries = chart.get('future');
         if (!futureSeries) {
@@ -70,51 +60,16 @@ export default (chart: Chart, nextProps: any) => {
         }
     };
 
-    showSeriesByType(chart, chartType);
-
-    switch (dataType) {
-        case 'ticks': {
-            if (oneTickDiff) {
-                // add new data to existing series
-                if (mainSeries) {
-                    mainSeries.addPoint(lastestNewData, false);
-                } else {
-                    addNewSeries([lastestNewData]);
-                }
-
-                shiftToRightWhenCloseEnough(lastestNewData[0], 2000);
-            } else if (mainSeries) {
-                mainSeries.setData(newDataInChartFormat, false);
-            } else {
-                addNewSeries(newDataInChartFormat);
-            }
-            break;
+    if (oneTickDiff) {
+        if (mainSeries) {
+            mainSeries.addPoint(lastestNewData, false);
+        } else {
+            addNewSeries([lastestNewData]);
         }
-        case 'candles': {
-            if (oneTickDiff) {
-                const xData = mainSeries.xData;
-                const last2Epoch = xData[xData.length - 2];
-                const last3Epoch = xData[xData.length - 3];
-                const timeInterval = last2Epoch - last3Epoch;
-
-                const newDataIsWithinInterval = (lastestNewData[0] - last2Epoch) <= timeInterval;
-                if (newDataIsWithinInterval) {
-                    dataInChart[xData.length - 1] = lastestNewData;
-                } else if (mainSeries) {
-                    mainSeries.addPoint(lastestNewData, false);
-                } else {
-                    addNewSeries([lastestNewData]);
-                }
-
-                shiftToRightWhenCloseEnough(lastestNewData[0], 100000);
-            } else if (mainSeries) {
-                mainSeries.setData(newDataInChartFormat, false);
-            } else {
-                addNewSeries(newDataInChartFormat);
-            }
-            break;
-        }
-        default:
-            throw new Error('Unexpected highchart series type: ', chartType);
+        shiftToRightWhenCloseEnough(lastestNewData[0], closeEnoughThreshold);
+    } else if (mainSeries) {
+        mainSeries.setData(newDataInChartFormat, false);
+    } else {
+        addNewSeries(newDataInChartFormat);
     }
 };

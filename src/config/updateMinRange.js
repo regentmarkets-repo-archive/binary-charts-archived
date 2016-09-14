@@ -4,6 +4,10 @@ import getMainSeries from '../utils/getMainSeries';
 export default (chart) => {
     const mainSeries = getMainSeries(chart);
 
+    if (!mainSeries) {
+        return;
+    }
+
     const xAxis = chart.xAxis[0];
 
     const { max } = xAxis.getExtremes();

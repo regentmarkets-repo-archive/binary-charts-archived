@@ -5,6 +5,11 @@ import barrierIds from '../utils/barriersId';
 
 const extractBarrierLine = (chart, contract) => {
     const mainSeries = getMainSeries(chart);
+
+    if (!mainSeries) {
+        return [];
+    }
+
     const currentSpot = lastPriceFromSeries(mainSeries);
 
     const { dataMax } = chart.xAxis[0].getExtremes();
