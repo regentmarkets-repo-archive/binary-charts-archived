@@ -10,6 +10,7 @@ export default ({
     theme = 'light',
     shiftMode = 'fixed',
     assetName,
+    hideEndButton = () => undefined,
 }) =>
     merge(theme === 'light' ? lightTheme : darkTheme, {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
@@ -51,6 +52,16 @@ export default ({
             startOnTick: false,
             endOnTick: false,
             crosshair: false,
+            events: {
+                afterSetExtremes: function after() {
+                    const { max, dataMax } = this.getExtremes();
+                    if (max >= dataMax) {
+                        hideEndButton(true);
+                    } else {
+                        hideEndButton(false);
+                    }
+                }
+            }
         },
         yAxis: {
             opposite: true,
