@@ -1,37 +1,24 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry } from 'binary-utils';
 import createSeries from './createSeries';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
-import getSeriesByType from '../utils/getSeriesByType';
 import getMainSeries from '../utils/getMainSeries';
 
 const showSeriesByType = (chart, chartType) => {
-    const mainTickSeries = getSeriesByType(chart, 'line');
-    const mainOhlcSeries = getSeriesByType(chart, 'ohlc');
-    const dataType = chartTypeToDataType(chartType);
-    switch (dataType) {
-        case 'ticks':
-            if (mainOhlcSeries) mainOhlcSeries.hide();
-            if (mainTickSeries) {
-                mainTickSeries.show();
-                mainTickSeries.update({ type: chartType });
-            }
-            break;
-        case 'candles':
-            if (mainTickSeries) mainTickSeries.hide();
-            if (mainOhlcSeries) {
-                mainOhlcSeries.show();
-                mainOhlcSeries.update({ type: chartType });
-            }
-            break;
-        default: throw new Error(`Unknown data type: ${dataType}`);
+    const mainSeries = getMainSeries(chart);
+
+    if (mainSeries.options.type !== chartType) {
+        mainSeries.remove();
     }
 };
 
 export default (chart: Chart, nextProps: any) => {
     const chartType = nextProps.type;
-    const dataType = chartTypeToDataType(chartType);
 
+    showSeriesByType(chart, chartType);
+
+    const dataType = chartTypeToDataType(chartType);
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
+
     const mainSeries = getMainSeries(chart);
     const dataInChart = mainSeries ? mainSeries.options.data : [];
     const pipSize = chart.userOptions.binary.pipSize;
@@ -51,6 +38,7 @@ export default (chart: Chart, nextProps: any) => {
     // closures
     const addNewSeries = data =>
         chart.addSeries(createSeries('TODO: add AssetName', chartType, data, pipSize), false);
+
     const shiftToRightWhenCloseEnough = (newDataMax: number, threshold: number) => {
         const futureSeries = chart.get('future');
         if (!futureSeries) {
@@ -69,8 +57,6 @@ export default (chart: Chart, nextProps: any) => {
             }
         }
     };
-
-    showSeriesByType(chart, chartType);
 
     switch (dataType) {
         case 'ticks': {
