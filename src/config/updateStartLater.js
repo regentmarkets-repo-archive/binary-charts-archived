@@ -1,8 +1,12 @@
-import { getLast } from 'binary-utils';
+import { getLast, nowAsEpoch } from 'binary-utils';
 import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, startLaterEpoch: number, lastTick: number) => {
+    if (startLaterEpoch <= nowAsEpoch()) {
+        return;
+    }
+
     const xAxis = chart.xAxis[0];
     const { min, max } = xAxis.getExtremes();
 
