@@ -62,7 +62,7 @@ export default class ChartCore extends Component {
 
         updateChart(this.chart, this.props, nextProps);
 
-        return true;
+        return false;
     }
 
     componentWillUnmount() {
