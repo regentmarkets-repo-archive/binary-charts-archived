@@ -18,6 +18,14 @@ export default {
     pickerItem: {
         cursor: 'pointer',
     },
+    infoBar: {
+        display: 'flex',
+        padding: 5,
+        fontSize: 15,
+        fontWeight: 'bold',
+        height: 20,
+        marginBottom: -20,
+    },
     timeFramePicker: {
         display: 'flex',
     },
