@@ -32,7 +32,7 @@ const removePreviousBarrierSeries = (chart) => {
 
 const addNewBarrierSeries = (chart, contract) => {
     const newLines = extractBarrierLine(chart, contract);
-    newLines.filter(x => x).forEach(x => chart.addSeries(x[0], false));
+    newLines.filter(x => x).forEach(x => chart.addSeries(x, false));
 };
 
 export default (chart, contract) => {
