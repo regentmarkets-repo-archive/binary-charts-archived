@@ -121,6 +121,7 @@ export default class ZoomControls extends PureComponent {
     }
 
     render() {
+        const { endButtonShown } = this.props;
         return (
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
                 <div style={styles.zoomSpacer} />
@@ -136,13 +137,13 @@ export default class ZoomControls extends PureComponent {
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomIn}>
                     <Add />
                 </a>
-                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveRight}>
+                {endButtonShown && <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveRight}>
                     <ChevronRight />
-                </a>
+                </a>}
                 <div style={styles.zoomSpacer}>
-                    <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveToEnd}>
+                    {endButtonShown && <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveToEnd}>
                         <LastPage />
-                    </a>
+                    </a>}
                 </div>
             </span>
         );

@@ -71,8 +71,8 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     });
 
     if (ticksDiffer) {
-        updateSeries(chart, nextProps, mergedContract);
-        chart.redraw();
+        updateSeries(chart, nextProps);
+        // chart.redraw();
         if (ticks.length > 0) {
             chart.hideLoading();
         }

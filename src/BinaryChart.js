@@ -41,6 +41,7 @@ type Props = {
 
 type State = {
     pickerShown: any,
+    endButtonShown: boolean,
     range: { from: Date, to: Date },
 }
 
@@ -70,6 +71,7 @@ export default class BinaryChart extends Component {
         super(props);
         this.state = {
             range: {},
+            endButtonShown: true,
         };
     }
 
@@ -164,7 +166,7 @@ export default class BinaryChart extends Component {
     render() {
         const { className, showAllTimeFrame, ticks, type,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls, compactToolbar } = this.props;
-        const { pickerShown } = this.state;
+        const { endButtonShown, pickerShown } = this.state;
 
         return (
             <div className={className} onClick={this.onShowPicker}>
@@ -189,6 +191,7 @@ export default class BinaryChart extends Component {
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
+                        endButtonShown={endButtonShown}
                     />
                 }
                 {!hiddenTimeFrame &&
