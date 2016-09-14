@@ -11,6 +11,7 @@ import styles from '../styles';
 export default class ZoomControls extends PureComponent {
 
     props: {
+        endButtonShown: boolean,
         getChart: () => Chart,
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
