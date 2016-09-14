@@ -35,6 +35,8 @@ export default (chart: Chart, nextProps: any) => {
         return;
     }
 
+    const closeEnoughThreshold = dataType === 'ticks' ? 2000 : 100000;
+
     // closures
     const addNewSeries = data =>
         chart.addSeries(createSeries('TODO: add AssetName', chartType, data, pipSize), false);
@@ -58,49 +60,16 @@ export default (chart: Chart, nextProps: any) => {
         }
     };
 
-    switch (dataType) {
-        case 'ticks': {
-            if (oneTickDiff) {
-                // add new data to existing series
-                if (mainSeries) {
-                    mainSeries.addPoint(lastestNewData, false);
-                } else {
-                    addNewSeries([lastestNewData]);
-                }
-
-                shiftToRightWhenCloseEnough(lastestNewData[0], 2000);
-            } else if (mainSeries) {
-                mainSeries.setData(newDataInChartFormat, false);
-            } else {
-                addNewSeries(newDataInChartFormat);
-            }
-            break;
+    if (oneTickDiff) {
+        if (mainSeries) {
+            mainSeries.addPoint(lastestNewData, false);
+        } else {
+            addNewSeries([lastestNewData]);
         }
-        case 'candles': {
-            if (oneTickDiff) {
-                const xData = mainSeries.xData;
-                const last2Epoch = xData[xData.length - 2];
-                const last3Epoch = xData[xData.length - 3];
-                const timeInterval = last2Epoch - last3Epoch;
-
-                const newDataIsWithinInterval = (lastestNewData[0] - last2Epoch) <= timeInterval;
-                if (newDataIsWithinInterval) {
-                    dataInChart[xData.length - 1] = lastestNewData;
-                } else if (mainSeries) {
-                    mainSeries.addPoint(lastestNewData, false);
-                } else {
-                    addNewSeries([lastestNewData]);
-                }
-
-                shiftToRightWhenCloseEnough(lastestNewData[0], 100000);
-            } else if (mainSeries) {
-                mainSeries.setData(newDataInChartFormat, false);
-            } else {
-                addNewSeries(newDataInChartFormat);
-            }
-            break;
-        }
-        default:
-            throw new Error('Unexpected highchart series type: ', chartType);
+        shiftToRightWhenCloseEnough(lastestNewData[0], closeEnoughThreshold);
+    } else if (mainSeries) {
+        mainSeries.setData(newDataInChartFormat, false);
+    } else {
+        addNewSeries(newDataInChartFormat);
     }
 };

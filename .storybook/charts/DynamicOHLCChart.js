@@ -21,7 +21,25 @@ export default class DynamicOHLCChart extends React.Component {
             }
 
             const newTick = response.ohlc;
-            this.setState({ ticks: ticks.concat([newTick]) });
+
+            const lastTick = ticks[ticks.length - 1];
+
+            const last2 = ticks[ticks.length - 2];
+            const last3 = ticks[ticks.length - 3];
+
+            const interval = last2.epoch - last3.epoch;
+            const diff = newTick.epoch - lastTick.epoch;
+
+            if (diff < interval) {
+                newTick.epoch = lastTick.epoch;
+                console.log('old', newTick.epoch);
+                const nt = ticks.slice(0, -1);
+                nt.push(newTick);
+                this.setState({ ticks: nt });
+            } else {
+                console.log('new', newTick.epoch);
+                this.setState({ ticks: ticks.concat([newTick]) });
+            }
         });
 
         api.events.on('tick', response => {
