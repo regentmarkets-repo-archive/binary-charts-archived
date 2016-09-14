@@ -1,3 +1,1 @@
-export default (chart) => {
-    return chart.series[0];
-};
+export default (chart) => chart.series[0];

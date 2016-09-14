@@ -4,6 +4,9 @@ import getMainSeries from '../utils/getMainSeries';
 export default (chart: Chart, params: any) => {
     const { pipSize } = params;
     const mainSeries = getMainSeries(chart);
+
+    if (!mainSeries) return;
+
     mainSeries.update({
         tooltip: {
             valueDecimals: pipSize,

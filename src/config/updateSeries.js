@@ -6,7 +6,7 @@ import getMainSeries from '../utils/getMainSeries';
 const showSeriesByType = (chart, chartType) => {
     const mainSeries = getMainSeries(chart);
 
-    if (mainSeries.options.type !== chartType) {
+    if (mainSeries && mainSeries.options.type !== chartType) {
         mainSeries.remove();
     }
 };

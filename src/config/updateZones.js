@@ -31,5 +31,7 @@ export default (chart: Chart, newPlotLines: PlotObject[]) => {
     }
 
     const mainSeries = getMainSeries(chart);
-    mainSeries.update({ zones }, false);
+    if (mainSeries) {
+        mainSeries.update({ zones }, false);
+    }
 };

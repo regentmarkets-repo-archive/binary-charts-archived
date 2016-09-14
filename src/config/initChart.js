@@ -60,8 +60,8 @@ export default ({
                     } else {
                         hideEndButton(false);
                     }
-                }
-            }
+                },
+            },
         },
         yAxis: {
             opposite: true,
