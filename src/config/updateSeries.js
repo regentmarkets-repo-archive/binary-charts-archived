@@ -39,7 +39,7 @@ export default (chart: Chart, nextProps: any) => {
 
     // closures
     const addNewSeries = data =>
-        chart.addSeries(createSeries('TODO: add AssetName', chartType, data, pipSize), false);
+        chart.addSeries(createSeries(nextProps.assetName, chartType, data, pipSize), false);
 
     const shiftToRightWhenCloseEnough = (newDataMax: number, threshold: number) => {
         const futureSeries = chart.get('future');
@@ -52,7 +52,7 @@ export default (chart: Chart, nextProps: any) => {
                     const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
                     chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax, false);
                 } else {
-                    const lastDataPoint: any = getLast(dataInChart);
+                    const lastDataPoint = getLast(dataInChart);
                     const xAxisDiff = newDataMax - lastDataPoint[0];
                     chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax, false);
                 }

@@ -72,10 +72,12 @@ export default class ChartCore extends Component {
     createChart(newProps?: Props) {
         const props = newProps || this.props;
         const config = initChart(Object.assign({
-            hideEndButton: (hide) => this.props.parent.setState({ endButtonShown: !hide }),
+            hideEndButton: (hide) =>
+                this.props.parent.setState({ endButtonShown: !hide }),
         }, props));
 
-        this.chart = this.props.parent.chart = new Highcharts.StockChart(this.chartDiv, config, (chart) => {
+        this.chart = this.props.parent.chart =
+            new Highcharts.StockChart(this.chartDiv, config, (chart) => {
             if (!props.noData && props.ticks.length === 0) {
                 chart.showLoading();
             }

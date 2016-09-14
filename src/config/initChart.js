@@ -81,5 +81,12 @@ export default ({
         series: [
             createSeries(assetName, type, [], pipSize),
         ],
-    }
+        tooltip: {
+            shape: 'square',
+            positioner: () => ({ x: 0, y: 0 }),
+            borderWidth: 0,
+            useHTML: true,
+//            followPointer: true,
+        },
+    },
 );

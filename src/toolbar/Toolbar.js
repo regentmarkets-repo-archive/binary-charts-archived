@@ -8,6 +8,7 @@ import CrosshairSwitcher from './CrosshairSwitcher';
 // import SettingsPicker from './SettingsPicker';
 
 type Props = {
+    assetName: string,
     interval: string,
     type: string,
     compact: boolean,
@@ -34,7 +35,7 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { compact, getXAxis, getYAxis, getChart, pickerShown, interval,
+        const { assetName, compact, getXAxis, getYAxis, getChart, pickerShown, interval,
             onShowPicker, onIntervalChange, onTypeChange } = this.props;
 
         return (
@@ -63,6 +64,7 @@ export default class Toolbar extends PureComponent {
                     />
                 }
                 <SharePicker
+                    assetName={assetName}
                     expanded={pickerShown === 'share'}
                     onExpand={() => onShowPicker('share')}
                     getChart={getChart}

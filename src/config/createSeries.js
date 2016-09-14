@@ -16,8 +16,12 @@ export default (
     lineWidth: 2,
     tooltip: {
         valueDecimals: pipSize,
-        zIndex: 120,
+        pointFormat: '<div style="font-size: 15px; font-weigth: bold">{series.name}</div>' +
+            (type === 'line' || type === 'area' ?
+                'Value: {point.y}' :
+                'Open: {point.open}<br />High: {point.high}<br />Low: {point.low}<br />Close: {point.close}'),
     },
+
     fillOpacity: 0.1,
     threshold: null,
     zoneAxis: 'x',

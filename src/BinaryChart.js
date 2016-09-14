@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { getLast } from 'binary-utils';
 import ChartCore from './ChartCore';
-import InfoBar from './toolbar/InfoBar';
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
 import ZoomControls from './toolbar/ZoomControls';
@@ -33,7 +32,6 @@ type Props = {
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
-    hiddenInfoBar: boolean,
     hiddenTimeFrame: boolean,
     hiddenToolbar: boolean,
     compactToolbar: boolean,
@@ -167,13 +165,14 @@ export default class BinaryChart extends Component {
 
     render() {
         const { assetName, className, showAllTimeFrame, ticks, type, compactToolbar,
-            hiddenInfoBar, hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
+            hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
         const { endButtonShown, pickerShown } = this.state;
 
         return (
             <div className={className} onClick={this.onShowPicker}>
                 {!hiddenToolbar &&
                     <Toolbar
+                        assetName={assetName}
                         pickerShown={pickerShown}
                         compact={compactToolbar}
                         interval={this.interval}
@@ -185,9 +184,6 @@ export default class BinaryChart extends Component {
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}
                     />
-                }
-                {!hiddenInfoBar &&
-                    <InfoBar assetName={assetName} />
                 }
                 <ChartCore parent={this} {...this.props} />
                 {!hiddenZoomControls &&

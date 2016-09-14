@@ -36,6 +36,7 @@ const themeColors = (theme: Theme): Object => ({
 			},
 		},
         crosshair: {
+            snap: false,
             label: {
                 enabled: false,
                 padding: 5,
@@ -74,6 +75,7 @@ const themeColors = (theme: Theme): Object => ({
 	},
     tooltip: {
         backgroundColor: colorBg(theme, 0.8),
+        borderRadius: 3,
         style: {
             color: colorText(theme, 1),
         },

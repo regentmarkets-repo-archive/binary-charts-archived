@@ -56,7 +56,7 @@ export default {
     zoomSpacer: {
         flex: 1,
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
     },
     submenu: {
         position: 'absolute',
