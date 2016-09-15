@@ -47,16 +47,9 @@ export default (chart: Chart, nextProps: any) => {
         if (!futureSeries) {
             const isCloseEnough = (dataMax - max) <= threshold;
             if (isCloseEnough) {
-                const hasNullData = dataInChart.some(d => !d[1] && d[1] !== 0);
-                if (!hasNullData) {
-                    const newMin = min + (newDataMax - dataMax);
-                    const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
-                    chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax, false);
-                } else {
-                    const lastDataPoint = getLast(dataInChart);
-                    const xAxisDiff = newDataMax - lastDataPoint[0];
-                    chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax, false);
-                }
+                const newMin = min + (newDataMax - dataMax);
+                const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
+                chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax, false);
             }
         }
     };
