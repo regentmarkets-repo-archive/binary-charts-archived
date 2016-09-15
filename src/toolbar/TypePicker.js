@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Equalizer from 'react-material-design-icons/icons/Equalizer';
+import { Area, Bar, Candle, Line } from '../icons';
 import Picker from './Picker';
 
 type Props = {
@@ -19,13 +19,13 @@ export default class TypePicker extends PureComponent {
         return (
             <Picker
                 expanded={expanded}
-                img={<Equalizer />}
+                img={<Candle />}
                 text={value}
                 items={[
-                    { text: 'Area', value: 'area', onPick: this.onChange },
-                    { text: 'Line', value: 'line', onPick: this.onChange },
-                    { text: 'Candlestick', value: 'candlestick', onPick: this.onChange },
-                    { text: 'Bars', value: 'ohlc', onPick: this.onChange },
+                    { text: 'Area', value: 'area', img: <Area /> },
+                    { text: 'Line', value: 'line', img: <Line /> },
+                    { text: 'Candlestick', value: 'candlestick', img: <Candle /> },
+                    { text: 'Bars', value: 'ohlc', img: <Bar /> },
                 ]}
                 onExpand={onExpand}
                 onChange={onChange}

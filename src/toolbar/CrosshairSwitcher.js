@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Games from 'react-material-design-icons/icons/Games';
+import Crosshair from '../icons/Crosshair';
 import styles, { colorText } from '../styles';
 
 export default class ZoomControls extends PureComponent {
@@ -82,7 +82,7 @@ export default class ZoomControls extends PureComponent {
 
         return (
             <button className={className} style={styles.pickerButton} onClick={this.toggleCrosshair}>
-                <Games />
+                <Crosshair />
             </button>
         );
     }

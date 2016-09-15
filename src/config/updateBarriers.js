@@ -1,4 +1,4 @@
-import { getLast } from 'binary-utils';
+// import { getLast } from 'binary-utils';
 import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 import barrierIds from '../utils/barriersId';

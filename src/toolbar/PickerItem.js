@@ -5,7 +5,7 @@ export default class PickerItem extends PureComponent {
 
     props: {
         text?: string,
-        img?: string,
+        img?: any,
         value: any,
         onClick: (value: any) => void,
     };
