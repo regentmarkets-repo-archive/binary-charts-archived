@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import Games from 'react-material-design-icons/icons/Games';
-import styles from '../styles';
+import styles, { colorText } from '../styles';
 
 export default class ZoomControls extends PureComponent {
 
     props: {
+        theme: string,
         getXAxis: () => any,
         getYAxis: () => any,
     };
@@ -32,19 +33,32 @@ export default class ZoomControls extends PureComponent {
     }
 
     turnCrosshairOn = () => {
-        const { getXAxis, getYAxis } = this.props;
+        const { theme, getXAxis, getYAxis } = this.props;
 
         getYAxis().update({
             crosshair: {
+                snap: false,
                 label: {
                     enabled: true,
+                    padding: 5,
+                    format: '{value:.2f}',
+                    style: {
+                        color: colorText(theme, 1),
+                        fontSize: '12px',
+                    },
                 },
             },
         });
         getXAxis().update({
             crosshair: {
+                snap: false,
                 label: {
                     enabled: true,
+                    padding: 5,
+                    style: {
+                        color: colorText(theme, 1),
+                        fontSize: '12px',
+                    },
                 },
             },
         });

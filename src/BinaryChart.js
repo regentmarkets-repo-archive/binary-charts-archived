@@ -164,7 +164,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { assetName, className, showAllTimeFrame, ticks, type, compactToolbar,
+        const { assetName, className, showAllTimeFrame, theme, ticks, type, compactToolbar,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
         const { endButtonShown, pickerShown } = this.state;
 
@@ -176,6 +176,7 @@ export default class BinaryChart extends Component {
                         pickerShown={pickerShown}
                         compact={compactToolbar}
                         interval={this.interval}
+                        theme={theme}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}

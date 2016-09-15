@@ -16,6 +16,7 @@ type Props = {
     chart: HighstockChart,
     hasInterval: boolean,
     pickerShown: string,
+    theme: string,
     getChart: () => any,
     getXAxis: () => any,
     getYAxis: () => any,
