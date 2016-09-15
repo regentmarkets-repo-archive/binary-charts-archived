@@ -24,16 +24,17 @@ export default (chart: Chart, nextProps: any) => {
     const pipSize = chart.userOptions.binary.pipSize;
 
     const newDataInChartFormat = nextProps.ticks.map(dataType === 'ticks' ? tickToData : ohlcToData);
-    const oneTickDiff = doArrayDifferJustOneEntry(
-        dataInChart,
-        newDataInChartFormat,
-        (a, b) => a === b || a[0] === b[0]
-    );
-    const lastestNewData = getLast(newDataInChartFormat);
 
+    const lastestNewData = getLast(newDataInChartFormat);
     if (!lastestNewData) {
         return;
     }
+
+    const oneTickDiff = doArrayDifferJustOneEntry(
+        dataInChart,
+        newDataInChartFormat,
+        (a, b) => a && b && (a === b || a[0] === b[0])
+    );
 
     const closeEnoughThreshold = dataType === 'ticks' ? 2000 : 100000;
 
@@ -46,16 +47,9 @@ export default (chart: Chart, nextProps: any) => {
         if (!futureSeries) {
             const isCloseEnough = (dataMax - max) <= threshold;
             if (isCloseEnough) {
-                const hasNullData = dataInChart.some(d => !d[1] && d[1] !== 0);
-                if (!hasNullData) {
-                    const newMin = min + (newDataMax - dataMax);
-                    const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
-                    chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax, false);
-                } else {
-                    const lastDataPoint = getLast(dataInChart);
-                    const xAxisDiff = newDataMax - lastDataPoint[0];
-                    chart.xAxis[0].setExtremes(min + xAxisDiff, dataMax, false);
-                }
+                const newMin = min + (newDataMax - dataMax);
+                const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
+                chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax, false);
             }
         }
     };

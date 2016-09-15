@@ -166,6 +166,7 @@ export default class BinaryChart extends Component {
     render() {
         const { assetName, className, showAllTimeFrame, theme, ticks, type, compactToolbar,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
+
         const { endButtonShown, pickerShown } = this.state;
 
         return (

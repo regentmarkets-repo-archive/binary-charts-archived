@@ -23,7 +23,7 @@ storiesOf('Extremes', module)
             ticks={ticks}
             contract={{
                 contract_type: 'CALL',
-                barrier: '80',
+                barrier: 80,
             }}
         />
     );

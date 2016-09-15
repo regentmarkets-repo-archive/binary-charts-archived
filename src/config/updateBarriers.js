@@ -1,6 +1,6 @@
+import { getLast } from 'binary-utils';
 import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
-import lastPriceFromSeries from '../utils/lastPriceFromSeries';
 import barrierIds from '../utils/barriersId';
 
 const extractBarrierLine = (chart, contract) => {
@@ -10,16 +10,17 @@ const extractBarrierLine = (chart, contract) => {
         return [];
     }
 
-    const currentSpot = lastPriceFromSeries(mainSeries);
+    // when redraw have not happen for the first time, getExtremes return null for all value
+    // to make sure it always works, we compute dataMax and min ourselves
 
-    const { dataMax } = chart.xAxis[0].getExtremes();
+    const dataMax = getLast(mainSeries.xData);
     const dataMin = mainSeries.xData[0];
 
     return barrierIds
         .filter(x =>
-            contract && contract[x] &&
-                contract[x] !== currentSpot &&
-                !contract.contract_type.includes('DIGIT')
+            contract &&
+            contract[x] &&
+            !contract.contract_type.includes('DIGIT')
         )
         .map(x =>
             createHiddenSeries([[dataMin, +contract[x]], [dataMax, +contract[x]]], x)
