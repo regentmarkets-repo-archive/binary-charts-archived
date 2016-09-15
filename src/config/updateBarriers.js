@@ -13,8 +13,10 @@ const extractBarrierLine = (chart, contract) => {
     // when redraw have not happen for the first time, getExtremes return null for all value
     // to make sure it always works, we compute dataMax and min ourselves
 
-    const dataMax = getLast(mainSeries.xData);
-    const dataMin = mainSeries.xData[0];
+    // const { min, max } = chart.xAxis[0].getExtremes();
+
+    // const dataMax = max || getLast(mainSeries.xData);
+    // const dataMin = min || mainSeries.xData[0];
 
     return barrierIds
         .filter(x =>
@@ -22,8 +24,13 @@ const extractBarrierLine = (chart, contract) => {
             contract[x] &&
             !contract.contract_type.includes('DIGIT')
         )
-        .map(x =>
-            createHiddenSeries([[dataMin, +contract[x]], [dataMax, +contract[x]]], x)
+        .map(x => {
+            // replicate whole main series to workaround the issue where dragging result in zooming out
+            // due to barrier series has too little data
+            const barrierValue = +contract[x];
+            const fakeData = mainSeries.options.data.map(d => [d[0], barrierValue]);
+            return createHiddenSeries(fakeData, x);
+            }
         );
 };
 
