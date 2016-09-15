@@ -16,7 +16,7 @@ export default class DynamicOHLCChart extends React.Component {
         api.events.on('ohlc', response => {
             const { ticks, type } = this.state;
 
-            if (type === 'line' || type === 'area') {
+            if (type === 'line' || type === 'area' || ticks.length < 3) {
                 return;
             }
 
@@ -32,7 +32,6 @@ export default class DynamicOHLCChart extends React.Component {
 
             if (diff < interval) {
                 newTick.epoch = lastTick.epoch;
-                console.log('old', newTick.epoch);
                 const nt = ticks.slice(0, -1);
                 nt.push(newTick);
                 this.setState({ ticks: nt });
