@@ -1,5 +1,3 @@
-import seriesId from '../utils/seriesIdByType';
-
 type SeriesData = ChartTick[] | ChartCandle[];
 
 export default (
@@ -12,7 +10,7 @@ export default (
     name,
     type,
     data,
-    id: id || seriesId(type),
+    id: id || 'main',
     lineWidth: 2,
     tooltip: {
         valueDecimals: pipSize,
