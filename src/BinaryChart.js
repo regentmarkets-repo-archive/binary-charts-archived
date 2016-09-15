@@ -75,20 +75,6 @@ export default class BinaryChart extends Component {
         };
     }
 
-    componentWillReceiveProps(newProps) {
-        const newData = newProps.ticks;
-        const oldData = this.props.ticks;
-
-        // only trigger when new data loaded
-        if (newData.length > 0 && oldData.length === 0) {
-            const min = newData[0].epoch * 1000;
-            const max = getLast(newData).epoch * 1000;
-            const range = (max - min) / 16;
-
-            this.getXAxis().setExtremes(max - range, max, false);
-        }
-    }
-
     getCurrentStartEnd = () => {
         const { dataMin, dataMax } = this.getXAxis().getExtremes();
         const start = Math.round(dataMin / 1000);
