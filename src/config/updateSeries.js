@@ -24,16 +24,17 @@ export default (chart: Chart, nextProps: any) => {
     const pipSize = chart.userOptions.binary.pipSize;
 
     const newDataInChartFormat = nextProps.ticks.map(dataType === 'ticks' ? tickToData : ohlcToData);
-    const oneTickDiff = doArrayDifferJustOneEntry(
-        dataInChart,
-        newDataInChartFormat,
-        (a, b) => a === b || a[0] === b[0]
-    );
-    const lastestNewData = getLast(newDataInChartFormat);
 
+    const lastestNewData = getLast(newDataInChartFormat);
     if (!lastestNewData) {
         return;
     }
+
+    const oneTickDiff = doArrayDifferJustOneEntry(
+        dataInChart,
+        newDataInChartFormat,
+        (a, b) => a && b && (a === b || a[0] === b[0])
+    );
 
     const closeEnoughThreshold = dataType === 'ticks' ? 2000 : 100000;
 
