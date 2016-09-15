@@ -10,8 +10,6 @@ export default (chart) => {
 
     const xAxis = chart.xAxis[0];
 
-    const { max } = xAxis.getExtremes();
-
     if (mainSeries.options.data.length > 1) {
         const futureSeries = chart.get('future');
         const data1 = mainSeries.options.data[0];
@@ -25,7 +23,10 @@ export default (chart) => {
         if (futureSeries) {
             const futureX = futureSeries.options.data[0][0];
 
-            if (futureX <= max) {
+            const { max } = xAxis.getExtremes();
+
+            // max is null if chart is not drawn yet
+            if (max && futureX <= max) {
                 const additionSpace = futureX - (nowAsEpoch() * 1000);
                 newMinRange = (xDiff * 10) + additionSpace;
             }
