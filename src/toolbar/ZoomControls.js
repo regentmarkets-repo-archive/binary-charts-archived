@@ -24,8 +24,9 @@ export default class ZoomControls extends PureComponent {
         const xAxis = getXAxis();
         const { min, max, dataMin, dataMax } = xAxis.getExtremes();
         const futureSeries = chart.get('future');
+        const frameSize = max - min;
 
-        let step = (max - min) / 10 * direction;
+        let step = frameSize / 10 * direction;
 
         if (futureSeries) {
             const futureX = futureSeries.options.data[0][0];
@@ -38,8 +39,15 @@ export default class ZoomControls extends PureComponent {
 
         const newMin = min + step;
 
-        const start = Math.max(dataMin, newMin);
-        const end = Math.min(dataMax, max + step);
+        let start;
+        let end;
+        if (direction > 0) {
+            end = Math.min(dataMax, max + step);
+            start = end - frameSize;
+        } else {
+            start = Math.max(dataMin, newMin);
+            end = start + frameSize;
+        }
 
         xAxis.setExtremes(start, end, true);
 
