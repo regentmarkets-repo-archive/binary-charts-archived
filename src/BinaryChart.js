@@ -75,6 +75,17 @@ export default class BinaryChart extends Component {
         };
     }
 
+    componentWillReceiveProps(props) {
+        const data = props.ticks;
+        if (data.length > 0) {
+            const min = data[0].epoch * 1000;
+            const max = getLast(data).epoch * 1000;
+            const range = (max - min) / 16;
+
+            this.getXAxis().setExtremes(max - range, max, false);
+        }
+    }
+
     getCurrentStartEnd = () => {
         const { dataMin, dataMax } = this.getXAxis().getExtremes();
         const start = Math.round(dataMin / 1000);
@@ -166,6 +177,7 @@ export default class BinaryChart extends Component {
     render() {
         const { assetName, className, showAllTimeFrame, ticks, type, compactToolbar,
             hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
+
         const { endButtonShown, pickerShown } = this.state;
 
         return (
