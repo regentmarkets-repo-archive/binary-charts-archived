@@ -25,7 +25,8 @@ export default class PickerItem extends PureComponent {
                 className="binary-chart-picker-item"
                 onClick={this.onClick}
             >
-                {img}{text}
+                {img}
+                <div>{text}</div>
             </button>
         );
     }

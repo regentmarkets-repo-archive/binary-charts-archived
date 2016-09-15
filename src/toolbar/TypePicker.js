@@ -9,6 +9,13 @@ type Props = {
     onChange: (chartType: string) => void,
 };
 
+const items = [
+    { text: 'Area', value: 'area', img: <Area /> },
+    { text: 'Line', value: 'line', img: <Line /> },
+    { text: 'Candlestick', value: 'candlestick', img: <Candle /> },
+    { text: 'Bars', value: 'ohlc', img: <Bar /> },
+];
+
 export default class TypePicker extends PureComponent {
 
     props: Props;
@@ -19,14 +26,8 @@ export default class TypePicker extends PureComponent {
         return (
             <Picker
                 expanded={expanded}
-                img={<Candle />}
-                text={value}
-                items={[
-                    { text: 'Area', value: 'area', img: <Area /> },
-                    { text: 'Line', value: 'line', img: <Line /> },
-                    { text: 'Candlestick', value: 'candlestick', img: <Candle /> },
-                    { text: 'Bars', value: 'ohlc', img: <Bar /> },
-                ]}
+                img={items.find(x => x.value === value).img}
+                items={items}
                 onExpand={onExpand}
                 onChange={onChange}
             />

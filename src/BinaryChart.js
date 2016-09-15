@@ -90,6 +90,8 @@ export default class BinaryChart extends Component {
             return;
         }
 
+        this.type = newType;
+
         const dataType = chartTypeToDataType(newType);
 
         if (dataType === 'ticks') {
@@ -176,6 +178,7 @@ export default class BinaryChart extends Component {
                         assetName={assetName}
                         pickerShown={pickerShown}
                         compact={compactToolbar}
+                        type={this.type}
                         interval={this.interval}
                         theme={theme}
                         hasInterval={chartTypeToDataType(type) === 'candles'}

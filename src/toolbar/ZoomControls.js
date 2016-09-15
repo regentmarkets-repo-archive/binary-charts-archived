@@ -135,7 +135,7 @@ export default class ZoomControls extends PureComponent {
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
                 <div style={styles.zoomSpacer} />
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveLeft}>
-                    <ChevronLeft />
+                    <ChevronLeft width={24} height={24} />
                 </a>
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomOut}>
                     <Remove />

@@ -30,18 +30,19 @@ export default class Toolbar extends PureComponent {
     props: Props;
 
     static defaultProps = {
-        type: 'line',
+        type: 'area',
         compact: false,
         hasInterval: false,
     };
 
     render() {
-        const { assetName, compact, getXAxis, getYAxis, getChart, pickerShown, interval,
+        const { assetName, compact, type, getXAxis, getYAxis, getChart, pickerShown, interval,
             onShowPicker, onIntervalChange, onTypeChange } = this.props;
 
         return (
             <div style={styles.toolbar} className="binary-chart-toolbar">
                 <TypePicker
+                    value={type}
                     expanded={pickerShown === 'type'}
                     onExpand={() => onShowPicker('type')}
                     onChange={onTypeChange}
