@@ -7,6 +7,10 @@ export const colorText = (theme: Theme, percentage: number): string =>
     colorBg(theme === 'light' ? 'dark' : 'light', percentage);
 
 export default {
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
     toolbar: {
         display: 'flex',
         marginBottom: 4,
@@ -18,13 +22,8 @@ export default {
     pickerItem: {
         cursor: 'pointer',
     },
-    infoBar: {
-        display: 'flex',
-        padding: 5,
-        fontSize: 15,
-        fontWeight: 'bold',
-        height: 20,
-        marginBottom: -20,
+    chartCore: {
+        flex: 1,
     },
     timeFramePicker: {
         display: 'flex',

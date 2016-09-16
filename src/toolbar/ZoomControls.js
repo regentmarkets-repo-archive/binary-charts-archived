@@ -26,7 +26,7 @@ export default class ZoomControls extends PureComponent {
         const futureSeries = chart.get('future');
         const frameSize = max - min;
 
-        let step = frameSize / 10 * direction;
+        let step = frameSize / 5 * direction;
 
         if (futureSeries) {
             const futureX = futureSeries.options.data[0][0];
@@ -135,7 +135,7 @@ export default class ZoomControls extends PureComponent {
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
                 <div style={styles.zoomSpacer} />
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveLeft}>
-                    <ChevronLeft width={24} height={24} />
+                    <ChevronLeft />
                 </a>
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomOut}>
                     <Remove />

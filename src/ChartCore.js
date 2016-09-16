@@ -9,6 +9,8 @@ import updateChart from './config/updateChart';
 import axisIndicators from './plugins/axisIndicators';
 import addLoadingFlag from './plugins/addLoadingFlag';
 
+import styles from './styles';
+
 // import winLossIndicators from './plugins/winLossIndicators';
 // import tradeMarker from './plugins/tradeMarker';
 
@@ -105,7 +107,7 @@ export default class ChartCore extends Component {
         const { id } = this.props;
 
         return (
-            <div ref={x => { this.chartDiv = x; }} id={id} />
+            <div style={styles.chartCore} ref={x => { this.chartDiv = x; }} id={id} />
         );
     }
 }

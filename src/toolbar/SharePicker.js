@@ -50,7 +50,7 @@ export default class SharePicker extends PureComponent {
         return (
             <Picker
                 expanded={expanded}
-                img={<Share />}
+                img={<Share width="16px" height="16px" />}
                 items={[
                     { text: 'Download PNG Image', value: this.downloadPng },
                     { text: 'Download SVG Image', value: this.downloadSvg },

@@ -8,6 +8,8 @@ import ZoomControls from './toolbar/ZoomControls';
 import chartTypeToDataType from './utils/chartTypeToDataType';
 import getMainSeries from './utils/getMainSeries';
 
+import styles from './styles';
+
 export type ChartEvent = {
     type: string,
     handler: () => void,
@@ -172,7 +174,7 @@ export default class BinaryChart extends Component {
         const { endButtonShown, pickerShown } = this.state;
 
         return (
-            <div className={className} onClick={this.onShowPicker}>
+            <div style={styles.container} className={className} onClick={this.onShowPicker}>
                 {!hiddenToolbar &&
                     <Toolbar
                         assetName={assetName}
