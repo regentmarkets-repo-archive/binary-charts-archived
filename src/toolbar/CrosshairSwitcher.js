@@ -35,9 +35,11 @@ export default class ZoomControls extends PureComponent {
     turnCrosshairOn = () => {
         const { theme, getXAxis, getYAxis } = this.props;
 
-        getYAxis().update({
+        const crosshairOptions = {
             crosshair: {
-                snap: true,
+                snap: false,
+                color: colorText(theme, 1),
+                // dashStyle: 'ShortDot',
                 label: {
                     enabled: true,
                     padding: 5,
@@ -48,20 +50,10 @@ export default class ZoomControls extends PureComponent {
                     },
                 },
             },
-        });
-        getXAxis().update({
-            crosshair: {
-                snap: false,
-                label: {
-                    enabled: true,
-                    padding: 5,
-                    style: {
-                        color: colorText(theme, 1),
-                        fontSize: '12px',
-                    },
-                },
-            },
-        });
+        };
+
+        getYAxis().update(crosshairOptions);
+        getXAxis().update(crosshairOptions);
     }
 
     toggleCrosshair = () => {

@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import styles from '../styles';
 import IntervalPicker from './IntervalPicker';
 import TypePicker from './TypePicker';
-import IndicatorsPicker from './IndicatorsPicker';
+// import IndicatorsPicker from './IndicatorsPicker';
 import SharePicker from './SharePicker';
-import CrosshairSwitcher from './CrosshairSwitcher';
+// import CrosshairSwitcher from './CrosshairSwitcher';
 // import SettingsPicker from './SettingsPicker';
 
 type Props = {
@@ -36,7 +36,7 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { assetName, compact, type, getXAxis, getYAxis, getChart, pickerShown, interval,
+        const { assetName, compact, type, getChart, pickerShown, interval,
             onShowPicker, onIntervalChange, onTypeChange } = this.props;
 
         return (
@@ -55,16 +55,16 @@ export default class Toolbar extends PureComponent {
                         onChange={onIntervalChange}
                     />
                 }
-                <CrosshairSwitcher
+                {/* <CrosshairSwitcher
                     getXAxis={getXAxis}
                     getYAxis={getYAxis}
-                />
-                {!compact &&
+                /> */}
+                {/* {!compact &&
                     <IndicatorsPicker
                         expanded={pickerShown === 'indicators'}
                         onExpand={() => onShowPicker('indicators')}
                     />
-                }
+                } */}
                 <SharePicker
                     assetName={assetName}
                     expanded={pickerShown === 'share'}

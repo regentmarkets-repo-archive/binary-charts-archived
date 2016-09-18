@@ -2,7 +2,22 @@ import { merge } from 'highcharts/highstock';
 import { digitsToPips } from 'binary-utils';
 import { lightTheme, darkTheme } from '../themes';
 import createSeries from './createSeries';
-import { colorText } from '../styles';
+import { colorBg, colorText } from '../styles';
+
+const crosshairOptions = (theme, formatter) => ({
+    snap: false,
+    color: colorBg(theme, 1),
+    dashStyle: 'LongDashDot',
+    label: {
+        enabled: true,
+        padding: 5,
+        formatter,
+        style: {
+            color: colorText(theme, 1),
+            fontSize: '12px',
+        },
+    },
+});
 
 export default ({
     pipSize = 0,
@@ -51,7 +66,7 @@ export default ({
             tickWidth: 0,
             startOnTick: false,
             endOnTick: false,
-            crosshair: false,
+            crosshair: crosshairOptions(theme),
             events: {
                 afterSetExtremes: function after() {
                     const { max, dataMax } = this.getExtremes();
@@ -67,12 +82,13 @@ export default ({
             opposite: true,
             labels: {
                 align: 'left',
-                formatter() {
-                    const updatedPipSize = this.chart.userOptions.binary.pipSize;
-                    return this.value.toFixed(updatedPipSize);
+                formatter: function formatter() {
+                    return this.value.toFixed(this.chart.userOptions.binary.pipSize);
                 },
             },
-            crosshair: false,
+            crosshair: crosshairOptions(theme, function formatter(value) {
+                return value.toFixed(this.chart.userOptions.binary.pipSize);
+            }),
             tickWidth: 0,
             title: { text: null },
             floor: 0,
