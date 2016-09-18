@@ -12,6 +12,7 @@ export default (
     data,
     id: id || 'main',
     lineWidth: 2,
+    // enableMouseTracking: false,
     tooltip: {
         valueDecimals: pipSize,
         pointFormat: '<div style="font-size: 15px; font-weigth: bold">{series.name}</div>' +

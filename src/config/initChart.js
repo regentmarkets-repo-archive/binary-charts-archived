@@ -2,6 +2,7 @@ import { merge } from 'highcharts/highstock';
 import { digitsToPips } from 'binary-utils';
 import { lightTheme, darkTheme } from '../themes';
 import createSeries from './createSeries';
+import { colorText } from '../styles';
 
 export default ({
     pipSize = 0,
@@ -19,7 +20,6 @@ export default ({
         credits: { enabled: false },
         legend: { enabled: false },
         rangeSelector: { enabled: false },
-        exporting: { enabled: false },
         title: { text: null },
         navigator: { enabled: false },
 
@@ -87,6 +87,15 @@ export default ({
             borderWidth: 0,
             useHTML: true,
 //            followPointer: true,
+        },
+        exporting: {
+            enabled: false,
+            chartOptions: {
+                chart: {
+                    backgroundColor: colorText(theme, 1),
+                    margin: 60,
+                },
+            },
         },
     },
 );

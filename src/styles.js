@@ -1,7 +1,7 @@
 export const colorBg = (theme: Theme, percentage: number): string =>
     theme === 'light' ?
         `rgba(42, 48, 82, ${percentage})` :
-        `rgba(242, 244, 255, ${percentage})`;
+        `rgba(245, 247, 255, ${percentage})`;
 
 export const colorText = (theme: Theme, percentage: number): string =>
     colorBg(theme === 'light' ? 'dark' : 'light', percentage);

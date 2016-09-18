@@ -37,7 +37,7 @@ export default class ZoomControls extends PureComponent {
 
         getYAxis().update({
             crosshair: {
-                snap: false,
+                snap: true,
                 label: {
                     enabled: true,
                     padding: 5,
