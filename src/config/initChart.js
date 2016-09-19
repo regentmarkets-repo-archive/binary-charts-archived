@@ -11,6 +11,7 @@ const crosshairOptions = (theme, formatter) => ({
     label: {
         enabled: true,
         padding: 5,
+        shape: 'rect',
         formatter,
         style: {
             color: colorText(theme, 1),
