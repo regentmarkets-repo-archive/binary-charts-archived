@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "7.113.0",
+  "version": "7.116.0",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -45,8 +45,7 @@
     "binary-indicators": "^1.1.0",
     "binary-utils": "*",
     "fbjs": "^0.8.4",
-    "highcharts": "^4.2.6",
-    "react-material-design-icons": "*"
+    "highcharts": "^4.2.6"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.14.0",
@@ -77,6 +76,7 @@
     "react-dom": "^15.3.1",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
+    "svg-react-loader": "^0.3.7",
     "webpack": "2.1.0-beta.21"
   },
   "peerDependencies": {

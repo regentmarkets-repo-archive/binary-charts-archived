@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styles from '../styles';
 import IntervalPicker from './IntervalPicker';
 import TypePicker from './TypePicker';
-// import IndicatorsPicker from './IndicatorsPicker';
+import IndicatorsPicker from './IndicatorsPicker';
 import SharePicker from './SharePicker';
 // import CrosshairSwitcher from './CrosshairSwitcher';
 // import SettingsPicker from './SettingsPicker';
@@ -59,12 +59,12 @@ export default class Toolbar extends PureComponent {
                     getXAxis={getXAxis}
                     getYAxis={getYAxis}
                 /> */}
-                {/* {!compact &&
+                {!compact &&
                     <IndicatorsPicker
                         expanded={pickerShown === 'indicators'}
                         onExpand={() => onShowPicker('indicators')}
                     />
-                } */}
+                }
                 <SharePicker
                     assetName={assetName}
                     expanded={pickerShown === 'share'}

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Share from 'react-material-design-icons/icons/Share';
+import { ShareIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {
@@ -50,7 +50,7 @@ export default class SharePicker extends PureComponent {
         return (
             <Picker
                 expanded={expanded}
-                img={<Share width="16px" height="16px" />}
+                img={<ShareIcon />}
                 items={[
                     { text: 'Download PNG Image', value: this.downloadPng },
                     { text: 'Download SVG Image', value: this.downloadSvg },
