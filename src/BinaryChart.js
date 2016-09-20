@@ -122,7 +122,7 @@ export default class BinaryChart extends Component {
     };
 
     onIntervalChange = (interval: Epoch) => {
-        const { getData, type } = this.props;
+        const { getData, type, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
         const dataType = chartTypeToDataType(type);
@@ -130,11 +130,11 @@ export default class BinaryChart extends Component {
         if (!interval) {
             if (dataType !== 'ticks') {
                 getData(start, end, 'ticks')
-                    .then(() => this.onTypeChange('area'));
+                    .then(() => onTypeChange('area'));
             }
         } else {
             getData(start, end, 'candles', interval)
-                .then(() => this.onTypeChange('candlestick'));
+                .then(() => onTypeChange('candlestick'));
 
             this.chart.xAxis[0].update({
                 minRange: 10 * interval * 1000,
