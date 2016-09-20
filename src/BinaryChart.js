@@ -45,6 +45,7 @@ type State = {
     pickerShown: any,
     endButtonShown: boolean,
     range: { from: Date, to: Date },
+    interval: ?number,
 }
 
 export default class BinaryChart extends Component {
@@ -74,6 +75,7 @@ export default class BinaryChart extends Component {
         this.state = {
             range: {},
             endButtonShown: true,
+            interval: undefined,
         };
     }
 
@@ -94,15 +96,13 @@ export default class BinaryChart extends Component {
 
         const dataType = chartTypeToDataType(newType);
 
-        if (dataType === 'ticks') {
-            this.interval = undefined;
-        } else {
-            this.interval = 60;
-        }
+        const newInterval = dataType === 'ticks' ? undefined : 60;
+
+        this.setState({ interval: newInterval });
 
         this.chart.showLoading();
 
-        getData(start, end, dataType, this.interval).then(data => {
+        getData(start, end, dataType, newInterval).then(data => {
             onTypeChange(newType);
 
             this.chart.hideLoading();
@@ -139,7 +139,7 @@ export default class BinaryChart extends Component {
                     });
                 });
         }
-        this.interval = interval;
+        this.setState({ interval });
     };
 
     getChart = () => this.chart;
@@ -152,7 +152,7 @@ export default class BinaryChart extends Component {
 
     getDataByStartEnd = (start, end) => {
         const type = chartTypeToDataType(this.props.type);
-        const interval = this.interval;
+        const interval = this.state.interval;
 
         if (type === 'candles') {
             return this.props.getData(start, end, type, interval);
@@ -172,7 +172,7 @@ export default class BinaryChart extends Component {
         const { assetName, className, compactToolbar, hiddenTimeFrame, hiddenToolbar,
             hiddenZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
 
-        const { endButtonShown, pickerShown } = this.state;
+        const { endButtonShown, pickerShown, interval } = this.state;
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
@@ -180,7 +180,7 @@ export default class BinaryChart extends Component {
                     <Toolbar
                         assetName={assetName}
                         compact={compactToolbar}
-                        interval={this.interval}
+                        interval={interval}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
