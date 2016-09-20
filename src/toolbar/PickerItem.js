@@ -26,7 +26,7 @@ export default class PickerItem extends PureComponent {
                 onClick={this.onClick}
             >
                 {img}
-                <div>{text}</div>
+                {text && <span>{text}</span>}
             </button>
         );
     }

@@ -43,7 +43,8 @@ export default class Picker extends PureComponent {
                     className="binary-chart-button"
                     onClick={this.expand}
                 >
-                    {img}{text}
+                    {img}
+                    {text && <span>{text}</span>}
                 </button>
                 {expanded &&
                     <div style={styles.submenu} className="binary-chart-submenu">
