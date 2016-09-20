@@ -80,12 +80,13 @@ export default class TimeFramePicker extends PureComponent {
 
         let opt = options;
 
-        const max = getLast(data).epoch;
-        const min = data[0].epoch;
-        if (!showAllTimeFrame && data.length > 0) {
-            opt = options.filter(o => o.seconds <= max - min);
-        } else if (data.length > 0) {
-            if (!interval) {        // tick data
+        if (data.length > 0) {
+            const max = getLast(data).epoch;
+            const min = data[0].epoch;
+
+            if (!showAllTimeFrame) {
+                opt = options.filter(o => o.seconds <= max - min);
+            } else if (!interval) {        // tick data
                 opt = options.filter(o => o.seconds <= max - min + 1000);       // TODO: 1000 is arbritary
             } else {
                 opt = options.filter(o => o.seconds <= (max - min) + (interval * 500));     // TODO: 500 is arbritary
