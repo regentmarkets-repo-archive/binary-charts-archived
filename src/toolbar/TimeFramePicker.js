@@ -9,7 +9,7 @@ const options = [
     { text: '3h', seconds: 3 * 60 * 60 },
     { text: '12h', seconds: 12 * 60 * 60 },
     { text: '1d', seconds: 24 * 60 * 60 },
-    { text: '1w', seconds: 7 * 25 * 60 * 60 },
+    { text: '1w', seconds: 7 * 24 * 60 * 60 },
     { text: '30d', seconds: 30 * 25 * 60 * 60 },
 ];
 
@@ -21,7 +21,12 @@ export default class TimeFramePicker extends PureComponent {
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
         getSeries: () => any,
+        interval?: number,
         showAllTimeFrame: boolean,
+    };
+
+    static defaultProps = {
+        maxTimeRange: 7 * 24 * 60 * 60,         // default allow to 1 week
     };
 
     setRange = (fromDistance: seconds) => {
@@ -71,13 +76,21 @@ export default class TimeFramePicker extends PureComponent {
     }
 
     render() {
-        const { data, showAllTimeFrame } = this.props;
+        const { data, showAllTimeFrame, interval } = this.props;
 
         let opt = options;
-        if (!showAllTimeFrame && data.length > 0) {
+
+        if (data.length > 0) {
             const max = getLast(data).epoch;
             const min = data[0].epoch;
-            opt = options.filter(o => o.seconds <= max - min);
+
+            if (!showAllTimeFrame) {
+                opt = options.filter(o => o.seconds <= max - min);
+            } else if (!interval) {        // tick data
+                opt = options.filter(o => o.seconds <= max - min + 1000);       // TODO: 1000 is arbritary
+            } else {
+                opt = options.filter(o => o.seconds <= (max - min) + (interval * 500));     // TODO: 500 is arbritary
+            }
         }
 
         return (

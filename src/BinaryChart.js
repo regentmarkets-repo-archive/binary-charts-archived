@@ -16,11 +16,16 @@ export type ChartEvent = {
 }
 
 type Props = {
+    assetName: string,
     className?: string,
     contract: Contract,
+    compactToolbar: boolean,
     events: ChartEvent[],
     id: string,
     getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => Promise,
+    hiddenTimeFrame: boolean,
+    hiddenToolbar: boolean,
+    hiddenZoomControls: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -28,16 +33,11 @@ type Props = {
     pipSize: number,
     showAllTimeFrame: boolean,
     symbol: string,
-    assetName: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
     ticks: Tick[],
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
-    hiddenTimeFrame: boolean,
-    hiddenToolbar: boolean,
-    compactToolbar: boolean,
-    hiddenZoomControls: boolean,
     type: ChartType,
 };
 
@@ -45,6 +45,7 @@ type State = {
     pickerShown: any,
     endButtonShown: boolean,
     range: { from: Date, to: Date },
+    interval: ?number,
 }
 
 export default class BinaryChart extends Component {
@@ -74,6 +75,7 @@ export default class BinaryChart extends Component {
         this.state = {
             range: {},
             endButtonShown: true,
+            interval: undefined,
         };
     }
 
@@ -94,15 +96,13 @@ export default class BinaryChart extends Component {
 
         const dataType = chartTypeToDataType(newType);
 
-        if (dataType === 'ticks') {
-            this.interval = undefined;
-        } else {
-            this.interval = 60;
-        }
+        const newInterval = dataType === 'ticks' ? undefined : 60;
+
+        this.setState({ interval: newInterval });
 
         this.chart.showLoading();
 
-        getData(start, end, dataType, this.interval).then(data => {
+        getData(start, end, dataType, newInterval).then(data => {
             onTypeChange(newType);
 
             this.chart.hideLoading();
@@ -139,7 +139,7 @@ export default class BinaryChart extends Component {
                     });
                 });
         }
-        this.interval = interval;
+        this.setState({ interval });
     };
 
     getChart = () => this.chart;
@@ -152,7 +152,7 @@ export default class BinaryChart extends Component {
 
     getDataByStartEnd = (start, end) => {
         const type = chartTypeToDataType(this.props.type);
-        const interval = this.interval;
+        const interval = this.state.interval;
 
         if (type === 'candles') {
             return this.props.getData(start, end, type, interval);
@@ -169,21 +169,18 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { assetName, className, showAllTimeFrame, theme, ticks, type, compactToolbar,
-            hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
+        const { assetName, className, compactToolbar, hiddenTimeFrame, hiddenToolbar,
+            hiddenZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
 
-        const { endButtonShown, pickerShown } = this.state;
+        const { endButtonShown, pickerShown, interval } = this.state;
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
                 {!hiddenToolbar &&
                     <Toolbar
                         assetName={assetName}
-                        pickerShown={pickerShown}
                         compact={compactToolbar}
-                        type={type}
-                        interval={this.interval}
-                        theme={theme}
+                        interval={interval}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
@@ -191,26 +188,30 @@ export default class BinaryChart extends Component {
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}
+                        pickerShown={pickerShown}
+                        theme={theme}
+                        type={type}
                     />
                 }
                 <ChartCore parent={this} {...this.props} />
                 {!hiddenZoomControls &&
                     <ZoomControls
+                        endButtonShown={endButtonShown}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
-                        endButtonShown={endButtonShown}
                     />
                 }
                 {!hiddenTimeFrame &&
                     <TimeFramePicker
-                        showAllTimeFrame={showAllTimeFrame}
                         data={ticks}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
+                        interval={interval}
+                        showAllTimeFrame={showAllTimeFrame}
                     />
                 }
             </div>
