@@ -16,11 +16,16 @@ export type ChartEvent = {
 }
 
 type Props = {
+    assetName: string,
     className?: string,
     contract: Contract,
+    compactToolbar: boolean,
     events: ChartEvent[],
     id: string,
     getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => any,
+    hiddenTimeFrame: boolean,
+    hiddenToolbar: boolean,
+    hiddenZoomControls: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -28,16 +33,11 @@ type Props = {
     pipSize: number,
     showAllTimeFrame: boolean,
     symbol: string,
-    assetName: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
     ticks: Tick[],
     theme: string,
     trade: TradeParam,
     tradingTimes: TradingTimes,
-    hiddenTimeFrame: boolean,
-    hiddenToolbar: boolean,
-    compactToolbar: boolean,
-    hiddenZoomControls: boolean,
     type: ChartType,
 };
 
@@ -168,8 +168,8 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { assetName, className, showAllTimeFrame, theme, ticks, type, compactToolbar,
-            hiddenTimeFrame, hiddenToolbar, hiddenZoomControls } = this.props;
+        const { assetName, className, compactToolbar, hiddenTimeFrame, hiddenToolbar,
+            hiddenZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
 
         const { endButtonShown, pickerShown } = this.state;
 
@@ -178,38 +178,38 @@ export default class BinaryChart extends Component {
                 {!hiddenToolbar &&
                     <Toolbar
                         assetName={assetName}
-                        pickerShown={pickerShown}
                         compact={compactToolbar}
-                        type={this.type}
                         interval={this.interval}
-                        theme={theme}
-                        hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
+                        hasInterval={chartTypeToDataType(type) === 'candles'}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}
+                        pickerShown={pickerShown}
+                        theme={theme}
+                        type={this.type}
                     />
                 }
                 <ChartCore parent={this} {...this.props} />
                 {!hiddenZoomControls &&
                     <ZoomControls
+                        endButtonShown={endButtonShown}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
-                        endButtonShown={endButtonShown}
                     />
                 }
                 {!hiddenTimeFrame &&
                     <TimeFramePicker
-                        showAllTimeFrame={showAllTimeFrame}
                         data={ticks}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
+                        showAllTimeFrame={showAllTimeFrame}
                     />
                 }
             </div>
