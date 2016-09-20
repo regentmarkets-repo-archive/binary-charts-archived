@@ -210,6 +210,7 @@ export default class BinaryChart extends Component {
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}
                         getSeries={this.getSeries}
+                        interval={interval}
                         showAllTimeFrame={showAllTimeFrame}
                     />
                 }
