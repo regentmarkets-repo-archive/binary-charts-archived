@@ -20,7 +20,7 @@ type Props = {
     contract: Contract,
     events: ChartEvent[],
     id: string,
-    getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => any,
+    getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => Promise,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -92,8 +92,6 @@ export default class BinaryChart extends Component {
             return;
         }
 
-        this.type = newType;
-
         const dataType = chartTypeToDataType(newType);
 
         if (dataType === 'ticks') {
@@ -102,41 +100,44 @@ export default class BinaryChart extends Component {
             this.interval = 60;
         }
 
-        const result = getData(start, end, dataType, this.interval);
-        onTypeChange(newType);
-        if (result && result.then) {    // show loading msg if fetch data function return promise
-            this.chart.showLoading();
-            result.then(data => {
-                this.chart.hideLoading();
-                if (!data || data.length === 0) {
-                    return;
-                }
-                const xAxis = this.getXAxis();
-                const { min, max } = xAxis.getExtremes();
-                const newMin = Math.max(min, data[0].epoch * 1000);
-                const newMax = Math.min(max, getLast(data).epoch * 1000);
-                xAxis.setExtremes(newMin, newMax, true, false);
-            });
-        }
+        this.chart.showLoading();
+
+        getData(start, end, dataType, this.interval).then(data => {
+            onTypeChange(newType);
+
+            this.chart.hideLoading();
+
+            if (!data || data.length === 0) {
+                return;
+            }
+
+            const xAxis = this.getXAxis();
+            const { min, max } = xAxis.getExtremes();
+            const newMin = Math.max(min, data[0].epoch * 1000);
+            const newMax = Math.min(max, getLast(data).epoch * 1000);
+            xAxis.setExtremes(newMin, newMax, true, false);
+        });
     };
 
     onIntervalChange = (interval: Epoch) => {
-        const { getData, type } = this.props;
+        const { getData, type, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
         const dataType = chartTypeToDataType(type);
 
         if (!interval) {
             if (dataType !== 'ticks') {
-                getData(start, end, 'ticks');
-                this.onTypeChange('area');
+                getData(start, end, 'ticks')
+                    .then(() => onTypeChange('area'));
             }
         } else {
-            getData(start, end, 'candles', interval);
-            this.onTypeChange('candlestick');
-            this.chart.xAxis[0].update({
-                minRange: 10 * interval * 1000,
-            });
+            getData(start, end, 'candles', interval)
+                .then(() => {
+                    onTypeChange('candlestick');
+                    this.chart.xAxis[0].update({
+                        minRange: 10 * interval * 1000,
+                    });
+                });
         }
         this.interval = interval;
     };
@@ -180,7 +181,7 @@ export default class BinaryChart extends Component {
                         assetName={assetName}
                         pickerShown={pickerShown}
                         compact={compactToolbar}
-                        type={this.type}
+                        type={type}
                         interval={this.interval}
                         theme={theme}
                         hasInterval={chartTypeToDataType(type) === 'candles'}
