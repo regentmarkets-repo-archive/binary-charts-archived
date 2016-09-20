@@ -11,7 +11,7 @@ export default (
     type,
     data,
     id: id || 'main',
-    lineWidth: 2,
+    // lineWidth: 2,
     // enableMouseTracking: false,
     tooltip: {
         valueDecimals: pipSize,

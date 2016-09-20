@@ -13,7 +13,7 @@ module.exports = {
     devtool: env === 'production' ? 'source-map' : 'eval',
     module: {
         loaders: [
-            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel', query: { compact: true } },
+            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel' },
             { test: /\.js$/, exclude: [/node_modules/, /highcharts/], loader: 'eslint' },
             { test: /\.svg$/, loader: 'babel?presets[]=es2015,presets[]=react!svg-react' },
         ],
