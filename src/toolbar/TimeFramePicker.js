@@ -9,7 +9,7 @@ const options = [
     { text: '3h', seconds: 3 * 60 * 60 },
     { text: '12h', seconds: 12 * 60 * 60 },
     { text: '1d', seconds: 24 * 60 * 60 },
-    { text: '1w', seconds: 7 * 25 * 60 * 60 },
+    { text: '1w', seconds: 7 * 24 * 60 * 60 },
     { text: '30d', seconds: 30 * 25 * 60 * 60 },
 ];
 
@@ -22,6 +22,11 @@ export default class TimeFramePicker extends PureComponent {
         getXAxis: () => any,
         getSeries: () => any,
         showAllTimeFrame: boolean,
+        maxTimeRange: number,
+    };
+
+    static defaultProps = {
+        maxTimeRange: 7 * 24 * 60 * 60,         // default allow to 1 week
     };
 
     setRange = (fromDistance: seconds) => {
@@ -71,9 +76,9 @@ export default class TimeFramePicker extends PureComponent {
     }
 
     render() {
-        const { data, showAllTimeFrame } = this.props;
+        const { data, showAllTimeFrame, maxTimeRange } = this.props;
 
-        let opt = options;
+        let opt = options.filter(o => o.seconds <= maxTimeRange);
         if (!showAllTimeFrame && data.length > 0) {
             const max = getLast(data).epoch;
             const min = data[0].epoch;
