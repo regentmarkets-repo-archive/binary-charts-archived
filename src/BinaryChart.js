@@ -20,7 +20,7 @@ type Props = {
     contract: Contract,
     events: ChartEvent[],
     id: string,
-    getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => any,
+    getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => Promise,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -102,22 +102,23 @@ export default class BinaryChart extends Component {
             this.interval = 60;
         }
 
-        const result = getData(start, end, dataType, this.interval);
-        onTypeChange(newType);
-        if (result && result.then) {    // show loading msg if fetch data function return promise
-            this.chart.showLoading();
-            result.then(data => {
-                this.chart.hideLoading();
-                if (!data || data.length === 0) {
-                    return;
-                }
-                const xAxis = this.getXAxis();
-                const { min, max } = xAxis.getExtremes();
-                const newMin = Math.max(min, data[0].epoch * 1000);
-                const newMax = Math.min(max, getLast(data).epoch * 1000);
-                xAxis.setExtremes(newMin, newMax, true, false);
-            });
-        }
+        this.chart.showLoading();
+
+        getData(start, end, dataType, this.interval).then(data => {
+            onTypeChange(newType);
+
+            this.chart.hideLoading();
+
+            if (!data || data.length === 0) {
+                return;
+            }
+
+            const xAxis = this.getXAxis();
+            const { min, max } = xAxis.getExtremes();
+            const newMin = Math.max(min, data[0].epoch * 1000);
+            const newMax = Math.min(max, getLast(data).epoch * 1000);
+            xAxis.setExtremes(newMin, newMax, true, false);
+        });
     };
 
     onIntervalChange = (interval: Epoch) => {
@@ -128,12 +129,13 @@ export default class BinaryChart extends Component {
 
         if (!interval) {
             if (dataType !== 'ticks') {
-                getData(start, end, 'ticks');
-                this.onTypeChange('area');
+                getData(start, end, 'ticks')
+                    .then(() => this.onTypeChange('area'));
             }
         } else {
-            getData(start, end, 'candles', interval);
-            this.onTypeChange('candlestick');
+            getData(start, end, 'candles', interval)
+                .then(() => this.onTypeChange('candlestick'));
+
             this.chart.xAxis[0].update({
                 minRange: 10 * interval * 1000,
             });
