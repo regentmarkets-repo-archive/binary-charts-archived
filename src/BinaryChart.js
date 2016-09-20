@@ -134,11 +134,12 @@ export default class BinaryChart extends Component {
             }
         } else {
             getData(start, end, 'candles', interval)
-                .then(() => onTypeChange('candlestick'));
-
-            this.chart.xAxis[0].update({
-                minRange: 10 * interval * 1000,
-            });
+                .then(() => {
+                    onTypeChange('candlestick');
+                    this.chart.xAxis[0].update({
+                        minRange: 10 * interval * 1000,
+                    });
+                });
         }
         this.interval = interval;
     };
