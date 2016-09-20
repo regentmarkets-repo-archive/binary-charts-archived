@@ -15,6 +15,7 @@ module.exports = {
         loaders: [
             { test: /\.js?$/, exclude: /node_modules/, loader: 'babel', query: { compact: true } },
             { test: /\.js$/, exclude: [/node_modules/, /highcharts/], loader: 'eslint' },
+            { test: /\.svg$/, loader: 'babel?presets[]=es2015,presets[]=react!svg-react' },
         ],
     },
     plugins: env === 'production' ? [

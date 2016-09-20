@@ -181,10 +181,10 @@ export default class BinaryChart extends Component {
                         assetName={assetName}
                         compact={compactToolbar}
                         interval={interval}
+                        hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
-                        hasInterval={chartTypeToDataType(type) === 'candles'}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}

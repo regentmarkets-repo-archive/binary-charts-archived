@@ -1,11 +1,6 @@
 import React, { PureComponent } from 'react';
 import { getLast } from 'binary-utils';
-import Add from 'react-material-design-icons/icons/Add';
-import Remove from 'react-material-design-icons/icons/Remove';
-import ChevronLeft from 'react-material-design-icons/icons/ChevronLeft';
-import ChevronRight from 'react-material-design-icons/icons/ChevronRight';
-import LastPage from 'react-material-design-icons/icons/LastPage';
-import Refresh from 'react-material-design-icons/icons/Refresh';
+import { AddIcon, RemoveIcon, ChevronLeftIcon, ChevronRightIcon, LastPageIcon, FitAllIcon } from '../icons';
 import styles from '../styles';
 
 export default class ZoomControls extends PureComponent {
@@ -135,24 +130,26 @@ export default class ZoomControls extends PureComponent {
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
                 <div style={styles.zoomSpacer} />
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveLeft}>
-                    <ChevronLeft />
+                    <ChevronLeftIcon />
                 </a>
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomOut}>
-                    <Remove />
+                    <RemoveIcon />
                 </a>
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.reset}>
-                    <Refresh />
+                    <FitAllIcon />
                 </a>
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomIn}>
-                    <Add />
+                    <AddIcon />
                 </a>
                 <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveRight}>
-                    <ChevronRight />
+                    <ChevronRightIcon />
                 </a>
                 <div style={styles.zoomSpacer}>
-                    {endButtonShown && <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveToEnd}>
-                        <LastPage />
-                    </a>}
+                    {endButtonShown &&
+                        <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveToEnd}>
+                            <LastPageIcon />
+                        </a>
+                    }
                 </div>
             </span>
         );

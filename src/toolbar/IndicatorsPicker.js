@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Analysis } from '../icons';
+import { AnalysisIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {
@@ -22,7 +22,7 @@ export default class IndicatorsPicker extends PureComponent {
         return (
             <Picker
                 expanded={expanded}
-                img={<Analysis width="16px" height="16px" />}
+                img={<AnalysisIcon width="16px" height="16px" />}
                 text="Indicators"
                 items={[
                     { text: 'Simple Moving Average (SMA)' },
