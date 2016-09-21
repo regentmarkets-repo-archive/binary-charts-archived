@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styles from '../styles';
+import defaultTooltips from '../tooltips';
 import IntervalPicker from './IntervalPicker';
 import TypePicker from './TypePicker';
 import IndicatorsPicker from './IndicatorsPicker';
@@ -12,6 +13,7 @@ type Props = {
     interval: string,
     type: string,
     compact: boolean,
+    showTooltips: boolean,
     crosshair?: boolean,
     chart: HighstockChart,
     hasInterval: boolean,
@@ -36,13 +38,15 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { assetName, compact, type, getChart, pickerShown, interval,
+        const { assetName, compact, type, getChart, pickerShown, interval, showTooltips,
             onShowPicker, onIntervalChange, onTypeChange } = this.props;
+        const tooltips = showTooltips ? defaultTooltips : {};
 
         return (
             <div style={styles.toolbar} className="binary-chart-toolbar">
                 <TypePicker
                     value={type}
+                    tooltip={tooltips.type}
                     expanded={pickerShown === 'type'}
                     onExpand={() => onShowPicker('type')}
                     onChange={onTypeChange}
@@ -50,28 +54,35 @@ export default class Toolbar extends PureComponent {
                 {!compact &&
                     <IntervalPicker
                         value={interval}
+                        tooltip={tooltips.interval}
                         expanded={pickerShown === 'interval'}
                         onExpand={() => onShowPicker('interval')}
                         onChange={onIntervalChange}
                     />
                 }
                 {/* <CrosshairSwitcher
+                    tooltip={tooltips.crosshair}
                     getXAxis={getXAxis}
                     getYAxis={getYAxis}
                 /> */}
-                {!compact &&
+                {/* {!compact &&
                     <IndicatorsPicker
+                        tooltip={tooltips.indicators}
                         expanded={pickerShown === 'indicators'}
                         onExpand={() => onShowPicker('indicators')}
                     />
-                }
+                } */}
                 <SharePicker
                     assetName={assetName}
+                    tooltip={tooltips.share}
                     expanded={pickerShown === 'share'}
                     onExpand={() => onShowPicker('share')}
                     getChart={getChart}
                 />
-                {/* {!compact && <SettingsPicker />} */}
+                {/* {!compact &&
+                    <SettingsPicker
+                    tooltip={tooltips.settings}
+                    />} */}
             </div>
         );
     }

@@ -26,6 +26,7 @@ type Props = {
     hiddenTimeFrame: boolean,
     hiddenToolbar: boolean,
     hiddenZoomControls: boolean,
+    showTooltips: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
     onRangeChange: () => void,
@@ -170,7 +171,7 @@ export default class BinaryChart extends Component {
 
     render() {
         const { assetName, className, compactToolbar, hiddenTimeFrame, hiddenToolbar,
-            hiddenZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
+            showTooltips, hiddenZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
 
         const { endButtonShown, pickerShown, interval } = this.state;
 
@@ -189,6 +190,7 @@ export default class BinaryChart extends Component {
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}
                         pickerShown={pickerShown}
+                        showTooltips={showTooltips}
                         theme={theme}
                         type={type}
                     />
@@ -197,6 +199,7 @@ export default class BinaryChart extends Component {
                 {!hiddenZoomControls &&
                     <ZoomControls
                         endButtonShown={endButtonShown}
+                        showTooltips={showTooltips}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getData={this.getDataByStartEnd}

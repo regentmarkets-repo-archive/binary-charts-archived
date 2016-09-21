@@ -25,6 +25,6 @@ export default (
     threshold: null,
     zoneAxis: 'x',
     dataGrouping: {
-        enabled: false,
+        enabled: type === 'line' || type === 'area',
     },
 });

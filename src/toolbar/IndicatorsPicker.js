@@ -4,6 +4,7 @@ import Picker from './Picker';
 
 type Props = {
     expanded: boolean,
+    tooltip: string,
     onExpand: () => void,
 };
 
@@ -17,11 +18,12 @@ export default class IndicatorsPicker extends PureComponent {
     onChange = () => {};
 
     render() {
-        const { expanded, onExpand } = this.props;
+        const { expanded, tooltip, onExpand } = this.props;
 
         return (
             <Picker
                 expanded={expanded}
+                tooltip={tooltip}
                 img={<AnalysisIcon width="16px" height="16px" />}
                 text="Indicators"
                 items={[

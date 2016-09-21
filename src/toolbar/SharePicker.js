@@ -4,6 +4,7 @@ import Picker from './Picker';
 
 type Props = {
     assetName: string,
+    tooltip: string,
     expanded: boolean,
     getChart: () => any,
     onExpand: () => void,
@@ -45,11 +46,12 @@ export default class SharePicker extends PureComponent {
     onDownload = downloadFunc => downloadFunc();
 
     render() {
-        const { expanded, onExpand } = this.props;
+        const { expanded, tooltip, onExpand } = this.props;
 
         return (
             <Picker
                 expanded={expanded}
+                tooltip={tooltip}
                 img={<ShareIcon />}
                 items={[
                     { text: 'Download PNG Image', value: this.downloadPng },

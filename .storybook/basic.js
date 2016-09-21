@@ -63,6 +63,16 @@ storiesOf('Basic', module)
             ]}
         />
     )
+    .add('Tooltips', () =>
+        <BinaryChart
+            showTooltips
+            ticks={[
+                { epoch: 0, quote: 50 },
+                { epoch: 1, quote: 40 },
+                { epoch: 2, quote: 60 },
+            ]}
+        />
+    )
     .add('Toolbar Hidden', () =>
         <BinaryChart
             hiddenToolbar

@@ -4,6 +4,7 @@ import Picker from './Picker';
 
 type Props = {
     expanded: boolean,
+    tooltip: string,
     value: ChartType,
     onExpand: () => void,
     onChange: (chartType: string) => void,
@@ -21,11 +22,12 @@ export default class TypePicker extends PureComponent {
     props: Props;
 
     render() {
-        const { expanded, value, onExpand, onChange } = this.props;
+        const { expanded, tooltip, value, onExpand, onChange } = this.props;
 
         return (
             <Picker
                 expanded={expanded}
+                tooltip={tooltip}
                 img={items.find(x => x.value === value).img}
                 items={items}
                 onExpand={onExpand}

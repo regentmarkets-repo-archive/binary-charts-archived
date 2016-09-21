@@ -4,6 +4,7 @@ import styles from '../styles';
 
 type Props = {
     text?: string,
+    tooltip?: string,
     expanded: boolean,
     img?: ReactComponent,
     items: PickerItem[],
@@ -34,7 +35,7 @@ export default class Picker extends PureComponent {
     }
 
     render() {
-        const { expanded, text, img, items, onChange } = this.props;
+        const { expanded, text, tooltip, img, items, onChange } = this.props;
 
         return (
             <div className="binary-chart-picker">
@@ -46,6 +47,7 @@ export default class Picker extends PureComponent {
                     {img}
                     {text && <span>{text}</span>}
                 </button>
+                {tooltip && <div className="tooltip">{tooltip}</div>}
                 {expanded &&
                     <div style={styles.submenu} className="binary-chart-submenu">
                         {items.map((x, i) =>

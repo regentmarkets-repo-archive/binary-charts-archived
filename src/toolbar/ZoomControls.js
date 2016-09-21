@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import { getLast } from 'binary-utils';
 import { AddIcon, RemoveIcon, ChevronLeftIcon, ChevronRightIcon, LastPageIcon, FitAllIcon } from '../icons';
+import ZoomButton from './ZoomButton';
+import defaultTooltips from '../tooltips';
 import styles from '../styles';
 
 export default class ZoomControls extends PureComponent {
 
     props: {
         endButtonShown: boolean,
+        showTooltips: boolean,
         getChart: () => Chart,
         getData?: (start: Epoch, end: Epoch) => void,
         getXAxis: () => any,
@@ -88,7 +91,7 @@ export default class ZoomControls extends PureComponent {
         xAxis.setExtremes(min + halfDiff, max, true);
     }
 
-    reset = () => {
+    resetZoom = () => {
         const xAxis = this.props.getXAxis();
         const { dataMin, dataMax } = xAxis.getExtremes();
         xAxis.setExtremes(dataMin, dataMax, true);
@@ -125,30 +128,20 @@ export default class ZoomControls extends PureComponent {
     }
 
     render() {
-        const { endButtonShown } = this.props;
+        const { endButtonShown, showTooltips } = this.props;
+        const tooltips = showTooltips ? defaultTooltips : {};
+
         return (
             <span style={styles.zoomControls} className="binary-chart-zoom-controls">
                 <div style={styles.zoomSpacer} />
-                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveLeft}>
-                    <ChevronLeftIcon />
-                </a>
-                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomOut}>
-                    <RemoveIcon />
-                </a>
-                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.reset}>
-                    <FitAllIcon />
-                </a>
-                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.zoomIn}>
-                    <AddIcon />
-                </a>
-                <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveRight}>
-                    <ChevronRightIcon />
-                </a>
+                <ZoomButton img={<ChevronLeftIcon />} onClick={this.moveLeft} tooltip={tooltips.moveLeft} />
+                <ZoomButton img={<RemoveIcon />} onClick={this.zoomOut} tooltip={tooltips.zoomOut} />
+                <ZoomButton img={<FitAllIcon />} onClick={this.resetZoom} tooltip={tooltips.resetZoom} />
+                <ZoomButton img={<AddIcon />} onClick={this.zoomIn} tooltip={tooltips.zoomIn} />
+                <ZoomButton img={<ChevronRightIcon />} onClick={this.moveRight} tooltip={tooltips.moveRight} />
                 <div style={styles.zoomSpacer}>
                     {endButtonShown &&
-                        <a style={styles.zoomButton} className="binary-chart-zoom-button" onClick={this.moveToEnd}>
-                            <LastPageIcon />
-                        </a>
+                        <ZoomButton img={<LastPageIcon />} onClick={this.moveToEnd} tooltip={tooltips.moveToEnd} />
                     }
                 </div>
             </span>
