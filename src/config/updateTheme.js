@@ -1,5 +1,5 @@
 // $FlowFixMe
-import Highcharts from 'highcharts/highstock';
+import Highcharts from 'highcharts/highstock.src';
 import { lightTheme, darkTheme } from '../themes';
 
 export default (theme: Theme) => {

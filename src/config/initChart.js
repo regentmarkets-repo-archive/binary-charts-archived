@@ -1,4 +1,4 @@
-import { merge } from 'highcharts/highstock';
+import { merge } from 'highcharts/highstock.src';
 import { digitsToPips } from 'binary-utils';
 import { lightTheme, darkTheme } from '../themes';
 import createSeries from './createSeries';

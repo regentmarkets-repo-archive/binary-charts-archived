@@ -1,5 +1,5 @@
 // $FlowFixMe
-import Highcharts from 'highcharts/highstock';
+import Highcharts from 'highcharts/highstock.src';
 import { colorBg, colorText } from './styles';
 
 function merge(a: Object, b: Object) {

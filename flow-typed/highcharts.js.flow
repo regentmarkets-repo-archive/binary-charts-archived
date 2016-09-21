@@ -1,4 +1,4 @@
-declare module 'highcharts/highstock' {
+declare module 'highcharts/highstock.src' {
     declare class Chart {
         options: Object
     }

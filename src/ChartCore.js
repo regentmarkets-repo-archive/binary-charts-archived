@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts/highstock';
+import Highcharts from 'highcharts/highstock.src';
 import exporting from 'highcharts/modules/exporting';
 import noDataToDisplay from 'highcharts/modules/no-data-to-display';
 

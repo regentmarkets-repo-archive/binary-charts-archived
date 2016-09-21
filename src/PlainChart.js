@@ -1,4 +1,4 @@
-import Highcharts from 'highcharts/highstock';
+import Highcharts from 'highcharts/highstock.src';
 import initChart from './config/initChart';
 import updateChart from './config/updateChart';
 
