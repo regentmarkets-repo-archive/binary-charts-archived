@@ -23,7 +23,8 @@ export default (chart: Chart, startLaterEpoch: number, lastTick: number) => {
                 xAxis.setExtremes(min, startLaterDate);
             }
         } else {
-            chart.addSeries(createHiddenSeries([[startLaterDate, lastTick]], 'future'));
+            const futureSeries = createHiddenSeries([[startLaterEpoch * 1000, lastTick], [startLaterDate, lastTick]], 'future');
+            chart.addSeries(futureSeries);
             xAxis.setExtremes(min, startLaterDate);
         }
     }

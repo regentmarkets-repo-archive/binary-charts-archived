@@ -6,6 +6,7 @@ configure(() => {
     require('./multiple-charts');
     require('./contract-types');
     require('./times');
+    require('./start-later');
     require('./dynamic-fetching');
     require('./past-contracts');
     require('./open-contracts');
