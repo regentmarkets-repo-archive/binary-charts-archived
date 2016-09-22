@@ -78,6 +78,7 @@ export default ({
                     }
                 },
             },
+            ordinal: true,
         },
         yAxis: {
             opposite: true,
