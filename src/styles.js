@@ -30,7 +30,6 @@ export default {
     },
     timeFrameButton: {
         flex: 1,
-        background: 'transparent',
     },
     zoomControls: {
         display: 'flex',

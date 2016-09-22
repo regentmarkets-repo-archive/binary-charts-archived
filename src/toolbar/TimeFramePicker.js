@@ -99,12 +99,19 @@ export default class TimeFramePicker extends PureComponent {
                     <button
                         key={x.text}
                         style={styles.timeFrameButton}
+                        className="binary-chart-time-frame-button"
                         onClick={() => this.setRange(x.seconds)}
                     >
                         {x.text}
                     </button>
                 )}
-                <button style={styles.timeFrameButton} onClick={this.setRangeToMax}>Max</button>
+                <button
+                    style={styles.timeFrameButton}
+                    className="binary-chart-time-frame-button"
+                    onClick={this.setRangeToMax}
+                >
+                    Max
+                </button>
             </div>
         );
     }

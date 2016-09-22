@@ -75,7 +75,7 @@ storiesOf('Basic', module)
     )
     .add('Toolbar Hidden', () =>
         <BinaryChart
-            hiddenToolbar
+            hideToolbar
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
@@ -85,7 +85,7 @@ storiesOf('Basic', module)
     )
     .add('Time Frame Hidden', () =>
         <BinaryChart
-            hiddenTimeFrame
+            hideTimeFrame
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },
@@ -95,7 +95,7 @@ storiesOf('Basic', module)
     )
     .add('Zoom Controls Hidden', () =>
         <BinaryChart
-            hiddenZoomControls
+            hideZoomControls
             ticks={[
                 { epoch: 0, quote: 50 },
                 { epoch: 1, quote: 40 },

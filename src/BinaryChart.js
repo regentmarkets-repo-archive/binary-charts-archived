@@ -23,9 +23,9 @@ type Props = {
     events: ChartEvent[],
     id: string,
     getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => Promise,
-    hiddenTimeFrame: boolean,
-    hiddenToolbar: boolean,
-    hiddenZoomControls: boolean,
+    hideTimeFrame: boolean,
+    hideToolbar: boolean,
+    hideZoomControls: boolean,
     showTooltips: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
@@ -179,14 +179,14 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { assetName, className, compactToolbar, hiddenTimeFrame, hiddenToolbar,
-            showTooltips, hiddenZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
+        const { assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
+            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
 
         const { endButtonShown, pickerShown, interval } = this.state;
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
-                {!hiddenToolbar &&
+                {!hideToolbar &&
                     <Toolbar
                         assetName={assetName}
                         compact={compactToolbar}
@@ -205,7 +205,7 @@ export default class BinaryChart extends Component {
                     />
                 }
                 <ChartCore parent={this} {...this.props} />
-                {!hiddenZoomControls &&
+                {!hideZoomControls &&
                     <ZoomControls
                         endButtonShown={endButtonShown}
                         showTooltips={showTooltips}
@@ -215,7 +215,7 @@ export default class BinaryChart extends Component {
                         getSeries={this.getSeries}
                     />
                 }
-                {!hiddenTimeFrame &&
+                {!hideTimeFrame &&
                     <TimeFramePicker
                         data={ticks}
                         getChart={this.getChart}
