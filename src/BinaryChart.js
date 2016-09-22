@@ -88,22 +88,28 @@ export default class BinaryChart extends Component {
     };
 
     onTypeChange = (newType: string) => {
-        const { getData, onTypeChange } = this.props;
+        const { getData, onTypeChange, type } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
         if (this.chart.isLoading) {
             return;
         }
 
-        const dataType = chartTypeToDataType(newType);
+        const oldDataType = chartTypeToDataType(type);
+        const newDataType = chartTypeToDataType(newType);
 
-        const newInterval = dataType === 'ticks' ? undefined : 60;
+        if (oldDataType === newDataType) {
+            onTypeChange(newType);
+            return;
+        }
+
+        const newInterval = newDataType === 'ticks' ? undefined : 60;
 
         this.setState({ interval: newInterval });
 
         this.chart.showLoading();
 
-        getData(start, end, dataType, newInterval).then(data => {
+        getData(start, end, newDataType, newInterval).then(data => {
             onTypeChange(newType);
 
             this.chart.hideLoading();
