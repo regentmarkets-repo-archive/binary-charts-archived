@@ -134,7 +134,10 @@ export default class BinaryChart extends Component {
         } else {
             getData(start, end, 'candles', interval)
                 .then(() => {
-                    onTypeChange('candlestick');
+                    if (dataType === 'ticks') {
+                        onTypeChange('candlestick');        // only change when original data type is ticks, ie. Area or Line chart
+                    }
+
                     this.chart.xAxis[0].update({
                         minRange: 10 * interval * 1000,
                     });
