@@ -70,6 +70,11 @@ const commonTheme = {
 			fontFamily: "'Roboto', sans-serif",
 		},
 		backgroundColor: 'transparent',
+        resetZoomButton: {
+            theme: {
+                display: 'none',
+            },
+        },
 	},
     plotOptions: {
         series: {
@@ -105,11 +110,6 @@ const commonTheme = {
 	},
     tooltip: {
         shadow: false,
-    },
-    resetZoomButton: {
-        theme: {
-            display: 'none',
-        },
     },
     noData: {
         style: {
