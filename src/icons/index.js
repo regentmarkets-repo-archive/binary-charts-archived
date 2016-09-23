@@ -4,6 +4,8 @@ export { default as AnalysisIcon } from '-!babel!svg-react!./Analysis.svg';
 export { default as AreaIcon } from '-!babel!svg-react!./Area.svg';
 export { default as BarIcon } from '-!babel!svg-react!./Bar.svg';
 export { default as CandlestickIcon } from '-!babel!svg-react!./Candle.svg';
+export { default as CheckboxIcon } from '-!babel!svg-react!./Checkbox.svg';
+export { default as CheckboxOutlineIcon } from '-!babel!svg-react!./CheckboxOutline.svg';
 export { default as ChevronLeftIcon } from '-!babel!svg-react!./ChevronLeft.svg';
 export { default as ChevronRightIcon } from '-!babel!svg-react!./ChevronRight.svg';
 export { default as CrosshairIcon } from '-!babel!svg-react!./Crosshair.svg';

@@ -65,13 +65,13 @@ export default class Toolbar extends PureComponent {
                     getXAxis={getXAxis}
                     getYAxis={getYAxis}
                 /> */}
-                {/* {!compact &&
+                {!compact &&
                     <IndicatorsPicker
                         tooltip={tooltips.indicators}
                         expanded={pickerShown === 'indicators'}
                         onExpand={() => onShowPicker('indicators')}
                     />
-                } */}
+                }
                 <SharePicker
                     assetName={assetName}
                     tooltip={tooltips.share}

@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
-import { AnalysisIcon } from '../icons';
+import { AnalysisIcon, CheckboxIcon, CheckboxOutlineIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {
     expanded: boolean,
     tooltip: string,
     onExpand: () => void,
+    onChange: (indicator: string) => void,
 };
 
 export default class IndicatorsPicker extends PureComponent {
@@ -27,11 +28,11 @@ export default class IndicatorsPicker extends PureComponent {
                 img={<AnalysisIcon width="16px" height="16px" />}
                 text="Indicators"
                 items={[
-                    { text: 'Simple Moving Average (SMA)' },
-                    { text: 'Exponenital Moving Average (EMA)' },
-                    { text: 'Bollinger Band (BB)' },
-                    { text: 'Relative Strength Index (RSI)' },
-                    { text: 'Moving Average Convergence Divergence (MACD)' },
+                    { text: 'Simple Moving Average (SMA)', value: 'sma', img: <CheckboxIcon /> },
+                    { text: 'Exponenital Moving Average (EMA)', value: 'ema', img: <CheckboxOutlineIcon /> },
+                    { text: 'Bollinger Band (BB)', value: 'bb', img: <CheckboxOutlineIcon /> },
+                    { text: 'Relative Strength Index (RSI)', value: 'rsi', img: <CheckboxOutlineIcon /> },
+                    { text: 'Moving Average Convergence Divergence (MACD)', value: 'macd', img: <CheckboxOutlineIcon /> },
                 ]}
                 onExpand={onExpand}
                 onChange={this.onChange}

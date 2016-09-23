@@ -30,7 +30,7 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
         .add(indicator.group);
 
     indicator.label = renderer
-        .label((+value).toFixed(pipSize), x - 4 + yAxis.chart.marginRight, y - 9)
+        .label((+value).toFixed(pipSize), x - 3 + yAxis.chart.marginRight, y - 9)
         .attr({
             padding: 1,
         })
@@ -50,7 +50,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
     indicator.line.attr({ y: y - 1, width: x + 5 });
 
     indicator.label.attr({
-        x: x - 4 + yAxis.chart.marginRight,
+        x: x - 3 + yAxis.chart.marginRight,
         y: y - 9,
     });
 

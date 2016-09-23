@@ -3,9 +3,9 @@ import Picker from './Picker';
 import intervalList from './intervalList';
 
 type Props = {
-    value: number,
-    tooltip: string,
     expanded: boolean,
+    tooltip: string,
+    value: number,
     onExpand: () => void,
     onChange: (interval: ChartInterval) => void,
 };
