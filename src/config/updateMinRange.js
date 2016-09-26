@@ -1,4 +1,4 @@
-import { nowAsEpoch } from 'binary-utils';
+import { getLast } from 'binary-utils';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart) => {
@@ -21,13 +21,14 @@ export default (chart) => {
         let newMinRange = xDiff * 10;
 
         if (futureSeries) {
-            const futureX = futureSeries.options.data[0][0];
+            const futureX = getLast(futureSeries.options.data)[0];
 
             const { max } = xAxis.getExtremes();
 
             // max is null if chart is not drawn yet
             if (max && futureX <= max) {
-                const additionSpace = futureX - (nowAsEpoch() * 1000);
+                const lastMainData = getLast(mainSeries.options.data);
+                const additionSpace = futureX - lastMainData[0];
                 newMinRange = (xDiff * 10) + additionSpace;
             }
         }
