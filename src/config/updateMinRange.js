@@ -9,13 +9,16 @@ export default (chart) => {
     }
 
     const xAxis = chart.xAxis[0];
-
-    if (mainSeries.options.data.length > 1) {
+    const dataLength = mainSeries.options.data.length;
+    if (dataLength > 1) {
         const futureSeries = chart.get('future');
-        const data1 = mainSeries.options.data[0];
-        const data2 = mainSeries.options.data[1];
 
-        const xDiff = data2[0] - data1[0];
+        // use 2nd and 3rd from last to ensure getting correct interval
+        // last data mutate when it's a stream
+        const last3Data = mainSeries.options.data[dataLength - 3];
+        const last2Data = mainSeries.options.data[dataLength - 2];
+
+        const xDiff = last2Data[0] - last3Data[0];
         const oldMinRange = chart.xAxis[0].options.minRange;
 
         let newMinRange = xDiff * 10;
