@@ -21,48 +21,89 @@ export default class ZoomControls extends PureComponent {
         const chart = getChart();
         const xAxis = getXAxis();
         const { min, max, dataMin, dataMax } = xAxis.getExtremes();
-        const futureSeries = chart.get('future');
-        const frameSize = max - min;
 
+        const series = getSeries();
+        const seriesLastData = getLast(series.options.data);
+
+        const futureSeries = chart.get('future');
+        const futureX = futureSeries && futureSeries.options.data[0][0];
+
+        const frameSize = max - min;
         let step = frameSize / 5 * direction;
 
-        if (futureSeries) {
-            const futureX = futureSeries.options.data[0][0];
-            if (futureX <= max) {
-                const series = getSeries();
-                const lastDataX = getLast(series.options.data)[0];
-                step = (lastDataX - min) / 10 * direction;
-            }
-        }
+        const forward = direction > 0;
 
-        const newMin = min + step;
+        const currentFrameHasFutureData = futureSeries && futureX <= max;
 
         let start;
         let end;
-        if (direction > 0) {
-            end = Math.min(dataMax, max + step);
-            start = end - frameSize;
+        if (forward) {
+            if (max === dataMax) {      // ignore when frame already at max
+                return;
+            }
+
+            if (currentFrameHasFutureData) {        // ignore if future data already exists
+                return;
+            }
+
+            const expectedNextMax = Math.min(dataMax, max + step);
+            const expectedNextMin = expectedNextMax - frameSize;
+            const nextFrameHasFutureData = expectedNextMax > seriesLastData[0];
+
+            if (nextFrameHasFutureData) {
+                start = expectedNextMin;
+
+                // directly use data max if nextframe has future data, as we always want to show all or none future data
+                end = dataMax;
+            } else {
+                start = expectedNextMin;
+                end = expectedNextMax;
+            }
         } else {
-            start = Math.max(dataMin, newMin);
-            end = start + frameSize;
-        }
+            let requestedMin = min + step;
 
-        xAxis.setExtremes(start, end, true);
+            if (currentFrameHasFutureData) {
+                const frameSizeWithoutFuture = seriesLastData[0] - min;
+                const stepWithoutFuture = frameSizeWithoutFuture / 5 * direction;
+                requestedMin = min + stepWithoutFuture;
 
-        if (newMin < dataMin) {
-            const startEpoch = Math.round(newMin / 1000);
-            const endEpoch = Math.round(dataMin / 1000);
-            getData(startEpoch, endEpoch).then((data) => {
-                if (!data || data.length === 0) {
-                    xAxis.setExtremes(min, end, true);
-                    return;
+                if (requestedMin < dataMin) {
+                    start = min;
+                    end = max;
+                } else {
+                    start = Math.max(requestedMin, dataMin);
+                    end = start + frameSizeWithoutFuture;
                 }
+            } else {
+                if (requestedMin < dataMin) {
+                    start = min;
+                    end = max;
+                } else {
+                    start = Math.max(dataMin, requestedMin);
+                    end = start + frameSize;
+                }
+            }
 
-                const smallestDataInMillis = (data[0].epoch) * 1000;
-                const closestToStart = smallestDataInMillis < newMin ? newMin : smallestDataInMillis;
-                xAxis.setExtremes(closestToStart, end, true);
-            });
+            if (requestedMin < dataMin) {
+                const startEpoch = Math.round(requestedMin / 1000);
+                const endEpoch = Math.round(dataMin / 1000);
+                getData(startEpoch, endEpoch).then((data) => {
+                    if (!data || data.length === 0) {
+                        xAxis.setExtremes(min, end, true);
+                        return;
+                    }
+
+                    const smallestDataInMillis = (data[0].epoch) * 1000;
+                    const closestToStart = smallestDataInMillis < requestedMin ? requestedMin : smallestDataInMillis;
+                    xAxis.setExtremes(closestToStart, end, true);
+                });
+            }
         }
+
+        if (start === min && end === max) {
+            return;
+        }
+        xAxis.setExtremes(start, end, true);
     }
 
     moveLeft = () => this.moveOffset(-1);

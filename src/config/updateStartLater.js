@@ -3,6 +3,8 @@ import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, startLaterEpoch: number, lastData: Object) => {
+    if (!startLaterEpoch || !lastData) return;
+
     const lastTick = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
     if (startLaterEpoch <= lastData.epoch) {
         return;
