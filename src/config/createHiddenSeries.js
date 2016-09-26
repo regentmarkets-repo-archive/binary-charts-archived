@@ -5,4 +5,7 @@ export default (data: ChartTick, id: string) => ({
     id,
     lineWidth: 0,
     enableMouseTracking: false,
+    dataGrouping: {
+        enabled: false,
+    },
 });
