@@ -98,5 +98,5 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
 
     updateMinRange(chart);
 
-    chart.redraw();
+    chart.redraw(false);
 };

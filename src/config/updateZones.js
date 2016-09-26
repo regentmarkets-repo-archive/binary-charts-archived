@@ -31,10 +31,13 @@ export default (chart: Chart, newPlotLines: PlotObject[]) => {
     }
 
     const mainSeries = getMainSeries(chart);
-    const type = mainSeries.options.type;
+    if (!mainSeries) return;
 
+    const type = mainSeries.options.type;
+    const oldZones = mainSeries.options.zones;
+    const noZonesAdded = (!oldZones || oldZones.length === 0) && zones.length === 0;
     // zones only work for line/area
-    if (mainSeries && (zones.length > 0 || type === 'line' || type === 'area')) {
+    if (!noZonesAdded && (type === 'line' || type === 'area')) {
         mainSeries.update({ zones }, false);
     }
 };
