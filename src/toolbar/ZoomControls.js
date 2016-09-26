@@ -29,7 +29,7 @@ export default class ZoomControls extends PureComponent {
         const futureX = futureSeries && futureSeries.options.data[0][0];
 
         const frameSize = max - min;
-        let step = frameSize / 5 * direction;
+        const step = frameSize / 5 * direction;
 
         const forward = direction > 0;
 
@@ -74,15 +74,13 @@ export default class ZoomControls extends PureComponent {
                     start = Math.max(requestedMin, dataMin);
                     end = start + frameSizeWithoutFuture;
                 }
-            } else {
-                if (requestedMin < dataMin) {
-                    start = min;
-                    end = max;
-                } else {
-                    start = Math.max(dataMin, requestedMin);
-                    end = start + frameSize;
-                }
-            }
+            } else if (requestedMin < dataMin) {
+                  start = min;
+                  end = max;
+              } else {
+                  start = Math.max(dataMin, requestedMin);
+                  end = start + frameSize;
+              }
 
             if (requestedMin < dataMin) {
                 const startEpoch = Math.round(requestedMin / 1000);
