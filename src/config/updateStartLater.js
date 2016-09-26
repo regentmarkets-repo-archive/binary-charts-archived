@@ -22,7 +22,7 @@ export default (chart: Chart, startLaterEpoch: number, lastData: Object) => {
         if (oldSeries) {
             const oldStartLater = Math.round(oldSeries.options.data[0][0] / 1000);
             if (oldStartLater !== startLaterEpoch) {
-                oldSeries.setData([startLaterDate, lastTick]);
+                oldSeries.setData([[startLaterEpoch * 1000, lastTick], [startLaterDate, lastTick]]);
                 xAxis.setExtremes(min, startLaterDate);
             }
         } else {
