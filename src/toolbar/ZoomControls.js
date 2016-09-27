@@ -154,18 +154,17 @@ export default class ZoomControls extends PureComponent {
         const { dataMax, min, max } = xAxis.getExtremes();
         const futureSeries = chart.get('future');
 
-        let diff = max - min;
+        let movedRange = dataMax - max;
 
         if (futureSeries) {
-            const futureX = futureSeries.options.data[0][0];
-            if (futureX <= max) {
-                const series = getSeries();
-                const lastDataX = getLast(series.options.data)[0];
-                diff = (lastDataX - min);
-            }
+            const series = getSeries();
+            const lastDataX = getLast(series.options.data)[0];
+
+            // exclude future empty data in calculation
+            movedRange -= (dataMax - lastDataX);
         }
 
-        xAxis.setExtremes(dataMax - diff, dataMax, true);
+        xAxis.setExtremes(min + movedRange, dataMax, true);
     }
 
     render() {
