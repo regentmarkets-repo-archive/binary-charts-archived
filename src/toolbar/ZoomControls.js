@@ -138,9 +138,11 @@ export default class ZoomControls extends PureComponent {
 
     // increase visible data to it's double
     zoomOut = () => {
+        const series = this.props.getSeries();
         const xAxis = this.props.getXAxis();
         const { dataMin, min, max } = xAxis.getExtremes();
-        const diff = max - min;
+        const realMax = Math.min(max, getLast(series.options.data)[0]);
+        const diff = realMax - min;
         const newMin = Math.max(dataMin, min - diff);
         xAxis.setExtremes(newMin, max, true);
     }
