@@ -16,7 +16,7 @@ const fakeTrade = {
 
 const fakeTrade2 = {
     date_start: 1465873888 + 6000,
-    date_expiry: 1465873888 + 60000,
+    date_expiry: 1465873888 + 100000,
     duration: 2,
     amount: 50,
     duration_unit: 'm',
