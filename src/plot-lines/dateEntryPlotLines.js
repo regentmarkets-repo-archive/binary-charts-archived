@@ -29,7 +29,6 @@ export default (contract: Object, theme: Theme): PlotObject[] => {
         .map((x: TimePlotLine) => vertPlotLine(x.id,
             contract[x.id],
             // workaround: sell_time is exit_tick_time when contract is sold and there is not exit_tick_time
-            // api is broken, JY says keep it ...
             contractCodeToText(x.id === 'sell_time' ? 'exit_tick_time' : x.id),
             x.position,
             theme,

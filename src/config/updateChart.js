@@ -78,7 +78,7 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     }
 
     if (mergedContract) {
-        updateStartLater(chart, mergedContract.date_start, getLast(ticks));
+        updateStartLater(chart, mergedContract, getLast(ticks));
     }
 
     if (contractsDiffer || ticksDiffer) {
