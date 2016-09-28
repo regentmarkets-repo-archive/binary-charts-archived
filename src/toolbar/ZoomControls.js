@@ -167,7 +167,6 @@ export default class ZoomControls extends PureComponent {
                 movedRange -= (dataMax - lastDataX);
             }
         }
-        
         xAxis.setExtremes(min + movedRange, dataMax, true);
     }
 

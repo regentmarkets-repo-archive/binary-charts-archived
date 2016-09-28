@@ -34,7 +34,6 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
     }
 
     const lastY = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
-    const lastX = lastEpoch * 1000;
 
     // buffer is used for 2 reasons
     // 1. to show some space to the right
@@ -48,7 +47,7 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
     // formula is  -   bufferInSecs * 1000 = interval * addition / 2
     // this will ensure the line we want to show will be in the middle on empty spaces
     function prependDataHelper(seriesData, lastValue, interval = 10000, addition = 8) {
-        for (let i = addition; i >= 0; i--) {
+        for (let i = addition; i >= 0; i -= 1) {
             seriesData.push([lastValue - (i * interval), lastY]);
         }
         return seriesData;
