@@ -26,7 +26,7 @@ export default class ZoomControls extends PureComponent {
         const seriesLastData = getLast(series.options.data);
 
         const futureSeries = chart.get('future');
-        const futureX = futureSeries && futureSeries.options.data[0][0];
+        const futureX = futureSeries && futureSeries.options.data[8][0];    // todo: index 8 is hardcoded
 
         const frameSize = max - min;
         const step = frameSize / 5 * direction;
@@ -119,7 +119,7 @@ export default class ZoomControls extends PureComponent {
         let halfDiff = (max - min) / 2;
 
         if (futureSeries) {
-            const futureX = futureSeries.options.data[0][0];
+            const futureX = futureSeries.options.data[8][0];        // todo: hardcoded index 8
             if (futureX <= max) {
                 const series = getSeries();
                 const lastDataX = getLast(series.options.data)[0];
