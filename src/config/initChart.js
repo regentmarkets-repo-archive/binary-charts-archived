@@ -36,6 +36,7 @@ export default ({
         credits: { enabled: false },
         legend: { enabled: false },
         rangeSelector: { enabled: false },
+        tooltip: { enabled: false },
         title: { text: null },
         navigator: { enabled: false },
 
@@ -99,13 +100,13 @@ export default ({
         series: [
             createSeries(assetName, type, [], pipSize),
         ],
-        tooltip: {
-            shape: 'square',
-            positioner: () => ({ x: 0, y: 0 }),
-            borderWidth: 0,
-            useHTML: true,
-//            followPointer: true,
-        },
+//         tooltip: {
+//             shape: 'square',
+//             positioner: () => ({ x: 0, y: 0 }),
+//             borderWidth: 0,
+//             useHTML: true,
+// //            followPointer: true,
+//         },
         exporting: {
             enabled: false,
             chartOptions: {

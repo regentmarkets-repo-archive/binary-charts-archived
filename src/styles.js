@@ -25,6 +25,11 @@ export default {
     chartCore: {
         flex: 1,
     },
+    infobar: {
+        position: 'absolute',
+        marginTop: 40,
+        zIndex: 80,
+    },
     timeFramePicker: {
         display: 'flex',
     },

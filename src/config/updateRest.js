@@ -7,11 +7,11 @@ export default (chart: Chart, params: any) => {
 
     if (!mainSeries) return;
 
-    mainSeries.update({
-        tooltip: {
-            valueDecimals: pipSize,
-        },
-    }, false);
+    // mainSeries.update({
+    //     tooltip: {
+    //         valueDecimals: pipSize,
+    //     },
+    // }, false);
 
     chart.yAxis[0].update({
         minTickInterval: digitsToPips(pipSize),
