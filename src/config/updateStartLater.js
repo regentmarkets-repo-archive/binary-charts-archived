@@ -11,8 +11,9 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
     if (!lastData || !min || !max) return;
 
-    const startInFuture = startEpoch && startEpoch > lastData.epoch;
-    const endInFuture = exitEpoch && exitEpoch > lastData.epoch;
+    const lastEpoch = lastData.epoch;
+    const startInFuture = startEpoch && startEpoch > lastEpoch;
+    const endInFuture = exitEpoch && exitEpoch > lastEpoch;
 
     const doesInvolveFuture = startInFuture || endInFuture;
 
@@ -32,42 +33,45 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
         return;
     }
 
-    const lastTick = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
+    const lastY = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
 
-    // 100 secs buffer is used for 2 reasons
+    // buffer is used for 2 reasons
     // 1. to show some space to the right
     // 2. by allocating buffer, future series does not have to update for every changes in start and end time
-    const startLaterMillis = startEpoch && ((startEpoch + 100) * 1000);
-    const exitLaterMillis = exitEpoch && ((exitEpoch + 100) * 1000);
+    // 40 secs is selected as it looks nice on chart, test on look and feel before changing it
+    const bufferInSecs = 40;
+    const startLaterMillis = startEpoch && ((startEpoch + bufferInSecs) * 1000);
+    const exitLaterMillis = exitEpoch && ((exitEpoch + bufferInSecs) * 1000);
+
+    // default value of interval and addition is related to @bufferInSecs
+    // formula is  -   bufferInSecs * 1000 = interval * addition / 2
+    // this will ensure the line we want to show will be in the middle on empty spaces
+    function prependDataHelper(seriesData, lastValue, interval = 10000, addition = 8) {
+        for (let i = addition; i >= 0; i -= 1) {
+            seriesData.push([lastValue - (i * interval), lastY]);
+        }
+        return seriesData;
+    }
 
     if (oldSeries) {
-        const oldSeriesMax = oldSeries.options.data[1][0];
+        const oldSeriesMax = getLast(oldSeries.options.data)[0];
         const seriesData = [];
 
         if (startInFuture) {
             if (oldSeriesMax < startEpoch * 1000) {
-                seriesData.push([startLaterMillis, lastTick]);
+                prependDataHelper(seriesData, startLaterMillis);
             }
         }
 
         if (endInFuture) {
             if (oldSeriesMax < exitEpoch * 1000) {
-                seriesData.push([exitLaterMillis, lastTick]);
+                prependDataHelper(seriesData, exitLaterMillis);
             }
         }
 
-        switch (seriesData.length) {
-            case 1:
-                seriesData.push(seriesData[0]);
-                oldSeries.setData(seriesData);
-                xAxis.setExtremes(min, seriesData[1][0]);
-                break;
-            case 2:
-                oldSeries.setData(seriesData);
-                xAxis.setExtremes(min, seriesData[1][0]);
-                break;
-            default:
-                // do nothing
+        if (seriesData.length > 0) {
+            oldSeries.setData(seriesData);
+            xAxis.setExtremes(min, getLast(seriesData)[0]);
         }
     } else {
         getMainSeries(chart).update({ dataGrouping: { enabled: false } });
@@ -75,19 +79,17 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
         const seriesData = [];
 
         if (startInFuture) {
-            seriesData.push([startLaterMillis, lastTick]);
+            prependDataHelper(seriesData, startLaterMillis);
         }
 
         if (endInFuture) {
-            seriesData.push([exitLaterMillis, lastTick]);
+            prependDataHelper(seriesData, exitLaterMillis);
         }
 
-        if (seriesData.length === 1) {
-            seriesData.push(seriesData[0]);
+        if (seriesData.length > 0) {
+            const futureSeries = createHiddenSeries(seriesData, 'future');
+            chart.addSeries(futureSeries);
+            xAxis.setExtremes(min, getLast(seriesData)[0]);
         }
-
-        const futureSeries = createHiddenSeries(seriesData, 'future');
-        chart.addSeries(futureSeries);
-        xAxis.setExtremes(min, seriesData[1][0]);
     }
 };
