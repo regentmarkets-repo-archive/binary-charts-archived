@@ -160,10 +160,14 @@ export default class ZoomControls extends PureComponent {
             const series = getSeries();
             const lastDataX = getLast(series.options.data)[0];
 
-            // exclude future empty data in calculation
-            movedRange -= (dataMax - lastDataX);
+            if (max > lastDataX) {
+                movedRange = 0;
+            } else {
+                // exclude future empty data in calculation
+                movedRange -= (dataMax - lastDataX);
+            }
         }
-
+        
         xAxis.setExtremes(min + movedRange, dataMax, true);
     }
 
