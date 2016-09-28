@@ -11,8 +11,9 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
     if (!lastData || !min || !max) return;
 
-    const startInFuture = startEpoch && startEpoch > lastData.epoch;
-    const endInFuture = exitEpoch && exitEpoch > lastData.epoch;
+    const lastEpoch = lastData.epoch;
+    const startInFuture = startEpoch && startEpoch > lastEpoch;
+    const endInFuture = exitEpoch && exitEpoch > lastEpoch;
 
     const doesInvolveFuture = startInFuture || endInFuture;
 
@@ -32,7 +33,8 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
         return;
     }
 
-    const lastTick = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
+    const lastY = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
+    const lastX = lastEpoch * 1000;
 
     // 100 secs buffer is used for 2 reasons
     // 1. to show some space to the right
@@ -46,48 +48,55 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
         if (startInFuture) {
             if (oldSeriesMax < startEpoch * 1000) {
-                seriesData.push([startLaterMillis, lastTick]);
+                const interval = (startLaterMillis - lastX) / 8;
+                for (let i = 0; i < 8; i ++) {
+                    seriesData.push([lastX + i * interval, lastY]);
+                }
+                seriesData.push([startLaterMillis, lastY]);
             }
         }
 
         if (endInFuture) {
             if (oldSeriesMax < exitEpoch * 1000) {
-                seriesData.push([exitLaterMillis, lastTick]);
+                const startPoint =
+                    seriesData.length === 0 ? lastX : getLast(seriesData)[0];
+                const interval = (exitLaterMillis - startPoint) / 8;
+
+                for (let i = 0; i < 8; i ++) {
+                    seriesData.push([startPoint + i * interval, lastY]);
+                }
+                seriesData.push([exitLaterMillis, lastY]);
             }
         }
 
-        switch (seriesData.length) {
-            case 1:
-                seriesData.push(seriesData[0]);
-                oldSeries.setData(seriesData);
-                xAxis.setExtremes(min, seriesData[1][0]);
-                break;
-            case 2:
-                oldSeries.setData(seriesData);
-                xAxis.setExtremes(min, seriesData[1][0]);
-                break;
-            default:
-                // do nothing
-        }
+        oldSeries.setData(seriesData);
+        xAxis.setExtremes(min, getLast(seriesData)[0]);
     } else {
         getMainSeries(chart).update({ dataGrouping: { enabled: false } });
 
         const seriesData = [];
 
         if (startInFuture) {
-            seriesData.push([startLaterMillis, lastTick]);
+            const interval = (startLaterMillis - lastX) / 8;
+            for (let i = 0; i < 8; i ++) {
+                seriesData.push([lastX + i * interval, lastY]);
+            }
+            seriesData.push([startLaterMillis, lastY]);
         }
 
         if (endInFuture) {
-            seriesData.push([exitLaterMillis, lastTick]);
-        }
+            const startPoint =
+                seriesData.length === 0 ? lastX : getLast(seriesData)[0];
+            const interval = (exitLaterMillis - startPoint) / 8;
 
-        if (seriesData.length === 1) {
-            seriesData.push(seriesData[0]);
+            for (let i = 0; i < 8; i ++) {
+                seriesData.push([startPoint + i * interval, lastY]);
+            }
+            seriesData.push([exitLaterMillis, lastY]);
         }
 
         const futureSeries = createHiddenSeries(seriesData, 'future');
         chart.addSeries(futureSeries);
-        xAxis.setExtremes(min, seriesData[1][0]);
+        xAxis.setExtremes(min, getLast(seriesData)[0]);
     }
 };
