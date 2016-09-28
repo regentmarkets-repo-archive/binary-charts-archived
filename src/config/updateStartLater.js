@@ -36,67 +36,61 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
     const lastY = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
     const lastX = lastEpoch * 1000;
 
-    // 100 secs buffer is used for 2 reasons
+    // buffer is used for 2 reasons
     // 1. to show some space to the right
     // 2. by allocating buffer, future series does not have to update for every changes in start and end time
-    const startLaterMillis = startEpoch && ((startEpoch + 100) * 1000);
-    const exitLaterMillis = exitEpoch && ((exitEpoch + 100) * 1000);
+    // 40 secs is selected as it looks nice on chart, test on look and feel before changing it
+    const bufferInSecs = 40;
+    const startLaterMillis = startEpoch && ((startEpoch + bufferInSecs) * 1000);
+    const exitLaterMillis = exitEpoch && ((exitEpoch + bufferInSecs) * 1000);
+
+    // default value of interval and addition is related to @bufferInSecs
+    // formula is  -   bufferInSecs * 1000 = interval * addition / 2
+    // this will ensure the line we want to show will be in the middle on empty spaces
+    function prependDataHelper(seriesData, lastValue, interval = 10000, addition = 8) {
+        for (let i = addition; i >= 0; i--) {
+            seriesData.push([lastValue - (i * interval), lastY]);
+        }
+        return seriesData;
+    }
 
     if (oldSeries) {
-        const oldSeriesMax = oldSeries.options.data[1][0];
+        const oldSeriesMax = getLast(oldSeries.options.data)[0];
         const seriesData = [];
 
         if (startInFuture) {
             if (oldSeriesMax < startEpoch * 1000) {
-                const interval = (startLaterMillis - lastX) / 8;
-                for (let i = 0; i < 8; i ++) {
-                    seriesData.push([lastX + i * interval, lastY]);
-                }
-                seriesData.push([startLaterMillis, lastY]);
+                prependDataHelper(seriesData, startLaterMillis);
             }
         }
 
         if (endInFuture) {
             if (oldSeriesMax < exitEpoch * 1000) {
-                const startPoint =
-                    seriesData.length === 0 ? lastX : getLast(seriesData)[0];
-                const interval = (exitLaterMillis - startPoint) / 8;
-
-                for (let i = 0; i < 8; i ++) {
-                    seriesData.push([startPoint + i * interval, lastY]);
-                }
-                seriesData.push([exitLaterMillis, lastY]);
+                prependDataHelper(seriesData, exitLaterMillis);
             }
         }
 
-        oldSeries.setData(seriesData);
-        xAxis.setExtremes(min, getLast(seriesData)[0]);
+        if (seriesData.length > 0) {
+            oldSeries.setData(seriesData);
+            xAxis.setExtremes(min, getLast(seriesData)[0]);
+        }
     } else {
         getMainSeries(chart).update({ dataGrouping: { enabled: false } });
 
         const seriesData = [];
 
         if (startInFuture) {
-            const interval = (startLaterMillis - lastX) / 8;
-            for (let i = 0; i < 8; i ++) {
-                seriesData.push([lastX + i * interval, lastY]);
-            }
-            seriesData.push([startLaterMillis, lastY]);
+            prependDataHelper(seriesData, startLaterMillis);
         }
 
         if (endInFuture) {
-            const startPoint =
-                seriesData.length === 0 ? lastX : getLast(seriesData)[0];
-            const interval = (exitLaterMillis - startPoint) / 8;
-
-            for (let i = 0; i < 8; i ++) {
-                seriesData.push([startPoint + i * interval, lastY]);
-            }
-            seriesData.push([exitLaterMillis, lastY]);
+            prependDataHelper(seriesData, exitLaterMillis);
         }
 
-        const futureSeries = createHiddenSeries(seriesData, 'future');
-        chart.addSeries(futureSeries);
-        xAxis.setExtremes(min, getLast(seriesData)[0]);
+        if (seriesData.length > 0) {
+            const futureSeries = createHiddenSeries(seriesData, 'future');
+            chart.addSeries(futureSeries);
+            xAxis.setExtremes(min, getLast(seriesData)[0]);
+        }
     }
 };
