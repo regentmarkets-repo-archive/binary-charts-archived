@@ -13,7 +13,6 @@ export default {
     },
     toolbar: {
         display: 'flex',
-        marginBottom: 4,
     },
     pickerButton: {
         cursor: 'pointer',
