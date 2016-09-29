@@ -4,6 +4,7 @@ import { AddIcon, RemoveIcon, ChevronLeftIcon, ChevronRightIcon, LastPageIcon, F
 import ZoomButton from './ZoomButton';
 import defaultTooltips from '../tooltips';
 import styles from '../styles';
+import { computeMinRange } from '../config/updateMinRange';
 
 export default class ZoomControls extends PureComponent {
 
@@ -66,21 +67,24 @@ export default class ZoomControls extends PureComponent {
                 const frameSizeWithoutFuture = seriesLastData[0] - min;
                 const stepWithoutFuture = frameSizeWithoutFuture / 5 * direction;
                 requestedMin = min + stepWithoutFuture;
+                end = seriesLastData[0];
 
                 if (requestedMin < dataMin) {
                     start = min;
-                    end = max;
                 } else {
                     start = Math.max(requestedMin, dataMin);
-                    end = start + frameSizeWithoutFuture;
                 }
+
+                // when moving from view with future data to view without future data
+                // minrange need to be recompute
+                xAxis.update({ minRange: computeMinRange(chart, true) });
             } else if (requestedMin < dataMin) {
-                  start = min;
-                  end = max;
-              } else {
-                  start = Math.max(dataMin, requestedMin);
-                  end = start + frameSize;
-              }
+                start = min;
+                end = max;
+            } else {
+                start = Math.max(dataMin, requestedMin);
+                end = start + frameSize;
+            }
 
             if (requestedMin < dataMin) {
                 const startEpoch = Math.round(requestedMin / 1000);
