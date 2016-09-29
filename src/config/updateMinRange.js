@@ -15,12 +15,12 @@ export const computeMinRange = (chart, ignoreFuture = false) => {
 
     if (ignoreFuture) return xDiff * 10;
 
-    if (max && max > lastMainSeriesData[0]) {
+    if (max && futureSeries && max > lastMainSeriesData[0]) {
         const futureX = getLast(futureSeries.options.data)[0];
         const additionSpace = futureX - lastMainSeriesData[0];
         return (xDiff * 10) + additionSpace;
     }
-    
+
     return xDiff * 10;
 };
 

@@ -3,6 +3,8 @@ import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, contract: Object, lastData: Object) => {
+    if (!lastData) return;
+
     const startEpoch = contract.date_start;
     const exitEpoch = contract.date_expiry;
 
@@ -12,8 +14,6 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
     const min = xExtremes.min || chart.series[0].options.data[0][0];
     const max = xExtremes.max || lastY;
-
-    if (!lastData || !min || !max) return;
 
     const lastEpoch = lastData.epoch;
     const startInFuture = startEpoch && startEpoch > lastEpoch;
