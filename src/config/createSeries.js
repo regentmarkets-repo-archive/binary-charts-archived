@@ -22,7 +22,6 @@ export default (
     threshold: null,
     zoneAxis: 'x',
     dataGrouping: {
-        // enabled: type === 'line' || type === 'area',
-        enabled: true, // not working for candlesticks currently
+        enabled: true,
     },
 });

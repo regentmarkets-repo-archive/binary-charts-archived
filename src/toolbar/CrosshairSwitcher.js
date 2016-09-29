@@ -37,9 +37,7 @@ export default class ZoomControls extends PureComponent {
 
         const crosshairOptions = {
             crosshair: {
-                snap: false,
                 color: colorText(theme, 1),
-                // dashStyle: 'ShortDot',
                 label: {
                     enabled: true,
                     padding: 5,

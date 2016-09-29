@@ -1,6 +1,6 @@
 // $FlowFixMe
 import Highcharts from 'highcharts/highstock.src';
-import { colorBg, colorText } from './styles';
+import { colorBg } from './styles';
 
 function merge(a: Object, b: Object) {
     if (process.env.NODE_ENV !== 'production') {
@@ -50,13 +50,6 @@ const themeColors = (theme: Theme): Object => ({
 			},
 		},
 	},
-    // tooltip: {
-    //     backgroundColor: colorBg(theme, 0.8),
-    //     borderRadius: 3,
-    //     style: {
-    //         color: colorText(theme, 1),
-    //     },
-    // },
     noData: {
         style: {
             color: colorBg(theme, 0.5),
@@ -108,9 +101,6 @@ const commonTheme = {
 	yAxis: {
 		tickWidth: 1,
 	},
-    // tooltip: {
-    //     shadow: false,
-    // },
     noData: {
         style: {
             fontSize: '20px',

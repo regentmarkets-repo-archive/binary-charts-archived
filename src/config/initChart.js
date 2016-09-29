@@ -8,6 +8,7 @@ const crosshairOptions = (theme, formatter) => ({
     snap: false,
     color: colorBg(theme, 1),
     dashStyle: 'LongDashDot',
+    zIndex: 50,
     label: {
         enabled: true,
         padding: 5,
@@ -36,10 +37,8 @@ export default ({
         credits: { enabled: false },
         legend: { enabled: false },
         rangeSelector: { enabled: false },
-        tooltip: { enabled: false },
         title: { text: null },
         navigator: { enabled: false },
-
         noData: {
             style: noData ? {} : { display: 'none' },
         },
@@ -100,13 +99,6 @@ export default ({
         series: [
             createSeries(assetName, type, [], pipSize),
         ],
-//         tooltip: {
-//             shape: 'square',
-//             positioner: () => ({ x: 0, y: 0 }),
-//             borderWidth: 0,
-//             useHTML: true,
-// //            followPointer: true,
-//         },
         exporting: {
             enabled: false,
             chartOptions: {
