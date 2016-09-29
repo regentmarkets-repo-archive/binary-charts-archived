@@ -3,7 +3,7 @@ import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, contract: Object, lastData: Object) => {
-    if (!lastData) return;
+    if (!lastData) return false;
 
     const startEpoch = contract.date_start;
     const exitEpoch = contract.date_expiry;
@@ -32,9 +32,10 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
             if (mainSeriesMax && max > mainSeriesMax) {
                 xAxis.setExtremes(min, mainSeriesMax, false);
+                return true;
             }
         }
-        return;
+        return false;
     }
 
     // buffer is used for 2 reasons
@@ -74,6 +75,7 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
         if (seriesData.length > 0) {
             oldSeries.setData(seriesData);
             xAxis.setExtremes(min, getLast(seriesData)[0], false);
+            return true;
         }
     } else {
         getMainSeries(chart).update({ dataGrouping: { enabled: false } });
@@ -92,6 +94,9 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
             const futureSeries = createHiddenSeries(seriesData, 'future');
             chart.addSeries(futureSeries);
             xAxis.setExtremes(min, getLast(seriesData)[0], false);
+            return true;
         }
     }
+
+    return false;
 };
