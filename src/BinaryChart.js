@@ -182,7 +182,9 @@ export default class BinaryChart extends Component {
 
     render() {
         const { assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
-            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type, hideIntervalPicker } = this.props;
+            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type,
+            id, symbol, noData, pipSize, events, shiftMode, hideIntervalPicker,
+        } = this.props;
 
         const { endButtonShown, pickerShown, interval } = this.state;
 
@@ -208,7 +210,18 @@ export default class BinaryChart extends Component {
                         type={type}
                     />
                 }
-                <ChartCore parent={this} {...this.props} />
+                <ChartCore
+                    parent={this}
+                    id={id}
+                    symbol={symbol}
+                    noData={noData}
+                    pipSize={pipSize}
+                    type={type}
+                    ticks={ticks}
+                    events={events}
+                    theme={theme}
+                    shiftMode={shiftMode}
+                />
                 {!hideZoomControls &&
                     <ZoomControls
                         endButtonShown={endButtonShown}
