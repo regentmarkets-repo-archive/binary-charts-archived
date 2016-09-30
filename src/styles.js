@@ -16,7 +16,6 @@ export default {
     },
     pickerButton: {
         cursor: 'pointer',
-        height: '100%',
     },
     pickerItem: {
         cursor: 'pointer',
