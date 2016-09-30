@@ -17,6 +17,7 @@ type Props = {
     crosshair?: boolean,
     chart: HighstockChart,
     hasInterval: boolean,
+    hideIntervalPicker: boolean,
     pickerShown: string,
     theme: string,
     getChart: () => any,
