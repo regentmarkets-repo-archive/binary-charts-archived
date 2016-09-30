@@ -24,6 +24,7 @@ type Props = {
     id: string,
     getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => Promise,
     hideTimeFrame: boolean,
+    hideIntervalPicker: boolean,
     hideToolbar: boolean,
     hideZoomControls: boolean,
     showTooltips: boolean,
@@ -67,6 +68,7 @@ export default class BinaryChart extends Component {
         pipSize: 0,
         type: 'area',
         hideTimeFrame: false,
+        hideIntervalPicker: false,
         hideToolbar: false,
         hideZoomControls: false,
     };
@@ -180,7 +182,7 @@ export default class BinaryChart extends Component {
 
     render() {
         const { assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
-            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type } = this.props;
+            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type, hideIntervalPicker } = this.props;
 
         const { endButtonShown, pickerShown, interval } = this.state;
 
@@ -196,6 +198,7 @@ export default class BinaryChart extends Component {
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
+                        hideIntervalPicker={hideIntervalPicker}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}

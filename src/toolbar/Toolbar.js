@@ -35,11 +35,12 @@ export default class Toolbar extends PureComponent {
         type: 'area',
         compact: false,
         hasInterval: false,
+        hideIntervalPicker: false,
     };
 
     render() {
         const { assetName, compact, type, getChart, pickerShown, interval, showTooltips,
-            onShowPicker, onIntervalChange, onTypeChange } = this.props;
+            onShowPicker, onIntervalChange, onTypeChange, hideIntervalPicker } = this.props;
         const tooltips = showTooltips ? defaultTooltips : {};
 
         return (
@@ -51,7 +52,7 @@ export default class Toolbar extends PureComponent {
                     onExpand={() => onShowPicker('type')}
                     onChange={onTypeChange}
                 />
-                {!compact &&
+                {(!compact && !hideIntervalPicker) &&
                     <IntervalPicker
                         value={interval}
                         tooltip={tooltips.interval}
