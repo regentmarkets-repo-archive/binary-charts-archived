@@ -28,7 +28,7 @@ export default (chart) => {
     const mainSeries = getMainSeries(chart);
 
     if (!mainSeries) {
-        return;
+        return false;
     }
 
     const dataLength = mainSeries.options.data.length;
@@ -37,7 +37,9 @@ export default (chart) => {
         const newMinRange = computeMinRange(chart);
 
         if (oldMinRange !== newMinRange) {
-            chart.xAxis[0].update({ minRange: newMinRange }, true);
+            chart.xAxis[0].update({ minRange: newMinRange }, false);
+            return true;
         }
     }
+    return false;
 };

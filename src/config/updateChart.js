@@ -77,9 +77,9 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         }
     }
 
-    let didUpdateStartLater = false;
+    let futureUpdated = false;
     if (mergedContract) {
-        didUpdateStartLater = updateStartLater(chart, mergedContract, getLast(ticks));
+        futureUpdated = updateStartLater(chart, mergedContract, getLast(ticks));
     }
 
     if (contractsDiffer || ticksDiffer) {
@@ -97,9 +97,9 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
         updateRest(chart, nextProps);
     }
 
-    updateMinRange(chart);
+    const minRangeUpdated = updateMinRange(chart);
 
-    if (ticksDiffer || contractsDiffer || tradingTimesDiffer || pipSizeDiffer || didUpdateStartLater) {
+    if (ticksDiffer || contractsDiffer || tradingTimesDiffer || pipSizeDiffer || futureUpdated || minRangeUpdated) {
         chart.redraw(false);
     }
 };
