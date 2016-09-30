@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Highcharts from 'highcharts/highstock.src';
 import exporting from 'highcharts/modules/exporting';
 import noDataToDisplay from 'highcharts/modules/no-data-to-display';
@@ -31,18 +31,20 @@ export type ChartEvent = {
 
 type Props = {
     parent: Object,
+    contract: Object,
     id: string,
     symbol: string,
     noData: boolean,
     pipSize: number,
     type: ChartType,
+    trade: Object,
     ticks: Tick[],
     events: ChartEvent[],
     theme: string,
     shiftMode: 'fixed' | 'dynamic', // switch to decide how chart move when data added
 };
 
-export default class ChartCore extends Component {
+export default class ChartCore extends PureComponent {
 
     props: Props;
 
@@ -55,16 +57,14 @@ export default class ChartCore extends Component {
         updateChart(this.chart, { ticks: [] }, this.props);
     }
 
-    shouldComponentUpdate(nextProps: Props) {
-        if (this.props.symbol !== nextProps.symbol ||
-                this.props.noData !== nextProps.noData) {
+    componentDidUpdate(prevProps) {
+        if (this.props.symbol !== prevProps.symbol ||
+            this.props.noData !== prevProps.noData) {
             this.destroyChart();
-            this.createChart(nextProps);
+            this.createChart(this.props);
         }
 
-        updateChart(this.chart, this.props, nextProps);
-
-        return false;
+        updateChart(this.chart, prevProps, this.props);
     }
 
     componentWillUnmount() {
@@ -105,7 +105,6 @@ export default class ChartCore extends Component {
 
     render() {
         const { id } = this.props;
-
         return (
             <div style={styles.chartCore} ref={x => { this.chartDiv = x; }} id={id} />
         );

@@ -3,13 +3,17 @@ import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 
 export default (chart: Chart, contract: Object, lastData: Object) => {
+    if (!lastData) return false;
+
     const startEpoch = contract.date_start;
     const exitEpoch = contract.date_expiry;
 
     const xAxis = chart.xAxis[0];
-    const { min, max } = xAxis.getExtremes();
+    const xExtremes = xAxis.getExtremes();
+    const lastY = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
 
-    if (!lastData || !min || !max) return;
+    const min = xExtremes.min || chart.series[0].options.data[0][0];
+    const max = xExtremes.max || lastY;
 
     const lastEpoch = lastData.epoch;
     const startInFuture = startEpoch && startEpoch > lastEpoch;
@@ -27,13 +31,12 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
             const mainSeriesMax = mainSeries && getLast(mainSeries.options.data)[0];
 
             if (mainSeriesMax && max > mainSeriesMax) {
-                xAxis.setExtremes(min, mainSeriesMax);
+                xAxis.setExtremes(min, mainSeriesMax, false);
+                return true;
             }
         }
-        return;
+        return false;
     }
-
-    const lastY = Object.keys(lastData).length === 2 ? lastData.quote : lastData.close;
 
     // buffer is used for 2 reasons
     // 1. to show some space to the right
@@ -71,7 +74,8 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
         if (seriesData.length > 0) {
             oldSeries.setData(seriesData);
-            xAxis.setExtremes(min, getLast(seriesData)[0]);
+            xAxis.setExtremes(min, getLast(seriesData)[0], false);
+            return true;
         }
     } else {
         getMainSeries(chart).update({ dataGrouping: { enabled: false } });
@@ -89,7 +93,10 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
         if (seriesData.length > 0) {
             const futureSeries = createHiddenSeries(seriesData, 'future');
             chart.addSeries(futureSeries);
-            xAxis.setExtremes(min, getLast(seriesData)[0]);
+            xAxis.setExtremes(min, getLast(seriesData)[0], false);
+            return true;
         }
     }
+
+    return false;
 };
