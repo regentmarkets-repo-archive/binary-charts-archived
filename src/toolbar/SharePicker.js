@@ -52,6 +52,7 @@ export default class SharePicker extends PureComponent {
             <Picker
                 expanded={expanded}
                 tooltip={tooltip}
+                text="Share"
                 img={<ShareIcon />}
                 items={[
                     { text: 'Download PNG Image', value: this.downloadPng },

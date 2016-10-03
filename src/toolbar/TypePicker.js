@@ -17,6 +17,13 @@ const items = [
     { text: 'Bars', value: 'ohlc', img: <BarIcon /> },
 ];
 
+const typeLabel = {
+    line: 'Line',
+    area: 'Area',
+    candlestick: 'Candlestick',
+    ohlc: 'Bars',
+};
+
 export default class TypePicker extends PureComponent {
 
     props: Props;
@@ -28,6 +35,7 @@ export default class TypePicker extends PureComponent {
             <Picker
                 expanded={expanded}
                 tooltip={tooltip}
+                text={typeLabel[value]}
                 img={items.find(x => x.value === value).img}
                 items={items}
                 onExpand={onExpand}
