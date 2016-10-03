@@ -49,6 +49,6 @@ const addNewBarrierSeries = (chart, contract) => {
 };
 
 export default (chart, contract) => {
-    removePreviousBarrierSeries(chart);
-    addNewBarrierSeries(chart, contract);
+    // removePreviousBarrierSeries(chart);
+    // addNewBarrierSeries(chart, contract);
 };

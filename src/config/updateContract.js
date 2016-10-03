@@ -44,8 +44,6 @@ export const updatePlotBands = (chart: Chart, contract: Contract) => {
 export default (chart: Chart, contract: Contract, theme: Theme) => {
     updatePlotBands(chart, contract);
 
-    updateBarriers(chart, contract);
-
     const newPlotLines = dateEntryPlotLines(contract, theme);
     replacePlotLines(chart.xAxis[0], newPlotLines);
 

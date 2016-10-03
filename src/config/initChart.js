@@ -4,6 +4,8 @@ import { lightTheme, darkTheme } from '../themes';
 import createSeries from './createSeries';
 import { colorBg, colorText } from '../styles';
 
+import barrierIds from '../utils/barriersId';
+
 const crosshairOptions = (theme, formatter) => ({
     snap: false,
     color: colorBg(theme, 1),
@@ -75,6 +77,32 @@ export default ({
                         hideEndButton(true);
                     } else {
                         hideEndButton(false);
+                    }
+
+                    const yAxis = this.chart.yAxis[0];
+                    const yExt = yAxis.getExtremes();
+                    const { contract } = this.chart.userOptions.binary;
+                    const barrierVals =
+                        barrierIds
+                            .filter(x =>
+                                contract &&
+                                contract[x] &&
+                                !contract.contract_type.includes('DIGIT'))
+                            .map(k => +contract[k]);
+
+                    if (barrierVals.length === 0) return;
+
+                    const barrierMax = barrierVals.reduce((a, b) => Math.max(a, b));
+                    const barrierMin = barrierVals.reduce((a, b) => Math.min(a, b));
+
+                    if (yExt.max < barrierMax || yExt.min > barrierMin) {
+                        const barrierMaxPlus10 = barrierMax + ((barrierMax - yExt.min) * 0.05);
+                        const barrierMinPlus10 = barrierMin - ((yExt.max - barrierMin) * 0.05);
+
+                        const newMax = Math.max(barrierMaxPlus10, yExt.max);
+                        const newMin = Math.min(barrierMinPlus10, yExt.min);
+
+                        yAxis.setExtremes(newMin, newMax, true, false);
                     }
                 },
             },
