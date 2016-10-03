@@ -7,7 +7,7 @@ import ticks from './ticks';
 const future = nowAsEpoch() + 6000;
 
 storiesOf('Extremes', module)
-    .add('Ends In Future', () =>
+    .add('Start Later', () =>
         <BinaryChart
             ticks={ticks}
             contract={{

@@ -6,12 +6,12 @@ import lastPriceFromSeries from '../utils/lastPriceFromSeries';
 import barrierIds from '../utils/barriersId';
 
 const polyPath = (x: number, y: number) => [
-    'M', x - 10, y,
+    'M', x - 5, y,
     'L',
-    x, y - 7,
+    x + 5, y - 7,
     x + 65, y - 7,
     x + 65, y + 7,
-    x, y + 7,
+    x + 5, y + 7,
 ];
 
 const initialize = ({ renderer, pipSize, background, text, value, x, y, indicator, yAxis, zIndex }) => {
@@ -20,7 +20,7 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
         .add();
 
     indicator.line = renderer
-        .rect(0, y - 1, x + 5, 1)
+        .rect(0, y, x + 10, 1)
         .attr({ fill: background, opacity: 0.75 })
         .add(indicator.group);
 
@@ -32,10 +32,11 @@ const initialize = ({ renderer, pipSize, background, text, value, x, y, indicato
     indicator.label = renderer
         .label((+value).toFixed(pipSize), x - 3 + yAxis.chart.marginRight, y - 9)
         .attr({
-            padding: 1,
+            padding: 2,
         })
         .css({
             cursor: 'default',
+            fontSize: 11,
             textAnchor: 'end',
             color: text,
         })
@@ -47,7 +48,7 @@ const update = ({ pipSize, value, x, y, indicator, yAxis }) => {
         text: (+value).toFixed(pipSize),
     });
 
-    indicator.line.attr({ y: y - 1, width: x + 5 });
+    indicator.line.attr({ y, width: x + 10 });
 
     indicator.label.attr({
         x: x - 3 + yAxis.chart.marginRight,

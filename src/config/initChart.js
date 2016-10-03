@@ -12,11 +12,11 @@ const crosshairOptions = (theme, formatter) => ({
     label: {
         enabled: true,
         padding: 5,
+        fontSize: 11,
         shape: 'rect',
         formatter,
         style: {
             color: colorText(theme, 1),
-            fontSize: '12px',
         },
     },
 });
@@ -107,6 +107,22 @@ export default ({
                     margin: 60,
                 },
             },
+        },
+        responsive: {
+            rules: [{
+                // mobile
+                condition: {
+                    maxWidth: 400,
+                },
+                chartOptions: {
+                    // yAxis: {
+                    //     labels: {
+                    //         align: 'right',
+                    //         x: 0,
+                    //     },
+                    // },
+                },
+            }],
         },
     },
 );

@@ -17,6 +17,18 @@ storiesOf('Basic', module)
             ]}
         />
     )
+    .add('Responsive', () =>
+        <div style={{ width: 350 }}>
+            <BinaryChart
+                assetName="Custom Symbol Name"
+                ticks={[
+                    { epoch: 0, quote: 123456 },
+                    { epoch: 1, quote: 234567 },
+                    { epoch: 2, quote: 154321 },
+                ]}
+            />
+        </div>
+    )
     .add('Dark Theme', () =>
         <div style={{ background: '#1d1d24', padding: 10 }}>
             <BinaryChart
