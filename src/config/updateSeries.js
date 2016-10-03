@@ -51,6 +51,9 @@ export default (chart: Chart, nextProps: any) => {
                 const fixedRange = chart.userOptions.binary.shiftMode === 'fixed';
                 chart.xAxis[0].setExtremes(fixedRange ? newMin : min, newDataMax, false);
             }
+        } else {
+            // if future exist, do not change x extreme's min
+            chart.xAxis[0].setExtremes(min, dataMax, false);
         }
     };
 
