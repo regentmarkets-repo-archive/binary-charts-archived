@@ -91,6 +91,18 @@ export default ({
                             .map(k => +contract[k]);
 
                     if (barrierVals.length === 0) return;
+                    if (barrierVals.length === 1) {
+                        const barrier = barrierVals[0];
+                        if (barrier > yExt.max) {
+                            const barrierMaxPlus10 = barrier + ((barrier - yExt.min) * 0.05);
+                            yAxis.setExtremes(yExt.min, barrierMaxPlus10, true, false);
+                        } else if (barrier < yExt.min) {
+                            const barrierMinPlus10 = barrier - ((yExt.max - barrier) * 0.05);
+                            yAxis.setExtremes(barrierMinPlus10, yExt.max, true, false);
+                        }
+
+                        return;
+                    }
 
                     const barrierMax = barrierVals.reduce((a, b) => Math.max(a, b));
                     const barrierMin = barrierVals.reduce((a, b) => Math.min(a, b));
