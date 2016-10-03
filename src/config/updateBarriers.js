@@ -35,7 +35,7 @@ const updateBarrierSeries = (chart, contract) => {
         const series = chart.get(correspondingId);
         series.setData(b, false);
     });
-}
+};
 
 const initBarrier = (chart) => {
     const mainSeries = getMainSeries(chart);
@@ -44,13 +44,13 @@ const initBarrier = (chart) => {
     chart.addSeries(createHiddenSeries(barrierData, 'b0'));
     chart.addSeries(createHiddenSeries(barrierData, 'b1'));
     chart.addSeries(createHiddenSeries(barrierData, 'b2'));
-}
+};
 
 export default (chart, contract) => {
     const mainSeries = getMainSeries(chart);
 
     if (!mainSeries) {
-        return [];
+        return;
     }
 
     const b0 = chart.get('b0');
