@@ -23,7 +23,8 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
 
     const oldSeries = chart.get('future');
 
-    if (!doesInvolveFuture) {
+    // do not handle future data for tick trade
+    if (!doesInvolveFuture || contract.tick_count) {
         if (oldSeries) {
             oldSeries.remove();
             const mainSeries = getMainSeries(chart);

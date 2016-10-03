@@ -1,22 +1,10 @@
-// import { getLast } from 'binary-utils';
+import { getLast } from 'binary-utils';
 import createHiddenSeries from './createHiddenSeries';
 import getMainSeries from '../utils/getMainSeries';
 import barrierIds from '../utils/barriersId';
 
-const extractBarrierLine = (chart, contract) => {
+const getBarriersData = (chart, contract) => {
     const mainSeries = getMainSeries(chart);
-
-    if (!mainSeries) {
-        return [];
-    }
-
-    // when redraw have not happen for the first time, getExtremes return null for all value
-    // to make sure it always works, we compute dataMax and min ourselves
-
-    // const { min, max } = chart.xAxis[0].getExtremes();
-
-    // const dataMax = max || getLast(mainSeries.xData);
-    // const dataMin = min || mainSeries.xData[0];
 
     return barrierIds
         .filter(x =>
@@ -24,31 +12,52 @@ const extractBarrierLine = (chart, contract) => {
             contract[x] &&
             !contract.contract_type.includes('DIGIT')
         )
-        .map(x => {
+        .sort((a, b) => +contract[a] - +contract[b])
+        .map(x =>
             // replicate whole main series to workaround the issue where dragging result in zooming out
             // due to barrier series has too little data
-            const barrierValue = +contract[x];
-            const fakeData = mainSeries.options.data.map(d => [d[0], barrierValue]);
-            return createHiddenSeries(fakeData, x);
-            }
+            // TODO: might need to optimize this by using interval
+            mainSeries.options.data.map(d => [d[0], +contract[x]])
         );
 };
 
-const removePreviousBarrierSeries = (chart) => {
-    barrierIds.forEach(x => {
-        const series = chart.get(x);
-        if (series) {
-            series.remove(false);
-        }
+const updateBarrierSeries = (chart, contract) => {
+    const barriersData = getBarriersData(chart, contract);
+
+    if (barriersData.length === 0) return;
+
+    while (barriersData.length < 3) {
+        barriersData.push(getLast(barriersData));
+    }
+
+    barriersData.forEach((b, i) => {
+        const correspondingId = `b${i}`;
+        const series = chart.get(correspondingId);
+        series.setData(b, false);
     });
 };
 
-const addNewBarrierSeries = (chart, contract) => {
-    const newLines = extractBarrierLine(chart, contract);
-    newLines.filter(x => x).forEach(x => chart.addSeries(x, false));
+const initBarrier = (chart) => {
+    const mainSeries = getMainSeries(chart);
+    const last = getLast(mainSeries.options.data);
+    const barrierData = [last];
+    chart.addSeries(createHiddenSeries(barrierData, 'b0'));
+    chart.addSeries(createHiddenSeries(barrierData, 'b1'));
+    chart.addSeries(createHiddenSeries(barrierData, 'b2'));
 };
 
 export default (chart, contract) => {
-    removePreviousBarrierSeries(chart);
-    addNewBarrierSeries(chart, contract);
+    const mainSeries = getMainSeries(chart);
+
+    if (!mainSeries) {
+        return;
+    }
+
+    const b0 = chart.get('b0');
+
+    if (!b0) {
+        initBarrier(chart, contract);
+    }
+
+    updateBarrierSeries(chart, contract);
 };

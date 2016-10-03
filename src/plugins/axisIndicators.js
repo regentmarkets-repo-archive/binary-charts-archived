@@ -109,9 +109,8 @@ const renderAxisIndicator = (chart) => {
     }
 
     barrierIds.forEach((b) => {
-        const barrierSeries = chart.get(b);
-        if (barrierSeries) {
-            renderIndicator({ chart, indicator: b, value: +barrierSeries.dataMin,
+        if (contract && contract[b]) {
+            renderIndicator({ chart, indicator: b, value: +contract[b],
                 x, pipSize, yAxis, background: colorBg(theme, 1), text: colorText(theme, 1), zIndex: 10 });
         } else if (yAxis[b]) {
             yAxis[b].group.hide();
