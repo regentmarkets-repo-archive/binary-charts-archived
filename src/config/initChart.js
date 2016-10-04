@@ -1,7 +1,8 @@
 import { merge } from 'highcharts/highstock.src';
 import { digitsToPips } from 'binary-utils';
-import { lightTheme, darkTheme } from '../themes';
 import createSeries from './createSeries';
+import { computeMinRange } from './updateMinRange';
+import { lightTheme, darkTheme } from '../themes';
 import { colorBg, colorText } from '../styles';
 
 const crosshairOptions = (theme, formatter) => ({
@@ -69,8 +70,16 @@ export default ({
             endOnTick: false,
             crosshair: crosshairOptions(theme),
             events: {
-                afterSetExtremes: function after() {
-                    const { max, dataMax } = this.getExtremes();
+                setExtremes: function onSetExt(ext) {
+                    const futureSeries = this.chart.get('future');
+
+                    if (futureSeries) {
+                        const newMinrange = computeMinRange(this.chart, ext);
+                        this.update({ minRange: newMinrange }, false);
+                    }
+                },
+                afterSetExtremes: function after(extremes) {
+                    const { max, dataMax } = extremes;
                     if (max >= dataMax) {
                         hideEndButton(true);
                     } else {
