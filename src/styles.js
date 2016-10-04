@@ -26,6 +26,7 @@ export default {
     infobar: {
         position: 'absolute',
         marginTop: 40,
+        marginLeft: 5,
         zIndex: 80,
     },
     timeFramePicker: {

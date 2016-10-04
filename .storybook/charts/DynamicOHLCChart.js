@@ -36,7 +36,6 @@ export default class DynamicOHLCChart extends React.Component {
                 nt.push(newTick);
                 this.setState({ ticks: nt });
             } else {
-                console.log('new', newTick.epoch);
                 this.setState({ ticks: ticks.concat([newTick]) });
             }
         });
