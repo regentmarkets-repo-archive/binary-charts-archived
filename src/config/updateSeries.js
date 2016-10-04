@@ -53,7 +53,7 @@ export default (chart: Chart, nextProps: any) => {
             }
         } else {
             // if future exist, do not change x extreme's min
-            chart.xAxis[0].setExtremes(min, dataMax, false);
+            chart.xAxis[0].setExtremes(min, max, false);
         }
     };
 
