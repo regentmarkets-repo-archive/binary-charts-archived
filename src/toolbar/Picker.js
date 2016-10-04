@@ -39,14 +39,14 @@ export default class Picker extends PureComponent {
 
         return (
             <div className="binary-chart-picker">
-                <button
+                <a
                     style={styles.pickerButton}
                     className="binary-chart-button"
                     onClick={this.expand}
                 >
                     {img}
                     {text && <span>{text}</span>}
-                </button>
+                </a>
                 {tooltip && <div className="tooltip">{tooltip}</div>}
                 {expanded &&
                     <div style={styles.submenu} className="binary-chart-submenu">

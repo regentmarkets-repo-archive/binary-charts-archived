@@ -19,7 +19,7 @@ export default class PickerItem extends PureComponent {
         const { text, img } = this.props;
 
         return (
-            <button
+            <a
                 key={text}
                 style={styles.pickerItem}
                 className="binary-chart-picker-item"
@@ -27,7 +27,7 @@ export default class PickerItem extends PureComponent {
             >
                 {img}
                 {text && <span>{text}</span>}
-            </button>
+            </a>
         );
     }
 }
