@@ -77,7 +77,7 @@ export default class ZoomControls extends PureComponent {
 
                 // when moving from view with future data to view without future data
                 // minrange need to be recompute
-                xAxis.update({ minRange: computeMinRange(chart, true) });
+                xAxis.update({ minRange: computeMinRange(chart, { min: start, max: end }) });
             } else if (requestedMin < dataMin) {
                 start = min;
                 end = max;

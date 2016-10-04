@@ -1,10 +1,10 @@
 import { getLast } from 'binary-utils';
 import getMainSeries from '../utils/getMainSeries';
 
-export const computeMinRange = (chart, ignoreFuture = false) => {
+export const computeMinRange = (chart, targetExtremes) => {
     const mainSeries = getMainSeries(chart);
     const futureSeries = chart.get('future');
-    const { max } = chart.xAxis[0].getExtremes();
+    const { max } = targetExtremes;
 
     const lastMainSeriesData = getLast(mainSeries.options.data);
 
@@ -13,11 +13,8 @@ export const computeMinRange = (chart, ignoreFuture = false) => {
     const last2Data = mainSeries.options.data[dataLength - 2];
     const xDiff = last2Data[0] - last3Data[0];
 
-    if (ignoreFuture) return xDiff * 10;
-
     if (max && futureSeries && max > lastMainSeriesData[0]) {
-        const futureX = getLast(futureSeries.options.data)[0];
-        const additionSpace = futureX - lastMainSeriesData[0];
+        const additionSpace = max - lastMainSeriesData[0];
         return (xDiff * 10) + additionSpace;
     }
 
@@ -34,7 +31,7 @@ export default (chart) => {
     const dataLength = mainSeries.options.data.length;
     if (dataLength > 1) {
         const oldMinRange = chart.xAxis[0].options.minRange;
-        const newMinRange = computeMinRange(chart);
+        const newMinRange = computeMinRange(chart, chart.xAxis[0].getExtremes());
 
         if (oldMinRange !== newMinRange) {
             chart.xAxis[0].update({ minRange: newMinRange }, false);
