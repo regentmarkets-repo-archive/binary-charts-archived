@@ -3,6 +3,7 @@ import { AreaIcon, BarIcon, CandlestickIcon, LineIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {
+    allowOHLC: boolean,
     expanded: boolean,
     tooltip: string,
     value: ChartType,
@@ -29,15 +30,17 @@ export default class TypePicker extends PureComponent {
     props: Props;
 
     render() {
-        const { expanded, tooltip, value, onExpand, onChange } = this.props;
+        const { allowOHLC, expanded, tooltip, value, onExpand, onChange } = this.props;
+
+        const options = allowOHLC ? items : items.slice(0, 2);
 
         return (
             <Picker
                 expanded={expanded}
                 tooltip={tooltip}
                 text={typeLabel[value]}
-                img={items.find(x => x.value === value).img}
-                items={items}
+                img={options.find(x => x.value === value).img}
+                items={options}
                 onExpand={onExpand}
                 onChange={onChange}
             />
