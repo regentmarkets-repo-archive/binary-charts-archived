@@ -55,7 +55,7 @@ export default class Toolbar extends PureComponent {
                     onExpand={() => onShowPicker('type')}
                     onChange={onTypeChange}
                 />
-                {(allowOHLC || (!compact && !hideIntervalPicker)) &&
+                {(allowOHLC && !compact && !hideIntervalPicker) &&
                     <IntervalPicker
                         value={interval}
                         tooltip={tooltips.interval}
