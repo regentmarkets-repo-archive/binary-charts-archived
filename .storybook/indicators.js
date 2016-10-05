@@ -12,6 +12,9 @@ storiesOf('Indicators', module)
     .add('Exponential Moving Average', () =>
         <DynamicChart indicators={[{ type: 'ema', periods: 3 }]} />
     )
+    .add('2 Simple Moving Average', () =>
+        <DynamicChart indicators={[{ type: 'sma', periods: 3 }, { type: 'sma', periods: 7 }]} />
+    )
     .add('Relative Strength Index', () =>
         <DynamicChart />
     )

@@ -54,7 +54,7 @@ export default (chart, newData, indicatorConfs) => {
             case 'ema':
                 indicatorYData = exponentialMovingAverageArray(yData, conf);
                 break;
-            case 'bol':
+            case 'bb':
                 indicatorYData = bollingerBandsArray(yData, conf);
                 break;
             default:
@@ -65,6 +65,7 @@ export default (chart, newData, indicatorConfs) => {
 
         const indicatorData = indicatorYData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
         const indicatorSeries = chart.get(`indicator${i}`);
+        indicatorSeries.update({ name: conf.name || conf.type });
         indicatorSeries.setData(indicatorData);
     });
 };

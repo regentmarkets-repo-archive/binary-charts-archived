@@ -26,7 +26,7 @@ type Props = {
     hideToolbar: boolean,
     hideZoomControls: boolean,
     id: string,
-    indicators: IndicatorsConfig[],      // TODO: now we only allow 2, ignore the rest !!!
+    indicators: IndicatorsConfig[],
     showTooltips: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
@@ -216,7 +216,7 @@ export default class BinaryChart extends Component {
                 <ChartCore
                     parent={this}
                     id={id}
-                    indicators={indicators.slice(0, 2)}
+                    indicators={indicators}
                     contract={contract}
                     symbol={symbol}
                     noData={noData}
