@@ -8,11 +8,16 @@ export default class PickerItem extends PureComponent {
         img?: any,
         value: any,
         onClick: (value: any) => void,
+        propagateEvent: boolean,
     };
 
-    onClick = () => {
-        const { value, onClick } = this.props;
+    onClick = (e: SyntheticEvent) => {
+        const { value, onClick, propagateEvent } = this.props;
         onClick(value);
+
+        if (!propagateEvent) {
+            e.stopPropagation();
+        }
     }
 
     render() {
