@@ -10,7 +10,7 @@ import updateRest from './updateRest';
 import updateMinRange from './updateMinRange';
 // $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
-import updateIndicators from './updateIndicators'
+import updateIndicators from './updateIndicators';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&

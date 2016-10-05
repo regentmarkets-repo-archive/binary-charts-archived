@@ -3,28 +3,6 @@ import { exponentialMovingAverageArray } from 'binary-indicators/lib/exponential
 import { bollingerBandsArray } from 'binary-indicators/lib/bollingerBands';
 import createSeries from './createSeries';
 
-const updateSMA = (chart, newData) => {
-    let smaSeries = chart.get('sma');
-
-    if (!smaSeries) {
-        chart.addSeries(createSeries('idc', 'line', [], 2, 'sma'), false);
-        smaSeries = chart.get('sma');
-    }
-
-    const isOHLC = !!newData[0].open;
-
-    const yData = isOHLC ? newData.map(d => +d.close) : newData.map(d => +d.quote);
-
-    const smaYData = simpleMovingAverageArray(yData, { periods: 2 });
-    const indexOffset = newData.length - smaYData.length;
-
-    const smaData = smaYData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
-
-    smaSeries.setData(smaData, false);
-};
-
-
-
 export default (chart, newData, indicatorConfs) => {
     /**
      * 1. init 2 series for indicator if not yet exist, named indicator0, indicator1
@@ -39,7 +17,7 @@ export default (chart, newData, indicatorConfs) => {
         chart.addSeries(createSeries('indicator', 'line', [], pipSize, 'indicator1'));
     }
 
-    indicatorConfs.forEach((conf, i) => {
+    indicatorConfs.forEach((conf, idx) => {
         const isOHLC = !!newData[0].open;
         const yData = isOHLC ? newData.map(d => +d.close) : newData.map(d => +d.quote);
 
@@ -64,7 +42,7 @@ export default (chart, newData, indicatorConfs) => {
         const indexOffset = newData.length - indicatorYData.length;
 
         const indicatorData = indicatorYData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
-        const indicatorSeries = chart.get(`indicator${i}`);
+        const indicatorSeries = chart.get(`indicator${idx}`);
         indicatorSeries.update({ name: conf.name || conf.type });
         indicatorSeries.setData(indicatorData);
     });
