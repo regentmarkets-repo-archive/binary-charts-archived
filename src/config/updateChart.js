@@ -10,6 +10,7 @@ import updateRest from './updateRest';
 import updateMinRange from './updateMinRange';
 // $FlowFixMe
 import mergeTradeWithContract from './mergeTradeWithContract';
+import updateIndicators from './updateIndicators'
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
@@ -31,6 +32,8 @@ const tradingTimesAreEqual = (prevProps, nextProps) =>
 const restAreEqual = (prevProps, nextProps) =>
     nextProps.pipSize === prevProps.pipSize;
 
+const indicatorConfigEqual = (prevProps, nextProps) =>
+    shallowEqual(nextProps.indicators, prevProps.indicators);
 
 export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
@@ -98,6 +101,10 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     }
 
     const minRangeUpdated = updateMinRange(chart);
+
+    if (!indicatorConfigEqual(prevProps, nextProps) || ticksDiffer) {
+        updateIndicators(chart, ticks, nextProps.indicators);
+    }
 
     if (ticksDiffer || contractsDiffer || tradingTimesDiffer || pipSizeDiffer || futureUpdated || minRangeUpdated) {
         chart.redraw(false);
