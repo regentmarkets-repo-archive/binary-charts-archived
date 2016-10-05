@@ -9,6 +9,7 @@ import SharePicker from './SharePicker';
 // import SettingsPicker from './SettingsPicker';
 
 type Props = {
+    allowOHLC: boolean,
     assetName: string,
     interval: string,
     type: string,
@@ -40,20 +41,21 @@ export default class Toolbar extends PureComponent {
     };
 
     render() {
-        const { assetName, compact, type, getChart, pickerShown, interval, showTooltips,
+        const { allowOHLC, assetName, compact, type, getChart, pickerShown, interval, showTooltips,
             onShowPicker, onIntervalChange, onTypeChange, hideIntervalPicker } = this.props;
         const tooltips = showTooltips ? defaultTooltips : {};
 
         return (
             <div style={styles.toolbar} className="binary-chart-toolbar">
                 <TypePicker
+                    allowOHLC={allowOHLC}
                     value={type}
                     tooltip={tooltips.type}
                     expanded={pickerShown === 'type'}
                     onExpand={() => onShowPicker('type')}
                     onChange={onTypeChange}
                 />
-                {(!compact && !hideIntervalPicker) &&
+                {(allowOHLC || (!compact && !hideIntervalPicker)) &&
                     <IntervalPicker
                         value={interval}
                         tooltip={tooltips.interval}

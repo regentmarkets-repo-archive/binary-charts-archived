@@ -17,6 +17,7 @@ export type ChartEvent = {
 
 type Props = {
     assetName: string,
+    allowOHLC: boolean,
     className?: string,
     contract: Contract,
     compactToolbar: boolean,
@@ -58,6 +59,7 @@ export default class BinaryChart extends Component {
     chart: Chart;
 
     static defaultProps = {
+        allowOHLC: true,
         events: [],
         getData: () => Promise.resolve(),
         onTypeChange: () => undefined,
@@ -181,7 +183,7 @@ export default class BinaryChart extends Component {
     }
 
     render() {
-        const { assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
+        const { allowOHLC, assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
             showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type,
             id, symbol, noData, pipSize, events, shiftMode, contract, trade, hideIntervalPicker,
         } = this.props;
@@ -193,6 +195,7 @@ export default class BinaryChart extends Component {
                 <div id="binary-chart-info-container" style={styles.infobar} />
                 {!hideToolbar &&
                     <Toolbar
+                        allowOHLC={allowOHLC}
                         assetName={assetName}
                         compact={compactToolbar}
                         interval={interval}
