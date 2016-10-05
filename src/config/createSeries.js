@@ -3,7 +3,7 @@ import seriesEvents from './seriesEvents';
 type SeriesData = ChartTick[] | ChartCandle[];
 
 export default (
-    name: string = 'Spot',
+    name: string,
     type: ChartType,
     data: SeriesData,
     pipSize: number,

@@ -24,6 +24,12 @@ if (Object.keys(Highcharts).length > 0) {
 //    tradeMarker();
 }
 
+export type IndicatorsConfig = {
+    type: 'sma' | 'ema',
+    name?: string,          // name to be show in tooltip
+    period?: number,
+}
+
 export type ChartEvent = {
     type: string,
     handler: () => void,
@@ -33,6 +39,7 @@ type Props = {
     parent: Object,
     contract: Object,
     id: string,
+    indicators: IndicatorsConfig[],
     symbol: string,
     noData: boolean,
     pipSize: number,

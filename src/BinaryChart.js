@@ -10,10 +10,7 @@ import getMainSeries from './utils/getMainSeries';
 
 import styles from './styles';
 
-export type ChartEvent = {
-    type: string,
-    handler: () => void,
-}
+import type { ChartEvent, IndicatorsConfig } from './ChartCore';    // eslint-disable-line no-duplicate-imports
 
 type Props = {
     assetName: string,
@@ -22,12 +19,13 @@ type Props = {
     contract: Contract,
     compactToolbar: boolean,
     events: ChartEvent[],
-    id: string,
     getData?: (start: Epoch, end: Epoch, type: 'ticks' | 'candles', interval?: Epoch) => Promise,
     hideTimeFrame: boolean,
     hideIntervalPicker: boolean,
     hideToolbar: boolean,
     hideZoomControls: boolean,
+    id: string,
+    indicators: IndicatorsConfig[],
     showTooltips: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
@@ -62,17 +60,18 @@ export default class BinaryChart extends Component {
         allowOHLC: true,
         events: [],
         getData: () => Promise.resolve(),
-        onTypeChange: () => undefined,
-        onIntervalChange: () => undefined,
-        showAllTimeFrame: true,
-        theme: 'light',
-        ticks: [],
-        pipSize: 0,
-        type: 'area',
         hideTimeFrame: false,
         hideIntervalPicker: false,
         hideToolbar: false,
         hideZoomControls: false,
+        indicators: [],
+        onTypeChange: () => undefined,
+        onIntervalChange: () => undefined,
+        pipSize: 0,
+        showAllTimeFrame: true,
+        theme: 'light',
+        ticks: [],
+        type: 'area',
     };
 
     constructor(props: Props) {
@@ -184,7 +183,7 @@ export default class BinaryChart extends Component {
 
     render() {
         const { allowOHLC, assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
-            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type,
+            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type, indicators,
             id, symbol, noData, pipSize, events, shiftMode, contract, trade, hideIntervalPicker,
         } = this.props;
 
@@ -216,6 +215,7 @@ export default class BinaryChart extends Component {
                 <ChartCore
                     parent={this}
                     id={id}
+                    indicators={indicators}
                     contract={contract}
                     symbol={symbol}
                     noData={noData}
