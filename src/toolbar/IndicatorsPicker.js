@@ -9,6 +9,14 @@ type Props = {
     onChange: (indicator: string) => void,
 };
 
+const items = [
+    { text: 'Simple Moving Average (SMA)', value: 'sma', img: <CheckboxIcon /> },
+    { text: 'Exponenital Moving Average (EMA)', value: 'ema', img: <CheckboxOutlineIcon /> },
+    { text: 'Bollinger Band (BB)', value: 'bb', img: <CheckboxOutlineIcon /> },
+    // { text: 'Relative Strength Index (RSI)', value: 'rsi', img: <CheckboxOutlineIcon /> },
+    // { text: 'Moving Average Convergence Divergence (MACD)', value: 'macd', img: <CheckboxOutlineIcon /> },
+];
+
 export default class IndicatorsPicker extends PureComponent {
 
     props: Props;
@@ -27,13 +35,7 @@ export default class IndicatorsPicker extends PureComponent {
                 tooltip={tooltip}
                 img={<AnalysisIcon width="16px" height="16px" />}
                 text="Indicators"
-                items={[
-                    { text: 'Simple Moving Average (SMA)', value: 'sma', img: <CheckboxIcon /> },
-                    { text: 'Exponenital Moving Average (EMA)', value: 'ema', img: <CheckboxOutlineIcon /> },
-                    { text: 'Bollinger Band (BB)', value: 'bb', img: <CheckboxOutlineIcon /> },
-                    { text: 'Relative Strength Index (RSI)', value: 'rsi', img: <CheckboxOutlineIcon /> },
-                    { text: 'Moving Average Convergence Divergence (MACD)', value: 'macd', img: <CheckboxOutlineIcon /> },
-                ]}
+                items={items}
                 onExpand={onExpand}
                 onChange={this.onChange}
             />
