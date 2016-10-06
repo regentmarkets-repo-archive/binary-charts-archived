@@ -3,7 +3,7 @@ import { exponentialMovingAverageArray } from 'binary-indicators/lib/exponential
 import { bollingerBandsArray } from 'binary-indicators/lib/bollingerBands';
 import createSeries from './createSeries';
 
-const indicatorsSeriesPoolIds = Array.apply(null, Array(5)).map((v, i) => `indicator${i}`);
+const indicatorsSeriesPoolIds = Array(...Array(5)).map((v, i) => `indicator${i}`);
 
 export default (chart, newData, indicatorConfs) => {
     if (!newData || newData.length === 0) return;

@@ -102,7 +102,7 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
 
     const minRangeUpdated = updateMinRange(chart);
 
-    const indicatorsDiffer = !indicatorConfigEqual(prevProps, nextProps)
+    const indicatorsDiffer = !indicatorConfigEqual(prevProps, nextProps);
     if (indicatorsDiffer || ticksDiffer) {
         updateIndicators(chart, ticks, nextProps.indicators);
     }
