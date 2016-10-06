@@ -3,13 +3,14 @@ import PickerItem from './PickerItem';
 import styles from '../styles';
 
 type Props = {
-    text?: string,
-    tooltip?: string,
     expanded: boolean,
     img?: ReactComponent,
     items: PickerItem[],
     onExpand: () => void,
     onChange: (value: any) => void,
+    propagateEvent: boolean,        // disable event propagation on picker for multiple click interaction, eg select multiple options
+    text?: string,
+    tooltip?: string,
 };
 
 export default class Picker extends PureComponent {
@@ -17,8 +18,9 @@ export default class Picker extends PureComponent {
     props: Props;
     state: State;
 
-    defaultProps = {
+    static defaultProps = {
         items: [],
+        propagateEvent: true,
     }
 
     constructor(props: Props) {
@@ -35,7 +37,7 @@ export default class Picker extends PureComponent {
     }
 
     render() {
-        const { expanded, text, tooltip, img, items, onChange } = this.props;
+        const { expanded, text, tooltip, img, items, onChange, propagateEvent } = this.props;
 
         return (
             <div className="binary-chart-picker">
@@ -51,7 +53,7 @@ export default class Picker extends PureComponent {
                 {expanded &&
                     <div style={styles.submenu} className="binary-chart-submenu">
                         {items.map((x, i) =>
-                            <PickerItem key={i} {...x} onClick={onChange} />
+                            <PickerItem key={i} {...x} onClick={onChange} propagateEvent={propagateEvent} />
                         )}
                     </div>
                 }

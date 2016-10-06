@@ -10,7 +10,7 @@ import getMainSeries from './utils/getMainSeries';
 
 import styles from './styles';
 
-import type { ChartEvent, IndicatorsConfig } from './ChartCore';    // eslint-disable-line no-duplicate-imports
+import type { ChartEvent } from './ChartCore';    // eslint-disable-line no-duplicate-imports
 
 type Props = {
     assetName: string,
@@ -25,7 +25,7 @@ type Props = {
     hideToolbar: boolean,
     hideZoomControls: boolean,
     id: string,
-    indicators: IndicatorsConfig[],
+    // indicators: IndicatorsConfig[],
     showTooltips: boolean,
     noData: boolean,
     onTypeChange: (chartType: string) => void,
@@ -80,6 +80,7 @@ export default class BinaryChart extends Component {
             range: {},
             endButtonShown: true,
             interval: undefined,
+            indicators: [],
         };
     }
 
@@ -155,6 +156,21 @@ export default class BinaryChart extends Component {
         this.setState({ interval });
     };
 
+    onIndicatorChange = (indicatorNames: string[]) => {
+        const configs = indicatorNames.map(n => {
+            switch (n) {
+                case 'sma':
+                case 'ema':
+                    return { class: n, periods: 10 };
+                case 'bb':
+                    return { class: n, periods: 10, type: 'SMA', stdDevUp: 5, stdDevDown: 5 };
+                default:
+                    return {};
+            }
+        });
+        this.setState({ indicators: configs });
+    };
+
     getChart = () => this.chart;
 
     getSeries = () => getMainSeries(this.chart);
@@ -183,11 +199,11 @@ export default class BinaryChart extends Component {
 
     render() {
         const { allowOHLC, assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
-            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type, indicators,
+            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type,
             id, symbol, noData, pipSize, events, shiftMode, contract, trade, hideIntervalPicker,
         } = this.props;
 
-        const { endButtonShown, pickerShown, interval } = this.state;
+        const { endButtonShown, pickerShown, indicators, interval } = this.state;
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
@@ -197,15 +213,15 @@ export default class BinaryChart extends Component {
                         allowOHLC={allowOHLC}
                         assetName={assetName}
                         compact={compactToolbar}
-                        interval={interval}
-                        hasInterval={chartTypeToDataType(type) === 'candles'}
                         getChart={this.getChart}
                         getXAxis={this.getXAxis}
                         getYAxis={this.getYAxis}
                         hideIntervalPicker={hideIntervalPicker}
+                        interval={interval}
                         onIntervalChange={this.onIntervalChange}
                         onTypeChange={this.onTypeChange}
                         onShowPicker={this.onShowPicker}
+                        onIndicatorChange={this.onIndicatorChange}
                         pickerShown={pickerShown}
                         showTooltips={showTooltips}
                         theme={theme}

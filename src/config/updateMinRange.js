@@ -4,11 +4,17 @@ import getMainSeries from '../utils/getMainSeries';
 export const computeMinRange = (chart, targetExtremes) => {
     const mainSeries = getMainSeries(chart);
     const futureSeries = chart.get('future');
-    const { max } = targetExtremes;
+    const { max, dataMin, dataMax } = targetExtremes;
 
     const lastMainSeriesData = getLast(mainSeries.options.data);
 
     const dataLength = mainSeries.options.data.length;
+
+    // show all data if there's less than 3 data
+    if (dataLength < 3) {
+        return dataMax - dataMin;
+    }
+
     const last3Data = mainSeries.options.data[dataLength - 3];
     const last2Data = mainSeries.options.data[dataLength - 2];
     const xDiff = last2Data[0] - last3Data[0];

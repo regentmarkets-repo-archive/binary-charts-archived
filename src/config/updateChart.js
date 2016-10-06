@@ -102,11 +102,13 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
 
     const minRangeUpdated = updateMinRange(chart);
 
-    if (!indicatorConfigEqual(prevProps, nextProps) || ticksDiffer) {
+    const indicatorsDiffer = !indicatorConfigEqual(prevProps, nextProps);
+    if (indicatorsDiffer || ticksDiffer) {
         updateIndicators(chart, ticks, nextProps.indicators);
     }
 
-    if (ticksDiffer || contractsDiffer || tradingTimesDiffer || pipSizeDiffer || futureUpdated || minRangeUpdated) {
+    if (ticksDiffer || contractsDiffer || tradingTimesDiffer
+        || pipSizeDiffer || futureUpdated || minRangeUpdated || indicatorsDiffer) {
         chart.redraw(false);
     }
 };
