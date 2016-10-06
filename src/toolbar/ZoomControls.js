@@ -144,11 +144,13 @@ export default class ZoomControls extends PureComponent {
     zoomOut = () => {
         const series = this.props.getSeries();
         const xAxis = this.props.getXAxis();
-        const { dataMin, min, max } = xAxis.getExtremes();
+        const { dataMin, dataMax, min, max } = xAxis.getExtremes();
         const realMax = Math.min(max, getLast(series.options.data)[0]);
         const diff = realMax - min;
         const newMin = Math.max(dataMin, min - diff);
-        xAxis.setExtremes(newMin, max, true);
+        const newMax = Math.max(dataMax, newMin + diff);
+
+        xAxis.setExtremes(newMin, newMax, true);
     }
 
     moveToEnd = () => {
