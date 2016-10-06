@@ -10,7 +10,7 @@ import getMainSeries from './utils/getMainSeries';
 
 import styles from './styles';
 
-import type { ChartEvent, IndicatorsConfig } from './ChartCore';    // eslint-disable-line no-duplicate-imports
+import type { ChartEvent } from './ChartCore';    // eslint-disable-line no-duplicate-imports
 
 type Props = {
     assetName: string,

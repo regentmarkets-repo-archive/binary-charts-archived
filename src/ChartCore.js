@@ -25,7 +25,7 @@ if (Object.keys(Highcharts).length > 0) {
 }
 
 export type IndicatorsConfig = {
-    type: 'sma' | 'ema',
+    class: 'sma' | 'ema' | 'bb',
     name?: string,          // name to be show in tooltip
     period?: number,
 }
