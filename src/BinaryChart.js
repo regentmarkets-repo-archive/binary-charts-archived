@@ -191,7 +191,7 @@ export default class BinaryChart extends Component {
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
-                <div id="binary-chart-info-container" style={styles.infobar} />
+                <div className="binary-chart-info-container" style={styles.infobar} />
                 {!hideToolbar &&
                     <Toolbar
                         allowOHLC={allowOHLC}
