@@ -17,7 +17,6 @@ type Props = {
     showTooltips: boolean,
     crosshair?: boolean,
     chart: HighstockChart,
-    hasInterval: boolean,
     hideIntervalPicker: boolean,
     pickerShown: string,
     theme: string,
@@ -26,6 +25,7 @@ type Props = {
     getYAxis: () => any,
     onShowPicker: (picker: any) => void,
     onIntervalChange: (interval: string) => void,
+    onIndicatorChange: (indicators: string[]) => void,
     onTypeChange: (chartType: string) => void,
 };
 
@@ -36,13 +36,12 @@ export default class Toolbar extends PureComponent {
     static defaultProps = {
         type: 'area',
         compact: false,
-        hasInterval: false,
         hideIntervalPicker: false,
     };
 
     render() {
         const { allowOHLC, assetName, compact, type, getChart, pickerShown, interval, showTooltips,
-            onShowPicker, onIntervalChange, onTypeChange, hideIntervalPicker } = this.props;
+            onShowPicker, onIntervalChange, onTypeChange, onIndicatorChange, hideIntervalPicker } = this.props;
         const tooltips = showTooltips ? defaultTooltips : {};
 
         return (
@@ -74,6 +73,7 @@ export default class Toolbar extends PureComponent {
                         tooltip={tooltips.indicators}
                         expanded={pickerShown === 'indicators'}
                         onExpand={() => onShowPicker('indicators')}
+                        onChange={onIndicatorChange}
                     />
                 }
                 <SharePicker
