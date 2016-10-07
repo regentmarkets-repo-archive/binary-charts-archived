@@ -56,7 +56,7 @@ export default class SharePicker extends PureComponent {
                 img={<ShareIcon />}
                 items={[
                     { text: 'Download PNG Image', value: this.downloadPng },
-                    { text: 'Download SVG Image', value: this.downloadSvg },
+                    // { text: 'Download SVG Image', value: this.downloadSvg },
                     { text: 'Download PDF Document', value: this.downloadPdf },
                 ]}
                 onExpand={onExpand}
