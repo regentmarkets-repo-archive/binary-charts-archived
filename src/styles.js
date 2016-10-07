@@ -28,6 +28,7 @@ export default {
         marginTop: 40,
         marginLeft: 5,
         zIndex: 80,
+        pointerEvents: 'none',
     },
     timeFramePicker: {
         display: 'flex',

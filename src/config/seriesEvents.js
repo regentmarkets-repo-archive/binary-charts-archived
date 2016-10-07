@@ -29,10 +29,12 @@ export default (
     pipSize: number,
 ) => ({
     mouseOut: function mouseLeave() {
-        document.getElementById('binary-chart-info-container').innerHTML = '';
+        const binaryChartDiv = this.series.chart.renderTo.parentNode;
+        binaryChartDiv.getElementsByClassName('binary-chart-info-container')[0].innerHTML = '';
     },
     mouseOver: function mouseOver() {
+        const binaryChartDiv = this.series.chart.renderTo.parentNode;
         const htmlFunc = this.series.type === 'line' || this.series.type === 'area' ? htmlForTicks : htmlForCandles;
-        document.getElementById('binary-chart-info-container').innerHTML = htmlFunc(this, pipSize);
+        binaryChartDiv.getElementsByClassName('binary-chart-info-container')[0].innerHTML = htmlFunc(this, pipSize);
     },
 });
