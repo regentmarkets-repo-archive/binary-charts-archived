@@ -7,7 +7,7 @@ const showSeriesByType = (chart, chartType) => {
     const mainSeries = getMainSeries(chart);
 
     if (mainSeries && mainSeries.options.type !== chartType) {
-        mainSeries.remove();
+        mainSeries.update({ type: chartType }, false);
     }
 };
 
