@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { AnalysisIcon, CheckboxIcon, CheckboxOutlineIcon } from '../icons';
+import { AnalysisIcon, CheckboxIcon, CheckboxOutlineIcon, IndicatorIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {
@@ -61,7 +61,7 @@ export default class IndicatorsPicker extends PureComponent {
             <Picker
                 expanded={expanded}
                 tooltip={tooltip}
-                img={<AnalysisIcon width="16px" height="16px" />}
+                img={<IndicatorIcon width="16px" height="16px" />}
                 text="Indicators"
                 items={items}
                 onExpand={onExpand}
