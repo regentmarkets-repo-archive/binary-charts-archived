@@ -229,6 +229,7 @@ export default class BinaryChart extends Component {
                     />
                 }
                 <ChartCore
+                    assetName={assetName}
                     parent={this}
                     id={id}
                     indicators={indicators}
