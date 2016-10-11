@@ -148,7 +148,7 @@ export default class ZoomControls extends PureComponent {
         const realMax = Math.min(max, getLast(series.options.data)[0]);
         const diff = realMax - min;
         const newMin = Math.max(dataMin, min - diff);
-        const newMax = Math.max(dataMax, newMin + diff);
+        const newMax = Math.min(dataMax, newMin + diff);
 
         xAxis.setExtremes(newMin, newMax, true);
     }
