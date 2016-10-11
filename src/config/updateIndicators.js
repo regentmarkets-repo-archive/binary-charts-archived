@@ -15,40 +15,47 @@ export default (chart, newData, indicatorConfs) => {
         });
     }
 
+    const isOHLC = !!newData[0].open;
+    const yData = isOHLC ? newData.map(d => +d.close) : newData.map(d => +d.quote);
+
+    const seriesDataByIndicators = indicatorConfs.map(conf => {
+        switch (conf.class.toLowerCase()) {
+            case 'sma':
+                return [simpleMovingAverageArray(yData, conf)];
+            case 'ema':
+                return [exponentialMovingAverageArray(yData, conf)];
+            case 'bb':
+                const bbData = bollingerBandsArray(yData, conf);
+                const middle = [];
+                const upper = [];
+                const lower = [];
+
+                bbData.forEach(d => {
+                    middle.push(d[0]);
+                    upper.push(d[1]);
+                    lower.push(d[2]);
+                });
+
+                return [middle, upper, lower];
+            default:
+                return [];
+        }
+    });
+
+    const flattenSeriesData = [].concat.apply([], seriesDataByIndicators);
+
     indicatorsSeriesPoolIds.forEach((seriesId, idx) => {
-        const conf = indicatorConfs[idx];
+        const seriesData = flattenSeriesData[idx];
         const indicatorSeries = chart.get(seriesId);
 
-        if (!conf) {
+        if (!seriesData) {
             indicatorSeries.setData([], false);
             return;
         }
 
-        const isOHLC = !!newData[0].open;
-        const yData = isOHLC ? newData.map(d => +d.close) : newData.map(d => +d.quote);
+        const indexOffset = newData.length - seriesData.length;
 
-        let indicatorYData = [];
-
-        // todo: maybe wrap this block with try catch ?
-        // or hard code contraints on high-layer?
-        switch (conf.class.toLowerCase()) {
-            case 'sma':
-                indicatorYData = simpleMovingAverageArray(yData, conf);
-                break;
-            case 'ema':
-                indicatorYData = exponentialMovingAverageArray(yData, conf);
-                break;
-            case 'bb':
-                indicatorYData = bollingerBandsArray(yData, conf);
-                break;
-            default:
-            // do nothing
-        }
-
-        const indexOffset = newData.length - indicatorYData.length;
-
-        const indicatorData = indicatorYData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
-        indicatorSeries.update({ name: conf.name || conf.type }, false);
+        const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
         indicatorSeries.setData(indicatorData, false);
     });
 };
