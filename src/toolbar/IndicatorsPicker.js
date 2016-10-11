@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { AnalysisIcon, CheckboxIcon, CheckboxOutlineIcon, IndicatorIcon } from '../icons';
+import { CheckboxIcon, CheckboxOutlineIcon, IndicatorIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {

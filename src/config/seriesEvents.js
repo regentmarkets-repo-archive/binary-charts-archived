@@ -25,15 +25,15 @@ const htmlForCandles = (point, pipSize) => `
     </div>
 `;
 
-export default (
-    pipSize: number,
-) => ({
+export default () => ({
     mouseOut: function mouseLeave() {
         const binaryChartDiv = this.series.chart.renderTo.parentNode;
         binaryChartDiv.getElementsByClassName('binary-chart-info-container')[0].innerHTML = '';
     },
     mouseOver: function mouseOver() {
-        const binaryChartDiv = this.series.chart.renderTo.parentNode;
+        const chart = this.series.chart;
+        const binaryChartDiv = chart.renderTo.parentNode;
+        const { pipSize } = chart.userOptions.binary;
         const htmlFunc = this.series.type === 'line' || this.series.type === 'area' ? htmlForTicks : htmlForCandles;
         binaryChartDiv.getElementsByClassName('binary-chart-info-container')[0].innerHTML = htmlFunc(this, pipSize);
     },
