@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "8.5.2",
+  "version": "8.5.3",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -57,7 +57,7 @@
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-1": "^6.16.0",
-    "binary-live-api": "^26.0.3",
+    "binary-live-api": "*",
     "chai": "^3.5.0",
     "coveralls": "^2.11.14",
     "enzyme": "^2.4.1",

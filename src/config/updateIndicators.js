@@ -24,7 +24,7 @@ export default (chart, newData, indicatorConfs) => {
                 return [simpleMovingAverageArray(yData, conf)];
             case 'ema':
                 return [exponentialMovingAverageArray(yData, conf)];
-            case 'bb':
+            case 'bb': {
                 const bbData = bollingerBandsArray(yData, conf);
                 const middle = [];
                 const upper = [];
@@ -37,12 +37,13 @@ export default (chart, newData, indicatorConfs) => {
                 });
 
                 return [middle, upper, lower];
+            }
             default:
                 return [];
         }
     });
 
-    const flattenSeriesData = [].concat.apply([], seriesDataByIndicators);
+    const flattenSeriesData = [].concat(...seriesDataByIndicators);
 
     indicatorsSeriesPoolIds.forEach((seriesId, idx) => {
         const seriesData = flattenSeriesData[idx];
