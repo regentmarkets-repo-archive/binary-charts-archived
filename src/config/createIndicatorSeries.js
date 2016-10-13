@@ -7,7 +7,7 @@ export default (
 ) => ({
     name,
     data,
-    id: id,
+    id,
     enableMouseTracking: false,
     fillOpacity: 0.1,
     lineWidth: 0.7,

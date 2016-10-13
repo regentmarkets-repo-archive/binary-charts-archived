@@ -10,7 +10,6 @@ export default (chart, newData, indicatorConfs) => {
     if (!newData || newData.length === 0) return;
 
     if (!chart.get('indicator0')) {
-        const pipSize = chart.userOptions.binary.pipSize;
         indicatorsSeriesPoolIds.forEach(id => {
             chart.addSeries(createSeries('indicator', [], id));
         });
@@ -24,7 +23,7 @@ export default (chart, newData, indicatorConfs) => {
             case 'sma':
                 return [{ id: 'sma', name: 'Simple moving average', data: simpleMovingAverageArray(yData, conf) }];
             case 'ema':
-                return [{ id:'ema', name: 'Exponential moving average', data: exponentialMovingAverageArray(yData, conf) }];
+                return [{ id: 'ema', name: 'Exponential moving average', data: exponentialMovingAverageArray(yData, conf) }];
             case 'bb': {
                 const bbData = bollingerBandsArray(yData, conf);
                 const middle = [];
@@ -38,9 +37,9 @@ export default (chart, newData, indicatorConfs) => {
                 });
 
                 return [
-                    { id:'bb', name: 'Bollinger band', data: middle },
-                    { id:'bb', name: 'Bollinger band', data: upper },
-                    { id:'bb', name: 'Bollinger band', data: lower }
+                    { id: 'bb', name: 'Bollinger band', data: middle },
+                    { id: 'bb', name: 'Bollinger band', data: upper },
+                    { id: 'bb', name: 'Bollinger band', data: lower },
                     ];
             }
             default:
