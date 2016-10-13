@@ -108,7 +108,8 @@ export default (chart: Chart, prevProps: Object, nextProps: Object) => {
 
     const indicatorsDiffer = !indicatorConfigEqual(prevProps, nextProps);
     if (indicatorsDiffer || ticksDiffer) {
-        const indicatorsConfWithPipSize = Object.assign({ pipSize: nextProps.pipSize }, nextProps.indicators);
+        const pipSize = nextProps.pipSize;
+        const indicatorsConfWithPipSize = nextProps.indicators.map(conf => Object.assign({ pipSize }, conf));
         updateIndicators(chart, ticks, indicatorsConfWithPipSize);
     }
 

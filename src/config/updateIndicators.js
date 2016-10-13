@@ -1,7 +1,13 @@
 import { simpleMovingAverageArray } from 'binary-indicators/lib/simpleMovingAverage';
 import { exponentialMovingAverageArray } from 'binary-indicators/lib/exponentialMovingAverage';
 import { bollingerBandsArray } from 'binary-indicators/lib/bollingerBands';
-import createSeries from './createSeries';
+import createSeries from './createIndicatorSeries';
+
+const indicatorColorMap = {
+    sma: '#f442d7',
+    ema: '#42dff4',
+    bb: '#65f442',
+};
 
 const indicatorsSeriesPoolIds = Array(...Array(5)).map((v, i) => `indicator${i}`);
 
@@ -11,7 +17,7 @@ export default (chart, newData, indicatorConfs) => {
     if (!chart.get('indicator0')) {
         const pipSize = chart.userOptions.binary.pipSize;
         indicatorsSeriesPoolIds.forEach(id => {
-            chart.addSeries(createSeries('indicator', 'line', [], pipSize, id));
+            chart.addSeries(createSeries('indicator', [], id));
         });
     }
 
@@ -21,9 +27,9 @@ export default (chart, newData, indicatorConfs) => {
     const seriesDataByIndicators = indicatorConfs.map(conf => {
         switch (conf.class.toLowerCase()) {
             case 'sma':
-                return [{ name: 'Simple moving average', data: simpleMovingAverageArray(yData, conf) }];
+                return [{ id: 'sma', name: 'Simple moving average', data: simpleMovingAverageArray(yData, conf) }];
             case 'ema':
-                return [{ name: 'Exponential moving average', data: exponentialMovingAverageArray(yData, conf) }];
+                return [{ id:'ema', name: 'Exponential moving average', data: exponentialMovingAverageArray(yData, conf) }];
             case 'bb': {
                 const bbData = bollingerBandsArray(yData, conf);
                 const middle = [];
@@ -37,9 +43,9 @@ export default (chart, newData, indicatorConfs) => {
                 });
 
                 return [
-                    { name: 'Bollinger band', data: middle },
-                    { name: 'Bollinger band', data: upper },
-                    { name: 'Bollinger band', data: lower }
+                    { id:'bb', name: 'Bollinger band', data: middle },
+                    { id:'bb', name: 'Bollinger band', data: upper },
+                    { id:'bb', name: 'Bollinger band', data: lower }
                     ];
             }
             default:
@@ -64,6 +70,6 @@ export default (chart, newData, indicatorConfs) => {
 
         const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
         indicatorSeries.setData(indicatorData, false);
-        indicatorSeries.update({ name: indicatorObj.name }, false);
+        indicatorSeries.update({ name: indicatorObj.name, color: indicatorColorMap[indicatorObj.id] }, false);
     });
 };
