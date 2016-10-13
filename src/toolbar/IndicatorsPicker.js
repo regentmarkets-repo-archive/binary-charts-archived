@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { CheckboxIcon, CheckboxOutlineIcon, IndicatorIcon } from '../icons';
+import { ColoredCheckboxIcon, CheckboxOutlineIcon, IndicatorIcon } from '../icons';
+import { indicatorColors } from '../styles';
 import Picker from './Picker';
 
 type Props = {
@@ -10,8 +11,6 @@ type Props = {
 };
 
 const uncheckedIcon = <CheckboxOutlineIcon />;
-const checkedIcon = <CheckboxIcon />;
-
 const defaultItems = [
     { text: 'Simple Moving Average (SMA)', value: 'sma', img: uncheckedIcon, checked: false },
     { text: 'Exponenital Moving Average (EMA)', value: 'ema', img: uncheckedIcon, checked: false },
@@ -40,7 +39,7 @@ export default class IndicatorsPicker extends PureComponent {
             if (i.value === val) {
                 const copied = Object.assign({}, i);    // defensive copying
 
-                copied.img = i.checked ? uncheckedIcon : checkedIcon;
+                copied.img = i.checked ? uncheckedIcon : <ColoredCheckboxIcon fillColor={indicatorColors[i.value]} />;
 
                 copied.checked = !i.checked;
 

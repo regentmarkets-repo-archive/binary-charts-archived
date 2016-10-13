@@ -2,12 +2,7 @@ import { simpleMovingAverageArray } from 'binary-indicators/lib/simpleMovingAver
 import { exponentialMovingAverageArray } from 'binary-indicators/lib/exponentialMovingAverage';
 import { bollingerBandsArray } from 'binary-indicators/lib/bollingerBands';
 import createSeries from './createIndicatorSeries';
-
-const indicatorColorMap = {
-    sma: '#f442d7',
-    ema: '#42dff4',
-    bb: '#65f442',
-};
+import { indicatorColors } from '../styles';
 
 const indicatorsSeriesPoolIds = Array(...Array(5)).map((v, i) => `indicator${i}`);
 
@@ -70,6 +65,6 @@ export default (chart, newData, indicatorConfs) => {
 
         const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
         indicatorSeries.setData(indicatorData, false);
-        indicatorSeries.update({ name: indicatorObj.name, color: indicatorColorMap[indicatorObj.id] }, false);
+        indicatorSeries.update({ name: indicatorObj.name, color: indicatorColors[indicatorObj.id] }, false);
     });
 };

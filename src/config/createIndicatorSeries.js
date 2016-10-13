@@ -10,7 +10,7 @@ export default (
     id: id,
     enableMouseTracking: false,
     fillOpacity: 0.1,
-    lineWidth: 0.5,
+    lineWidth: 0.7,
     threshold: null,
     zoneAxis: 'x',
     dataGrouping: {
