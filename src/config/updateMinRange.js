@@ -10,9 +10,11 @@ export const computeMinRange = (chart, targetExtremes) => {
 
     const dataLength = mainSeries.options.data.length;
 
+    const maxPossibleRange = dataMax - dataMin;
+
     // show all data if there's less than 3 data
     if (dataLength < 3) {
-        return dataMax - dataMin;
+        return maxPossibleRange;
     }
 
     const last3Data = mainSeries.options.data[dataLength - 3];
@@ -24,7 +26,7 @@ export const computeMinRange = (chart, targetExtremes) => {
         return (xDiff * 10) + additionSpace;
     }
 
-    return xDiff * 10;
+    return Math.min(xDiff * 10, maxPossibleRange);
 };
 
 export default (chart) => {

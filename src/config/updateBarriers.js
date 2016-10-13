@@ -24,7 +24,12 @@ const getBarriersData = (chart, contract) => {
 const updateBarrierSeries = (chart, contract) => {
     const barriersData = getBarriersData(chart, contract);
 
-    if (barriersData.length === 0) return;
+    if (barriersData.length === 0) {
+        chart.get('b0').setData([], false);
+        chart.get('b1').setData([], false);
+        chart.get('b2').setData([], false);
+        return;
+    }
 
     while (barriersData.length < 3) {
         barriersData.push(getLast(barriersData));
@@ -38,12 +43,9 @@ const updateBarrierSeries = (chart, contract) => {
 };
 
 const initBarrier = (chart) => {
-    const mainSeries = getMainSeries(chart);
-    const last = getLast(mainSeries.options.data);
-    const barrierData = [last];
-    chart.addSeries(createHiddenSeries(barrierData, 'b0'));
-    chart.addSeries(createHiddenSeries(barrierData, 'b1'));
-    chart.addSeries(createHiddenSeries(barrierData, 'b2'));
+    chart.addSeries(createHiddenSeries([], 'b0'));
+    chart.addSeries(createHiddenSeries([], 'b1'));
+    chart.addSeries(createHiddenSeries([], 'b2'));
 };
 
 export default (chart, contract) => {

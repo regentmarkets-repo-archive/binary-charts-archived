@@ -68,3 +68,9 @@ export default {
         flexDirection: 'column',
     },
 };
+
+export const indicatorColors = {
+    sma: '#f442d7',
+    ema: '#42dff4',
+    bb: '#65f442',
+};

@@ -77,7 +77,7 @@ export default class ZoomControls extends PureComponent {
 
                 // when moving from view with future data to view without future data
                 // minrange need to be recompute
-                xAxis.update({ minRange: computeMinRange(chart, { min: start, max: end }) });
+                xAxis.update({ minRange: computeMinRange(chart, { dataMin, dataMax, min: start, max: end }) });
             } else if (requestedMin < dataMin) {
                 start = min;
                 end = max;
@@ -148,7 +148,7 @@ export default class ZoomControls extends PureComponent {
         const realMax = Math.min(max, getLast(series.options.data)[0]);
         const diff = realMax - min;
         const newMin = Math.max(dataMin, min - diff);
-        const newMax = Math.min(dataMax, newMin + diff);
+        const newMax = Math.max(dataMax, newMin + diff);
 
         xAxis.setExtremes(newMin, newMax, true);
     }

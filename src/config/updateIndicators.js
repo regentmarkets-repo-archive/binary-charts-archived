@@ -1,7 +1,8 @@
 import { simpleMovingAverageArray } from 'binary-indicators/lib/simpleMovingAverage';
 import { exponentialMovingAverageArray } from 'binary-indicators/lib/exponentialMovingAverage';
 import { bollingerBandsArray } from 'binary-indicators/lib/bollingerBands';
-import createSeries from './createSeries';
+import createSeries from './createIndicatorSeries';
+import { indicatorColors } from '../styles';
 
 const indicatorsSeriesPoolIds = Array(...Array(5)).map((v, i) => `indicator${i}`);
 
@@ -9,9 +10,8 @@ export default (chart, newData, indicatorConfs) => {
     if (!newData || newData.length === 0) return;
 
     if (!chart.get('indicator0')) {
-        const pipSize = chart.userOptions.binary.pipSize;
         indicatorsSeriesPoolIds.forEach(id => {
-            chart.addSeries(createSeries('indicator', 'line', [], pipSize, id));
+            chart.addSeries(createSeries('indicator', [], id));
         });
     }
 
@@ -21,9 +21,9 @@ export default (chart, newData, indicatorConfs) => {
     const seriesDataByIndicators = indicatorConfs.map(conf => {
         switch (conf.class.toLowerCase()) {
             case 'sma':
-                return [simpleMovingAverageArray(yData, conf)];
+                return [{ id: 'sma', name: 'Simple moving average', data: simpleMovingAverageArray(yData, conf) }];
             case 'ema':
-                return [exponentialMovingAverageArray(yData, conf)];
+                return [{ id: 'ema', name: 'Exponential moving average', data: exponentialMovingAverageArray(yData, conf) }];
             case 'bb': {
                 const bbData = bollingerBandsArray(yData, conf);
                 const middle = [];
@@ -36,27 +36,34 @@ export default (chart, newData, indicatorConfs) => {
                     lower.push(d[2]);
                 });
 
-                return [middle, upper, lower];
+                return [
+                    { id: 'bb', name: 'Bollinger band', data: middle },
+                    { id: 'bb', name: 'Bollinger band', data: upper },
+                    { id: 'bb', name: 'Bollinger band', data: lower },
+                    ];
             }
             default:
                 return [];
         }
     });
 
-    const flattenSeriesData = [].concat(...seriesDataByIndicators);
+    const flattenIndicatorsData = [].concat(...seriesDataByIndicators);
 
     indicatorsSeriesPoolIds.forEach((seriesId, idx) => {
-        const seriesData = flattenSeriesData[idx];
+        const indicatorObj = flattenIndicatorsData[idx];
         const indicatorSeries = chart.get(seriesId);
 
-        if (!seriesData) {
+        if (!indicatorObj) {
             indicatorSeries.setData([], false);
             return;
         }
+
+        const seriesData = indicatorObj.data;
 
         const indexOffset = newData.length - seriesData.length;
 
         const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
         indicatorSeries.setData(indicatorData, false);
+        indicatorSeries.update({ name: indicatorObj.name, color: indicatorColors[indicatorObj.id] }, false);
     });
 };

@@ -59,6 +59,7 @@ export default ({
                 connectNulls: false,
                 marker: {
                     enabled: false,
+                    symbol: 'circle',
                 },
                 gapSize: 4 * 60 * 60 * 1000,
             },
