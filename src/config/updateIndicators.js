@@ -21,9 +21,9 @@ export default (chart, newData, indicatorConfs) => {
     const seriesDataByIndicators = indicatorConfs.map(conf => {
         switch (conf.class.toLowerCase()) {
             case 'sma':
-                return [simpleMovingAverageArray(yData, conf)];
+                return [{ name: 'Simple moving average', data: simpleMovingAverageArray(yData, conf) }];
             case 'ema':
-                return [exponentialMovingAverageArray(yData, conf)];
+                return [{ name: 'Exponential moving average', data: exponentialMovingAverageArray(yData, conf) }];
             case 'bb': {
                 const bbData = bollingerBandsArray(yData, conf);
                 const middle = [];
@@ -36,27 +36,34 @@ export default (chart, newData, indicatorConfs) => {
                     lower.push(d[2]);
                 });
 
-                return [middle, upper, lower];
+                return [
+                    { name: 'Bollinger band', data: middle },
+                    { name: 'Bollinger band', data: upper },
+                    { name: 'Bollinger band', data: lower }
+                    ];
             }
             default:
                 return [];
         }
     });
 
-    const flattenSeriesData = [].concat(...seriesDataByIndicators);
+    const flattenIndicatorsData = [].concat(...seriesDataByIndicators);
 
     indicatorsSeriesPoolIds.forEach((seriesId, idx) => {
-        const seriesData = flattenSeriesData[idx];
+        const indicatorObj = flattenIndicatorsData[idx];
         const indicatorSeries = chart.get(seriesId);
 
-        if (!seriesData) {
+        if (!indicatorObj) {
             indicatorSeries.setData([], false);
             return;
         }
+
+        const seriesData = indicatorObj.data;
 
         const indexOffset = newData.length - seriesData.length;
 
         const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
         indicatorSeries.setData(indicatorData, false);
+        indicatorSeries.update({ name: indicatorObj.name }, false);
     });
 };
