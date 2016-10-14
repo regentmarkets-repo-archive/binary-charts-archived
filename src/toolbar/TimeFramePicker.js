@@ -34,7 +34,7 @@ export default class TimeFramePicker extends PureComponent {
         const series = getSeries();
         const xAxis = getXAxis();
         const chart = getChart();
-        const { min, max } = xAxis.getExtremes();
+        const { max } = xAxis.getExtremes();
         const futureSeries = chart.get('future');
 
         const end = max;
