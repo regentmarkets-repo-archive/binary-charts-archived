@@ -70,7 +70,7 @@ export default {
 };
 
 export const indicatorColors = {
-    sma: '#f442d7',
-    ema: '#42dff4',
-    bb: '#65f442',
+    sma: '#A31A48',
+    ema: '#7DB4B5',
+    bb: '#680148',
 };
