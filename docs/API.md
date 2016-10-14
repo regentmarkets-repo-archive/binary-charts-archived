@@ -109,6 +109,18 @@ document.getElementById('chart').dispatchEvent(new Event('print'));
 
 ```
 
+-------
+
+### id
+|   |   |
+|---|---|
+Type        | string
+Default     | N/A
+__Description__
+
+The id of chart component in DOM, it is useful in case you need to access dom directly, also to be used together with events
+It only refers to the chart component, does not include toolbars
+
 -----
 
 
@@ -199,5 +211,61 @@ __Description__
 * when set to `fixed`, chart appear to `move` toward Right Hand Side when new data is added
 * when set to `dynamic`, chart appear to `expand` toward Right Hand Side when new data is added
 
+
+
+-------
+
+### className
+|   |   |
+|---|---|
+Type        | string
+Default     | N/A
+__Description__
+
+Class name for the whole container dom, including toolbar, used to allow styling
+
+-------
+
+### hideTimeFrame
+|   |   |
+|---|---|
+Type        | boolean
+Default     | false
+__Description__
+
+Set to true to hide TimeFramePicker which appear at the bottom of chart
+
+-------
+
+### hideIntervalPicker
+|   |   |
+|---|---|
+Type        | boolean
+Default     | false
+__Description__
+
+Set to true to hide IntervalPicker
+
+-------
+
+### hideToolbar
+|   |   |
+|---|---|
+Type        | boolean
+Default     | false
+__Description__
+
+Set to true to hide the whole toolbar, which appear on top of the chart
+
+-------
+
+### hideZoomControls
+|   |   |
+|---|---|
+Type        | boolean
+Default     | false
+__Description__
+
+Set to true to hide the zoom control, which appear inside the chart when mouse hover
 
 -------
