@@ -23,4 +23,4 @@ export class MyComponentWithChart extends React.Component {
 ```
 
 
-For complete list of props, check [API.MD](./API.MD)
+For complete list of props, check [API.MD](./API.md)
