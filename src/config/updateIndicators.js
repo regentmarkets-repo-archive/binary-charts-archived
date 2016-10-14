@@ -63,7 +63,8 @@ export default (chart, newData, indicatorConfs) => {
         const indexOffset = newData.length - seriesData.length;
 
         const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
-        indicatorSeries.setData(indicatorData, false);
+
         indicatorSeries.update({ name: indicatorObj.name, color: indicatorColors[indicatorObj.id] }, false);
+        indicatorSeries.setData(indicatorData, false);
     });
 };
