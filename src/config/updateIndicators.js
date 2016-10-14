@@ -64,6 +64,10 @@ export default (chart, newData, indicatorConfs) => {
 
         const indicatorData = seriesData.map((y, i) => [+newData[i + indexOffset].epoch * 1000, y]);
 
+        // The order is important!!
+        // Educated guess: calling series.setData with redraw = false will remove old data in series,
+        // calling series.update right after that will attempt to update series, which points have been cleared
+        // and trigger error
         indicatorSeries.update({ name: indicatorObj.name, color: indicatorColors[indicatorObj.id] }, false);
         indicatorSeries.setData(indicatorData, false);
     });
