@@ -3,7 +3,7 @@ import * as confs from '../plot-bands/';
 
 /**
  * All functions from plot-bands should adhere to this api
- * ({ barrier, low_barrier, high_barrier }) => plotbands
+ * ({ barrier, low_barrier, high_barrier, entry_tick }) => plotbands
  * */
 
 export const plotBandForContract = (contract: Contract) => {

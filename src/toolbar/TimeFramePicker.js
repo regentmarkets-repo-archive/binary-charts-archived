@@ -51,19 +51,7 @@ export default class TimeFramePicker extends PureComponent {
         const dataDiff = start - firstDataX;
 
         if (dataDiff < 0) {
-            const result = this.props.getData(Math.round(start / 1000), Math.round(firstDataX / 1000));
-            if (result.then) {
-                result.then((data) => {
-                    if (!data || data.length === 0) {
-                        xAxis.setExtremes(min, end, true, false);
-                        return;
-                    }
-
-                    const smallestDataInMillis = (data[0].epoch) * 1000;
-                    const closestToStart = smallestDataInMillis < start ? start : smallestDataInMillis;
-                    xAxis.setExtremes(closestToStart, end, true, false);
-                });
-            }
+            xAxis.setExtremes(firstDataX, end, true, false);
         } else {
             xAxis.setExtremes(start, end, true, false);
         }
