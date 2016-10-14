@@ -72,5 +72,5 @@ export default {
 export const indicatorColors = {
     sma: '#A31A48',
     ema: '#7DB4B5',
-    bb: '#680148',
+    bb: '#AA8C14',
 };
