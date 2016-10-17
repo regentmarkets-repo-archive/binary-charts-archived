@@ -1,11 +1,11 @@
 
 # Props of BinaryChart
 
-props name is suffixed with `*` if it's optional
+props name is suffixed with `*` if it's required
 
 ------
 
-### ticks
+### ticks*
 
 |   |   |
 |---|---|
@@ -17,7 +17,7 @@ __Description__
 
 -----
 
-### type
+### type*
 
 |   |   |
 |---|---|
@@ -30,7 +30,7 @@ __Description__
 
 -----
 
-### contract*
+### contract
 
 |   |   |
 |---|---|
@@ -62,7 +62,7 @@ __Description__
 
 -----
 
-### trade*
+### trade
 
 |   |   |
 |---|---|
@@ -153,7 +153,7 @@ When set to true, chart will ignore `ticks` property and show `Data not availabl
 
 ------
 
-### onTypeChange
+### onTypeChange*
 |   |   |
 |---|---|
 Type        | Function, signature: (chartType: string) => void
@@ -189,7 +189,7 @@ if true, will allow user to change chart type to candlestick or OHLC bar
 
 -------
 
-### pipSize
+### pipSize*
 |   |   |
 |---|---|
 Type        | number
