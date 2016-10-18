@@ -1,6 +1,6 @@
 // $FlowFixMe
 import Highcharts from 'highcharts/highstock.src';
-import { colorBg } from './styles';
+import { colorBg, colorText } from './styles';
 
 function merge(a: Object, b: Object) {
     if (process.env.NODE_ENV !== 'production') {
@@ -9,10 +9,15 @@ function merge(a: Object, b: Object) {
     return Highcharts.merge(a, b);
 }
 
-const downColor = '#c03';
-const upColor = '#2E8836';
+const red = (alpha: number) => `rgba(204, 0, 51, ${alpha})`;
+const green = (alpha: number) => `rgba(46, 136, 54, ${alpha})`;
 
-const themeColors = (theme: Theme): Object => ({
+const downColor = (theme, contrast) => contrast ? colorBg(theme, 1) : red(1);
+const downFill = (theme, contrast) => contrast ? colorText(theme, 1) : red(0.75);
+const upColor = (theme, contrast) => contrast ? colorBg(theme, 1) : green(1);
+const upFill = (theme, contrast) => contrast ? colorBg(theme, 1) : green(0.75);
+
+const themeColors = (theme: Theme, highContrast: boolean): Object => ({
     spacing: [100, 10, 15, 10],
     plotOptions: {
         line: {
@@ -20,6 +25,16 @@ const themeColors = (theme: Theme): Object => ({
         },
         area: {
             color: colorBg(theme, 1),
+        },
+        ohlc: {
+            color: downColor(theme, highContrast),
+            upColor: upColor(theme, highContrast),
+        },
+        candlestick: {
+            color: downFill(theme, highContrast),
+            lineColor: downColor(theme, highContrast),
+            upColor: upFill(theme, highContrast),
+            upLineColor: upColor(theme, highContrast),
         },
     },
     xAxis: {
@@ -68,7 +83,7 @@ const commonTheme = {
                 display: 'none',
             },
         },
-	},
+    },
     plotOptions: {
         series: {
             states: {
@@ -81,16 +96,10 @@ const commonTheme = {
             lineWidth: 1.5,
         },
         ohlc: {
-            color: downColor,
-            upColor,
             lineWidth: 1.5,
         },
         candlestick: {
-            color: 'rgba(204, 0, 51, 0.75)',
-            lineColor: downColor,
             lineWidth: 1.5,
-            upColor: 'rgba(46, 136, 54, 0.75)',
-            upLineColor: upColor,
         },
     },
     xAxis: {
@@ -112,12 +121,8 @@ const commonTheme = {
     },
 };
 
-export const lightTheme = merge(
-    commonTheme,
-    themeColors('light'),
-);
-
-export const darkTheme = merge(
-    commonTheme,
-    themeColors('dark'),
-);
+export default (theme, highContrast) =>
+    merge(
+        commonTheme,
+        themeColors(theme, highContrast),
+    );

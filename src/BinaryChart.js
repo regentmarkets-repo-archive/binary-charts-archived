@@ -24,6 +24,7 @@ type Props = {
     hideIntervalPicker: boolean,
     hideToolbar: boolean,
     hideZoomControls: boolean,
+    highContrast: boolean,
     id: string,
     // indicators: IndicatorsConfig[],
     showTooltips: boolean,
@@ -62,6 +63,7 @@ export default class BinaryChart extends Component {
         hideIntervalPicker: false,
         hideToolbar: false,
         hideZoomControls: false,
+        highContrast: false,
         indicators: [],
         onTypeChange: () => undefined,
         pipSize: 0,
@@ -196,7 +198,7 @@ export default class BinaryChart extends Component {
 
     render() {
         const { allowOHLC, assetName, className, compactToolbar, hideTimeFrame, hideToolbar,
-            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type,
+            showTooltips, hideZoomControls, showAllTimeFrame, theme, ticks, type, highContrast,
             id, symbol, noData, pipSize, events, shiftMode, contract, trade, hideIntervalPicker,
         } = this.props;
 
@@ -228,6 +230,7 @@ export default class BinaryChart extends Component {
                 <ChartCore
                     assetName={assetName}
                     parent={this}
+                    highContrast={highContrast}
                     id={id}
                     indicators={indicators}
                     contract={contract}

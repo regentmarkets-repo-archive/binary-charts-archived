@@ -82,6 +82,9 @@ storiesOf('OHLC', module)
     .add('Simple Candlestick chart', () =>
         <BinaryChart type="candlestick" ticks={convertEpochToMS(rawData)} />
     )
+    .add('High contrast Candlestick', () =>
+        <BinaryChart type="candlestick" ticks={convertEpochToMS(rawData)} />
+    )
     .add('Simple OHLC chart', () =>
         <BinaryChart type="ohlc" ticks={convertEpochToMS(rawData)} />
     )

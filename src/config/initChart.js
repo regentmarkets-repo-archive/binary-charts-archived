@@ -2,7 +2,7 @@ import { merge } from 'highcharts/highstock.src';
 import { digitsToPips } from 'binary-utils';
 import createSeries from './createSeries';
 import { computeMinRange } from './updateMinRange';
-import { lightTheme, darkTheme } from '../themes';
+import themes from '../themes';
 import { colorBg, colorText } from '../styles';
 
 const crosshairOptions = (theme, formatter) => ({
@@ -27,11 +27,12 @@ export default ({
     type = 'area',
     noData = false,
     theme = 'light',
+    highContrast = false,
     shiftMode = 'fixed',
     assetName,
     hideEndButton = () => undefined,
 }) =>
-    merge(theme === 'light' ? lightTheme : darkTheme, {
+    merge(themes(theme, highContrast), {
         binary: { pipSize, theme, lastYExtremes: {}, shiftMode, type },
         animation: false,
         scrollbar: { enabled: false },
