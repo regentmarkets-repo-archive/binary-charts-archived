@@ -82,11 +82,7 @@ export default ({
                 },
                 afterSetExtremes: function after(extremes) {
                     const { max, dataMax } = extremes;
-                    if (max >= dataMax) {
-                        hideEndButton(true);
-                    } else {
-                        hideEndButton(false);
-                    }
+                    hideEndButton(max >= dataMax);
                 },
             },
             ordinal: true,

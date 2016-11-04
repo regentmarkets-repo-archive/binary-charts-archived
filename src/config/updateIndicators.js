@@ -40,7 +40,7 @@ export default (chart, newData, indicatorConfs) => {
                     { id: 'bb', name: 'Bollinger band', data: middle },
                     { id: 'bb', name: 'Bollinger band', data: upper },
                     { id: 'bb', name: 'Bollinger band', data: lower },
-                    ];
+                ];
             }
             default:
                 return [];

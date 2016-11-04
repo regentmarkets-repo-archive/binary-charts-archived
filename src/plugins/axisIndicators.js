@@ -101,13 +101,10 @@ const renderAxisIndicator = (chart) => {
 
     const exitSpot = contract && (contract.exit_tick || contract.sell_spot);
 
-    if (exitSpot) {
-        renderIndicator({ chart, indicator: 'spot', value: +exitSpot,
-            x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
-    } else {
-        renderIndicator({ chart, indicator: 'spot', value: +currentSpot,
-            x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
-    }
+    const value = exitSpot ? +exitSpot : +currentSpot;
+
+    renderIndicator({ chart, indicator: 'spot', value,
+        x, pipSize, yAxis, background: '#c03', text: 'white', zIndex: 11 });
 
     barrierIds.forEach((b) => {
         if (contract && contract[b]) {
