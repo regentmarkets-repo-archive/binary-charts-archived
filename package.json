@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -44,14 +44,14 @@
   "dependencies": {
     "binary-indicators": "^1.2.1",
     "binary-utils": "*",
-    "fbjs": "^0.8.5",
-    "highcharts": "^5.0.2"
+    "fbjs": "^0.8.6",
+    "highcharts": "^5.0.3"
   },
   "devDependencies": {
-    "@kadira/storybook": "^2.29.0",
+    "@kadira/storybook": "^2.30.1",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
-    "babel-eslint": "^7.1.0",
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.7",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-preset-es2015": "^6.18.0",
@@ -59,24 +59,24 @@
     "babel-preset-stage-1": "^6.16.0",
     "binary-live-api": "*",
     "chai": "^3.5.0",
-    "coveralls": "^2.11.14",
-    "enzyme": "^2.5.1",
-    "eslint": "^3.9.1",
-    "eslint-config-airbnb": "^12.0.0",
+    "coveralls": "^2.11.15",
+    "enzyme": "^2.6.0",
+    "eslint": "^3.10.2",
+    "eslint-config-airbnb": "^13.0.0",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-flowtype": "^2.25.0",
-    "eslint-plugin-import": "^2.0.1",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.5.0",
-    "jest-cli": "^16.0.2",
-    "react": "^15.3.2",
-    "react-addons-test-utils": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "~2.2.3",
+    "eslint-plugin-react": "^6.7.1",
+    "jest-cli": "^17.0.3",
+    "react": "^15.4.0",
+    "react-addons-test-utils": "^15.4.0",
+    "react-dom": "^15.4.0",
     "svg-react-loader": "^0.3.7",
     "webpack": "2.1.0-beta.23"
   },
   "peerDependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   }
 }
