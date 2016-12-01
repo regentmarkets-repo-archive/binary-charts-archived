@@ -3,6 +3,7 @@ export default (type: ChartType) => {
         case 'area':
         case 'line':
             return 'ticks';
+        case 'ha':
         case 'ohlc':
         case 'candlestick':
             return 'candles';

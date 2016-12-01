@@ -1,5 +1,6 @@
 import React from 'react';
 import { LiveEvents } from 'binary-live-api';
+import chartTypeToDataType from '../../src/utils/chartTypeToDataType';
 import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
 
@@ -61,7 +62,7 @@ export default class DynamicOHLCChart extends React.Component {
     }
 
     changeType(type: string): Promise<*> {
-        const style = (type === 'candlestick' || type === 'ohlc') ? 'candles' : 'ticks';
+        const style = chartTypeToDataType(type);
         return api.getTickHistory('R_100', { subscribe: 1, end: 'latest', count: 100, style })
         .then(r => {
             let data;

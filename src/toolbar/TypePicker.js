@@ -16,6 +16,7 @@ const items = [
     { text: 'Line', value: 'line', img: <LineIcon /> },
     { text: 'Candlestick', value: 'candlestick', img: <CandlestickIcon /> },
     { text: 'Bars', value: 'ohlc', img: <BarIcon /> },
+    { text: 'Heikin Ashi', value: 'ha', img: <CandlestickIcon /> },
 ];
 
 const typeLabel = {
@@ -23,6 +24,7 @@ const typeLabel = {
     area: 'Area',
     candlestick: 'Candlestick',
     ohlc: 'Bars',
+    ha: 'Heikin Ashi',
 };
 
 export default class TypePicker extends PureComponent {

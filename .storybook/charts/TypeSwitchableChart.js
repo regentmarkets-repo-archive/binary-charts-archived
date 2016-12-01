@@ -1,6 +1,7 @@
 import React from 'react';
 import BinaryChart from '../../src/BinaryChart';
 import api from '../ApiSingleton';
+import chartTypeToDataType from '../../src/utils/chartTypeToDataType';
 
 const token = 'qdJ86Avvrsh0Le4';
 const getContract = contractID => api.getContractInfo(contractID).then(r => r.proposal_open_contract);
@@ -24,7 +25,7 @@ export default class TypeSwitchChart extends React.Component {
     }
 
     changeType(type: string): Promise<*> {
-        const style = (type === 'candlestick' || type === 'ohlc') ? 'candles' : 'ticks';
+        const style = chartTypeToDataType(type);
         return api.authorize(token).then(() =>
             api.getDataForContract(() => getContract(contractId), undefined, style)
         ).then(r => {
