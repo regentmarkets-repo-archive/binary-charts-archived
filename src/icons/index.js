@@ -11,6 +11,7 @@ export { default as ChevronLeftIcon } from '-!babel!svg-react!./ChevronLeft.svg'
 export { default as ChevronRightIcon } from '-!babel!svg-react!./ChevronRight.svg';
 export { default as CrosshairIcon } from '-!babel!svg-react!./Crosshair.svg';
 export { default as FitAllIcon } from '-!babel!svg-react!./FitAll.svg';
+export { default as HeikinAshiIcon } from '-!babel!svg-react!./HeikinAshi.svg';
 export { default as IndicatorIcon } from '-!babel!svg-react!./Indicator.svg';
 export { default as LastPageIcon } from '-!babel!svg-react!./LastPage.svg';
 export { default as LineIcon } from '-!babel!svg-react!./Line.svg';

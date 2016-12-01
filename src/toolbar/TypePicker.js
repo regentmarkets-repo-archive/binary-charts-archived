@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { AreaIcon, BarIcon, CandlestickIcon, LineIcon } from '../icons';
+import { AreaIcon, BarIcon, CandlestickIcon, HeikinAshiIcon, LineIcon } from '../icons';
 import Picker from './Picker';
 
 type Props = {
@@ -16,7 +16,7 @@ const items = [
     { text: 'Line', value: 'line', img: <LineIcon /> },
     { text: 'Candlestick', value: 'candlestick', img: <CandlestickIcon /> },
     { text: 'Bars', value: 'ohlc', img: <BarIcon /> },
-    { text: 'Heikin Ashi', value: 'ha', img: <CandlestickIcon /> },
+    { text: 'Heikin Ashi', value: 'ha', img: <HeikinAshiIcon /> },
 ];
 
 const typeLabel = {

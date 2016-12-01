@@ -5,7 +5,7 @@ import ticks from '../ticks';
 const randomNum = () => Math.random() * (20 - 10) + 10;
 // const seqDate = () => new Date().getTime() / 10;
 const testData = () =>
-    [6,5,4,3,2,1].map(i => {
+    [6, 5, 4, 3, 2, 1].map(i => {
         const epoch = (new Date().getTime() / 1000) - i;
         return { epoch, quote: randomNum() };
     });
