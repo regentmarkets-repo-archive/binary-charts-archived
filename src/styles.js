@@ -73,4 +73,5 @@ export const indicatorColors = {
     sma: '#A31A48',
     ema: '#7DB4B5',
     bb: '#AA8C14',
+    rsi: '#FF0000',
 };

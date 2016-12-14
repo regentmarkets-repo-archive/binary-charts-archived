@@ -12,6 +12,8 @@ import styles from './styles';
 
 import type { ChartEvent } from './ChartCore';    // eslint-disable-line no-duplicate-imports
 
+import { yAxis as rsiYAxis } from './config/IndicatorsWithYAxis/Rsi';
+
 type Props = {
     assetName: string,
     allowOHLC: boolean,
@@ -161,6 +163,8 @@ export default class BinaryChart extends Component {
                 case 'sma':
                 case 'ema':
                     return { class: n, periods: 10 };
+                case 'rsi':
+                    return { class: n, periods: 14, yAxis: rsiYAxis };
                 case 'bb':
                     return { class: n, periods: 10, type: 'SMA', stdDevUp: 5, stdDevDown: 5 };
                 default:
