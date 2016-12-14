@@ -3,6 +3,7 @@ import { exponentialMovingAverageArray } from 'binary-indicators/lib/exponential
 import { bollingerBandsArray } from 'binary-indicators/lib/bollingerBands';
 import createSeries from './createIndicatorSeries';
 import { indicatorColors } from '../styles';
+import { renderIndicatorsWithYAxis } from './IndicatorsWithYAxis';
 
 const indicatorsSeriesPoolIds = Array(...Array(5)).map((v, i) => `indicator${i}`);
 
@@ -71,4 +72,8 @@ export default (chart, newData, indicatorConfs) => {
         indicatorSeries.update({ name: indicatorObj.name, color: indicatorColors[indicatorObj.id] }, false);
         indicatorSeries.setData(indicatorData, false);
     });
+
+    renderIndicatorsWithYAxis(chart, newData, indicatorConfs);
+
+    chart.redraw();
 };
