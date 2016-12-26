@@ -87,7 +87,7 @@ export default ({
             },
             ordinal: true,
         },
-        yAxis: {
+        yAxis: [{
             opposite: true,
             labels: {
                 align: 'left',
@@ -102,7 +102,22 @@ export default ({
             title: { text: null },
             floor: 0,
             minTickInterval: digitsToPips(pipSize),
-        },
+        }, {
+            labels: {
+                align: 'right',
+                formatter: function formatter() {
+                    return this.value.toFixed(this.chart.userOptions.binary.pipSize);
+                },
+            },
+            crosshair: crosshairOptions(theme, function formatter(value) {
+                return value.toFixed(this.chart.userOptions.binary.pipSize);
+            }),
+            tickWidth: 0,
+            title: { text: null },
+            dashStyle: 'shortdot',
+            floor: 0,
+            minTickInterval: digitsToPips(pipSize),
+        }],
         series: [
             createSeries(assetName, type, [], pipSize),
         ],

@@ -1,6 +1,6 @@
 {
   "name": "binary-charts",
-  "version": "9.0.3",
+  "version": "9.1.0",
   "description": "Binary trade and contract visualisation library, written in React",
   "contributors": [
     {
@@ -42,7 +42,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "binary-indicators": "^1.2.1",
+    "binary-indicators": "^1.4.1",
     "binary-utils": "*",
     "fbjs": "^0.8.6",
     "highcharts": "^5.0.3"
