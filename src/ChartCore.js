@@ -44,6 +44,7 @@ type Props = {
     noData: boolean,
     pipSize: number,
     type: ChartType,
+    dataType: DataType,
     trade: Object,
     ticks: Tick[],
     events: ChartEvent[],

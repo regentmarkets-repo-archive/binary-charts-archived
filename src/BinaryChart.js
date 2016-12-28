@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { getLast } from 'binary-utils';
 import ChartCore from './ChartCore';
 import Toolbar from './toolbar/Toolbar';
 import TimeFramePicker from './toolbar/TimeFramePicker';
@@ -78,8 +77,9 @@ export default class BinaryChart extends Component {
         this.state = {
             range: {},
             endButtonShown: true,
-            interval: undefined,
+            interval: 60,
             indicators: [],
+            dataType: 'candles',
         };
     }
 
@@ -108,24 +108,12 @@ export default class BinaryChart extends Component {
 
         const newInterval = newDataType === 'ticks' ? undefined : 60;
 
-        this.setState({ interval: newInterval });
-
         this.chart.showLoading();
 
-        getData(start, end, newDataType, newInterval).then(data => {
+        getData(start, end, newDataType, newInterval).then(() => {
             onTypeChange(newType);
-
+            this.setState({ interval: newInterval, dataType: newDataType });
             this.chart.hideLoading();
-
-            if (!data || data.length === 0) {
-                return;
-            }
-
-            const xAxis = this.getXAxis();
-            const { min, max } = xAxis.getExtremes();
-            const newMin = Math.max(min, data[0].epoch * 1000);
-            const newMax = Math.min(max, getLast(data).epoch * 1000);
-            xAxis.setExtremes(newMin, newMax, true, false);
         });
     };
 
@@ -133,26 +121,29 @@ export default class BinaryChart extends Component {
         const { getData, type, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
 
-        const dataType = chartTypeToDataType(type);
+        const chartDataType = chartTypeToDataType(type);
+
+        this.chart.showLoading();
 
         if (!interval) {
-            if (dataType !== 'ticks') {
-                getData(start, end, 'ticks')
-                    .then(() => onTypeChange('area'));
-            }
+            getData(start, end, 'ticks')
+                .then(() => {
+                    if (chartDataType !== 'ticks') {
+                        onTypeChange('area');
+                    }
+                    this.setState({ interval, dataType: interval ? 'candles' : 'ticks' });
+                    this.chart.hideLoading();
+                });
         } else {
             getData(start, end, 'candles', interval)
                 .then(() => {
-                    if (dataType === 'ticks') {
-                        onTypeChange('candlestick');        // only change when original data type is ticks, ie. Area or Line chart
-                    }
-
+                    this.setState({ interval, dataType: interval ? 'candles' : 'ticks' });
                     this.chart.xAxis[0].update({
                         minRange: 10 * interval * 1000,
                     });
+                    this.chart.hideLoading();
                 });
         }
-        this.setState({ interval });
     };
 
     onIndicatorChange = (indicatorNames: string[]) => {
@@ -179,13 +170,10 @@ export default class BinaryChart extends Component {
     getYAxis = () => this.chart.yAxis[0];
 
     getDataByStartEnd = (start, end) => {
-        const type = chartTypeToDataType(this.props.type);
-        const interval = this.state.interval;
+        const dataType = this.state.dataType;
+        const interval = dataType === 'candles' ? this.state.interval : undefined;
 
-        if (type === 'candles') {
-            return this.props.getData(start, end, type, interval);
-        }
-        return this.props.getData(start, end, type);
+        return this.props.getData(start, end, dataType, interval);
     }
 
     onShowPicker = (picker: any) => {
@@ -202,7 +190,7 @@ export default class BinaryChart extends Component {
             id, symbol, noData, pipSize, events, shiftMode, contract, trade, hideIntervalPicker,
         } = this.props;
 
-        const { endButtonShown, pickerShown, indicators, interval } = this.state;
+        const { endButtonShown, pickerShown, indicators, interval, dataType } = this.state;
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
@@ -238,6 +226,7 @@ export default class BinaryChart extends Component {
                     noData={noData}
                     pipSize={pipSize}
                     type={type}
+                    dataType={dataType}
                     ticks={ticks}
                     events={events}
                     theme={theme}
