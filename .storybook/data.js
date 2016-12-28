@@ -3,6 +3,7 @@ import { storiesOf } from '@kadira/storybook';
 import BinaryChart from '../src/BinaryChart';
 import DynamicChart from './charts/DynamicChart';
 import { massiveTicks } from './ticks';
+import DynamicTimeInterval from './charts/DynamicTimeInterval';
 
 const realTrade = {
     tradeCategory: 'risefall',
@@ -95,5 +96,8 @@ storiesOf('Data', module)
             trade={realTrade}
             pipSize={2}
         />
+    )
+    .add('Dynamic time interval', () =>
+        <DynamicTimeInterval />
     )
 ;

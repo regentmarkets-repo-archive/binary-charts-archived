@@ -15,12 +15,12 @@ import mergeTradeWithContract from './mergeTradeWithContract';
 
 const ticksAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
-    prevProps.type === nextProps.type &&
+    prevProps.dataType === nextProps.dataType &&
     areTickArraysEqual(prevProps.ticks, nextProps.ticks);
 
 const ohlcAreEqual = (prevProps, nextProps) =>
     prevProps.symbol === nextProps.symbol &&
-    prevProps.type === nextProps.type &&
+    prevProps.dataType === nextProps.dataType &&
     areCandleArrayEqual(prevProps.ticks, nextProps.ticks);
 
 const contractsAreEqual = (prevProps, nextProps) =>
@@ -42,26 +42,16 @@ const assetNameEqual = (prevProps, nextProps) =>
 export default (chart: Chart, prevProps: Object, nextProps: Object) => {
     const contractsDiffer = !contractsAreEqual(prevProps, nextProps);
 
-    const { contract, pipSize, theme, trade, ticks, type, shiftMode } = nextProps;
+    const { contract, pipSize, theme, trade, ticks, type, dataType, shiftMode } = nextProps;
 
     let lastTick = {};
     let ticksDiffer = true;
-    switch (type) {
-        case 'line':
-        case 'area': {
-            lastTick = getLastTickQuote(ticks);
-            ticksDiffer = !ticksAreEqual(prevProps, nextProps);
-            break;
-        }
-        case 'ohlc':
-        case 'candlestick': {
-            lastTick = getLastOHLCTick(ticks);
-            ticksDiffer = !ohlcAreEqual(prevProps, nextProps);
-            break;
-        }
-        default: {
-            throw new Error('Not recognized chart type: ', type);
-        }
+    if (dataType === 'candles') {
+        lastTick = getLastOHLCTick(ticks);
+        ticksDiffer = !ohlcAreEqual(prevProps, nextProps);
+    } else {
+        lastTick = getLastTickQuote(ticks);
+        ticksDiffer = !ticksAreEqual(prevProps, nextProps);
     }
 
     const mergedContract = mergeTradeWithContract(trade, contract, lastTick);

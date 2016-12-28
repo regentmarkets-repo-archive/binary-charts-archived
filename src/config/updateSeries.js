@@ -1,6 +1,6 @@
 import { tickToData, ohlcToData, getLast, doArrayDifferJustOneEntry } from 'binary-utils';
-import createSeries from './createSeries';
 import chartTypeToDataType from '../utils/chartTypeToDataType';
+import createSeries from './createSeries';
 import getMainSeries from '../utils/getMainSeries';
 
 const showSeriesByType = (chart, chartType) => {
@@ -11,19 +11,36 @@ const showSeriesByType = (chart, chartType) => {
     }
 };
 
+const getDataConverter = (nextProps: any) => {
+    const dataType = nextProps.dataType;
+    const chartType = nextProps.type;
+    const ohlcToDataForTicks = data => [+(data.open_time || data.epoch) * 1000, +data.close];
+    const chartDataType = chartTypeToDataType(chartType);
+
+    if (dataType === 'ticks') {
+        return tickToData;
+    }
+
+    if (chartDataType === 'ticks') {
+        return ohlcToDataForTicks;
+    }
+
+    return ohlcToData;
+};
+
 export default (chart: Chart, nextProps: any) => {
     const chartType = nextProps.type;
+    const dataType = nextProps.dataType;
 
     showSeriesByType(chart, chartType);
 
-    const dataType = chartTypeToDataType(chartType);
     const { dataMax, min, max } = chart.xAxis[0].getExtremes();
 
     const mainSeries = getMainSeries(chart);
     const dataInChart = mainSeries ? mainSeries.options.data : [];
     const pipSize = chart.userOptions.binary.pipSize;
 
-    const newDataInChartFormat = nextProps.ticks.map(dataType === 'ticks' ? tickToData : ohlcToData);
+    const newDataInChartFormat = nextProps.ticks.map(getDataConverter(nextProps));
 
     const lastestNewData = getLast(newDataInChartFormat);
     if (!lastestNewData) {
