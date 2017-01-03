@@ -11,6 +11,8 @@ import styles from './styles';
 
 import type { ChartEvent } from './ChartCore';    // eslint-disable-line no-duplicate-imports
 
+const intervalToDataType = interval => !interval ? 'ticks' : 'candles';
+
 type Props = {
     assetName: string,
     allowOHLC: boolean,
@@ -38,6 +40,7 @@ type Props = {
     trade: TradeParam,
     tradingTimes: TradingTimes,
     type: ChartType,
+    interval: ?number, // Initial interval matching the initial data
 };
 
 type State = {
@@ -73,13 +76,15 @@ export default class BinaryChart extends Component {
     };
 
     constructor(props: Props) {
+        const interval = !isNaN(+props.interval) ?
+            +props.interval : undefined;
+
         super(props);
         this.state = {
             range: {},
             endButtonShown: true,
-            interval: 60,
+            interval,
             indicators: [],
-            dataType: 'candles',
         };
     }
 
@@ -112,7 +117,7 @@ export default class BinaryChart extends Component {
 
         getData(start, end, newDataType, newInterval).then(() => {
             onTypeChange(newType);
-            this.setState({ interval: newInterval, dataType: newDataType });
+            this.setState({ interval: newInterval });
             this.chart.hideLoading();
         });
     };
@@ -120,30 +125,24 @@ export default class BinaryChart extends Component {
     onIntervalChange = (interval: Epoch) => {
         const { getData, type, onTypeChange } = this.props;
         const { start, end } = this.getCurrentStartEnd();
-
         const chartDataType = chartTypeToDataType(type);
 
         this.chart.showLoading();
 
-        if (!interval) {
-            getData(start, end, 'ticks')
-                .then(() => {
+        getData(start, end, intervalToDataType(interval), interval)
+            .then(() => {
+                this.setState({ interval });
+                if (intervalToDataType(interval) === 'ticks') {
                     if (chartDataType !== 'ticks') {
                         onTypeChange('area');
                     }
-                    this.setState({ interval, dataType: interval ? 'candles' : 'ticks' });
-                    this.chart.hideLoading();
-                });
-        } else {
-            getData(start, end, 'candles', interval)
-                .then(() => {
-                    this.setState({ interval, dataType: interval ? 'candles' : 'ticks' });
+                } else {
                     this.chart.xAxis[0].update({
                         minRange: 10 * interval * 1000,
                     });
-                    this.chart.hideLoading();
-                });
-        }
+                }
+                this.chart.hideLoading();
+            });
     };
 
     onIndicatorChange = (indicatorNames: string[]) => {
@@ -171,12 +170,9 @@ export default class BinaryChart extends Component {
 
     getYAxis = () => this.chart.yAxis[0];
 
-    getDataByStartEnd = (start, end) => {
-        const dataType = this.state.dataType;
-        const interval = dataType === 'candles' ? this.state.interval : undefined;
-
-        return this.props.getData(start, end, dataType, interval);
-    }
+    getDataByStartEnd = (start, end) =>
+        this.props.getData(start, end,
+            intervalToDataType(this.state.interval), this.state.interval);
 
     onShowPicker = (picker: any) => {
         if (picker === this.state.pickerShown) {
@@ -192,7 +188,7 @@ export default class BinaryChart extends Component {
             id, symbol, noData, pipSize, events, shiftMode, contract, trade, hideIntervalPicker,
         } = this.props;
 
-        const { endButtonShown, pickerShown, indicators, interval, dataType } = this.state;
+        const { endButtonShown, pickerShown, indicators, interval } = this.state;
 
         return (
             <div style={styles.container} className={className} onClick={this.onShowPicker}>
@@ -228,7 +224,7 @@ export default class BinaryChart extends Component {
                     noData={noData}
                     pipSize={pipSize}
                     type={type}
-                    dataType={dataType}
+                    dataType={intervalToDataType(interval)}
                     ticks={ticks}
                     events={events}
                     theme={theme}
