@@ -80,13 +80,13 @@ export const convertEpochToMS = dataArr => dataArr.map(d => Object.assign(d, { e
 
 storiesOf('OHLC', module)
     .add('Simple Candlestick chart', () =>
-        <BinaryChart type="candlestick" ticks={convertEpochToMS(rawData)} />
+        <BinaryChart interval="60" type="candlestick" ticks={convertEpochToMS(rawData)} />
     )
     .add('High contrast Candlestick', () =>
-        <BinaryChart type="candlestick" ticks={convertEpochToMS(rawData)} />
+        <BinaryChart interval="60" type="candlestick" ticks={convertEpochToMS(rawData)} />
     )
     .add('Simple OHLC chart', () =>
-        <BinaryChart type="ohlc" ticks={convertEpochToMS(rawData)} />
+        <BinaryChart interval="60" type="ohlc" ticks={convertEpochToMS(rawData)} />
     )
     .add('Combine with live-api', () =>
         <TypeSwitchChart />

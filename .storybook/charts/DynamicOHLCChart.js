@@ -85,6 +85,7 @@ export default class DynamicOHLCChart extends React.Component {
         const { ticks, type } = this.state;
         return (
             <BinaryChart
+                interval="60"
                 type={type}
                 ticks={ticks}
                 onTypeChange={t => this.changeType(t)}
