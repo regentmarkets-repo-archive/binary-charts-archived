@@ -39,8 +39,8 @@ export default class DynamicOHLCChart extends React.Component {
         });
 
         api
-            .getCandles('R_100', { subscribe: 1, end: 'latest', count: 100 })
-            .then(r => this.setState({ ticks: r.candles }));
+            .getTickHistory('R_100', { subscribe: 1, end: 'latest', count: 100 })
+            .then(r => this.setState({ ticks: mapHistoryTicks(r.history) }));
     }
 
     componentWillUnmount() {
