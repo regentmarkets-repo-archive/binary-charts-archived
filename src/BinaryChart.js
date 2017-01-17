@@ -153,6 +153,8 @@ export default class BinaryChart extends Component {
                     return { class: n, periods: 10 };
                 case 'rsi':
                     return { class: n, yAxis: true };
+                case 'macd':
+                    return { class: n, yAxis: true };
                 case 'bb':
                     return { class: n, periods: 10, type: 'SMA', stdDevUp: 5, stdDevDown: 5 };
                 default:

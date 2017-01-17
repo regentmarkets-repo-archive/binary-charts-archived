@@ -74,4 +74,9 @@ export const indicatorColors = {
     ema: '#7DB4B5',
     bb: '#AA8C14',
     rsi: '#FF0000',
+    macd: {
+        macd: '#00FF00',
+        histogram: '#000000',
+        signal: '#FF0000',
+    },
 };

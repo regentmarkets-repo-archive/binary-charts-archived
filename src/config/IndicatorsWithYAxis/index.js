@@ -1,4 +1,5 @@
 import Rsi from './Rsi';
+import Macd from './Macd';
 
 const indicators = {};
 let chartResized = false;
@@ -40,6 +41,9 @@ const addIndicators = (chart, confs) => {
         } else {
             if (indicatorId === 'rsi') {
                 indicators.rsi = new Rsi(chart, conf);
+            }
+            if (indicatorId === 'macd') {
+                indicators.macd = new Macd(chart, conf);
             }
             addYAxis(chart, indicatorId, top, height);
         }
