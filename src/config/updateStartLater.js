@@ -28,7 +28,6 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
         if (oldSeries) {
             oldSeries.remove();
             const mainSeries = getMainSeries(chart);
-            mainSeries.update({ dataGrouping: { enabled: true } });
             const mainSeriesMax = mainSeries && getLast(mainSeries.options.data)[0];
 
             if (mainSeriesMax && max > mainSeriesMax) {
@@ -79,7 +78,7 @@ export default (chart: Chart, contract: Object, lastData: Object) => {
             return true;
         }
     } else {
-        getMainSeries(chart).update({ dataGrouping: { enabled: false } });
+        getMainSeries(chart);
 
         const seriesData = [];
 
