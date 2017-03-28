@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 
 const env = process.env.NODE_ENV;
@@ -8,14 +9,14 @@ module.exports = {
         library: 'binary-charts',
         libraryTarget: 'umd',
         filename: 'binary-charts.js',
-        path: './lib',
+        path: path.join(__dirname, 'lib'),
     },
     devtool: env === 'production' ? 'source-map' : 'eval',
     module: {
         loaders: [
-            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel' },
-            { test: /\.js$/, exclude: [/node_modules/, /highcharts/], loader: 'eslint' },
-            { test: /\.svg$/, loader: 'babel?presets[]=es2015,presets[]=react!svg-react' },
+            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
+            { test: /\.js$/, exclude: [/node_modules/, /highcharts/], loader: 'eslint-loader' },
+            { test: /\.svg$/, loader: 'babel-loader?presets[]=es2015,presets[]=react!svg-react' },
         ],
     },
     plugins: env === 'production' ? [
@@ -24,7 +25,6 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production'),
             },
         }),
-        new webpack.optimize.DedupePlugin(),
         new webpack.optimize.UglifyJsPlugin(),
     ] : [
         new webpack.HotModuleReplacementPlugin(),
