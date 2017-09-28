@@ -13,7 +13,7 @@ type Props = {
 const uncheckedIcon = <CheckboxOutlineIcon />;
 const defaultItems = [
     { text: 'Simple Moving Average (SMA)', value: 'sma', img: uncheckedIcon, checked: false },
-    { text: 'Exponenital Moving Average (EMA)', value: 'ema', img: uncheckedIcon, checked: false },
+    { text: 'Exponential Moving Average (EMA)', value: 'ema', img: uncheckedIcon, checked: false },
     { text: 'Bollinger Band (BB)', value: 'bb', img: uncheckedIcon, checked: false },
     { text: 'Relative Strength Index (RSI)', value: 'rsi', img: uncheckedIcon, checked: false },
     { text: 'Moving Average Convergence Divergence (MACD)', value: 'macd', img: uncheckedIcon, checked: false },
