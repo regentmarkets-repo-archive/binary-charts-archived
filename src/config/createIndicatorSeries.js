@@ -14,7 +14,7 @@ export default (
     threshold: null,
     zoneAxis: 'x',
     dataGrouping: {
-        enabled: true,
+        enabled: false,
     },
     type: 'line',
 });
